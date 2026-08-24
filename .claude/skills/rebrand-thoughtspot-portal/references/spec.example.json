@@ -1,0 +1,312 @@
+{
+  "client": "InTime",
+  "slug": "yourco",
+  "host": "YOUR-CLUSTER.thoughtspot.cloud",
+  "auth": "basic",
+  "ids": {
+    "analyticsLiveboard": "REPLACE_MAIN_LIVEBOARD_GUID",
+    "model": "REPLACE_MODEL_GUID",
+    "inlineLiveboard": "REPLACE_INLINE_LIVEBOARD_GUID",
+    "actionLiveboard": "REPLACE_MAIN_LIVEBOARD_GUID",
+    "actionViz": "REPLACE_ACTION_VIZ_GUID"
+  },
+  "action": {
+    "id": "request-leave",
+    "name": "Request Leave"
+  },
+  "columns": {
+    "inlineName": [
+      "Rank Name",
+      "Rank",
+      "Rank Type",
+      "Employee"
+    ],
+    "inlineMetrics": [
+      {
+        "label": "Manual Overtime Hours",
+        "format": "number",
+        "candidates": [
+          "Total Manual Overtime Hours",
+          "Manual Overtime Hours",
+          "Overtime Hours"
+        ]
+      },
+      {
+        "label": "Overtime Cost",
+        "format": "currency",
+        "candidates": [
+          "Overtime Cost",
+          "Total Overtime Cost",
+          "OT Cost"
+        ]
+      }
+    ],
+    "filterPrimary": [
+      "Branch Name",
+      "Company Name",
+      "Branch",
+      "Dim Branch"
+    ],
+    "filterSecondary": [
+      "Rank Name",
+      "Rank",
+      "Rank Type"
+    ],
+    "date": "Sched Start Time",
+    "hierarchy": {
+      "segment": "Branch Name",
+      "rep": "Rank Name",
+      "cadence": "Employee"
+    }
+  },
+  "appFont": "'Larsseit', 'Inter', 'Segoe UI', sans-serif",
+  "font": {
+    "family": "Manrope",
+    "googleUrl": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+  },
+  "logo": {
+    "svgPath": "your-logo.svg"
+  },
+  "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#0E3147\"/><circle cx=\"16\" cy=\"9\" r=\"2.4\" fill=\"#F4D14E\"/><rect x=\"13.7\" y=\"13\" width=\"4.6\" height=\"12.5\" rx=\"2.3\" fill=\"#ffffff\"/></svg>",
+  "theme": {
+    "default": "light",
+    "light": {
+      "--sl-cream": "#f4f7fb",
+      "--sl-cream-2": "#e9f0f7",
+      "--sl-white": "#ffffff",
+      "--sl-evergreen": "#0e3147",
+      "--sl-evergreen-2": "#0a2436",
+      "--sl-green": "#0e3147",
+      "--sl-green-dark": "#16466a",
+      "--sl-primary-rgb": "14, 49, 71",
+      "--intime-blue": "#2f6fb0",
+      "--sl-gold": "#f4d14e",
+      "--sl-gold-ink": "#6b5410",
+      "--intime-grad": "linear-gradient(90deg, #0e3147 0%, #2f6fb0 100%)",
+      "--sl-mint": "#e6f1fb",
+      "--sl-mint-2": "#d5e8f8",
+      "--sl-coral": "#a2191f",
+      "--sl-warn": "#fffbe6",
+      "--sl-warn-ink": "#6b5410",
+      "--sl-ink": "#12283f",
+      "--sl-muted": "#5a6a7e",
+      "--sl-border": "#e1e8f0",
+      "--sl-border-soft": "#eef2f7",
+      "--font-serif": "'Larsseit', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+      "--font-sans": "'Larsseit', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+      "--topbar-h": "66px",
+      "--shadow-card": "0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.07)",
+      "--shadow-lift": "0 6px 14px rgba(15, 23, 42, 0.08), 0 18px 40px rgba(15, 23, 42, 0.12)",
+      "--brand-navy": "#0e3147",
+      "--brand-accent": "#2f6fb0"
+    },
+    "dark": {
+      "--sl-cream": "#0a2233",
+      "--sl-cream-2": "#0e293c",
+      "--sl-white": "#12314a",
+      "--sl-evergreen": "#eef4fa",
+      "--sl-evergreen-2": "#dbe6f0",
+      "--sl-green": "#7fb0e0",
+      "--sl-green-dark": "#5e97cc",
+      "--sl-primary-rgb": "127, 176, 224",
+      "--intime-blue": "#7fb0e0",
+      "--sl-gold": "#f4d14e",
+      "--sl-gold-ink": "#0a2233",
+      "--intime-grad": "linear-gradient(90deg, #7fb0e0 0%, #bfe0f5 100%)",
+      "--sl-mint": "#10293d",
+      "--sl-mint-2": "#16344c",
+      "--sl-coral": "#f0616a",
+      "--sl-ink": "#eaf1f7",
+      "--sl-muted": "#9fb2c6",
+      "--sl-border": "#23415a",
+      "--sl-border-soft": "#172f44",
+      "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+      "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+      "--brand-navy": "#0e3147",
+      "--brand-accent": "#2f6fb0"
+    }
+  },
+  "embedSwaps": [
+    [
+      "#4F5BD5",
+      "#2f6fb0"
+    ],
+    [
+      "#3F49B8",
+      "#285f97"
+    ],
+    [
+      "#333C99",
+      "#22527f"
+    ],
+    [
+      "#22B8CF",
+      "#7fb0e0"
+    ],
+    [
+      "#0b0d10",
+      "#0a2233"
+    ],
+    [
+      "#14181f",
+      "#12314a"
+    ],
+    [
+      "#1a212b",
+      "#16344c"
+    ],
+    [
+      "#232a34",
+      "#23415a"
+    ],
+    [
+      "#0b1f19",
+      "#0e293c"
+    ],
+    [
+      "rgba(45,164,191,0.14)",
+      "rgba(127,176,224,0.16)"
+    ]
+  ],
+  "greenSwaps": [
+    [
+      "#0f9a63",
+      "#16344c"
+    ],
+    [
+      "#0c8554",
+      "#12314a"
+    ],
+    [
+      "#d9ecea",
+      "#d5e8f8"
+    ],
+    [
+      "#cfe3e2",
+      "#c2ddf4"
+    ],
+    [
+      "#1bb978",
+      "#7fb0e0"
+    ],
+    [
+      "#15ae6e",
+      "#0e3147"
+    ]
+  ],
+  "cssSwaps": [
+    [
+      "#0e1116",
+      "#0e293c"
+    ],
+    [
+      "#10222a",
+      "#0e293c"
+    ],
+    [
+      "#123047",
+      "#12314a"
+    ]
+  ],
+  "features": {
+    "askMode": "both",
+    "inline": true,
+    "action": true,
+    "monetize": true,
+    "tiers": true,
+    "pinning": true
+  },
+  "content": {
+    "company": "InTime",
+    "aiName": "InTime AI",
+    "website": "https://www.intime.com",
+    "loginTitleHtml": "Scheduling built for<br />public safety.",
+    "loginSubtitle": "Your command center for police, fire, corrections and dispatch \u2014 schedules, overtime and coverage, with AI-powered answers on live data. Built on InTime, powered by ThoughtSpot.",
+    "loginStats": [
+      {
+        "value": "24/7",
+        "label": "Coverage Managed"
+      },
+      {
+        "value": "98%",
+        "label": "Shifts Filled"
+      },
+      {
+        "value": "Real-time",
+        "label": "Overtime Intel"
+      }
+    ],
+    "loginCardSubtitle": "Sign in with your ThoughtSpot credentials",
+    "loginDemoNoteHtml": "<strong>Sign in</strong> with your ThoughtSpot username &amp; password for <code>{host}</code>. This origin must be CORS-allowlisted on that cluster for the embeds to load.",
+    "platformNav": [
+      "Police",
+      "Fire",
+      "Corrections"
+    ],
+    "tabs": {
+      "myReports": "My Reports",
+      "analytics": "Analytics",
+      "inline": "Shifts",
+      "action": "Leaves",
+      "ask": "Ask InTime AI",
+      "spotter": "Spotter"
+    },
+    "analyticsSubtitle": "Your live scheduling, overtime & coverage dashboard",
+    "spotterSubtitle": "Ask questions of your InTime scheduling & overtime data in natural language.",
+    "inline": {
+      "subtitleReady": "Overtime & hours by rank \u2014 select a rank to view its shift insights",
+      "subtitleIdle": "Overtime and hours across your ranks",
+      "loading": "Loading ranks\u2026",
+      "errorTitle": "Couldn't load shifts",
+      "errorMsg": "Unable to load shift data.",
+      "moreLabel": "View insights",
+      "hideLabel": "Hide insights"
+    },
+    "filters": {
+      "primaryLabel": "Branch",
+      "secondaryLabel": "Rank"
+    },
+    "sampleQuestions": [
+      "Overtime hours by rank",
+      "Overtime cost by branch",
+      "Worked hours by employee",
+      "Leave hours over time"
+    ],
+    "askWelcome": "Ask me anything about InTime \u2014 scheduling, overtime, leave, coverage, best practices \u2014 or ask about your own data and I will chart it live.",
+    "askEmptySub": "Ask any analytical question about your schedules, overtime, leave, and coverage. Answers come straight from your live data with an interactive chart you can drill into.",
+    "action": {
+      "label": "Request Leave",
+      "subtitlePrefix": "Officer schedules and coverage. Right-click a row and choose",
+      "subtitleSuffix": "to open a leave request pre-filled for that officer.",
+      "modalTitle": "New Leave Request",
+      "modalLead": "Pre-filled for the selected officer. Review and submit to request time off through InTime.",
+      "submitLabel": "Submit",
+      "successTitle": "Leave request submitted"
+    },
+    "chatbot": {
+      "welcome": "Hi! I'm InTime AI. Ask me about scheduling, overtime and coverage, or ask a question about your data.",
+      "overview": "InTime is workforce scheduling and time & attendance software built for public safety \u2014 police, sheriff, fire, corrections, and dispatch. It manages shift schedules, overtime, leave, court time, and certifications, with AI-powered answers on live workforce data.",
+      "greetingExample": "overtime hours by rank",
+      "examples": [
+        "worked hours by week",
+        "overtime cost by branch"
+      ]
+    },
+    "trialQuestionTrigger": 3,
+    "upgradeReason": "Upgrade to InTime Premium to unlock drill-down, Ask AI and downloads.",
+    "analyticsKeywords": [
+      "overtime",
+      "worked",
+      "leave",
+      "coverage",
+      "shift",
+      "shifts",
+      "headcount",
+      "staffing",
+      "rank",
+      "branch",
+      "officer",
+      "hours"
+    ]
+  }
+}
