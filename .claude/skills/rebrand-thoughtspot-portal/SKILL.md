@@ -11,17 +11,21 @@ Never make the user touch code or GUIDs beyond pasting the values you ask for.
 
 ## The base template
 
-**Prereq (for a teammate):** run this inside a clone of the `tse_demos` repo, which
-ships this skill *and* `template-tse/`. First-time setup: `git clone` the repo,
-`npm install` at the root, open the folder in Claude Code, then start this skill.
+The base app is **bundled inside this skill** at `template-tse/` (next to this
+`SKILL.md`) — a brand-neutral ("Northwind") build that already contains every
+feature toggleable: Analytics liveboard, inline-insights list tab, custom-action
+viz tab, standalone Spotter tab, "fancy" Ask-AI chat, monetization paywall,
+Premium/Basic tiers, host filters, light+dark theme. You keep what the answers ask
+for and strip the rest.
 
-Clone from **`template-tse/`** at the repo root — a brand-neutral ("Northwind")
-build that already contains every feature toggleable: Analytics liveboard,
-inline-insights list tab, custom-action viz tab, standalone Spotter tab, "fancy"
-Ask-AI chat, monetization paywall, Premium/Basic tiers, host filters, light+dark
-theme. You keep what the answers ask for and strip the rest.
+**First-time setup (once per machine):** the bundled template needs its deps installed —
+`export PATH="$HOME/.node/bin:$PATH" && (cd .claude/skills/rebrand-thoughtspot-portal/template-tse && npm install)`.
+The codemod resolves the template relative to itself, so the skill works from any
+project directory once its deps exist. Each generated `<slug>-tse/` app symlinks its
+`node_modules` to the bundled template's, so nothing to install per app.
 
-Copy it to `<client>-tse/` (kebab-case), excluding `node_modules dist .vercel .env.local`.
+The codemod copies the template to `<client>-tse/` (kebab-case) in the current project,
+excluding `node_modules dist .vercel .env.local`.
 
 ## Step 1 — Run the interview (the question tree)
 
@@ -114,11 +118,11 @@ second; you hand-finish the few things a script can't.
    dicts from the brand screenshot/URL; in the `embedSwaps`/`greenSwaps`/`cssSwaps` arrays
    change only the **right-hand** (brand) values — the left-hand hexes are fixed template
    constants.
-2. **Run the codemod** from the repo root:
+2. **Run the codemod** from the project root (where you want the app written):
    ```bash
    node .claude/skills/rebrand-thoughtspot-portal/scripts/apply-spec.mjs spec.json
    ```
-   It clones `template-tse` → `<slug>-tse/`, renames the brand, writes `content.ts`, patches
+   It clones the bundled `template-tse` → `<slug>-tse/`, renames the brand, writes `content.ts`, patches
    `config.ts` (host/GUIDs/columns/embed theme), switches auth, regenerates the `globals.css`
    theme tokens + `@font-face`, drops in logo/favicon/font, and prunes the tabs `features`
    turns off.
