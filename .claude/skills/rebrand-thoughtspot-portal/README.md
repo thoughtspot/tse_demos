@@ -12,7 +12,7 @@ the skill folder, so you install it by copying one directory.
 
 ```bash
 # 1. get the skill
-git clone https://github.com/koushik426/tse_demos.git
+git clone https://github.com/thoughtspot/tse_demos.git
 
 # 2. copy it into your project's skills folder
 mkdir -p /path/to/your-project/.claude/skills
