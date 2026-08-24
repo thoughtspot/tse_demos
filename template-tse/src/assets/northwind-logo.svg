@@ -1,0 +1,5 @@
+<svg viewBox="0 0 158 32" fill="none" role="img" aria-label="Northwind" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="6" width="20" height="20" rx="6" fill="#4F5BD5"/>
+  <path d="M6 21 V11 l8 10 V11" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="30" y="23" font-family="'Inter',system-ui,-apple-system,sans-serif" font-size="20" font-weight="700" letter-spacing="-0.3" fill="currentColor">Northwind</text>
+</svg>

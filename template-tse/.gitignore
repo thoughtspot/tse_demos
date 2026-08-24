@@ -18,13 +18,3 @@ simfoni/
 output/
 .vercel
 .env*
-
-# Generated client apps (rebrand-skill outputs) + local specs — not part of the skill
-/intime-tse/
-/intime2-tse/
-/pharmaspot-tse/
-/triumph-tse/
-/runs/
-/*.spec.json
-/pharmaspot-logo.svg
-node_modules
