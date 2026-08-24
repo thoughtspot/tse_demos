@@ -18,14 +18,37 @@ viz tab, standalone Spotter tab, "fancy" Ask-AI chat, monetization paywall,
 Premium/Basic tiers, host filters, light+dark theme. You keep what the answers ask
 for and strip the rest.
 
-**First-time setup (once per machine):** the bundled template needs its deps installed —
-`export PATH="$HOME/.node/bin:$PATH" && (cd .claude/skills/rebrand-thoughtspot-portal/template-tse && npm install)`.
-The codemod resolves the template relative to itself, so the skill works from any
-project directory once its deps exist. Each generated `<slug>-tse/` app symlinks its
-`node_modules` to the bundled template's, so nothing to install per app.
+**First-time setup: none needed.** The bundled template's deps are installed
+**automatically** by the codemod on the first build (it detects a missing
+`node_modules` and runs `npm install` once, looking in `~/.node/bin` if npm isn't on
+PATH). The codemod resolves the template relative to itself, so the skill works from
+any project directory. Each generated `<slug>-tse/` app symlinks its `node_modules` to
+the bundled template's, so nothing to install per app.
 
 The codemod copies the template to `<client>-tse/` (kebab-case) in the current project,
 excluding `node_modules dist .vercel .env.local`.
+
+## Step 0 — Show the "gather-first" card (before any question)
+
+People stall mid-interview when a question asks for a GUID they don't have open. So
+**before** asking anything, post this checklist in one plain-language message and let
+them collect it all at once. Keep it short — don't explain fields yet, just list what
+to have ready:
+
+> **Before we start, grab these — you'll paste them as we go (takes ~2 min):**
+> 1. **Your ThoughtSpot host URL** (e.g. `https://your-co.thoughtspot.cloud`)
+> 2. **The main dashboard's Liveboard ID** — open the liveboard; it's the long ID in
+>    the URL after `/pinboard/` or `/liveboard/`.
+> 3. **Your data model / worksheet ID** — the source the dashboard is built on.
+> 4. **A brand screenshot** — your website, product UI, or logo. I'll pull the colors
+>    from it. (A hex color works too if you have no image.)
+> 5. *(optional)* Any extra Liveboard/viz IDs if you want more than one tab.
+> 6. Your **logo** file (SVG or PNG), or say the word and I'll generate a wordmark.
+>
+> Building a demo with no real cluster? Just say so — I'll make up realistic values.
+
+Wait for a "ready" (or their first pastes), then start the interview. Don't block on
+it — if they'd rather answer as they go, proceed; the card just prevents the ambush.
 
 ## Step 1 — Run the interview (the question tree)
 

@@ -10,24 +10,31 @@ the skill folder, so you install it by copying one directory.
 
 ## Install into your project
 
-```bash
-# 1. get the skill
-git clone https://github.com/thoughtspot/tse_demos.git
+One command — grabs just the skill folder (no full-repo clone). Run it from your
+project root:
 
-# 2. copy it into your project's skills folder
+```bash
+npx degit thoughtspot/tse_demos/.claude/skills/rebrand-thoughtspot-portal \
+  .claude/skills/rebrand-thoughtspot-portal
+```
+
+That's it. Open your project in Claude Code and say, e.g.,
+**"build a ThoughtSpot portal for Acme"** — the skill takes over from there.
+
+> **No separate `npm install` step:** the first time you build an app, the skill
+> installs the bundled template's dependencies automatically (once). Node/npm not on
+> your PATH? It looks in `~/.node/bin` for you.
+
+<details>
+<summary>Prefer a git clone (or the repo is private for you)?</summary>
+
+```bash
+git clone https://github.com/thoughtspot/tse_demos.git
 mkdir -p /path/to/your-project/.claude/skills
 cp -R tse_demos/.claude/skills/rebrand-thoughtspot-portal \
       /path/to/your-project/.claude/skills/
-
-# 3. one-time: install the bundled template's deps
-cd /path/to/your-project/.claude/skills/rebrand-thoughtspot-portal/template-tse
-npm install
 ```
-
-Then open your project in Claude Code and say, e.g.,
-**"build a ThoughtSpot portal for Acme"** — the skill takes over from there.
-
-> Node/npm not on your PATH? `export PATH="$HOME/.node/bin:$PATH"` first.
+</details>
 
 ## What you get
 
@@ -51,5 +58,5 @@ interview  →  spec.json  →  scripts/apply-spec.mjs  →  <slug>-tse/  →  h
 - `references/` — `spec-schema.md` (every field + interview mapping),
   `spec.example.json` (a copy-me worked example), `build-playbook.md` (field → edits).
 
-Each generated app symlinks its `node_modules` to the bundled template's, so there's
-nothing to install per app once step 3 above is done.
+Each generated app symlinks its `node_modules` to the bundled template's — which the
+codemod installs automatically on first run — so there's nothing to install per app.
