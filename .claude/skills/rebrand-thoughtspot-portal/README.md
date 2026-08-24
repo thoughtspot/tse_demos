@@ -18,8 +18,7 @@ npx degit thoughtspot/tse_demos/.claude/skills/rebrand-thoughtspot-portal \
   .claude/skills/rebrand-thoughtspot-portal
 ```
 
-That's it. Open your project in Claude Code and say, e.g.,
-**"build a ThoughtSpot portal for Acme"** — the skill takes over from there.
+That's it — nothing else to install.
 
 > **No separate `npm install` step:** the first time you build an app, the skill
 > installs the bundled template's dependencies automatically (once). Node/npm not on
@@ -35,6 +34,37 @@ cp -R tse_demos/.claude/skills/rebrand-thoughtspot-portal \
       /path/to/your-project/.claude/skills/
 ```
 </details>
+
+## Using it (what actually happens)
+
+You don't run any scripts yourself — Claude does. Your only job is to answer questions
+and paste a few values.
+
+**1. Have these ready** (Claude will ask; grabbing them first makes it a 2-minute pass):
+- Your ThoughtSpot **host URL** (e.g. `https://your-co.thoughtspot.cloud`)
+- The main dashboard's **Liveboard ID** (the long ID in the URL when you open it)
+- Your **data model / worksheet ID**
+- A **brand screenshot** (website, product UI, or logo) — Claude reads the palette
+  from it. *Building a demo with no real cluster? Just say so and Claude makes up
+  realistic values.*
+
+**2. Start it.** Open your project in Claude Code (terminal, VS Code, or the desktop
+app) and either type `/rebrand-thoughtspot-portal` or just say
+**"build a ThoughtSpot portal for `<company>`"**.
+
+**3. Answer the interview.** Claude walks a short branching Q&A — brand, data, tabs,
+theme, features — in plain language. You paste GUIDs and upload the screenshot when
+asked; there are sensible defaults for everything else. It echoes the full plan back
+for a "go" before building.
+
+**4. Get a running app.** Claude writes `spec.json`, runs the codemod, hand-finishes
+any custom modal, builds, and starts the dev server. Open the **localhost URL** it
+hands you (in the desktop app, the Browser pane previews it automatically). Your app
+lives in `<company>-tse/`.
+
+> **Before it works on your cluster:** add your app's domain to the ThoughtSpot
+> **CSP/CORS allowlist**, and make sure you have a ThoughtSpot session (or the auth
+> mode you chose). Claude prints this checklist at the end.
 
 ## What you get
 
