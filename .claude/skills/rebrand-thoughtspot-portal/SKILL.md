@@ -50,85 +50,161 @@ to have ready:
 Wait for a "ready" (or their first pastes), then start the interview. Don't block on
 it — if they'd rather answer as they go, proceed; the card just prevents the ambush.
 
-## Step 1 — Run the interview (the question tree)
+## Step 1 — Run the interview (LOCKED SCRIPT — ask verbatim)
 
-Ask with `AskUserQuestion`, **one section per round**, offering sensible defaults
-and only expanding a branch when its gate is "yes". Collect answers into the
-**spec** (schema at the bottom). Free-text values (GUIDs, column names, a pasted
-screenshot) you request in a normal message.
+This interview is a **fixed script**, not a topic list. Run the rounds below **in this
+exact order**, using the **exact wording** given:
 
-**Sequencing rule (important):** never fire `AskUserQuestion` in the *same turn* as
-a free-text request — the popup blocks the text box, so the user can't paste. When a
-section has both, **ask the free-text first, wait for the reply, then** pop the
-choice(s). Batch multiple choices of the same section into one popup. If a section is
-purely choices, popup directly; if purely free-text, just ask in the message.
+- **Ask each question exactly as written.** Do NOT reword, rephrase, summarize, merge,
+  reorder, add, or drop questions. The `AskUserQuestion` `question`/`header`/`option`
+  text and the free-text messages are canonical — copy them.
+- **The only permitted variation is skipping an entire round** when its mode/gate says
+  to (Basic mode skips Rounds 3, 4, 6; a "No" gate skips that round's follow-up). You
+  never skip a round for any other reason, and you never invent extra questions.
+- **Sequencing rule:** never fire `AskUserQuestion` in the *same turn* as a free-text
+  request — the popup blocks the text box. When a round has both, send the **free-text
+  message first, wait for the reply, then** fire the popup.
+- Collect answers into the **spec** (schema at the bottom).
 
-Walk the tree in this order. **Section 0 comes first — it prunes the tree:**
+Rounds marked **[ADVANCED ONLY]** are skipped entirely in Basic mode.
 
-0. **Basic or Advanced demo?** — *Basic* = a quick demo (Analytics dashboards +
-   Spotter + Ask-AI + theme). *Advanced* = the full build. **If Basic, skip
-   sections 3, 4 and 6 entirely** (no inline tab, no custom-action tab, no
-   Add-Report). Record as `mode`.
-1. **Brand** — company name; AI assistant name (default "Ask <Company> AI");
-   one-line "what they do"; website URL; **ask them to attach the logo**
-   (SVG preferred, PNG fine) — or offer to generate a wordmark if they have none.
-2. **Data & filters** — ThoughtSpot host URL; main liveboard GUID; model/worksheet
-   GUID; **auth** (None = rides existing session · Basic = typed creds · Trusted =
-   advanced); and **which columns filter the main liveboard** (multiselect) + an
-   optional **date column**.
-3. **Inline-insights tab?** *(advanced only)* → if yes: inline **liveboard** GUID
-   (confirm it's a *liveboard*, not a viz/answer), tab name, the list's **name
-   column**, and up to 3 **metric columns**.
-4. **Custom-action workflow?** *(advanced only; optional — ask first, skip entirely
-   if no.)* Only if yes: **viz** GUID + its **liveboard** GUID, action label, tab name, and
-   **— required —** a description of the workflow: what screen/modal opens on click, which
-   row fields pre-fill which inputs, and what "Submit" does. **You build exactly that screen**
-   (rebuilding the scaffold modal); do NOT fall back to the generic "Request Bid" form.
-   A screenshot of the target screen is ideal — ask for one. If the user can't describe a
-   workflow, ask whether a simple labeled form is acceptable or the action should be dropped.
-5. **Ask-AI** — Normal Spotter (standalone), Fancy chat, or both.
-   - **Floating chatbot in the bottom-right corner?** (yes/no)
-   - **Monetization?** → if yes: which question number triggers the paywall.
-   - **Feature gating (tiers)?** → if yes: which actions Basic loses (drill-down,
-     Ask AI, downloads, …).
-6. **Pinning / "Add Report"?** *(advanced only)* — the Analytics "Add Report"
-   split-panel that lets a user build an answer (Report Builder / Spotter) and **pin
-   it to the dashboard**. If yes, **warn**: the Report Builder (`SearchEmbed`) renders
-   poorly in **dark** theme — suggest defaulting to light, or accepting the caveat. If
-   no, strip the Add-Report menu, the pin flow, and `PinModal`.
-7. **Theme** — **REQUIRED FIRST: explicitly ask the user to UPLOAD a screenshot for
-   color reference — and WAIT for it before anything else in this section.** Say it in
-   plain words, e.g. *"Please upload a screenshot for reference (your website, product UI,
-   a marketing shot, or your logo) and I'll derive the palette from it."* Do NOT jump to a
-   color-picker or "what's your primary color?" — the screenshot is the reference. A pasted
-   **URL** is an acceptable substitute; a **named color** is a last resort only when the
-   user genuinely has no image at all (and even then, ask). Derive the whole palette from
-   the uploaded image. Then: light / dark / both (+ default); font(s) for titles vs body;
-   confirm the primary/accent you read from the image; any specific asks (gradients, hues,
-   "make titles/KPIs pop").
+---
+
+**ROUND 0 — Build scope** · `AskUserQuestion`
+- question: `Should this be a Basic demo or the full Advanced build?`
+- header: `Build scope` · multiSelect: false
+- options:
+  - `Advanced (full build)` — All tabs: Analytics, inline insights, a custom-action workflow, Add-Report pinning, Ask-AI + Spotter, tiers/monetization.
+  - `Basic demo` — Analytics dashboards + Spotter + Ask-AI + theme only. Skips inline, custom-action, and Add-Report.
+
+Record as `mode`. **If Basic → skip Rounds 3, 4, 6.**
+
+**ROUND 1 — Brand** · free-text message (verbatim):
+> Tell me about the brand — answer in one message:
+> 1. Company name
+> 2. AI assistant name (or I'll default to "Ask <Company> AI")
+> 3. One line on what they do
+> 4. Website URL
+>
+> Then attach your **logo** (SVG preferred, PNG fine) — or say "generate one" and I'll make a wordmark.
+
+**ROUND 2 — Data & filters** · free-text FIRST (verbatim):
+> Now the data — paste in one message:
+> 1. ThoughtSpot host URL (e.g. `https://your-co.thoughtspot.cloud`)
+> 2. Main Analytics **Liveboard ID**
+> 3. Data **model / worksheet ID**
+> 4. Which columns do you want to filter the main dashboard (runtime filters)? List them
+> 5. A **date column** to filter by, if any (optional)
+>
+> No real cluster? Say "make it up" and I'll generate realistic values.
+
+…then `AskUserQuestion`:
+- question: `How should the embedded ThoughtSpot content authenticate?`
+- header: `Auth` · multiSelect: false
+- options:
+  - `Basic – typed credentials (Recommended)` — A username/password login gate in the app.
+  - `None – ride existing session` — Embeds use whatever ThoughtSpot session is already signed in. Simplest for demos.
+  - `Trusted – advanced` — Token-based trusted auth; needs backend setup.
+
+**ROUND 3 — Inline-insights tab** · **[ADVANCED ONLY]** · `AskUserQuestion` gate:
+- question: `Add an inline-insights tab? (List where each row of the Client App expands to reveal a ThoughtSpot Liveboard / component filtered to the list item)`
+- header: `Inline insights` · multiSelect: false
+- options: `Yes, add it` · `No, skip it`
+
+If **Yes**, free-text — **fill the bracketed examples yourself** from the company (Round 1)
+and the model/worksheet; don't print the literal brackets:
+> Inline-insights details — paste in one message:
+> 1. The inline **Liveboard ID** (must be a liveboard, not a viz/answer)
+> 2. **What do you want to name this tab?** (some examples: <2–3 tab-name ideas fitting the company>)
+> 3. **Which attribute / dimension should label each row?** (some examples: <2–3 dimensions that fit this model>)
+> 4. **Up to 3 metric columns to show per row** (some examples: <2–3 measures that fit this model>)
+
+For 2–4, generate the example suggestions from the company's domain and the
+model/worksheet — concrete, plausible names, not placeholders like "x/y".
+
+**ROUND 4 — Custom-action workflow** · **[ADVANCED ONLY]** · `AskUserQuestion` gate:
+- question: `Add a custom-action workflow? (a button on a viz row that opens your own screen/modal)`
+- header: `Custom action` · multiSelect: false
+- options: `Yes, add it` · `No, skip it`
+
+If **Yes**, free-text — **fill the bracketed examples yourself** from the company (Round 1);
+don't print the literal brackets:
+> Custom-action details — paste in one message:
+> 1. The **viz ID** the action lives on, and its parent **Liveboard ID**
+> 2. The action's **button label** (some examples: <2–3 action labels fitting the company>)
+> 3. The **tab name** (some examples: <2–3 tab-name ideas fitting the company>)
+> 4. Describe the workflow exactly: what screen/modal opens on click, which row fields pre-fill which inputs, and what "Submit" does. (A screenshot of the target screen is **optional** but helps — attach one if you have it.)
+>
+> I'll build exactly that screen — not a generic form.
+
+For 2–3, generate the example suggestions from the company's domain — concrete, plausible names.
+
+You then build **exactly that screen** (rebuilding the scaffold modal); never fall back
+to the generic "Request Bid" form. If the user can't describe a workflow, ask whether a
+simple labeled form is acceptable or the action should be dropped.
+
+**ROUND 5 — Ask-AI & tiers** · `AskUserQuestion` (batch all four in one call):
+- Q1 — question: `How should Ask-AI work?` · header: `Ask-AI` · options: `Both` · `Standalone Spotter only` · `Fancy chat only`
+- Q2 — question: `Floating chatbot in the bottom-right corner?` · header: `Chatbot` · options: `Yes` · `No`
+- Q3 — question: `Add a monetization paywall?` · header: `Monetize` · options: `No` · `Yes`
+- Q4 — question: `Feature gating by tier (Premium vs Basic)?` · header: `Tiers` · options: `No` · `Yes`
+
+If **Monetize = Yes**, free-text: `Which AI question should trigger the paywall? (e.g. the 3rd)`
+If **Tiers = Yes** — ask the monetize free-text first (if any), wait, then `AskUserQuestion`:
+- question: `Which actions should the Basic tier lose?`
+- header: `Basic loses` · multiSelect: true
+- options: `Drill-down` · `Ask AI` · `Downloads`
+- If the user says "defaults" / "pick the defaults", use all three.
+
+**ROUND 6 — Add Report (custom report building / addition flow)** · **[ADVANCED ONLY]** · `AskUserQuestion`:
+- question: `Add Report (custom report building / addition flow)?`
+- header: `Add Report` · multiSelect: false
+- options:
+  - `No, skip it` — No Add-Report menu, pin flow, or PinModal.
+  - `Yes — Ask-AI (Spotter) only` — Include the flow but only the Spotter/Ask-AI builder; skip the SearchEmbed Report Builder (which renders poorly in dark theme).
+  - `Yes — with both Ask AI & Report Builder (Search Data)` — Include the full flow: both the Spotter/Ask-AI builder and the SearchEmbed Report Builder. Caveat: SearchEmbed renders poorly in dark — demo in Light theme.
+
+**Caveat to surface with this round:** the Report Builder uses `SearchEmbed`, which
+renders poorly in **dark** theme. So the user can either (a) include only the Ask-AI
+(Spotter) builder and drop SearchEmbed, or (b) keep SearchEmbed and demo in **Light**.
+If **No**, strip the Add-Report menu, the pin flow, and `PinModal`. If **Ask-AI only**,
+keep the pin flow + Spotter builder but strip the SearchEmbed Report Builder.
+
+**ROUND 7 — Theme** · **one free-text message — ask for everything at once** (verbatim):
+> Last part — the look. Answer in one message (attach what you have):
+> 1. **Screenshot** — upload one I can pull your palette from (your website, product UI, a marketing shot, or your logo). A live URL works too; a named hex color only if you have no image at all.
+> 2. **Font** — name a specific font (a Google font like "Poppins" is easiest) or attach the file; name separate title vs body fonts if you want. No preference? Say so and I'll match the brand.
+> 3. **Theme mode** — light, dark, or both? (and which is the default)
+> 4. **Any specific customizations?** — e.g. gradients on titles, particular hues, "make the KPIs pop", rounded cards. Or "none".
+
+The **screenshot is the palette reference** — derive the whole palette from it; don't jump
+to a color-picker. The screenshot is still REQUIRED (a URL or, last resort, a named color
+substitutes). After they reply, **confirm the primary/accent you read from the image**
+before moving on.
 
 There is **no deploy question** — always **build + run locally** by default. Only
 deploy to Vercel if the user explicitly asks for it afterward.
 
 ### Completeness gate — do NOT skip, do NOT fabricate
 
-Before you build, you MUST have an explicit answer for **every section 0–7**, including the
-free-text ones. Never invent or silently default a value the user could provide.
+Before you build, you MUST have run **every non-skipped round 0–7** and have an explicit
+answer for each, including the free-text ones. Never invent or silently default a value
+the user could provide. (Skipping a round is only allowed per the Round's mode/gate.)
 
-- **Section 2 (Data) is REQUIRED free-text — actually ask for it and wait.** You must
+- **Round 2 (Data) is REQUIRED free-text — actually ask for it and wait.** You must
   collect the host URL, the Analytics liveboard GUID, the model/worksheet GUID, (if inline
   enabled) the inline liveboard GUID, (if action enabled) the action viz + its liveboard
   GUID, the filter columns, and the date column. **Do NOT invent GUIDs or a host.** If the
   user is building a fictitious/demo app, ask explicitly "want me to make these up?" — get
   a yes per-value; don't assume it.
-- **Section 7 (Theme) — ask for BOTH the screenshot/URL AND the font** (a Google font by
+- **Round 7 (Theme) — ask for BOTH the screenshot/URL AND the font** (a Google font by
   name, or an attached file). Never pick a font yourself without asking.
-- Batching choice-questions into one `AskUserQuestion` popup is fine, but it must **not
-  drop the free-text asks** that belong to the same section (Data GUIDs, font, columns).
+- The Round 5 batched popup must **not drop the free-text follow-ups** it triggers
+  (paywall trigger, tier-disabled actions), nor the free-text asks in other rounds.
 
-Then **echo the COMPLETE spec back in plain language** — every field, section by section,
+Then **echo the COMPLETE spec back in plain language** — every field, round by round,
 flagging anything the user let you make up — and get an explicit **"go"** before building.
-If you catch yourself about to fabricate a value or skip a section, stop and ask instead.
+If you catch yourself about to fabricate a value or skip a round, stop and ask instead.
 
 ## Step 2 — Build (spec-driven: interview → spec.json → codemod → hand-finish)
 
