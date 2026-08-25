@@ -352,6 +352,25 @@ export const TS_RULES_DARK: Record<string, Record<string, string>> = {
     '[class*="dataPanel" i]',
     '[class*="footer" i]',
   ].join(',')]: surfaceRule,
+  // AI "Key insights" / KPI change-analysis narrative callouts (the sparkle text
+  // tile) have no dedicated CSS variable and fall back to a dark default text
+  // colour — unreadable on the dark tile. Force light text in dark mode. COLOUR
+  // ONLY (no background) so KPI semantic up/down values stay green/coral and the
+  // tile background from the variables is untouched.
+  [[
+    '[class*="insight" i]',
+    '[class*="insight" i] *',
+    '[class*="callout" i]',
+    '[class*="callout" i] *',
+    '[class*="narrative" i]',
+    '[class*="narrative" i] *',
+    '[class*="takeaway" i]',
+    '[class*="takeaway" i] *',
+    '[class*="analysis" i]',
+    '[class*="analysis" i] *',
+    '[class*="spotiq" i]',
+    '[class*="spotiq" i] *',
+  ].join(',')]: { color: `${DARK_INK} !important` },
 };
 
 /**
