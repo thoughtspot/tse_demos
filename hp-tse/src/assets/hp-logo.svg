@@ -1,0 +1,20 @@
+<svg viewBox="0 0 290 32" fill="none" role="img" aria-label="HP Instant Insights" xmlns="http://www.w3.org/2000/svg">
+  <!-- HP circle mark (200x200 scaled to 32px tall) -->
+  <svg x="0" y="0" width="32" height="32" viewBox="0 0 200 200">
+    <circle cx="100" cy="100" r="100" fill="#1B38C4"/>
+    <!-- h: left stroke — right side taller, creates diagonal slash at upper-left -->
+    <polygon points="22,90 40,36 40,164 22,164" fill="white"/>
+    <!-- h: arch/crossbar -->
+    <rect x="22" y="90" width="70" height="18" fill="white"/>
+    <!-- h: right descender -->
+    <rect x="74" y="90" width="18" height="74" fill="white"/>
+    <!-- p: left stroke (full height) -->
+    <rect x="108" y="36" width="18" height="128" fill="white"/>
+    <!-- p: bowl outer -->
+    <path d="M126,36 Q180,36 180,72 Q180,110 126,110 Z" fill="white"/>
+    <!-- p: bowl inner cutout -->
+    <path d="M126,54 Q160,54 160,72 Q160,91 126,91 Z" fill="#1B38C4"/>
+  </svg>
+  <!-- Wordmark -->
+  <text x="40" y="23" font-family="'Inter',system-ui,-apple-system,sans-serif" font-size="18" font-weight="700" letter-spacing="-0.3" fill="currentColor">HP Instant Insights</text>
+</svg>
