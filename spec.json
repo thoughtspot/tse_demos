@@ -1,0 +1,206 @@
+{
+  "client": "HP",
+  "slug": "hp",
+  "host": "sebe.thoughtspotstaging.cloud",
+  "auth": "basic",
+  "ids": {
+    "analyticsLiveboard": "c635ce48-5fa9-49e9-a640-e862b710bcf0",
+    "model": "b404a085-7717-4aee-85c8-5e63a5c9b6e8",
+    "inlineLiveboard": "",
+    "actionLiveboard": "",
+    "actionViz": ""
+  },
+  "action": {
+    "id": "hp-action",
+    "name": "HP Action"
+  },
+  "columns": {
+    "inlineName": ["Product Name", "Product"],
+    "inlineMetrics": [
+      {
+        "label": "Value",
+        "format": "number",
+        "candidates": ["Value", "Amount", "Total"]
+      }
+    ],
+    "filterPrimary": ["Product Name", "Product"],
+    "filterSecondary": ["Region", "Sales Region"],
+    "date": "Fact Collection Date",
+    "hierarchy": {
+      "segment": "Product Name",
+      "rep": "Region",
+      "cadence": "Product Name"
+    }
+  },
+  "font": {
+    "family": "Questrial",
+    "googleUrl": "https://fonts.googleapis.com/css2?family=Questrial&display=swap"
+  },
+  "logo": {
+    "svgPath": "hp-logo.svg"
+  },
+  "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><circle cx=\"16\" cy=\"16\" r=\"14\" fill=\"#0096D6\"/><text x=\"16\" y=\"20.5\" text-anchor=\"middle\" font-family=\"Helvetica Neue,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"white\">hp</text></svg>",
+  "theme": {
+    "default": "light",
+    "light": {
+      "--sl-cream": "#f4f7fb",
+      "--sl-cream-2": "#e6f0f8",
+      "--sl-white": "#ffffff",
+      "--sl-evergreen": "#1a2b3c",
+      "--sl-evergreen-2": "#0f1e2e",
+      "--sl-green": "#0096D6",
+      "--sl-green-dark": "#0077B5",
+      "--sl-primary-rgb": "0, 150, 214",
+      "--brand-navy": "#1a2b3c",
+      "--brand-accent": "#0096D6",
+      "--hp-blue": "#0096D6",
+      "--hp-grad": "linear-gradient(90deg, #0077B5 0%, #0096D6 100%)",
+      "--sl-mint": "#ddf0fb",
+      "--sl-mint-2": "#c5e7f8",
+      "--sl-coral": "#c9281c",
+      "--sl-warn": "#fffce3",
+      "--sl-warn-ink": "#7a5a00",
+      "--sl-ink": "#1a2b3c",
+      "--sl-muted": "#5a6e82",
+      "--sl-border": "#dde5ed",
+      "--sl-border-soft": "#eef2f7",
+      "--font-serif": "'Questrial', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+      "--font-sans": "'Questrial', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+      "--topbar-h": "66px",
+      "--shadow-card": "0 1px 2px rgba(10, 40, 80, 0.05), 0 8px 24px rgba(10, 40, 80, 0.07)",
+      "--shadow-lift": "0 6px 14px rgba(10, 40, 80, 0.08), 0 18px 40px rgba(10, 40, 80, 0.12)"
+    },
+    "dark": {
+      "--sl-cream": "#0a1520",
+      "--sl-cream-2": "#0f1e2d",
+      "--sl-white": "#152535",
+      "--sl-evergreen": "#d6ecf8",
+      "--sl-evergreen-2": "#c2dff2",
+      "--sl-green": "#40BEF0",
+      "--sl-green-dark": "#0096D6",
+      "--sl-primary-rgb": "64, 190, 240",
+      "--brand-navy": "#1a2b3c",
+      "--brand-accent": "#0096D6",
+      "--sl-mint": "#0d2233",
+      "--sl-mint-2": "#102d42",
+      "--sl-coral": "#ef5350",
+      "--sl-ink": "#d6ecf8",
+      "--sl-muted": "#7fa3bb",
+      "--sl-border": "#1e3550",
+      "--sl-border-soft": "#152d45",
+      "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+      "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)"
+    }
+  },
+  "embedSwaps": [
+    ["#4F5BD5", "#0096D6"],
+    ["#3F49B8", "#0077B5"],
+    ["#333C99", "#005A8C"],
+    ["#22B8CF", "#40BEF0"],
+    ["#0b0d10", "#0a1520"],
+    ["#14181f", "#0f1e2d"],
+    ["#1a212b", "#152535"],
+    ["#232a34", "#1e3550"],
+    ["#0b1f19", "#0d2030"],
+    ["rgba(45,164,191,0.14)", "rgba(0,150,214,0.16)"]
+  ],
+  "greenSwaps": [
+    ["#0f9a63", "#152535"],
+    ["#0c8554", "#0f1e2d"],
+    ["#d9ecea", "#d6eefa"],
+    ["#cfe3e2", "#c0e4f8"],
+    ["#1bb978", "#0096D6"],
+    ["#15ae6e", "#0077B5"]
+  ],
+  "cssSwaps": [
+    ["#0e1116", "#0a1520"],
+    ["#10222a", "#0d2030"],
+    ["#123047", "#0f2a42"]
+  ],
+  "features": {
+    "askMode": "fancy",
+    "inline": false,
+    "action": false,
+    "monetize": true,
+    "tiers": true,
+    "pinning": false
+  },
+  "content": {
+    "company": "HP",
+    "aiName": "Ask HP AI",
+    "website": "https://www.hp.com/",
+    "loginTitleHtml": "Transform IT from<br />infrastructure to impact.",
+    "loginSubtitle": "Your AI-powered analytics portal for HP data — live dashboards, regional insights, and natural language answers on your products and markets. Powered by ThoughtSpot.",
+    "loginStats": [
+      { "value": "190+", "label": "Countries Served" },
+      { "value": "55M+", "label": "Customers Worldwide" },
+      { "value": "Real-time", "label": "Analytics" }
+    ],
+    "loginCardSubtitle": "Sign in with your ThoughtSpot credentials",
+    "loginDemoNoteHtml": "<strong>Sign in</strong> with your ThoughtSpot username &amp; password for <code>{host}</code>. This origin must be CORS-allowlisted on that cluster for the embeds to load.",
+    "platformNav": ["Products", "Solutions", "Support"],
+    "tabs": {
+      "myReports": "My Reports",
+      "analytics": "Analytics",
+      "inline": "Insights",
+      "action": "Workflow",
+      "ask": "Ask HP AI",
+      "spotter": "Spotter"
+    },
+    "analyticsSubtitle": "Live dashboards for HP product performance, regional trends, and market data.",
+    "spotterSubtitle": "Ask natural language questions about HP product and regional data.",
+    "inline": {
+      "subtitleReady": "Product metrics — select a product to view its performance insights",
+      "subtitleIdle": "Product performance across your portfolio",
+      "loading": "Loading products…",
+      "errorTitle": "Couldn't load products",
+      "errorMsg": "Unable to load product data.",
+      "moreLabel": "View insights",
+      "hideLabel": "Hide insights"
+    },
+    "filters": {
+      "primaryLabel": "Product",
+      "secondaryLabel": "Region"
+    },
+    "sampleQuestions": [
+      "Revenue by product",
+      "Sales by region",
+      "Top products this quarter",
+      "Performance by region over time"
+    ],
+    "askWelcome": "Ask me anything about HP — product performance, regional trends, market analytics — or ask about your own data and I'll chart it live.",
+    "askEmptySub": "Ask any analytical question about HP products, regions, and market performance. Answers come straight from your live data with an interactive chart you can drill into.",
+    "action": {
+      "label": "HP Action",
+      "subtitlePrefix": "Product analytics. Right-click a row and choose",
+      "subtitleSuffix": "to take action on the selected item.",
+      "modalTitle": "HP Action",
+      "modalLead": "Pre-filled for the selected item.",
+      "submitLabel": "Submit",
+      "successTitle": "Action submitted"
+    },
+    "chatbot": {
+      "welcome": "Hi! I'm Ask HP AI. Ask me about HP products, regional performance, or your analytics data.",
+      "overview": "HP is a global technology company offering personal computers, printers, and software solutions for consumers and businesses. This analytics portal provides insights into product performance, regional trends, and market data powered by ThoughtSpot.",
+      "greetingExample": "revenue by product",
+      "examples": [
+        "top products by sales",
+        "performance by region"
+      ]
+    },
+    "trialQuestionTrigger": 3,
+    "upgradeReason": "Upgrade to HP Analytics Premium to unlock AI-powered insights, drill-down, and data exports.",
+    "analyticsKeywords": [
+      "product",
+      "region",
+      "sales",
+      "revenue",
+      "performance",
+      "market",
+      "analytics",
+      "trend",
+      "quarter",
+      "data"
+    ]
+  }
+}
