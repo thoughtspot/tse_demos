@@ -68,6 +68,14 @@ exact order**, using the **exact wording** given:
 
 Rounds marked **[ADVANCED ONLY]** are skipped entirely in Basic mode.
 
+**Feature reference (Advanced only):** images can't render inside the `AskUserQuestion`
+popup, so right **before Round 3**, publish `references/feature-reference.html` with the
+Artifact tool and share the link once. It shows illustrative mockups of the four optional
+features (Inline insights, Custom action, Monetization paywall, Add Report). Say, e.g.,
+*"Here's a visual reference for the optional features as we go: <link>."* Each feature
+round below points the user to its section. In **Basic** mode, skip this (those rounds are
+skipped anyway).
+
 ---
 
 **ROUND 0 — Build scope** · `AskUserQuestion`
@@ -106,7 +114,7 @@ Record as `mode`. **If Basic → skip Rounds 3, 4, 6.**
   - `None – ride existing session` — Embeds use whatever ThoughtSpot session is already signed in. Simplest for demos.
   - `Trusted – advanced` — Token-based trusted auth; needs backend setup.
 
-**ROUND 3 — Inline-insights tab** · **[ADVANCED ONLY]** · `AskUserQuestion` gate:
+**ROUND 3 — Inline-insights tab** · **[ADVANCED ONLY]** · *(point them to the "Inline insights" mockup in the feature reference)* · `AskUserQuestion` gate:
 - question: `Add an inline-insights tab? (List where each row of the Client App expands to reveal a ThoughtSpot Liveboard / component filtered to the list item)`
 - header: `Inline insights` · multiSelect: false
 - options: `Yes, add it` · `No, skip it`
@@ -122,7 +130,7 @@ and the model/worksheet; don't print the literal brackets:
 For 2–4, generate the example suggestions from the company's domain and the
 model/worksheet — concrete, plausible names, not placeholders like "x/y".
 
-**ROUND 4 — Custom-action workflow** · **[ADVANCED ONLY]** · `AskUserQuestion` gate:
+**ROUND 4 — Custom-action workflow** · **[ADVANCED ONLY]** · *(point them to the "Custom action" mockup in the feature reference)* · `AskUserQuestion` gate:
 - question: `Add a custom-action workflow? (a button on a viz row that opens your own screen/modal)`
 - header: `Custom action` · multiSelect: false
 - options: `Yes, add it` · `No, skip it`
@@ -143,7 +151,7 @@ You then build **exactly that screen** (rebuilding the scaffold modal); never fa
 to the generic "Request Bid" form. If the user can't describe a workflow, ask whether a
 simple labeled form is acceptable or the action should be dropped.
 
-**ROUND 5 — Ask-AI & tiers** · `AskUserQuestion` (batch all four in one call):
+**ROUND 5 — Ask-AI & tiers** · *(for the Monetize question, point them to the "Monetization paywall" mockup in the feature reference)* · `AskUserQuestion` (batch all four in one call):
 - Q1 — question: `How should Ask-AI work?` · header: `Ask-AI` · options: `Both` · `Standalone Spotter only` · `Fancy chat only`
 - Q2 — question: `Floating chatbot in the bottom-right corner?` · header: `Chatbot` · options: `Yes` · `No`
 - Q3 — question: `Add a monetization paywall?` · header: `Monetize` · options: `No` · `Yes`
@@ -156,7 +164,7 @@ If **Tiers = Yes** — ask the monetize free-text first (if any), wait, then `As
 - options: `Drill-down` · `Ask AI` · `Downloads`
 - If the user says "defaults" / "pick the defaults", use all three.
 
-**ROUND 6 — Add Report (custom report building / addition flow)** · **[ADVANCED ONLY]** · `AskUserQuestion`:
+**ROUND 6 — Add Report (custom report building / addition flow)** · **[ADVANCED ONLY]** · *(point them to the "Add Report" mockup in the feature reference)* · `AskUserQuestion`:
 - question: `Add Report (custom report building / addition flow)?`
 - header: `Add Report` · multiSelect: false
 - options:
