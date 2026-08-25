@@ -34,7 +34,7 @@ export const CONTENT = {
     "<strong>Sign in</strong> with your ThoughtSpot username &amp; password for <code>{host}</code>. This origin must be CORS-allowlisted on that cluster for the embeds to load.",
 
   // ---- decorative platform nav (product-context words, non-interactive) ---
-  platformNav: ['Broker', 'Shipper', 'Factor'],
+  platformNav: ['Broker', 'Shipper'], // max 2 render (see TopBar)
 
   // ---- tab labels --------------------------------------------------------
   tabs: {
