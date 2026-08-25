@@ -32,7 +32,9 @@ const TABS: { id: TabId; label: string; icon: typeof BarChart3 }[] = [
 ];
 
 // Decorative Northwind platform nav (sets product context, non-interactive).
-const PLATFORM_NAV = [...CONTENT.platformNav];
+// Cap the auto-generated platform links at 2 so the top bar never gets crowded,
+// no matter how many the spec lists.
+const PLATFORM_NAV = [...CONTENT.platformNav].slice(0, 2);
 
 interface Props {
   active: TabId;

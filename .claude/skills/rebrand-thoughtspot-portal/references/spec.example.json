@@ -240,8 +240,7 @@
     "loginDemoNoteHtml": "<strong>Sign in</strong> with your ThoughtSpot username &amp; password for <code>{host}</code>. This origin must be CORS-allowlisted on that cluster for the embeds to load.",
     "platformNav": [
       "Police",
-      "Fire",
-      "Corrections"
+      "Fire"
     ],
     "tabs": {
       "myReports": "My Reports",
