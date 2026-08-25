@@ -11,13 +11,19 @@
 // the spec turns off. Bespoke workflow modals (e.g. a custom leave form) are NOT
 // generated — they stay a manual step, and the script prints a reminder.
 //
-// Usage from repo root. Paths in the spec are resolved relative to the repo root.
+// Run from your project root. The skill is self-contained: the base template is
+// bundled next to this script (../template-tse), and the generated <slug>-tse/ app
+// is written into the current working directory. Paths in the spec (logo.svgPath,
+// font.srcPath) are resolved relative to the current working directory.
 // ---------------------------------------------------------------------------
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 
-const ROOT = process.cwd();
-const TEMPLATE = path.join(ROOT, 'template-tse');
+const ROOT = process.cwd();                                   // where the app is written
+const SKILL_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const TEMPLATE = path.join(SKILL_DIR, 'template-tse');        // bundled with the skill
 const SKIP = new Set(['node_modules', 'dist', '.vercel', '.git']);
 
 const specPath = process.argv[2];
@@ -87,10 +93,42 @@ function renameBrand(s) {
 }
 
 // ---- 0. clone --------------------------------------------------------------
+// Zero-setup: the generated apps share the bundled template's node_modules. If it
+// hasn't been installed yet (fresh clone of the skill), install it now — once —
+// instead of failing the first build with a confusing missing-deps error.
+ensureTemplateDeps();
+
 if (fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true, force: true });
 copyDir(TEMPLATE, OUT);
-// symlink deps to the template's node_modules (guaranteed-matching versions)
-try { fs.symlinkSync('../template-tse/node_modules', path.join(OUT, 'node_modules')); } catch {}
+// symlink deps to the bundled template's node_modules. Absolute target so it works
+// wherever the generated app is created.
+try { fs.symlinkSync(path.join(TEMPLATE, 'node_modules'), path.join(OUT, 'node_modules')); } catch {}
+
+function ensureTemplateDeps() {
+  // A real install has node_modules AND the SDK dep resolved (a bare/partial dir
+  // would still fail the build). Check for the SDK to catch a half-populated dir.
+  const nm = path.join(TEMPLATE, 'node_modules');
+  const sdk = path.join(nm, '@thoughtspot', 'visual-embed-sdk');
+  if (fs.existsSync(sdk)) return;
+  // node/npm often aren't on the default PATH (they live at ~/.node/bin here) —
+  // prepend it so `npm` resolves whether or not the caller exported it.
+  const home = process.env.HOME || '';
+  const PATH = `${path.join(home, '.node', 'bin')}:${process.env.PATH || ''}`;
+  console.log('[apply-spec] template deps not installed — running `npm install` once (this can take a minute)…');
+  try {
+    execSync('npm install --no-audit --no-fund', {
+      cwd: TEMPLATE,
+      stdio: 'inherit',
+      env: { ...process.env, PATH },
+    });
+  } catch {
+    console.error(
+      `[apply-spec] auto-install failed. Install manually, then re-run:\n` +
+      `  (cd "${TEMPLATE}" && npm install)`,
+    );
+    process.exit(1);
+  }
+}
 
 // ---- 1. brand rename (all casings) + file renames --------------------------
 walk(path.join(OUT, 'src'), (p) => {

@@ -10,12 +10,15 @@ The template brand token is **`Northwind`** (casings: `Northwind` / `NORTHWIND` 
 (keep My Reports · Analytics · Ask-AI · Spotter · theme). `advanced` = per the
 answers. Deploy is always **local** (`npm run dev`) unless the user later asks for Vercel.
 
-## 0. Clone
+## 0. Clone (manual fallback — the codemod does this for you)
+The template is bundled inside the skill. From the project root:
 ```bash
+TPL=.claude/skills/rebrand-thoughtspot-portal/template-tse
 rsync -a --exclude node_modules --exclude dist --exclude .vercel --exclude .env.local \
-  template-tse/ <client>-tse/
+  "$TPL"/ <client>-tse/
 ```
-Build locally by symlinking deps: `ln -s ../node_modules node_modules` (remove before any commit).
+Build locally by symlinking deps to the bundled template's:
+`ln -s "$(cd "$TPL" && pwd)/node_modules" <client>-tse/node_modules` (remove before any commit).
 
 ## 1. Rebrand (Northwind → <Client>)
 Replace in all casings, then rename the two brand-named files. **zsh does not

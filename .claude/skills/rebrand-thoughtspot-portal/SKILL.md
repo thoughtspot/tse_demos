@@ -11,17 +11,44 @@ Never make the user touch code or GUIDs beyond pasting the values you ask for.
 
 ## The base template
 
-**Prereq (for a teammate):** run this inside a clone of the `tse_demos` repo, which
-ships this skill *and* `template-tse/`. First-time setup: `git clone` the repo,
-`npm install` at the root, open the folder in Claude Code, then start this skill.
+The base app is **bundled inside this skill** at `template-tse/` (next to this
+`SKILL.md`) — a brand-neutral ("Northwind") build that already contains every
+feature toggleable: Analytics liveboard, inline-insights list tab, custom-action
+viz tab, standalone Spotter tab, "fancy" Ask-AI chat, monetization paywall,
+Premium/Basic tiers, host filters, light+dark theme. You keep what the answers ask
+for and strip the rest.
 
-Clone from **`template-tse/`** at the repo root — a brand-neutral ("Northwind")
-build that already contains every feature toggleable: Analytics liveboard,
-inline-insights list tab, custom-action viz tab, standalone Spotter tab, "fancy"
-Ask-AI chat, monetization paywall, Premium/Basic tiers, host filters, light+dark
-theme. You keep what the answers ask for and strip the rest.
+**First-time setup: none needed.** The bundled template's deps are installed
+**automatically** by the codemod on the first build (it detects a missing
+`node_modules` and runs `npm install` once, looking in `~/.node/bin` if npm isn't on
+PATH). The codemod resolves the template relative to itself, so the skill works from
+any project directory. Each generated `<slug>-tse/` app symlinks its `node_modules` to
+the bundled template's, so nothing to install per app.
 
-Copy it to `<client>-tse/` (kebab-case), excluding `node_modules dist .vercel .env.local`.
+The codemod copies the template to `<client>-tse/` (kebab-case) in the current project,
+excluding `node_modules dist .vercel .env.local`.
+
+## Step 0 — Show the "gather-first" card (before any question)
+
+People stall mid-interview when a question asks for a GUID they don't have open. So
+**before** asking anything, post this checklist in one plain-language message and let
+them collect it all at once. Keep it short — don't explain fields yet, just list what
+to have ready:
+
+> **Before we start, grab these — you'll paste them as we go (takes ~2 min):**
+> 1. **Your ThoughtSpot host URL** (e.g. `https://your-co.thoughtspot.cloud`)
+> 2. **The main dashboard's Liveboard ID** — open the liveboard; it's the long ID in
+>    the URL after `/pinboard/` or `/liveboard/`.
+> 3. **Your data model / worksheet ID** — the source the dashboard is built on.
+> 4. **A brand screenshot** — your website, product UI, or logo. I'll pull the colors
+>    from it. (A hex color works too if you have no image.)
+> 5. *(optional)* Any extra Liveboard/viz IDs if you want more than one tab.
+> 6. Your **logo** file (SVG or PNG), or say the word and I'll generate a wordmark.
+>
+> Building a demo with no real cluster? Just say so — I'll make up realistic values.
+
+Wait for a "ready" (or their first pastes), then start the interview. Don't block on
+it — if they'd rather answer as they go, proceed; the card just prevents the ambush.
 
 ## Step 1 — Run the interview (the question tree)
 
@@ -114,11 +141,11 @@ second; you hand-finish the few things a script can't.
    dicts from the brand screenshot/URL; in the `embedSwaps`/`greenSwaps`/`cssSwaps` arrays
    change only the **right-hand** (brand) values — the left-hand hexes are fixed template
    constants.
-2. **Run the codemod** from the repo root:
+2. **Run the codemod** from the project root (where you want the app written):
    ```bash
    node .claude/skills/rebrand-thoughtspot-portal/scripts/apply-spec.mjs spec.json
    ```
-   It clones `template-tse` → `<slug>-tse/`, renames the brand, writes `content.ts`, patches
+   It clones the bundled `template-tse` → `<slug>-tse/`, renames the brand, writes `content.ts`, patches
    `config.ts` (host/GUIDs/columns/embed theme), switches auth, regenerates the `globals.css`
    theme tokens + `@font-face`, drops in logo/favicon/font, and prunes the tabs `features`
    turns off.

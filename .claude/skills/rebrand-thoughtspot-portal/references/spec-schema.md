@@ -5,7 +5,8 @@ into a working `<slug>-tse/` app in well under a second. **Copy
 `references/spec.example.json`** (a complete, working InTime example) and edit every
 value per the interview — do not hand-write from scratch.
 
-Run from the repo root (so the codemod finds `template-tse/` and resolves asset paths):
+Run from the project root (the codemod finds its bundled `template-tse/` relative to
+itself, and resolves your `spec.json` asset paths against the current directory):
 
 ```bash
 node .claude/skills/rebrand-thoughtspot-portal/scripts/apply-spec.mjs spec.json
