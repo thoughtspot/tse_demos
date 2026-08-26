@@ -185,6 +185,25 @@ export const TS_CSS_VARIABLES: Record<string, string> = {
   //   .spotter-landing-page-background-module__backgroundResearch { background: var(--ts-var-spotter-landing-bg-deepanalysis, radial-gradient(...)) }
   '--ts-var-spotter-landing-bg-quicksearch': 'none',
   '--ts-var-spotter-landing-bg-deepanalysis': 'none',
+  // "Change analysis" modal (Analyze change on a KPI). Both have dedicated
+  // variables; the defaults are ThoughtSpot's blue-grey (#f6f8fa / #dee8fa),
+  // a foreign hue next to the brand palette.
+  '--ts-var-cca-modal-summary-header-background': '#f6f7fb',
+  '--ts-var-change-analysis-insights-background': '#eef0fa',
+  // Spotter / SpotterViz "Show work" tool cards. Their built-in defaults are a
+  // dark slate (#323946 card, #1d232f JSON, white text) meant for the SpotterViz
+  // panel, so they look foreign in a themed embed until set here.
+  '--ts-var-spotterviz-tool-call-background': '#f6f7fb',
+  '--ts-var-spotterviz-tool-border-color': '#e2e5ee',
+  '--ts-var-spotterviz-tool-title-color': '#26324e',
+  '--ts-var-spotterviz-tool-json-input-background': '#eef0fa',
+  '--ts-var-spotterviz-tool-json-input-color': '#2f3b60',
+  '--ts-var-spotterviz-text-primary': '#182338',
+  '--ts-var-spotterviz-text-secondary': '#5A6A7E',
+  '--ts-var-spotterviz-message-background': '#FFFFFF',
+  '--ts-var-spotterviz-panel-background': '#FCFCFD',
+  '--ts-var-spotterviz-thinking-inprogress-header-color': '#4F5BD5',
+  '--ts-var-spotterviz-thinking-completed-header-color': '#3a4a6b',
 };
 
 export type ThemeName = 'light' | 'dark';
@@ -311,6 +330,24 @@ export const TS_VARS_DARK: Record<string, string> = {
   //   .spotter-landing-page-background-module__backgroundResearch { background: var(--ts-var-spotter-landing-bg-deepanalysis, radial-gradient(...)) }
   '--ts-var-spotter-landing-bg-quicksearch': 'none',
   '--ts-var-spotter-landing-bg-deepanalysis': 'none',
+  // "Change analysis" modal — see the light-theme note. Without these its
+  // summary-table header renders as a white bar inside the dark modal.
+  '--ts-var-cca-modal-summary-header-background': '#0f1319',
+  '--ts-var-change-analysis-insights-background': '#14181f',
+  // Spotter / SpotterViz "Show work" tool cards — see the light-theme note.
+  '--ts-var-spotterviz-tool-call-background': '#14181f',
+  '--ts-var-spotterviz-tool-border-color': '#232a34',
+  '--ts-var-spotterviz-tool-title-color': '#e7ecf2',
+  '--ts-var-spotterviz-tool-json-input-background': '#0b0d10',
+  '--ts-var-spotterviz-tool-json-input-color': '#9aa5f0',
+  '--ts-var-spotterviz-text-primary': '#e7ecf2',
+  '--ts-var-spotterviz-text-secondary': '#93a0b4',
+  '--ts-var-spotterviz-message-background': '#14181f',
+  '--ts-var-spotterviz-panel-background': '#0b0d10',
+  '--ts-var-spotterviz-thinking-inprogress-header-color': '#9aa5f0',
+  '--ts-var-spotterviz-thinking-completed-header-color': '#93a0b4',
+  '--ts-var-spotterviz-tool-feedback-button-background': '#1a212b',
+  '--ts-var-spotterviz-tool-feedback-button-hover': '#232a34',
 };
 
 /** Return the CSS-variable set for the active theme. */
@@ -434,6 +471,123 @@ export const TS_RULES_DARK: Record<string, Record<string, string>> = {
     '[class*="liveboard-highlights-module__highlightsListWrapper" i]::-webkit-scrollbar-thumb',
     '[class*="liveboard-highlights-module__highlightDetailContent" i]::-webkit-scrollbar-thumb',
   ].join(',')]: { 'background-color': '#232a34 !important' },
+  // ---- "Change analysis" modal (Analyze change on a KPI) -----------------
+  // Most of this modal already darkens via the `[class*="modal"]` surfaceRule
+  // above, since every class is `change-analysis-modal-module__*`. What escapes
+  // it is the summary table (ag-grid here, unlike the DevExtreme viz table) plus
+  // a few chips/links that hardcode light-mode colours or ThoughtSpot blue.
+  [[
+    '[class*="summaryTabModal" i] .ag-header-row',
+    '[class*="summaryTabModal" i] .ag-header',
+    '[class*="summaryTabModal" i] .ag-header-viewport',
+    '[class*="summaryTabModal" i] .ag-header-cell',
+  ].join(',')]: {
+    'background-color': '#0f1319 !important',
+    'border-bottom-color': '#232a34 !important',
+  },
+  '[class*="summaryTabModal" i] .ag-row': { 'border-color': '#232a34 !important' },
+  '[class*="summaryTableHeaderText" i]': { color: '#c3cbd6 !important' },
+  // The grey pill beside the viz name and the history buttons both hardcode
+  // `--rd-sys-color-background-secondary-action` (#eaedf2) with !important.
+  [[
+    '[class*="change-analysis-modal-module__customChip" i]',
+    '[class*="historyControllerWrapper" i] button',
+  ].join(',')]: {
+    'background-color': '#1a212b !important',
+    color: `${DARK_INK} !important`,
+  },
+  '[class*="change-analysis-modal-module__selectedAttribute" i]': {
+    background: '#1a212b !important',
+    color: `${DARK_INK} !important`,
+  },
+  [[
+    '[class*="change-analysis-modal-module__attributeList" i]',
+    '[class*="change-analysis-modal-module__loadingSection" i]',
+  ].join(',')]: { 'border-color': '#232a34 !important' },
+  // "View details" / "Analyze further" links and the insight bullets ship in
+  // ThoughtSpot blue (#2770ef) — bring them onto the brand accent.
+  [[
+    '[class*="viewDetails" i]',
+    '[class*="analyzeFurtherText" i]',
+  ].join(',')]: { color: '#9aa5f0 !important' },
+  '[class*="additionalInsightSquare" i]': { 'background-color': '#9aa5f0 !important' },
+  '[class*="legendContainer__nonOutliersIndicator" i]': {
+    'background-color': '#232a34 !important',
+  },
+  // ---- Spotter "Show work" / thinking panel ------------------------------
+  // Two different components render here and they behave differently:
+  //
+  // 1. SpotterViz (the agent inside Liveboards) uses `tool-call-common-module__*`,
+  //    which IS variable-driven — see the `--ts-var-spotterviz-tool-*` values in
+  //    the theme above. Only its hardcoded slate bits need rules.
+  // 2. SpotterEmbed's chat steps use `collapsible-item-response-module__*`, which
+  //    exposes NO variables at all — it reads ThoughtSpot's design tokens
+  //    straight (`--rd-sys-color-background-base` #ffffff for the card,
+  //    `--rd-sys-color-background-on-base` #f6f8fa for the JSON boxes), so it
+  //    renders as a white panel inside the dark embed. Rules are the only hook.
+  '[class*="collapsible-item-response-module__collapsibleItemContainer" i]': {
+    'background-color': `${DARK_SURFACE} !important`,
+    'border-color': '#232a34 !important',
+  },
+  [[
+    '[class*="collapsible-item-response-module__jsonCodeBoxWrapper" i]',
+    '[class*="collapsible-item-response-module__inputCopyButton" i]',
+  ].join(',')]: {
+    'background-color': '#0b0d10 !important',
+    'border-color': '#232a34 !important',
+  },
+  [[
+    '[class*="collapsible-item-response-module__jsonCodeBox" i]',
+    '[class*="collapsible-item-response-module__jsonCodeBox" i] code',
+    '[class*="collapsible-item-response-module__jsonCodeBox" i] pre',
+  ].join(',')]: { color: '#9aa5f0 !important' },
+  [[
+    '[class*="collapsible-item-response-module__jsonCodeBoxHeader" i]',
+    '[class*="collapsible-item-response-module__sectionLabel" i]',
+  ].join(',')]: { color: '#93a0b4 !important' },
+  [[
+    '[class*="collapsible-item-response-module__header" i]',
+    '[class*="collapsible-item-response-module__title" i]',
+    '[class*="collapsible-item-response-module__expandButton" i]',
+    '[class*="collapsible-item-response-module__content" i]',
+    '[class*="collapsible-item-response-module__sectionContent" i]',
+    '[class*="collapsible-item-response-module__inputSection" i]',
+    '[class*="collapsible-item-response-module__outputSection" i]',
+  ].join(',')]: {
+    'background-color': 'transparent !important',
+    color: `${DARK_INK} !important`,
+  },
+  // The code card in Spotter answers has no variable either: it hardcodes
+  // `--rd-sys-color-background-sunken` (#f6f8fa). Two-class selectors to
+  // out-specify ThoughtSpot's own nested rules.
+  [[
+    '[class*="spotterCodeCardWrapper" i] [class*="codeBlockWrapper" i]',
+    '[class*="spotterCodeCardWrapper" i] [class*="codeBlockLines" i]',
+    '[class*="spotter-code-block-module__codeBlockWrapper" i]',
+  ].join(',')]: {
+    'background-color': '#0b0d10 !important',
+    'border-color': '#232a34 !important',
+  },
+  [[
+    '[class*="spotterCodeCardWrapper" i] [class*="codeBlock" i]',
+    '[class*="spotter-code-block-module__codeBlock" i]',
+  ].join(',')]: { color: `${DARK_INK} !important` },
+  [[
+    '[class*="spotterCodeCardWrapper" i] [class*="languageLabel" i]',
+    '[class*="spotter-code-block-module__codeBlockHeader" i]',
+  ].join(',')]: { color: '#93a0b4 !important' },
+  // SpotterViz card bits that hardcode slate rather than read a variable.
+  '[class*="tool-call-common-module__separator" i]': {
+    'background-color': '#232a34 !important',
+  },
+  [[
+    '[class*="tool-call-common-module__datasetName" i]',
+    '[class*="tool-call-common-module__action" i]',
+  ].join(',')]: { color: `${DARK_INK} !important` },
+  [[
+    '[class*="tool-call-common-module__confidence" i]',
+    '[class*="tool-call-common-module__vizId" i]',
+  ].join(',')]: { color: '#93a0b4 !important' },
 };
 
 /**
