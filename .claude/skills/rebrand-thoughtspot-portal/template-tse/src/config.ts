@@ -178,6 +178,13 @@ export const TS_CSS_VARIABLES: Record<string, string> = {
   '--ts-var-kpi-comparison-color': '#3a4a6b',
   '--ts-var-kpi-positive-change-color': '#1E8E5A',
   '--ts-var-kpi-negative-change-color': '#C84B3A',
+  // Spotter landing page "flashlight" — the shipped CSS paints a radial-gradient
+  // haze behind the greeting/composer via these two variables (quick search vs
+  // deep analysis). Set them to `none` so the landing page renders flat.
+  //   .spotter-landing-page-background-module__backgroundSearch  { background: var(--ts-var-spotter-landing-bg-quicksearch, radial-gradient(...)) }
+  //   .spotter-landing-page-background-module__backgroundResearch { background: var(--ts-var-spotter-landing-bg-deepanalysis, radial-gradient(...)) }
+  '--ts-var-spotter-landing-bg-quicksearch': 'none',
+  '--ts-var-spotter-landing-bg-deepanalysis': 'none',
 };
 
 export type ThemeName = 'light' | 'dark';
@@ -297,6 +304,13 @@ export const TS_VARS_DARK: Record<string, string> = {
   '--ts-var-sage-seed-questions-background': '#14181f',
   '--ts-var-sage-seed-questions-font-color': '#c3cbd6',
   '--ts-var-sage-seed-questions-hover-background': '#1a212b',
+  // Spotter landing page "flashlight" — the shipped CSS paints a radial-gradient
+  // haze behind the greeting/composer via these two variables (quick search vs
+  // deep analysis). Set them to `none` so the landing page renders flat.
+  //   .spotter-landing-page-background-module__backgroundSearch  { background: var(--ts-var-spotter-landing-bg-quicksearch, radial-gradient(...)) }
+  //   .spotter-landing-page-background-module__backgroundResearch { background: var(--ts-var-spotter-landing-bg-deepanalysis, radial-gradient(...)) }
+  '--ts-var-spotter-landing-bg-quicksearch': 'none',
+  '--ts-var-spotter-landing-bg-deepanalysis': 'none',
 };
 
 /** Return the CSS-variable set for the active theme. */
@@ -371,6 +385,55 @@ export const TS_RULES_DARK: Record<string, Record<string, string>> = {
     '[class*="spotiq" i]',
     '[class*="spotiq" i] *',
   ].join(',')]: { color: `${DARK_INK} !important` },
+  // ---- "AI Highlights" modal (Liveboard) ---------------------------------
+  // This modal ignores the theme almost entirely: the shipped CSS hardcodes a
+  // #f6f8fa list pane, #fff cards with #c0c6cf borders and a
+  // `color:#323946!important` on the category headings, while the card copy
+  // reads from `--ts-var-dialog-body-color` — near-white in the dark theme.
+  // Result: light-grey text on white cards. Repaint the panes/cards and
+  // recolor the two hardcoded text bits. Class names come from the cluster
+  // bundle (`liveboard-highlights-module__*`) and are version-fragile.
+  '[class*="liveboard-highlights-module__highlightsListWrapper" i]': {
+    'background-color': '#0f1319 !important',
+    'border-color': '#232a34 !important',
+  },
+  '[class*="liveboard-highlights-module__cardWrapper" i]': {
+    'background-color': `${DARK_SURFACE} !important`,
+    'border-color': '#232a34 !important',
+  },
+  '[class*="liveboard-highlights-module__cardWrapper" i]:hover': {
+    'border-color': '#7c88e6 !important',
+  },
+  '[class*="liveboard-highlights-module__cardActive" i]': {
+    'border-color': '#7c88e6 !important',
+    'box-shadow': '0 0 0 1px #7c88e6 !important',
+  },
+  // Card titles are a light-mode blue (#2770ef) and the section headings are
+  // pinned to #323946 !important — both illegible on a dark card.
+  [[
+    '[class*="liveboard-highlights-module__cardTitleWrapper" i]',
+    '[class*="liveboard-highlights-module__cardTitleWrapper" i] *',
+    '[class*="liveboard-highlights-module__categoryTitle" i]',
+  ].join(',')]: { color: '#9aa5f0 !important' },
+  // Detail pane + the "Is this useful?" strip under it.
+  [[
+    '[class*="liveboard-highlights-module__highlightDetailsWrapper" i]',
+    '[class*="liveboard-highlights-module__highlightFeedback" i]',
+    '[class*="liveboard-highlights-module__aiAnswerFooterExpanded" i]',
+  ].join(',')]: {
+    'background-color': `${DARK_SURFACE} !important`,
+    'border-color': '#232a34 !important',
+    color: `${DARK_INK} !important`,
+  },
+  // Scrollbars in both panes are painted for a white background.
+  [[
+    '[class*="liveboard-highlights-module__highlightsListWrapper" i]::-webkit-scrollbar-track',
+    '[class*="liveboard-highlights-module__highlightDetailContent" i]::-webkit-scrollbar-track',
+  ].join(',')]: { 'background-color': '#0f1319 !important' },
+  [[
+    '[class*="liveboard-highlights-module__highlightsListWrapper" i]::-webkit-scrollbar-thumb',
+    '[class*="liveboard-highlights-module__highlightDetailContent" i]::-webkit-scrollbar-thumb',
+  ].join(',')]: { 'background-color': '#232a34 !important' },
 };
 
 /**
@@ -435,7 +498,7 @@ export const Northwind_EMBED_RULES: Record<string, Record<string, string>> = {
   // Only brand the AI / Spotter header button (an off-brand green pill on some
   // clusters) with a SOLID color. To opt into brand gradients on KPIs/titles,
   // add background linear-gradient rules here (buttons must stay solid).
-  '[class*="aiHighlight" i], [class*="ai-highlight" i], [class*="AIHighlights" i], [data-testid*="AIHighlight" i], [class*="spotterLaunch" i], [class*="spotter-button" i], [class*="spotter" i][class*="btn" i], [class*="spotter" i][class*="button" i], [class*="spotter" i][class*="pill" i], [class*="spotter" i][class*="nudge" i], [class*="sage-button" i], [class*="sage" i][class*="btn" i], [class*="sage" i][class*="button" i], [class*="sage" i][class*="pill" i], [class*="askSage" i], [class*="ask-sage" i], [class*="nudge" i]':
+  '[class*="aiHighlight" i], [class*="ai-highlight" i], [class*="AIHighlights" i], [data-testid*="AIHighlight" i], [class*="spotterLaunch" i], [class*="spotter-button" i], [class*="spotter" i][class*="btn" i]:not([class*="spotterButtonStyles" i]), [class*="spotter" i][class*="button" i]:not([class*="spotterButtonStyles" i]), [class*="spotter" i][class*="pill" i], [class*="spotter" i][class*="nudge" i], [class*="sage-button" i], [class*="sage" i][class*="btn" i], [class*="sage" i][class*="button" i], [class*="sage" i][class*="pill" i], [class*="askSage" i], [class*="ask-sage" i], [class*="nudge" i]':
     {
       background: '#4F5BD5 !important',
       'background-image': 'none !important',
@@ -469,6 +532,55 @@ export const Northwind_UPGRADE_URL = CONTENT.website + '/pricing';
  * via rules_UNSTABLE. Class names are version-fragile; verify via Inspect if a
  * release renames them.
  */
+/**
+ * Spotter answer-action buttons — Pin / Save / Edit / Add to memory.
+ *
+ * These are NOT primary buttons, despite what the CSS-variables reference
+ * implies. In the shipped stylesheet they are tertiary-styled: transparent
+ * background, label + icon coloured from `--ts-var-button--tertiary-color`,
+ * e.g.
+ *   .conv-assist-answer-module__caAnswerAction.conv-assist-answer-module__spotterButtonStyles p
+ *   .conv-assist-edit-button-module__editActionsButton.conv-assist-edit-button-module__spotterButtonStyles
+ *
+ * They turn brand-coloured because ThoughtSpot's CSS modules name these classes
+ * `…spotterButtonStyles`, so the branding rule's
+ * `[class*="spotter"][class*="button"]` selector matches them and fills them
+ * `!important` — which no CSS variable can beat. `spotterCustomizations` drops
+ * that rule inside the Spotter embeds; these rules then clear the dark surface
+ * fill that TS_RULES_DARK puts on anything matching `[class*="answer"]`, so the
+ * actions sit flat next to Download and the "…" menu.
+ */
+const TRANSPARENT = {
+  background: 'transparent !important',
+  'background-color': 'transparent !important',
+  'border-color': 'transparent !important',
+  'box-shadow': 'none !important',
+};
+export const SPOTTER_ANSWER_ACTION_RULES: Record<string, Record<string, string>> = {
+  [[
+    '[class*="spotterButtonStyles" i]',
+    '[class*="caAnswerAction" i]',
+    '[class*="convAssistPinnerContainer" i]',
+    '[class*="editActionsButton" i]',
+    '[class*="spotterButtonStyles" i] button',
+    '[class*="caAnswerAction" i] button',
+  ].join(',')]: TRANSPARENT,
+};
+
+/**
+ * Spotter landing page — kill the radial "flashlight" wrapper outright, in
+ * addition to blanking the two `--ts-var-spotter-landing-bg-*` variables, so
+ * the greeting + composer sit on a flat background.
+ *   .spotter-landing-page-background-module__backgroundWrapper
+ */
+export const SPOTTER_LANDING_FLAT_RULES: Record<string, Record<string, string>> = {
+  '[class*="spotter-landing-page-background" i]': {
+    background: 'none !important',
+    'background-image': 'none !important',
+    opacity: '0 !important',
+  },
+};
+
 const HIDE = { display: 'none !important' };
 export const HIDE_SPOTTER_INPUT_RULES: Record<string, Record<string, string>> = {
   '[class*="composer" i]': HIDE,

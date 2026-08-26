@@ -16,7 +16,7 @@ import {
   CORRIDOR_COLUMN_CANDIDATES,
   DATE_COLUMN,
 } from '../config';
-import { liveboardCustomizations, tsCustomizations } from '../lib/thoughtspot';
+import { liveboardCustomizations, spotterCustomizations, tsCustomizations } from '../lib/thoughtspot';
 import { useTheme } from '../context/ThemeContext';
 import { CONTENT } from '../content';
 import { FLAGS } from '../flags';
@@ -272,7 +272,7 @@ export default function Analytics() {
                   hiddenActions={[Action.Pin]}
                   onData={onSpotterData}
                   frameParams={{ width: '100%', height: '100%' }}
-                  customizations={tsCustomizations(theme, true)}
+                  customizations={spotterCustomizations(theme)}
                   {...SPOTTER_EMBED_FLAGS}
                 />
               )}

@@ -21,7 +21,7 @@ import {
   Northwind_VIDEO_URL,
   HIDE_SPOTTER_INPUT_RULES,
 } from '../config';
-import { tsCustomizations } from '../lib/thoughtspot';
+import { spotterCustomizations } from '../lib/thoughtspot';
 import { CONTENT } from '../content';
 import { FLAGS } from '../flags';
 import { routeMessage, ChatTurn, DocLink, RouteResult } from '../lib/chatbot';
@@ -209,7 +209,7 @@ export default function AskNorthwind() {
               hideSampleQuestions
               onData={onData}
               frameParams={{ width: '100%', height: '100%' }}
-              customizations={tsCustomizations(theme, true, HIDE_SPOTTER_INPUT_RULES)}
+              customizations={spotterCustomizations(theme, HIDE_SPOTTER_INPUT_RULES)}
               {...SPOTTER_EMBED_FLAGS}
             />
           </div>

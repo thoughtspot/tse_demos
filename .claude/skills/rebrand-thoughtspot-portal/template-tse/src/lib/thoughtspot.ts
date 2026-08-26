@@ -18,6 +18,8 @@ import {
   HIDE_FILTER_PILL_RULES,
   TS_RULES_DARK,
   Northwind_EMBED_RULES,
+  SPOTTER_ANSWER_ACTION_RULES,
+  SPOTTER_LANDING_FLAT_RULES,
   tsVarsFor,
   ThemeName,
 } from '../config';
@@ -84,6 +86,42 @@ export function tsCustomizations(
     ...(withStringReplacements
       ? { content: { strings: TS_STRINGS, stringIDs: TS_STRING_IDS } }
       : {}),
+  };
+}
+
+/**
+ * Customizations for the Spotter embeds (Spotter tab, Ask <brand>, and the
+ * Spotter panel on Analytics).
+ *
+ * Same theme as every other embed, minus Northwind_EMBED_RULES: that rule
+ * paints `[class*="spotter"][class*="button"]` with the brand fill to brand the
+ * Spotter *launch* pill in Liveboard/Answer embeds — which never renders inside
+ * the Spotter embed itself. ThoughtSpot's own CSS modules name the answer
+ * actions `…spotterButtonStyles`, so the selector was matching Pin / Save /
+ * Edit / Add to memory and overriding every CSS variable with !important.
+ * SPOTTER_ANSWER_ACTION_RULES then flattens their background so they read like
+ * the neighbouring Download and "…" actions, and SPOTTER_LANDING_FLAT_RULES
+ * kills the radial glow behind the landing composer.
+ */
+export function spotterCustomizations(
+  theme: ThemeName,
+  extraRules?: Record<string, Record<string, string>>,
+) {
+  return {
+    style: {
+      customCSSUrl: TS_FONT_URL,
+      customCSS: {
+        variables: tsVarsFor(theme),
+        rules_UNSTABLE: {
+          ...(theme === 'dark' ? TS_RULES_DARK : {}),
+          ...SPOTTER_ANSWER_ACTION_RULES,
+          ...SPOTTER_LANDING_FLAT_RULES,
+          ...(extraRules ?? {}),
+        },
+      },
+    },
+    iconSpriteUrl: TS_ICON_SPRITE_URL,
+    content: { strings: TS_STRINGS, stringIDs: TS_STRING_IDS },
   };
 }
 
