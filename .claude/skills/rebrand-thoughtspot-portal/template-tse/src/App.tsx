@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { useAuth } from './context/AuthContext';
+import { useTier } from './context/TierContext';
 import Login from './pages/Login';
-import TopBar, { TabId } from './components/TopBar';
+import TopBar, { TabId, PREMIUM_ONLY_TABS } from './components/TopBar';
 import ChatBot from './components/ChatBot';
 import MyAnalytics from './tabs/MyAnalytics';
 import Analytics from './tabs/Analytics';
@@ -22,6 +23,7 @@ const TAB_KEY = 'northwind.tab';
 
 export default function App() {
   const { isAuthenticated } = useAuth();
+  const { tier } = useTier();
   const [tab, setTab] = useState<TabId>(
     () => (sessionStorage.getItem(TAB_KEY) as TabId) || 'analytics',
   );
@@ -35,6 +37,15 @@ export default function App() {
     }
   };
 
+  // Ask / Spotter are Premium-only. Downgrading to Basic while one of them is
+  // open leaves the app on a tab no longer in the nav, so bounce to Analytics.
+  useEffect(() => {
+    if (tier === 'basic' && PREMIUM_ONLY_TABS.includes(tab)) {
+      changeTab('analytics');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tier, tab]);
+
   if (!isAuthenticated) {
     return <Login />;
   }
@@ -47,8 +58,8 @@ export default function App() {
         {tab === 'analytics' && <Analytics />}
         {tab === 'carriers' && <Carriers />}
         {tab === 'capacity' && <Capacity />}
-        {tab === 'ask' && <AskNorthwind />}
-        {tab === 'spotter' && <SpotterTab />}
+        {tab === 'ask' && tier === 'premium' && <AskNorthwind />}
+        {tab === 'spotter' && tier === 'premium' && <SpotterTab />}
       </main>
       <ChatBot
         worksheetId={tab === 'carriers' ? CADENCE_WORKSHEET_ID : WORKSHEET_ID}

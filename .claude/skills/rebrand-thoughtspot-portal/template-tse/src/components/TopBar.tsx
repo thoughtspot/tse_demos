@@ -31,6 +31,11 @@ const TABS: { id: TabId; label: string; icon: typeof BarChart3 }[] = [
   { id: 'spotter', label: CONTENT.tabs.spotter, icon: Bot },
 ];
 
+// Tabs that only exist on Premium. On Basic they are hidden from the nav
+// entirely (App also bounces the user off one if the tier is switched while it
+// is open), rather than being shown and gated on click.
+export const PREMIUM_ONLY_TABS: TabId[] = ['ask', 'spotter'];
+
 // Decorative Northwind platform nav (sets product context, non-interactive).
 // Cap the auto-generated platform links at 2 so the top bar never gets crowded,
 // no matter how many the spec lists.
@@ -77,7 +82,7 @@ export default function TopBar({ active, onChange }: Props) {
       </div>
 
       <nav className="topbar-tabs">
-        {TABS.map((tab) => {
+        {TABS.filter((t) => tier === 'premium' || !PREMIUM_ONLY_TABS.includes(t.id)).map((tab) => {
           const Icon = tab.icon;
           return (
             <button
