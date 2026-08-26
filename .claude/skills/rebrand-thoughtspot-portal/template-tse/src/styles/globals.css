@@ -2647,6 +2647,67 @@ button {
 .sl-trial-fine { margin: 16px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--sl-muted); text-align: center; }
 @media (prefers-reduced-motion: reduce) { .sl-trial-modal { animation: none; } }
 
+/* ---- PLG checkout step (query pack + scheduler) — theme-aware via tokens ---- */
+.plg-back {
+  display: inline-flex; align-items: center; gap: 6px; margin: 0 0 14px;
+  background: none; border: 0; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600;
+  color: var(--sl-muted); padding: 0;
+}
+.plg-back:hover { color: var(--sl-ink); }
+.plg-offer {
+  background: var(--sl-mint); border: 1px solid var(--sl-border); border-radius: 14px;
+  padding: 15px 16px; margin-bottom: 16px;
+}
+.plg-offer-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.plg-offer-name { font-weight: 700; font-size: 15px; color: var(--sl-ink); }
+.plg-offer-price { font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: var(--sl-green); }
+.plg-offer-sub { margin: 5px 0 0; font-size: 12px; color: var(--sl-muted); }
+.plg-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.plg-btn {
+  border: 0; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; border-radius: 12px;
+  padding: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: filter 0.15s ease;
+}
+.plg-btn.sec { background: var(--sl-mint); color: var(--sl-ink); border: 1px solid var(--sl-border); }
+.plg-btn.pri { background: var(--sl-green); color: #fff; box-shadow: 0 8px 20px rgba(var(--sl-primary-rgb), 0.35); }
+.plg-btn.pri:hover:not(:disabled) { filter: brightness(1.06); }
+.plg-btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+.plg-sched { border-top: 1px solid var(--sl-border); padding-top: 16px; }
+.plg-sched-head { text-align: center; margin-bottom: 12px; }
+.plg-cal-ic {
+  width: 34px; height: 38px; margin: 0 auto 8px; border-radius: 7px; background: #fff;
+  position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.25); overflow: hidden;
+}
+.plg-cal-ic .cal-top { position: absolute; top: 0; left: 0; right: 0; height: 9px; background: #e11d48; }
+.plg-cal-ic .cal-day {
+  position: absolute; top: 9px; left: 0; right: 0; bottom: 0; display: grid; place-items: center;
+  font-weight: 800; font-size: 15px; color: #1c1533;
+}
+.plg-sched-title { font-weight: 700; font-size: 15px; color: var(--sl-ink); }
+.plg-sched-meta { font-size: 12px; color: var(--sl-muted); margin-top: 2px; }
+.plg-month { display: flex; align-items: center; justify-content: space-between; margin: 4px 2px 8px; font-size: 13px; font-weight: 600; color: var(--sl-ink); }
+.plg-nav { background: none; border: 0; cursor: pointer; color: var(--sl-muted); padding: 2px 8px; display: inline-flex; }
+.plg-nav:hover { color: var(--sl-ink); }
+.plg-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.plg-dow { text-align: center; font-size: 10.5px; color: var(--sl-muted); padding: 4px 0; letter-spacing: 0.04em; }
+.plg-cell {
+  aspect-ratio: 1; display: grid; place-items: center; font: inherit; font-size: 12.5px;
+  border: 0; background: none; border-radius: 9px; color: var(--sl-ink);
+  font-variant-numeric: tabular-nums;
+}
+.plg-cell.dim { color: var(--sl-muted); opacity: 0.4; }
+.plg-cell.avail { color: var(--sl-ink); border: 1px solid rgba(var(--sl-primary-rgb), 0.4); cursor: pointer; }
+.plg-cell.avail:hover { background: var(--sl-mint); }
+.plg-cell.sel { background: var(--sl-green); color: #fff; font-weight: 700; }
+.plg-slots-head { margin: 14px 2px 8px; font-size: 12.5px; font-weight: 600; color: var(--sl-ink); }
+.plg-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.plg-slot {
+  border: 1px solid var(--sl-border); background: transparent; border-radius: 9px; padding: 9px 6px;
+  text-align: center; font: inherit; font-size: 12px; color: var(--sl-ink); cursor: pointer;
+}
+.plg-slot:hover { background: var(--sl-mint); }
+.plg-slot.on { border-color: var(--sl-green); box-shadow: inset 0 0 0 1px var(--sl-green); }
+
 /* ===================================================================
    Northwind brand — soft pastel background wash + blue↔green gradient
    (reflects northwind.com: periwinkle → blue → mint hues, gradient accents)
