@@ -1,13 +1,22 @@
 // ---------------------------------------------------------------------------
-// Turns a ThoughtSpot CustomAction payload (fired from the Signals answer's
-// context menu) into a structured context for the Win-Back modal.
+// Turns a ThoughtSpot CustomAction payload (fired from a viz context menu) into
+// a structured context for the custom-action modal.
 //
-// Context-menu payload shape (from the SDK):
-//   payload.data.clickedPoint = {
-//     selectedAttributes: [{ column: { name }, value }],
-//     selectedMeasures:   [{ column: { name }, value }],
-//   }
-//   payload.data.selectedPoints = [ ...same shape ]
+// Context-menu payload (CustomActionPayload):
+//   payload.data.contextMenuPoints = { clickedPoint: VizPoint, selectedPoints: VizPoint[] }
+//   payload.data.embedAnswerData   = { columns: [{ column: { id, name } }],
+//                                      data: [{ columnDataLite: [{ columnId, dataValue: [] }] }] }
+//
+// A VizPoint only describes the CELL that was right-clicked — and it splits
+// values across four arrays (selected/deselectedAttributes,
+// selected/deselectedMeasures; a right-clicked measure commonly arrives under
+// `deselectedMeasures`). So right-clicking an attribute cell yields that value
+// but no measures, and right-clicking a measure cell yields the number but no attributes.
+//
+// To get the full row we use the point only to LOCATE the row: `columnDataLite`
+// carries every column's full value array, so we match the clicked cell's value
+// back to its row index and then read every column at that index.
+//   Payload reference: https://developers.thoughtspot.com/docs/custom-action-payload
 // ---------------------------------------------------------------------------
 
 export interface SignalField {
@@ -41,36 +50,115 @@ function fmt(v: unknown): string {
   return String(v);
 }
 
-function fieldsFromPoint(point: any): SignalField[] {
-  if (!point) return [];
-  const out: SignalField[] = [];
-  const collect = (arr: any[] | undefined) =>
-    (arr ?? []).forEach((it) => {
+interface AnswerTable {
+  columns: { id?: string; name: string }[];
+  /** values[columnIndex][rowIndex] — every row the viz returned. */
+  values: unknown[][];
+  rowCount: number;
+}
+
+/** Flatten `embedAnswerData` into columns + full column-value arrays. */
+function answerTable(data: any): AnswerTable | null {
+  const ead = data?.embedAnswerData ?? data;
+  const cols: any[] | undefined = ead?.columns;
+  const raw = ead?.data;
+  const cdl: any[] | undefined = Array.isArray(raw)
+    ? raw[0]?.columnDataLite
+    : raw?.columnDataLite ?? ead?.columnDataLite ?? data?.data?.columnDataLite;
+  if (!Array.isArray(cols) || !Array.isArray(cdl)) return null;
+
+  const byId = new Map<string, unknown[]>();
+  cdl.forEach((c: any) => {
+    if (c?.columnId) byId.set(String(c.columnId), c?.dataValue ?? []);
+  });
+
+  const columns = cols.map((c: any) => ({
+    id: c?.column?.id ?? c?.id,
+    name: String(
+      c?.column?.name ?? c?.name ?? c?.referencedColumns?.[0]?.displayName ?? '',
+    ),
+  }));
+  // Prefer matching by columnId; fall back to positional order.
+  const values = columns.map(
+    (c, i) => (c.id && byId.has(String(c.id)) ? byId.get(String(c.id))! : cdl[i]?.dataValue ?? []),
+  );
+  const rowCount = values.reduce((n, v) => Math.max(n, v.length), 0);
+  return { columns, values, rowCount };
+}
+
+interface PointCell {
+  id?: string;
+  name?: string;
+  value: unknown;
+}
+
+/**
+ * Every cell the point describes. All four arrays are read: a right-clicked
+ * measure often lands in `deselectedMeasures`, which the old parser dropped.
+ */
+function pointCells(point: any): PointCell[] {
+  const out: PointCell[] = [];
+  const keys = [
+    'selectedAttributes',
+    'selectedMeasures',
+    'deselectedAttributes',
+    'deselectedMeasures',
+  ];
+  keys.forEach((k) =>
+    (point?.[k] ?? []).forEach((it: any) => {
       const name = it?.column?.name ?? it?.columnName ?? it?.column?.column_name;
-      if (name != null) out.push({ name: String(name), value: fmt(it?.value) });
-    });
-  collect(point.selectedAttributes);
-  collect(point.selectedMeasures);
+      out.push({
+        id: it?.column?.id,
+        name: name != null ? String(name) : undefined,
+        value: it?.value,
+      });
+    }),
+  );
   return out;
 }
 
-// Fallback: pull row-0 values from the answer data (columns + columnDataLite).
-function fieldsFromAnswerData(data: any): SignalField[] {
-  const ead = data?.embedAnswerData;
-  const cols: any[] | undefined = ead?.columns;
-  const cdl: any[] | undefined =
-    data?.data?.columnDataLite ??
-    ead?.data?.[0]?.columnDataLite ??
-    ead?.columnDataLite;
-  if (!Array.isArray(cols) || !Array.isArray(cdl)) return [];
-  return cols
-    .map((c, i) => {
-      const name =
-        c?.column?.name ?? c?.name ?? c?.referencedColumns?.[0]?.displayName;
-      const value = cdl[i]?.dataValue?.[0];
-      return name != null ? { name: String(name), value: fmt(value) } : null;
+/** Locate the clicked row: the row satisfying the most clicked-cell values. */
+function rowIndexFor(table: AnswerTable, cells: PointCell[]): number {
+  const constraints = cells
+    .map((cell) => {
+      const idx = table.columns.findIndex(
+        (c) =>
+          (cell.id != null && c.id != null && String(c.id) === String(cell.id)) ||
+          (cell.name != null && c.name === cell.name),
+      );
+      return idx < 0 ? null : { idx, value: fmt(cell.value) };
     })
+    .filter((c): c is { idx: number; value: string } => c != null);
+  if (!constraints.length) return -1;
+
+  let best = -1;
+  let bestScore = 0;
+  for (let row = 0; row < table.rowCount; row++) {
+    let score = 0;
+    for (const c of constraints) {
+      if (fmt(table.values[c.idx]?.[row]) === c.value) score++;
+    }
+    if (score > bestScore) {
+      best = row;
+      bestScore = score;
+      if (score === constraints.length) break; // exact match on every clicked cell
+    }
+  }
+  return best;
+}
+
+/** Every column's value at one row — the full record behind the clicked cell. */
+function fieldsFromRow(table: AnswerTable, row: number): SignalField[] {
+  return table.columns
+    .map((c, i) => (c.name ? { name: c.name, value: fmt(table.values[i]?.[row]) } : null))
     .filter((x): x is SignalField => x != null);
+}
+
+/** Last resort: whatever the point itself carried. */
+function fieldsFromPoint(point: any): SignalField[] {
+  return pointCells(point)
+    .filter((c) => c.name != null)
+    .map((c) => ({ name: String(c.name), value: fmt(c.value) }));
 }
 
 function findValue(fields: SignalField[], re: RegExp, exclude?: RegExp): string | undefined {
@@ -134,7 +222,7 @@ function deriveContacts(fields: SignalField[], account: string | undefined): Con
 }
 
 export function buildSignalContext(data: any): SignalContext {
-  // Context-menu actions deliver the clicked row under `contextMenuPoints`;
+  // Context-menu actions deliver the clicked cell under `contextMenuPoints`;
   // some events use top-level clickedPoint/selectedPoints instead.
   const cmp = data?.contextMenuPoints;
   const point =
@@ -143,8 +231,19 @@ export function buildSignalContext(data: any): SignalContext {
     cmp?.selectedPoints?.[0] ??
     data?.selectedPoints?.[0];
 
-  let fields = fieldsFromPoint(point);
-  if (!fields.length) fields = fieldsFromAnswerData(data);
+  // The point names the CELL; the answer data holds the whole row. Resolve the
+  // row so the modal gets every column no matter which cell was right-clicked.
+  const table = answerTable(data);
+  const cells = pointCells(point);
+  let fields: SignalField[] = [];
+  if (table) {
+    const row = rowIndexFor(table, cells);
+    if (row >= 0) fields = fieldsFromRow(table, row);
+    else if (table.rowCount === 1) fields = fieldsFromRow(table, 0);
+  }
+  // Fall back to the point's own cells, then to the first row of the answer.
+  if (!fields.length) fields = fieldsFromPoint(point);
+  if (!fields.length && table && table.rowCount) fields = fieldsFromRow(table, 0);
 
   const cadence = findValue(fields, /cadence/i);
   const account =
