@@ -221,7 +221,7 @@
     "aiName": "InTime AI",
     "website": "https://www.intime.com",
     "loginTitleHtml": "Scheduling built for<br />public safety.",
-    "loginSubtitle": "Your command center for police, fire, corrections and dispatch \u2014 schedules, overtime and coverage, with AI-powered answers on live data. Built on InTime, powered by ThoughtSpot.",
+    "loginSubtitle": "Your command center for police, fire, corrections and dispatch \u2014 schedules, overtime and coverage, with AI-powered answers on live data.",
     "loginStats": [
       {
         "value": "24/7",
@@ -236,8 +236,8 @@
         "label": "Overtime Intel"
       }
     ],
-    "loginCardSubtitle": "Sign in with your ThoughtSpot credentials",
-    "loginDemoNoteHtml": "<strong>Sign in</strong> with your ThoughtSpot username &amp; password for <code>{host}</code>. This origin must be CORS-allowlisted on that cluster for the embeds to load.",
+    "loginCardSubtitle": "Sign in with your credentials",
+    "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
     "platformNav": [
       "Police",
       "Fire"
