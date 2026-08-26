@@ -22,16 +22,15 @@ export const CONTENT = {
   // loginTitleHtml may contain a single <br /> for the line break.
   loginTitleHtml: 'Where freight<br />meets finance.',
   loginSubtitle:
-    'Your brokerage command center — carrier capacity, freight corridors, and loads-on-time, with AI-powered answers on live data. Built on Northwind, powered by ThoughtSpot.',
+    'Your brokerage command center — carrier capacity, freight corridors, and loads-on-time, with AI-powered answers on live data.',
   loginStats: [
     { value: '1.4M+', label: 'Loads Analyzed' },
     { value: '98%', label: 'On-Time Visibility' },
     { value: 'Real-time', label: 'Capacity Intel' },
   ] as LoginStat[],
   loginCardSubtitle: 'Enter any username and password to continue',
-  // {host} is substituted with THOUGHTSPOT_HOST's bare hostname at render time.
   loginDemoNoteHtml:
-    "<strong>Sign in</strong> with your ThoughtSpot username &amp; password for <code>{host}</code>. This origin must be CORS-allowlisted on that cluster for the embeds to load.",
+    '<strong>Sign in</strong> with your username &amp; password to continue.',
 
   // ---- decorative platform nav (product-context words, non-interactive) ---
   platformNav: ['Broker', 'Shipper'], // max 2 render (see TopBar)

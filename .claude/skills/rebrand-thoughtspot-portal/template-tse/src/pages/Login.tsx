@@ -114,11 +114,6 @@ export default function Login() {
               {isLoading ? <span className="login-spinner" /> : 'Sign In'}
             </button>
           </form>
-
-          <div className="login-footer">
-            <span>Powered by</span>
-            <span className="login-ts-badge">ThoughtSpot</span>
-          </div>
         </div>
       </div>
     </div>
