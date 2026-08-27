@@ -425,6 +425,73 @@ export const TS_RULES_DARK: Record<string, Record<string, string>> = {
     '[class*="liveboard-highlights-module__highlightsListWrapper" i]::-webkit-scrollbar-thumb',
     '[class*="liveboard-highlights-module__highlightDetailContent" i]::-webkit-scrollbar-thumb',
   ].join(',')]: { 'background-color': '#1e4034 !important' },
+  // ---- Spotter "Show work" / thinking panel ------------------------------
+  // SpotterEmbed's chat steps use `collapsible-item-response-module__*`, which
+  // exposes NO variables — it reads ThoughtSpot's design tokens straight (white
+  // card, #f6f8fa JSON boxes), so it renders as a white panel inside the dark
+  // embed. Rules are the only hook (plus a few hardcoded SpotterViz slate bits).
+  '[class*="collapsible-item-response-module__collapsibleItemContainer" i]': {
+    'background-color': `${DARK_SURFACE} !important`,
+    'border-color': '#1e4034 !important',
+  },
+  [[
+    '[class*="collapsible-item-response-module__jsonCodeBoxWrapper" i]',
+    '[class*="collapsible-item-response-module__inputCopyButton" i]',
+  ].join(',')]: {
+    'background-color': '#071410 !important',
+    'border-color': '#1e4034 !important',
+  },
+  [[
+    '[class*="collapsible-item-response-module__jsonCodeBox" i]',
+    '[class*="collapsible-item-response-module__jsonCodeBox" i] code',
+    '[class*="collapsible-item-response-module__jsonCodeBox" i] pre',
+  ].join(',')]: { color: '#6fd0a8 !important' },
+  [[
+    '[class*="collapsible-item-response-module__jsonCodeBoxHeader" i]',
+    '[class*="collapsible-item-response-module__sectionLabel" i]',
+  ].join(',')]: { color: '#93a89f !important' },
+  [[
+    '[class*="collapsible-item-response-module__header" i]',
+    '[class*="collapsible-item-response-module__title" i]',
+    '[class*="collapsible-item-response-module__expandButton" i]',
+    '[class*="collapsible-item-response-module__content" i]',
+    '[class*="collapsible-item-response-module__sectionContent" i]',
+    '[class*="collapsible-item-response-module__inputSection" i]',
+    '[class*="collapsible-item-response-module__outputSection" i]',
+  ].join(',')]: {
+    'background-color': 'transparent !important',
+    color: `${DARK_INK} !important`,
+  },
+  // Spotter answer code card — hardcodes #f6f8fa; two-class selectors to
+  // out-specify ThoughtSpot's nested rules.
+  [[
+    '[class*="spotterCodeCardWrapper" i] [class*="codeBlockWrapper" i]',
+    '[class*="spotterCodeCardWrapper" i] [class*="codeBlockLines" i]',
+    '[class*="spotter-code-block-module__codeBlockWrapper" i]',
+  ].join(',')]: {
+    'background-color': '#071410 !important',
+    'border-color': '#1e4034 !important',
+  },
+  [[
+    '[class*="spotterCodeCardWrapper" i] [class*="codeBlock" i]',
+    '[class*="spotter-code-block-module__codeBlock" i]',
+  ].join(',')]: { color: `${DARK_INK} !important` },
+  [[
+    '[class*="spotterCodeCardWrapper" i] [class*="languageLabel" i]',
+    '[class*="spotter-code-block-module__codeBlockHeader" i]',
+  ].join(',')]: { color: '#93a89f !important' },
+  // SpotterViz card bits that hardcode slate rather than read a variable.
+  '[class*="tool-call-common-module__separator" i]': {
+    'background-color': '#1e4034 !important',
+  },
+  [[
+    '[class*="tool-call-common-module__datasetName" i]',
+    '[class*="tool-call-common-module__action" i]',
+  ].join(',')]: { color: `${DARK_INK} !important` },
+  [[
+    '[class*="tool-call-common-module__confidence" i]',
+    '[class*="tool-call-common-module__vizId" i]',
+  ].join(',')]: { color: '#93a89f !important' },
 };
 
 /**
