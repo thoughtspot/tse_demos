@@ -158,6 +158,26 @@ export const TS_CSS_VARIABLES: Record<string, string> = {
   '--ts-var-kpi-comparison-color': '#1D5A59',
   '--ts-var-kpi-positive-change-color': '#1E8E5A',
   '--ts-var-kpi-negative-change-color': '#C84B3A',
+  // Spotter landing "flashlight" radials off, + change-analysis modal and the
+  // Spotter "Show work" tool cards (ThoughtSpot ships dark-slate defaults for
+  // these even in light mode). Neutral light-green surfaces.
+  '--ts-var-spotter-landing-bg-quicksearch': 'none',
+  '--ts-var-spotter-landing-bg-deepanalysis': 'none',
+  '--ts-var-cca-modal-summary-header-background': '#f2f7f5',
+  '--ts-var-change-analysis-insights-background': '#eaf3ee',
+  '--ts-var-spotterviz-tool-call-background': '#f2f7f5',
+  '--ts-var-spotterviz-tool-border-color': '#dae7e1',
+  '--ts-var-spotterviz-tool-title-color': '#073B3A',
+  '--ts-var-spotterviz-tool-json-input-background': '#eaf3ee',
+  '--ts-var-spotterviz-tool-json-input-color': '#2f5d50',
+  '--ts-var-spotterviz-text-primary': '#073B3A',
+  '--ts-var-spotterviz-text-secondary': '#5a6a63',
+  '--ts-var-spotterviz-message-background': '#ffffff',
+  '--ts-var-spotterviz-panel-background': '#fbfdfc',
+  '--ts-var-spotterviz-thinking-inprogress-header-color': '#0f9a63',
+  '--ts-var-spotterviz-thinking-completed-header-color': '#5a6a63',
+  '--ts-var-spotterviz-tool-feedback-button-background': '#eaf3ee',
+  '--ts-var-spotterviz-tool-feedback-button-hover': '#dae7e1',
 };
 
 export type ThemeName = 'light' | 'dark';
@@ -277,6 +297,25 @@ export const TS_VARS_DARK: Record<string, string> = {
   '--ts-var-sage-seed-questions-background': '#102a23',
   '--ts-var-sage-seed-questions-font-color': '#c2d3cb',
   '--ts-var-sage-seed-questions-hover-background': '#183a30',
+  // Spotter landing "flashlight" radials off, + change-analysis modal and the
+  // Spotter "Show work" tool cards, remapped to the evergreen dark palette.
+  '--ts-var-spotter-landing-bg-quicksearch': 'none',
+  '--ts-var-spotter-landing-bg-deepanalysis': 'none',
+  '--ts-var-cca-modal-summary-header-background': '#0a1a15',
+  '--ts-var-change-analysis-insights-background': '#102a23',
+  '--ts-var-spotterviz-tool-call-background': '#102a23',
+  '--ts-var-spotterviz-tool-border-color': '#1e4034',
+  '--ts-var-spotterviz-tool-title-color': '#e8f0ec',
+  '--ts-var-spotterviz-tool-json-input-background': '#071410',
+  '--ts-var-spotterviz-tool-json-input-color': '#6fd0a8',
+  '--ts-var-spotterviz-text-primary': '#e8f0ec',
+  '--ts-var-spotterviz-text-secondary': '#93a89f',
+  '--ts-var-spotterviz-message-background': '#102a23',
+  '--ts-var-spotterviz-panel-background': '#0a1a15',
+  '--ts-var-spotterviz-thinking-inprogress-header-color': '#4fd1a1',
+  '--ts-var-spotterviz-thinking-completed-header-color': '#93a89f',
+  '--ts-var-spotterviz-tool-feedback-button-background': '#143028',
+  '--ts-var-spotterviz-tool-feedback-button-hover': '#1e4034',
 };
 
 /** Return the CSS-variable set for the active theme. */
