@@ -11,33 +11,13 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Auth state lives only in memory, so a page reload would drop it and bounce the
-// user back to Login. Persist it to sessionStorage (survives reload, cleared when
-// the tab closes) so a refresh keeps the user signed in on their current tab.
-const STORAGE_KEY = 'salesspot.auth';
-
-interface StoredAuth {
-  username: string;
-  password: string;
-}
-
-function readStoredAuth(): StoredAuth | null {
-  try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as StoredAuth) : null;
-  } catch {
-    return null;
-  }
-}
-
+// Credentials are kept in memory ONLY — we deliberately do not persist the
+// password (no sessionStorage), so nothing sensitive is written to the browser.
+// Trade-off: a page reload returns to the login screen (re-auth required).
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const stored = readStoredAuth();
-  const [isAuthenticated, setIsAuthenticated] = useState(!!stored);
-  const [username, setUsername] = useState(stored?.username ?? '');
-  const [password, setPassword] = useState(stored?.password ?? '');
-
-  // Rehydrate the embed SDK + REST session from the persisted creds on reload.
-  if (stored) initThoughtSpot(stored.username, stored.password);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const login = async (user: string, pass: string) => {
     initThoughtSpot(user, pass);
@@ -45,22 +25,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUsername(user);
     setPassword(pass);
     setIsAuthenticated(true);
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ username: user, password: pass }));
-    } catch {
-      /* storage unavailable — falls back to in-memory only */
-    }
   };
 
   const logout = () => {
     setIsAuthenticated(false);
     setUsername('');
     setPassword('');
-    try {
-      sessionStorage.removeItem(STORAGE_KEY);
-    } catch {
-      /* ignore */
-    }
   };
 
   return (

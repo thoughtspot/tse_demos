@@ -39,7 +39,7 @@ export default function Login() {
           </h1>
           <p className="login-hero-subtitle">
             Pipeline performance, team activity, and AI-powered answers — all in
-            one place, powered by ThoughtSpot.
+            one place.
           </p>
           <div className="login-stats">
             <div className="login-stat">
@@ -60,10 +60,13 @@ export default function Login() {
 
       <div className="login-right">
         <div className="login-card">
+          <div className="login-demo-banner" role="note">
+            Demo environment — SalesSpot is a product demonstration with sample data.
+          </div>
           <div className="login-card-header">
             <h2 className="login-card-title">Sign in</h2>
             <p className="login-card-subtitle">
-              Enter your ThoughtSpot credentials to continue
+              Enter your username and password to continue
             </p>
           </div>
 
@@ -81,8 +84,7 @@ export default function Login() {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Enter your username"
                 className="login-input"
-                autoComplete="username"
-                autoFocus
+                autoComplete="off"
               />
             </div>
 
@@ -98,7 +100,7 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   className="login-input login-input-password"
-                  autoComplete="current-password"
+                  autoComplete="off"
                 />
                 <button
                   type="button"
@@ -119,11 +121,6 @@ export default function Login() {
               {isLoading ? <span className="login-spinner" /> : 'Sign In'}
             </button>
           </form>
-
-          <div className="login-footer">
-            <span>Powered by</span>
-            <span className="login-ts-badge">ThoughtSpot</span>
-          </div>
         </div>
       </div>
     </div>
