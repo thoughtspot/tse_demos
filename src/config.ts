@@ -378,6 +378,53 @@ export const TS_RULES_DARK: Record<string, Record<string, string>> = {
     '[class*="dataPanel" i]',
     '[class*="footer" i]',
   ].join(',')]: surfaceRule,
+  // ---- "AI Highlights" modal (Liveboard) ---------------------------------
+  // The shipped CSS hardcodes a light-grey list pane, white cards and #323946
+  // headings, while the card copy reads --ts-var-dialog-body-color (near-white
+  // in dark) — so it renders light-grey text on white cards. Repaint the panes/
+  // cards/titles to the evergreen dark theme. Class names come from the cluster
+  // bundle (`liveboard-highlights-module__*`) and are version-fragile.
+  '[class*="liveboard-highlights-module__highlightsListWrapper" i]': {
+    'background-color': '#0a1a15 !important',
+    'border-color': '#1e4034 !important',
+  },
+  '[class*="liveboard-highlights-module__cardWrapper" i]': {
+    'background-color': `${DARK_SURFACE} !important`,
+    'border-color': '#1e4034 !important',
+  },
+  '[class*="liveboard-highlights-module__cardWrapper" i]:hover': {
+    'border-color': '#4fd1a1 !important',
+  },
+  '[class*="liveboard-highlights-module__cardActive" i]': {
+    'border-color': '#4fd1a1 !important',
+    'box-shadow': '0 0 0 1px #4fd1a1 !important',
+  },
+  // Card titles are a light-mode blue (#2770ef); section headings are pinned to
+  // #323946 !important — both illegible on a dark card. Recolor to brand green.
+  [[
+    '[class*="liveboard-highlights-module__cardTitleWrapper" i]',
+    '[class*="liveboard-highlights-module__cardTitleWrapper" i] *',
+    '[class*="liveboard-highlights-module__categoryTitle" i]',
+  ].join(',')]: { color: '#6fd0a8 !important' },
+  // Detail pane + the "Is this useful?" strip.
+  [[
+    '[class*="liveboard-highlights-module__highlightDetailsWrapper" i]',
+    '[class*="liveboard-highlights-module__highlightFeedback" i]',
+    '[class*="liveboard-highlights-module__aiAnswerFooterExpanded" i]',
+  ].join(',')]: {
+    'background-color': `${DARK_SURFACE} !important`,
+    'border-color': '#1e4034 !important',
+    color: `${DARK_INK} !important`,
+  },
+  // Scrollbars in both panes are painted for a white background.
+  [[
+    '[class*="liveboard-highlights-module__highlightsListWrapper" i]::-webkit-scrollbar-track',
+    '[class*="liveboard-highlights-module__highlightDetailContent" i]::-webkit-scrollbar-track',
+  ].join(',')]: { 'background-color': '#0a1a15 !important' },
+  [[
+    '[class*="liveboard-highlights-module__highlightsListWrapper" i]::-webkit-scrollbar-thumb',
+    '[class*="liveboard-highlights-module__highlightDetailContent" i]::-webkit-scrollbar-thumb',
+  ].join(',')]: { 'background-color': '#1e4034 !important' },
 };
 
 /**
