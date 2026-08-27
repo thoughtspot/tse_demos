@@ -2,8 +2,6 @@ import {
   BarChart3,
   LayoutGrid,
   Sparkles,
-  Truck,
-  Activity,
   Bot,
   ChevronDown,
   LogOut,
@@ -11,6 +9,20 @@ import {
   Moon,
   Crown,
   Check,
+  // candidate icons the label-resolver can pick from (see iconForLabel)
+  Truck,
+  Landmark,
+  CalendarClock,
+  CalendarCheck,
+  Package,
+  Stethoscope,
+  TrendingUp,
+  Users,
+  GraduationCap,
+  Building2,
+  Workflow,
+  ListChecks,
+  Zap,
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
@@ -22,11 +34,36 @@ import { FLAGS } from '../flags';
 
 export type TabId = 'my-analytics' | 'analytics' | 'carriers' | 'capacity' | 'ask' | 'spotter';
 
-const TABS: { id: TabId; label: string; icon: typeof BarChart3 }[] = [
+type TabIcon = typeof BarChart3;
+
+// Pick a tab icon from its label so the inline / custom-action tabs match the
+// rebrand's use case (a "Loan Engagements" tab gets a bank icon, not a truck).
+// First keyword match wins; falls back to the passed default.
+const ICON_KEYWORDS: [RegExp, TabIcon][] = [
+  [/loan|credit|mortgage|lend|bank|financ|payment|invoice|billing|wallet/i, Landmark],
+  [/shift|roster|schedul|attendance|clock|timesheet|\bhours\b|coverage/i, CalendarClock],
+  [/leave|pto|vacation|absence|time.?off|holiday/i, CalendarCheck],
+  [/carrier|freight|truck|fleet|logistic|deliver|route|\blane\b|shipment/i, Truck],
+  [/inventory|stock|supply|warehouse|pharma|\bdrug\b|\bsku\b|restock|procure|order/i, Package],
+  [/patient|health|clinic|\bcare\b|medical|hospital|provider/i, Stethoscope],
+  [/deal|pipeline|revenue|sales|cadence|engagement|opportunit|quota|outreach/i, TrendingUp],
+  [/customer|account|client|member|contact|people|\brep\b|employee|officer|staff/i, Users],
+  [/course|training|learn|student|enroll|certif|academy/i, GraduationCap],
+  [/store|branch|site|facilit|property|location|region|office/i, Building2],
+  [/report|analytic|insight|dashboard|metric/i, BarChart3],
+  [/task|request|approval|workflow|process|ticket|\bcase\b|action/i, Workflow],
+];
+function iconForLabel(label: string, fallback: TabIcon): TabIcon {
+  for (const [re, icon] of ICON_KEYWORDS) if (re.test(label)) return icon;
+  return fallback;
+}
+
+const TABS: { id: TabId; label: string; icon: TabIcon }[] = [
   { id: 'my-analytics', label: CONTENT.tabs.myReports, icon: LayoutGrid },
   { id: 'analytics', label: CONTENT.tabs.analytics, icon: BarChart3 },
-  { id: 'carriers', label: CONTENT.tabs.inline, icon: Truck },
-  { id: 'capacity', label: CONTENT.tabs.action, icon: Activity },
+  // inline-insights + custom-action icons follow their label (default: list / action)
+  { id: 'carriers', label: CONTENT.tabs.inline, icon: iconForLabel(CONTENT.tabs.inline, ListChecks) },
+  { id: 'capacity', label: CONTENT.tabs.action, icon: iconForLabel(CONTENT.tabs.action, Zap) },
   { id: 'ask', label: CONTENT.tabs.ask, icon: Sparkles },
   { id: 'spotter', label: CONTENT.tabs.spotter, icon: Bot },
 ];
