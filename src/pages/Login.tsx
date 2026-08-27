@@ -60,9 +60,6 @@ export default function Login() {
 
       <div className="login-right">
         <div className="login-card">
-          <div className="login-demo-banner" role="note">
-            Demo environment — SalesSpot is a product demonstration with sample data.
-          </div>
           <div className="login-card-header">
             <h2 className="login-card-title">Sign in</h2>
             <p className="login-card-subtitle">
