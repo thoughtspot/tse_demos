@@ -3,8 +3,10 @@
 //   monetize — paywall on the Nth Ask-AI question (TrialModal)
 //   tiers    — Premium/Basic switcher in the top bar + disabledActions gating
 //   pinning  — the Analytics "Add Report" -> pin-to-dashboard split panel
+//   home     — a brand Home landing page (no analytics) as the default tab
 export const FLAGS = {
   monetize: true,
   tiers: true,
   pinning: true,
+  home: true,
 } as const;

@@ -35,8 +35,29 @@ export const CONTENT = {
   // ---- decorative platform nav (product-context words, non-interactive) ---
   platformNav: ['Broker', 'Shipper'], // max 2 render (see TopBar)
 
+  // ---- Home landing page (shown only when FLAGS.home) --------------------
+  // Brand marketing page, NOT analytics. Tailor headline/subline/stats to the
+  // client (or a screenshot they provide). `accent: true` colors a segment.
+  landing: {
+    eyebrow: 'Northwind',
+    headline: [
+      { text: 'Where freight ' },
+      { text: 'meets finance', accent: true },
+      { text: ' — one command center for the whole book of business.' },
+    ],
+    subline:
+      'Real-time visibility across carriers, corridors, and cash flow, with AI-powered answers on your live data.',
+    ctaLabel: 'Explore analytics',
+    stats: [
+      { value: '1.4M+', label: 'Loads Analyzed' },
+      { value: '98%', label: 'On-Time Visibility' },
+      { value: 'Real-time', label: 'Capacity Intel' },
+    ],
+  },
+
   // ---- tab labels --------------------------------------------------------
   tabs: {
+    home: 'Home',
     myReports: 'My Reports',
     analytics: 'Analytics',
     inline: 'Carriers', // the inline-insights list tab

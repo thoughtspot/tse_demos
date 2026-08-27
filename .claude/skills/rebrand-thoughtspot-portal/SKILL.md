@@ -184,11 +184,18 @@ keep the pin flow + Spotter builder but strip the SearchEmbed Report Builder.
 > 2. **Font** — name a specific font (a Google font like "Poppins" is easiest) or attach the file; name separate title vs body fonts if you want. No preference? Say so and I'll match the brand.
 > 3. **Theme mode** — light, dark, or both? (and which is the default)
 > 4. **Any specific customizations?** — e.g. gradients on titles, particular hues, "make the KPIs pop", rounded cards. Or "none".
+> 5. **Home page?** — do you want a brand **Home landing page** as the first thing users see after login (no dashboards — just your headline, a tagline, a call-to-action, and a few highlight stats)? If yes, can I model it on the screenshot you uploaded, or do you have any specific requirements? (Say "no home page" to skip.)
 
 The **screenshot is the palette reference** — derive the whole palette from it; don't jump
 to a color-picker. The screenshot is still REQUIRED (a URL or, last resort, a named color
 substitutes). After they reply, **confirm the primary/accent you read from the image**
 before moving on.
+
+**Home page (item 5):** record as `features.home`. If yes, also fill `content.landing`
+(eyebrow, headline segments with `accent`, subline, ctaLabel, stats) derived from the
+screenshot / their requirements — the codemod ships a scaffold `Landing.tsx` that you then
+tailor to match (a hand-finish step, like the custom-action modal). It must **not** show
+analytics or embeds. If no, leave `features.home` off and the tab is never generated.
 
 There is **no deploy question** — always **build + run locally** by default. Only
 deploy to Vercel if the user explicitly asks for it afterward.
@@ -236,8 +243,11 @@ second; you hand-finish the few things a script can't.
 3. **Hand-finish what the codemod can't** (it prints reminders):
    - **Custom-action modal** — if a workflow was described, **MANDATORY**: rebuild the
      scaffold modal to match it (build-playbook §5). Never leave the generic Request Bid form.
+   - **Home page** — if `features.home` is on, tailor `src/tabs/Landing.tsx` (and its
+     `content.landing` copy) to the screenshot / requirements. Keep it brand/marketing —
+     **no analytics or embeds**. The codemod only flips the flag + ships a scaffold.
    - Any bespoke UI the user flagged (custom tables, live lookups).
-   (Tabs and the monetize/tiers/pinning toggles are handled by the codemod — nothing to do.)
+   (Tabs and the monetize/tiers/pinning/home toggles are handled by the codemod — nothing to do.)
 4. **Build:** `export PATH="$HOME/.node/bin:$PATH" && (cd <slug>-tse && npm run build)`.
    Fix any `tsc` errors and rebuild until clean.
 

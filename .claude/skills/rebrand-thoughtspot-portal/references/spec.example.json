@@ -214,13 +214,29 @@
     "action": true,
     "monetize": true,
     "tiers": true,
-    "pinning": true
+    "pinning": true,
+    "home": true
   },
   "content": {
     "company": "InTime",
     "aiName": "InTime AI",
     "website": "https://www.intime.com",
     "loginTitleHtml": "Scheduling built for<br />public safety.",
+    "landing": {
+      "eyebrow": "InTime",
+      "headline": [
+        { "text": "Scheduling built for " },
+        { "text": "public safety", "accent": true },
+        { "text": " — officers, shifts, and overtime in one place." }
+      ],
+      "subline": "Real-time coverage, overtime, and leave across every branch, with AI answers on your live data.",
+      "ctaLabel": "Explore analytics",
+      "stats": [
+        { "value": "24/7", "label": "Coverage Managed" },
+        { "value": "98%", "label": "Shifts Filled" },
+        { "value": "Real-time", "label": "Overtime Intel" }
+      ]
+    },
     "loginSubtitle": "Your command center for police, fire, corrections and dispatch \u2014 schedules, overtime and coverage, with AI-powered answers on live data.",
     "loginStats": [
       {
@@ -243,6 +259,7 @@
       "Fire"
     ],
     "tabs": {
+      "home": "Home",
       "myReports": "My Reports",
       "analytics": "Analytics",
       "inline": "Shifts",

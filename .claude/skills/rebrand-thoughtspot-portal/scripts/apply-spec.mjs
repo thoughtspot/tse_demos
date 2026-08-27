@@ -168,6 +168,8 @@ write(path.join(OUT, 'src/content.ts'), contentFile);
     `  monetize: ${b(ff.monetize)},\n` +
     `  tiers: ${b(ff.tiers)},\n` +
     `  pinning: ${b(ff.pinning)},\n` +
+    // home is opt-in: off unless the spec explicitly asks for a Home landing page.
+    `  home: ${ff.home === true ? 'true' : 'false'},\n` +
     '} as const;\n');
 }
 

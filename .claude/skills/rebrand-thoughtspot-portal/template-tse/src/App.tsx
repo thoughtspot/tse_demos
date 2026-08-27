@@ -5,7 +5,9 @@ import { useTier } from './context/TierContext';
 import Login from './pages/Login';
 import TopBar, { TabId, PREMIUM_ONLY_TABS } from './components/TopBar';
 import ChatBot from './components/ChatBot';
+import Landing from './tabs/Landing';
 import MyAnalytics from './tabs/MyAnalytics';
+import { FLAGS } from './flags';
 import Analytics from './tabs/Analytics';
 import Carriers from './tabs/Carriers';
 import Capacity from './tabs/Capacity';
@@ -25,7 +27,7 @@ export default function App() {
   const { isAuthenticated } = useAuth();
   const { tier } = useTier();
   const [tab, setTab] = useState<TabId>(
-    () => (sessionStorage.getItem(TAB_KEY) as TabId) || 'analytics',
+    () => (sessionStorage.getItem(TAB_KEY) as TabId) || (FLAGS.home ? 'home' : 'analytics'),
   );
 
   const changeTab = (next: TabId) => {
@@ -54,6 +56,7 @@ export default function App() {
     <div className="app-shell">
       <TopBar active={tab} onChange={changeTab} />
       <main className="app-main">
+        {tab === 'home' && <Landing onNavigate={changeTab} />}
         {tab === 'my-analytics' && <MyAnalytics />}
         {tab === 'analytics' && <Analytics />}
         {tab === 'carriers' && <Carriers />}

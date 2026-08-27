@@ -1,4 +1,5 @@
 import {
+  Home,
   BarChart3,
   LayoutGrid,
   Sparkles,
@@ -32,7 +33,7 @@ import NorthwindLogo from './NorthwindLogo';
 import { CONTENT } from '../content';
 import { FLAGS } from '../flags';
 
-export type TabId = 'my-analytics' | 'analytics' | 'carriers' | 'capacity' | 'ask' | 'spotter';
+export type TabId = 'home' | 'my-analytics' | 'analytics' | 'carriers' | 'capacity' | 'ask' | 'spotter';
 
 type TabIcon = typeof BarChart3;
 
@@ -58,7 +59,16 @@ function iconForLabel(label: string, fallback: TabIcon): TabIcon {
   return fallback;
 }
 
+const HOME_TAB: { id: TabId; label: string; icon: TabIcon } = {
+  id: 'home',
+  // tabs.home is present when the home page is enabled; default the label safely.
+  label: (CONTENT.tabs as { home?: string }).home ?? 'Home',
+  icon: Home,
+};
+
 const TABS: { id: TabId; label: string; icon: TabIcon }[] = [
+  // Home landing tab renders first, only when enabled.
+  ...(FLAGS.home ? [HOME_TAB] : []),
   { id: 'my-analytics', label: CONTENT.tabs.myReports, icon: LayoutGrid },
   { id: 'analytics', label: CONTENT.tabs.analytics, icon: BarChart3 },
   // inline-insights + custom-action icons follow their label (default: list / action)
