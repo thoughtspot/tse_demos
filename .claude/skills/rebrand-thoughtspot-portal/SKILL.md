@@ -68,13 +68,20 @@ exact order**, using the **exact wording** given:
 
 Rounds marked **[ADVANCED ONLY]** are skipped entirely in Basic mode.
 
-**Feature reference (Advanced only):** images can't render inside the `AskUserQuestion`
-popup, so right **before Round 3**, publish `references/feature-reference.html` with the
-Artifact tool and share the link once. It shows illustrative mockups of the four optional
-features (Inline insights, Custom action, Monetization paywall, Add Report). Say, e.g.,
-*"Here's a visual reference for the optional features as we go: <link>."* Each feature
-round below points the user to its section. In **Basic** mode, skip this (those rounds are
-skipped anyway).
+**Feature reference — MANDATORY step, do NOT skip (Advanced only).** Images can't render
+inside the `AskUserQuestion` popup, so **as the very first action when you reach Round 3
+(before asking anything in it), you MUST call the `Artifact` tool to publish the bundled
+gallery and paste its link to the user.** This is a real tool call, not a description:
+
+> Artifact `file_path`: `.claude/skills/rebrand-thoughtspot-portal/references/feature-reference.html`
+> (adjust the leading path only if the skill lives elsewhere; the file is always at
+> `<skill-folder>/references/feature-reference.html`). Then say, verbatim:
+> *"Here's a visual reference for the optional features as we go: `<artifact link>`."*
+
+It shows mockups of the four optional features (Inline insights, Custom action,
+Monetization paywall, Add Report), and each feature round below points the user to its
+section. If you find yourself asking the Round 3 gate **without** having posted this link,
+stop and post it first. In **Basic** mode, skip it (those rounds don't run).
 
 ---
 
@@ -97,14 +104,28 @@ Record as `mode`. **If Basic → skip Rounds 3, 4, 6.**
 > Then attach your **logo** (SVG preferred, PNG fine) — or say "generate one" and I'll make a wordmark.
 
 **ROUND 2 — Data & filters** · free-text FIRST (verbatim):
-> Now the data — paste in one message:
-> 1. ThoughtSpot host URL (e.g. `https://your-co.thoughtspot.cloud`)
-> 2. Main Analytics **Liveboard ID**
-> 3. Data **model / worksheet ID**
+> Now the data — paste in one message (a full ThoughtSpot **link** is fine, I'll pull the ID out):
+> 1. Your ThoughtSpot **host URL** (e.g. `https://your-co.thoughtspot.cloud`) — or paste any link from your cluster and I'll read the host from it.
+> 2. Main **Analytics liveboard** — paste its URL or ID.
+> 3. Data **model / worksheet** — paste its URL or ID.
 > 4. Which columns do you want to filter the main dashboard (runtime filters)? List them
 > 5. A **date column** to filter by, if any (optional)
 >
 > No real cluster? Say "make it up" and I'll generate realistic values.
+
+**Reading pasted URLs (do this yourself — never make the user classify a GUID):**
+A GUID is `[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}`; the **host** is the
+URL's origin (e.g. `team2.thoughtspot.cloud`). Infer the object **type** from the path
+segment right before the GUID:
+- `…/pinboard/<G>` or `…/liveboard/<G>` → **Liveboard** (Analytics / inline / action liveboard)
+- `…/embed/viz/<LB>/<VIZ>` or `…/pinboard/<LB>/<VIZ>` → `<LB>` is the **liveboard**, `<VIZ>` is the **viz** (use for the custom-action viz + its parent liveboard)
+- `…/answer/<G>` or `…/saved-answer/<G>` → a **saved Answer**, NOT a liveboard (inline/analytics need a *liveboard* — flag it)
+- `…/data/tables/<G>`, `…/data/models/<G>`, `…/data/objects/<G>`, `…/worksheet/<G>` → **Model / worksheet** (the data source)
+
+**Always echo the type back to confirm** ("that link is a Liveboard, id `…` — right?") — TS
+URL formats vary by version. If the user pastes a **bare GUID with no URL**, you can't infer
+the type — ask which it is. Map each confirmed value to its spec field (analyticsLiveboard,
+model, inlineLiveboard, actionLiveboard + actionViz).
 
 …then `AskUserQuestion`:
 - question: `How should the embedded ThoughtSpot content authenticate?`
