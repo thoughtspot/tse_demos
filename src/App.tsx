@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { useAuth } from './context/AuthContext';
+import { useTier } from './context/TierContext';
 import Login from './pages/Login';
-import TopBar, { TabId } from './components/TopBar';
+import TopBar, { TabId, PREMIUM_ONLY_TABS } from './components/TopBar';
 import ChatBot from './components/ChatBot';
 import MyAnalytics from './tabs/MyAnalytics';
 import Analytics from './tabs/Analytics';
@@ -20,6 +21,7 @@ const TAB_KEY = 'salesspot.tab';
 
 export default function App() {
   const { isAuthenticated } = useAuth();
+  const { tier } = useTier();
   const [tab, setTab] = useState<TabId>(
     () => (sessionStorage.getItem(TAB_KEY) as TabId) || 'analytics'
   );
@@ -33,6 +35,15 @@ export default function App() {
     }
   };
 
+  // Ask SalesSpot is Premium-only. Downgrading to Basic while it's open leaves
+  // the app on a tab no longer in the nav, so bounce to Analytics.
+  useEffect(() => {
+    if (tier === 'basic' && PREMIUM_ONLY_TABS.includes(tab)) {
+      changeTab('analytics');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tier, tab]);
+
   if (!isAuthenticated) {
     return <Login />;
   }
@@ -45,7 +56,7 @@ export default function App() {
         {tab === 'analytics' && <Analytics />}
         {tab === 'cadences' && <Cadences />}
         {tab === 'signals' && <Signals />}
-        {tab === 'ask' && <AskSalesSpot />}
+        {tab === 'ask' && tier === 'premium' && <AskSalesSpot />}
       </main>
       <ChatBot
         worksheetId={tab === 'cadences' ? CADENCE_WORKSHEET_ID : WORKSHEET_ID}

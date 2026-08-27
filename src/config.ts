@@ -312,10 +312,17 @@ export const TS_RULES_DARK: Record<string, Record<string, string>> = {
   // Dropdown / select header (dimension & filter pickers).
   '[data-testid="select-dropdown-header"]': { 'background-color': '#0b1f19 !important', color: `${DARK_INK} !important` },
   // Answer / conversation / Spotter / Sage surfaces + the conversations sidebar.
+  // NOTE: `[class*="message"]` is scoped to chat containers only — a bare match
+  // also hit the "Highlights are ready!" toast text wrapper and painted a
+  // dark-surface box behind it. Chat bubbles live inside conversation/spotter/
+  // sage/chat, so they still get the surface; the standalone toast does not.
   [[
     '[class*="answer" i]',
     '[class*="conversation" i]',
-    '[class*="message" i]',
+    '[class*="conversation" i] [class*="message" i]',
+    '[class*="spotter" i] [class*="message" i]',
+    '[class*="sage" i] [class*="message" i]',
+    '[class*="chat" i] [class*="message" i]',
     '[class*="spotter" i]',
     '[class*="sage" i]',
     '[class*="sidebar" i]',

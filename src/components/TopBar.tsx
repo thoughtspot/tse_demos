@@ -27,6 +27,10 @@ const TABS: { id: TabId; label: string; icon: typeof BarChart3 }[] = [
   { id: 'ask', label: 'Ask SalesSpot', icon: Sparkles },
 ];
 
+// Ask SalesSpot is Premium-only. On Basic it's hidden from the nav (App also
+// bounces the user to Analytics if the tier is switched while it's open).
+export const PREMIUM_ONLY_TABS: TabId[] = ['ask'];
+
 // Decorative SalesSpot platform nav (sets product context, non-interactive).
 const PLATFORM_NAV = ['People', 'Deals', 'Conversations'];
 
@@ -71,7 +75,7 @@ export default function TopBar({ active, onChange }: Props) {
       </div>
 
       <nav className="topbar-tabs">
-        {TABS.map((tab) => {
+        {TABS.filter((t) => tier === 'premium' || !PREMIUM_ONLY_TABS.includes(t.id)).map((tab) => {
           const Icon = tab.icon;
           return (
             <button

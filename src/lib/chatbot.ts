@@ -142,6 +142,40 @@ const ANALYTICS_RE =
 const SALESSPOT_OVERVIEW =
   'SalesSpot is an AI-powered revenue-orchestration platform that helps sales teams engage buyers, manage pipeline, and drive predictable revenue. It brings the full sales workflow into one place — Cadences for structured outreach, Conversations for call & meeting intelligence, Deals for pipeline and opportunity management, and Forecast for revenue prediction — all guided by its AI engine (Rhythm) and connected to your CRM.';
 
+// --- typo / fuzzy tolerance -------------------------------------------------
+const BRAND = 'salesspot';
+const norm = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+function lev(a: string, b: string): number {
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  let prev = Array.from({ length: n + 1 }, (_, i) => i);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[n];
+}
+/** Fuzzy "does this mention the brand?" — tolerant of spaces and misspellings. */
+function mentionsBrand(n: string): boolean {
+  if (n.replace(/\s+/g, '').includes(BRAND)) return true;
+  const prefix = BRAND.slice(0, 4);
+  const words = n.split(' ');
+  for (let i = 0; i < words.length; i++) {
+    const cands = [words[i], words[i] + (words[i + 1] || '')];
+    for (const c of cands) {
+      if (c.length < 4) continue;
+      if (c.startsWith(prefix)) return true;
+      if (lev(c, BRAND) <= 3) return true;
+    }
+  }
+  return false;
+}
+
 interface FaqEntry {
   re: RegExp;
   text: string;
@@ -149,6 +183,12 @@ interface FaqEntry {
 }
 
 const FAQ: FaqEntry[] = [
+  {
+    // Value prop / "why" / benefits — before the general overview entry.
+    re: /value ?prop|value proposition|why (use|choose|salesspot|would i|do i need)|benefits?\b|roi|what makes .*(different|special|better)|differentiat|why should/i,
+    text: 'SalesSpot’s value is simple: more pipeline from less busywork. It puts every touchpoint, call, deal, and forecast in one place — with AI answers on live data — so reps act on the highest-impact work first and managers coach and forecast with confidence.',
+    links: [SALESSPOT_DOCS.home, SALESSPOT_DOCS.help],
+  },
   {
     re: /(what|tell me|explain|describe|who).*(salesspot)|salesspot.*(do|about|is|platform|used for)|^salesspot\b/i,
     text: SALESSPOT_OVERVIEW,
@@ -214,8 +254,31 @@ const FAQ: FaqEntry[] = [
     text: 'Hi! I’m SalesSpot AI. Ask me about SalesSpot, or ask a data question like “meetings booked this quarter.”',
   },
   {
-    re: /help|what can you|how do you work/i,
-    text: 'I can answer questions about SalesSpot and sales engagement (with links to the docs), and I can pull live analytics from your data — try “show meetings booked by week” or “top cadences by influenced pipeline.”',
+    re: /help|what can (you|i)|how do you work|what should i ask|examples?|what can i ask/i,
+    text: 'I can answer questions about SalesSpot and how it works (with links to the docs), and I can pull live analytics from your data — try “show meetings booked by week” or “top cadences by influenced pipeline.”',
+    links: [SALESSPOT_DOCS.help],
+  },
+  {
+    re: /who are you|what are you|your name|are you (a )?(bot|ai|human|real)|who am i (talking|speaking)/i,
+    text: 'I’m SalesSpot AI — the built-in assistant. I can explain how SalesSpot works and answer live questions about your cadences, deals, and pipeline.',
+    links: [SALESSPOT_DOCS.help],
+  },
+  {
+    re: /thank|thanks|thx|appreciate|cheers|awesome|great|nice one|perfect/i,
+    text: 'Happy to help! Ask me anything else about SalesSpot, or try a data question like “top cadences by influenced pipeline.”',
+  },
+  {
+    re: /\b(bye|goodbye|see ya|later|that'?s all|done)\b/i,
+    text: 'Anytime — I’m here whenever you need SalesSpot answers or a quick data pull. 👋',
+  },
+  {
+    re: /(secure|security|privacy|safe|gdpr|soc ?2|compliance|encrypt|my data safe)/i,
+    text: 'SalesSpot is built for enterprise data: access is role-based, data is encrypted in transit and at rest, and the platform supports common compliance requirements. Your admin controls who can see what.',
+    links: [SALESSPOT_DOCS.help],
+  },
+  {
+    re: /(contact|support|talk to|reach|sales team|get in touch|email you|phone|help me)/i,
+    text: 'You can reach the SalesSpot team through the Help Center, or talk to your account team for anything account-specific. In here, I can answer product questions and pull live analytics.',
     links: [SALESSPOT_DOCS.help],
   },
 ];
@@ -233,6 +296,8 @@ const analyticsResult = (msg: string): RouteResult => ({
 });
 
 function fallbackRoute(msg: string): RouteResult {
+  const n = norm(msg);
+  const deSpaced = n.replace(/\s+/g, '');
   const isData = ANALYTICS_RE.test(msg);
   const isDefinition = DEFINITIONAL_RE.test(msg);
 
@@ -240,21 +305,24 @@ function fallbackRoute(msg: string): RouteResult {
   // even if it mentions "cadence", "deals", "forecast", etc.
   if (isData && !isDefinition) return analyticsResult(msg);
 
-  // Knowledge / definition questions.
+  // Knowledge / non-data questions. Test FAQ against raw, normalized, and
+  // de-spaced text so spacing typos and punctuation still match.
   for (const entry of FAQ)
-    if (entry.re.test(msg)) return { kind: 'text', text: entry.text, links: entry.links };
+    if (entry.re.test(msg) || entry.re.test(n) || entry.re.test(deSpaced))
+      return { kind: 'text', text: entry.text, links: entry.links };
+
+  // Mentions the brand — even misspelled — but nothing matched: give the overview.
+  if (mentionsBrand(n))
+    return { kind: 'text', text: SALESSPOT_OVERVIEW, links: [SALESSPOT_DOCS.home, SALESSPOT_DOCS.help] };
 
   // Data-ish but definition-phrased and unmatched by FAQ → still try Spotter.
   if (isData) return analyticsResult(msg);
 
-  // Anything else mentioning SalesSpot → overview rather than a deflection.
-  if (/salesspot|sales|sell|rep\b|prospect|outreach|buyer/i.test(msg)) {
-    return { kind: 'text', text: SALESSPOT_OVERVIEW, links: [SALESSPOT_DOCS.home, SALESSPOT_DOCS.help] };
-  }
+  // Non-data and unmatched: answer helpfully, never a hard failure.
   return {
     kind: 'text',
     text:
-      'I can help with questions about SalesSpot and sales engagement, and I can pull live analytics from your data — try “show meetings booked by week” or “top cadences by influenced pipeline.”',
+      'I’m SalesSpot AI, here to help with anything about SalesSpot — what it does, how features like cadences, deals, and forecasting work, plus live analytics on your data. Try “what does SalesSpot do?”, “how do cadences work?”, or “show meetings booked by week.”',
     links: [SALESSPOT_DOCS.help],
   };
 }
