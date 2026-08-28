@@ -1,4 +1,5 @@
 import {
+  Home,
   BarChart3,
   LayoutGrid,
   Sparkles,
@@ -17,9 +18,10 @@ import { useTheme } from '../context/ThemeContext';
 import { useTier } from '../context/TierContext';
 import SalesSpotLogo from './SalesSpotLogo';
 
-export type TabId = 'my-analytics' | 'analytics' | 'cadences' | 'signals' | 'ask';
+export type TabId = 'home' | 'my-analytics' | 'analytics' | 'cadences' | 'signals' | 'ask';
 
 const TABS: { id: TabId; label: string; icon: typeof BarChart3 }[] = [
+  { id: 'home', label: 'Home', icon: Home },
   { id: 'my-analytics', label: 'My Reports', icon: LayoutGrid },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   { id: 'cadences', label: 'Cadences', icon: Workflow },

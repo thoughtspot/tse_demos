@@ -5,6 +5,7 @@ import { useTier } from './context/TierContext';
 import Login from './pages/Login';
 import TopBar, { TabId, PREMIUM_ONLY_TABS } from './components/TopBar';
 import ChatBot from './components/ChatBot';
+import Home from './tabs/Home';
 import MyAnalytics from './tabs/MyAnalytics';
 import Analytics from './tabs/Analytics';
 import Cadences from './tabs/Cadences';
@@ -23,7 +24,7 @@ export default function App() {
   const { isAuthenticated } = useAuth();
   const { tier } = useTier();
   const [tab, setTab] = useState<TabId>(
-    () => (sessionStorage.getItem(TAB_KEY) as TabId) || 'analytics'
+    () => (sessionStorage.getItem(TAB_KEY) as TabId) || 'home'
   );
 
   const changeTab = (next: TabId) => {
@@ -52,6 +53,7 @@ export default function App() {
     <div className="app-shell">
       <TopBar active={tab} onChange={changeTab} />
       <main className="app-main">
+        {tab === 'home' && <Home onNavigate={changeTab} />}
         {tab === 'my-analytics' && <MyAnalytics />}
         {tab === 'analytics' && <Analytics />}
         {tab === 'cadences' && <Cadences />}
