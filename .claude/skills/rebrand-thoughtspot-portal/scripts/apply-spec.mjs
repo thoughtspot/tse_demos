@@ -360,19 +360,48 @@ const f = spec.features || {};
 // icon = the lucide-react icon identifier used only by that tab's TopBar entry.
 // Both dangling imports would otherwise fail `tsc` (TS6133/TS2307) after the tab
 // and its file are pruned.
-const rmTab = (id, component, icon, extraFiles = []) => {
+// Removing a tab must also remove its App.tsx import — the file is deleted, so
+// a dangling `import Carriers from './tabs/Carriers'` fails tsc (TS2307/TS6133).
+// Icons are deliberately NOT removed here: they are shared candidates for the
+// iconForLabel resolver, so deleting one by name breaks every other tab that
+// could resolve to it. Orphaned icons are handled once, below.
+const rmTab = (id, component, extraFiles = []) => {
   edit(path.join(OUT, 'src/App.tsx'), (s) => s
     .replace(new RegExp(`\\s*\\{tab === '${id}' && <[^>]+>\\}`), '')
     .replace(new RegExp(`import ${component} from '\\./tabs/[^']+';\\n`), ''));
-  edit(path.join(OUT, 'src/components/TopBar.tsx'), (s) => s
-    .replace(new RegExp(`\\s*\\{ id: '${id}',[^\\n]*\\},`), '')
-    .replace(new RegExp(`\\s*${icon},\\n`), ''));
+  edit(path.join(OUT, 'src/components/TopBar.tsx'), (s) =>
+    s.replace(new RegExp(`\\s*\\{ id: '${id}',[^\\n]*\\},`), ''));
   for (const rel of extraFiles) { const p = path.join(OUT, rel); if (fs.existsSync(p)) fs.rmSync(p); }
 };
-if (f.inline === false) rmTab('carriers', 'Carriers', 'Truck', ['src/tabs/Carriers.tsx']);
-if (f.action === false) rmTab('capacity', 'Capacity', 'Activity', ['src/tabs/Capacity.tsx', 'src/components/BidModal.tsx']);
-if (f.askMode === 'fancy') rmTab('spotter', 'SpotterTab', 'Bot', ['src/tabs/Spotter.tsx']);
-if (f.askMode === 'normal') rmTab('ask', `Ask${clientIdent}`, 'Sparkles', [`src/tabs/Ask${clientIdent}.tsx`]);
+if (f.inline === false) rmTab('carriers', 'Carriers', ['src/tabs/Carriers.tsx']);
+if (f.action === false) rmTab('capacity', 'Capacity', ['src/tabs/Capacity.tsx', 'src/components/BidModal.tsx']);
+if (f.askMode === 'fancy') rmTab('spotter', 'SpotterTab', ['src/tabs/Spotter.tsx']);
+if (f.askMode === 'normal') rmTab('ask', `Ask${clientIdent}`, [`src/tabs/Ask${clientIdent}.tsx`]);
+
+// Pruning a tab can orphan icon imports, which fails tsc under noUnusedLocals.
+// Two cases, and BOTH occur: pruning one of inline/action leaves that tab's
+// fallback icon (e.g. Zap) unused, and pruning both additionally orphans
+// iconForLabel and every candidate icon it can resolve to. Drop the resolver
+// first when nothing calls it, then sweep whatever candidate imports are left
+// unreferenced — which covers either case without naming icons per tab.
+edit(path.join(OUT, 'src/components/TopBar.tsx'), (s) => {
+  if (!/icon:\s*iconForLabel\(/.test(s)) {
+    s = s.replace(/\/\/ Pick a tab icon from its label[\s\S]*?\nfunction iconForLabel[\s\S]*?\n\}\n\n/, '');
+  }
+  const block = s.match(/(\n\s*\/\/ candidate icons the label-resolver[^\n]*\n)([\s\S]*?)(?=\n\} from 'lucide-react';)/);
+  if (!block) return s;
+  const kept = block[2]
+    .split('\n')
+    .filter((line) => {
+      const name = line.trim().replace(/,$/, '');
+      if (!/^[A-Z][A-Za-z0-9]*$/.test(name)) return false;      // drop blanks/comments
+      // Referenced anywhere outside this import block?
+      const rest = s.replace(block[0], '');
+      return new RegExp(`\\b${name}\\b`).test(rest);
+    });
+  // Keep the comment only while candidates survive; drop the block entirely otherwise.
+  return s.replace(block[0], kept.length ? block[1] + kept.join('\n') : '');
+});
 
 console.log(`\n[apply-spec] ${client} -> ${slug}-tse/ in ${((Date.now() - t0) / 1000).toFixed(2)}s`);
 if (f.action !== false)
