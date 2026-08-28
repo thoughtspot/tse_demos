@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------
 
 /** ThoughtSpot cluster (from appConfig.thoughtspotUrl) */
-export const THOUGHTSPOT_HOST = 'https://se-thoughtspot-cloud.thoughtspot.cloud';
+export const THOUGHTSPOT_HOST = 'https://thoughtspotpmm.thoughtspot.cloud';
 
 /** The Analytics liveboard embedded in Tab 2 (Analytics). */
 export const ANALYTICS_LIVEBOARD_ID = '431cb7d1-7551-48ca-ab04-2261bb40a6e8';
