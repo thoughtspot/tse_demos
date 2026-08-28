@@ -724,6 +724,43 @@
           "required": false,
           "help": "Feeds the palette derivation alongside the screenshot.",
           "input": "text"
+        },
+        {
+          "id": "features.home",
+          "prompt": "Want a brand Home landing page as the first thing users see after login (no dashboards — just a headline, tagline, call-to-action and a few highlight stats)?",
+          "type": "boolean",
+          "specPath": "features.home",
+          "required": false,
+          "default": false,
+          "help": "Opt-in. The codemod generates a scaffold Landing.tsx carrying the template copy; tailoring it to the brand is a hand-finish step, like the custom-action modal. Headless callers get the scaffold with spec.content.landing applied, not a bespoke design.",
+          "options": [
+            {
+              "value": false,
+              "label": "No",
+              "description": "Users land straight on the dashboards.",
+              "recommended": true
+            },
+            {
+              "value": true,
+              "label": "Yes",
+              "description": "Adds a branded welcome screen as the first tab after login."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "content.landing",
+          "prompt": "What should the Home page say — headline, tagline, call-to-action, and three highlight stats? (Or say \"model it on the screenshot\".)",
+          "type": "object",
+          "specPath": "content.landing",
+          "required": false,
+          "when": {
+            "features.home": [
+              true
+            ]
+          },
+          "help": "Shape: { eyebrow, headline: [{text, accent?}], subline, ctaLabel, stats: [{value, label}] }. NOTE: spec.content is all-or-nothing — the codemod replaces content.ts wholesale — so supplying this means supplying every other content key too. Omit content entirely to get the template copy with the brand name substituted.",
+          "input": "text"
         }
       ]
     }
