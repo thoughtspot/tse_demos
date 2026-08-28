@@ -1,0 +1,738 @@
+{
+  "version": 1,
+  "source": "references/intake.md",
+  "notes": [
+    "Machine-readable form of intake.md, so the interactive skill and the AgentQ site worker",
+    "ask the same questions from one source. The worker serves this via get_intake_questions.",
+    "`specPath` is the dot path the answer is written to in spec.json. `specPath: null` means the",
+    "answer does not map to a spec field today (see `unmapped`) — it is context for a hand-step.",
+    "`when` gates a question on earlier answers: every key must match one of its listed values."
+  ],
+  "sections": [
+    {
+      "id": "depth",
+      "title": "How deep?",
+      "questions": [
+        {
+          "id": "depth",
+          "prompt": "Basic (dashboards + Spotter + Ask-AI + theme) or Advanced (full build)?",
+          "type": "enum",
+          "options": [
+            {
+              "value": "basic",
+              "label": "Basic — quick demo",
+              "description": "Dashboards, Spotter, Ask-AI and theme. Skips the inline-insights, custom-action and pinning sections.",
+              "recommended": true
+            },
+            {
+              "value": "advanced",
+              "label": "Advanced — full build",
+              "description": "Full build — adds the inline-insights list tab, a custom-action workflow, and Add Report."
+            }
+          ],
+          "default": "basic",
+          "specPath": null,
+          "required": false,
+          "help": "Basic skips the inline-insights, custom-action and pinning sections entirely.",
+          "input": "choice"
+        }
+      ]
+    },
+    {
+      "id": "brand",
+      "title": "Brand",
+      "questions": [
+        {
+          "id": "client",
+          "prompt": "Company name (Title case)",
+          "type": "string",
+          "specPath": "client",
+          "required": true,
+          "help": "Renames the Northwind token in every casing.",
+          "input": "text"
+        },
+        {
+          "id": "slug",
+          "prompt": "Short slug for the output directory",
+          "type": "string",
+          "specPath": "slug",
+          "required": false,
+          "derivedFrom": "client",
+          "help": "kebab-case of the company name; output dir is <slug>-tse/. Derive it rather than asking.",
+          "input": "text"
+        },
+        {
+          "id": "companyLabel",
+          "prompt": "Company name as shown in UI copy",
+          "type": "string",
+          "specPath": "content.company",
+          "required": false,
+          "derivedFrom": "client",
+          "input": "text"
+        },
+        {
+          "id": "aiName",
+          "prompt": "Name for the AI assistant",
+          "type": "string",
+          "specPath": "content.aiName",
+          "required": false,
+          "default": "<Company> AI",
+          "input": "text"
+        },
+        {
+          "id": "description",
+          "prompt": "One line on what the company does",
+          "type": "string",
+          "specPath": "content.loginSubtitle",
+          "required": false,
+          "input": "text"
+        },
+        {
+          "id": "website",
+          "prompt": "Website URL",
+          "type": "url",
+          "specPath": "content.website",
+          "required": false,
+          "input": "text"
+        },
+        {
+          "id": "logo",
+          "prompt": "Logo — attach an SVG (preferred) or PNG, or say \"generate one\"",
+          "type": "attachment",
+          "specPath": "logo.svgPath",
+          "required": false,
+          "help": "Pass it as build_site's `logo` argument (base64), not in the spec — spec.logo.svgPath is a path on the server and is unreachable to a remote caller. SVG is strongly preferred: it is inlined and follows the theme. PNG/JPEG work but embed as a fixed raster that will not flip with the theme. Omit to keep the template placeholder wordmark, renamed to the brand.",
+          "input": "choice",
+          "options": [
+            {
+              "value": "template",
+              "label": "Use the template placeholder",
+              "recommended": true,
+              "description": "A plain wordmark carrying the client's name, theme-aware. Nothing to gather."
+            },
+            {
+              "value": "attach",
+              "label": "Attach an SVG (preferred) or PNG",
+              "attachment": true,
+              "description": "Best fidelity. Fills become currentColor so the logo flips with the theme."
+            },
+            {
+              "value": "generate",
+              "label": "Generate one",
+              "description": "Hand-step, not automated by the codemod — someone has to produce the mark."
+            }
+          ],
+          "default": "template"
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "title": "ThoughtSpot data & filters",
+      "questions": [
+        {
+          "id": "host",
+          "prompt": "Which ThoughtSpot cluster?",
+          "type": "string",
+          "specPath": "host",
+          "required": false,
+          "help": "Stored as a bare host — a full pasted URL is normalized, so https://x.thoughtspot.cloud/#/ becomes x.thoughtspot.cloud.",
+          "input": "choice",
+          "allowsCustom": true,
+          "default": "se-thoughtspot-cloud.thoughtspot.cloud",
+          "options": [
+            {
+              "value": "se-thoughtspot-cloud.thoughtspot.cloud",
+              "label": "The SE demo cluster",
+              "recommended": true,
+              "description": "https://se-thoughtspot-cloud.thoughtspot.cloud/#/ — the standard demo cluster. Nothing to look up."
+            },
+            {
+              "value": "<your-co.thoughtspot.cloud>",
+              "label": "A different cluster",
+              "custom": true,
+              "description": "Paste the URL; the scheme, path and #/ fragment are stripped automatically."
+            }
+          ]
+        },
+        {
+          "id": "analyticsLiveboard",
+          "prompt": "Main dashboard (liveboard) GUID",
+          "type": "guid",
+          "specPath": "ids.analyticsLiveboard",
+          "required": true,
+          "help": "Confirm this is a LIVEBOARD GUID, not a viz GUID — a viz GUID here renders a blank embed.",
+          "input": "text"
+        },
+        {
+          "id": "model",
+          "prompt": "Data model / worksheet GUID",
+          "type": "guid",
+          "specPath": "ids.model",
+          "required": true,
+          "input": "text"
+        },
+        {
+          "id": "auth",
+          "prompt": "How should the demo sign in to ThoughtSpot?",
+          "type": "enum",
+          "specPath": "auth",
+          "required": false,
+          "default": "none",
+          "options": [
+            {
+              "value": "none",
+              "label": "Rely on being logged into ThoughtSpot in another tab",
+              "description": "Rely on the SE already being signed into ThoughtSpot in another tab. Nothing to type during the demo.",
+              "recommended": true
+            },
+            {
+              "value": "basic",
+              "label": "Type real credentials (wires AuthType.Basic)",
+              "description": "The demo shows a login form and signs in with real ThoughtSpot credentials."
+            },
+            {
+              "value": "trusted",
+              "label": "Advanced / trusted auth",
+              "description": "Trusted/token auth. Needs a server component — out of scope for a static demo build."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "filterPrimary",
+          "prompt": "Which field should primarily filter the main dashboard (e.g. Region)?",
+          "type": "string[]",
+          "specPath": "columns.filterPrimary",
+          "required": false,
+          "help": "Candidate list — the first name that returns data wins.",
+          "input": "text"
+        },
+        {
+          "id": "filterSecondary",
+          "prompt": "A second filter field (e.g. Corridor)?",
+          "type": "string[]",
+          "specPath": "columns.filterSecondary",
+          "required": false,
+          "input": "text"
+        },
+        {
+          "id": "dateColumn",
+          "prompt": "A date field to filter by?",
+          "type": "string",
+          "specPath": "columns.date",
+          "required": false,
+          "input": "text"
+        }
+      ]
+    },
+    {
+      "id": "inline",
+      "title": "Inline-insights list tab",
+      "when": {
+        "depth": [
+          "advanced"
+        ]
+      },
+      "questions": [
+        {
+          "id": "features.inline",
+          "prompt": "Want a list tab where each row opens its own dashboard?",
+          "type": "boolean",
+          "specPath": "features.inline",
+          "required": false,
+          "default": false,
+          "options": [
+            {
+              "value": false,
+              "label": "No",
+              "description": "Skip it. Fewer moving parts and no extra GUIDs to gather.",
+              "recommended": true
+            },
+            {
+              "value": true,
+              "label": "Yes",
+              "description": "Adds a list tab where each row expands its own inline dashboard. Needs a second liveboard GUID and a name column."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "inlineLiveboard",
+          "prompt": "Liveboard GUID to open inline",
+          "type": "guid",
+          "specPath": "ids.inlineLiveboard",
+          "required": true,
+          "when": {
+            "features.inline": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "inlineTabName",
+          "prompt": "Tab name (e.g. Shifts, Carriers)",
+          "type": "string",
+          "specPath": "content.tabs.inline",
+          "required": false,
+          "when": {
+            "features.inline": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "inlineName",
+          "prompt": "Column holding the item names (e.g. Carrier, Employee)",
+          "type": "string[]",
+          "specPath": "columns.inlineName",
+          "required": true,
+          "when": {
+            "features.inline": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "inlineMetrics",
+          "prompt": "Up to 3 numbers to show per row",
+          "type": "metric[]",
+          "specPath": "columns.inlineMetrics",
+          "required": false,
+          "maxItems": 3,
+          "when": {
+            "features.inline": [
+              true
+            ]
+          },
+          "itemShape": {
+            "label": "string",
+            "format": "text|date|number|currency",
+            "candidates": "string[]"
+          },
+          "input": "text"
+        },
+        {
+          "id": "hierarchy.segment",
+          "prompt": "Top-level grouping column (e.g. Branch Name)",
+          "type": "string",
+          "specPath": "columns.hierarchy.segment",
+          "required": false,
+          "when": {
+            "features.inline": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "hierarchy.rep",
+          "prompt": "Second-level grouping column (e.g. Rank Name)",
+          "type": "string",
+          "specPath": "columns.hierarchy.rep",
+          "required": false,
+          "when": {
+            "features.inline": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "hierarchy.cadence",
+          "prompt": "Row-level name column (e.g. Employee)",
+          "type": "string",
+          "specPath": "columns.hierarchy.cadence",
+          "required": false,
+          "when": {
+            "features.inline": [
+              true
+            ]
+          },
+          "input": "text"
+        }
+      ]
+    },
+    {
+      "id": "action",
+      "title": "Custom-action workflow",
+      "when": {
+        "depth": [
+          "advanced"
+        ]
+      },
+      "questions": [
+        {
+          "id": "features.action",
+          "prompt": "Want a right-click chart action that opens a workflow modal?",
+          "type": "boolean",
+          "specPath": "features.action",
+          "required": false,
+          "default": false,
+          "options": [
+            {
+              "value": false,
+              "label": "No",
+              "description": "Skip it. Recommended for a Basic demo.",
+              "recommended": true
+            },
+            {
+              "value": true,
+              "label": "Yes",
+              "description": "Right-click a chart row to open a workflow modal. Needs a viz GUID AND a hand-built modal — the generic Request Bid form must not ship."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "actionLiveboard",
+          "prompt": "Liveboard GUID the target visualization lives on",
+          "type": "guid",
+          "specPath": "ids.actionLiveboard",
+          "required": true,
+          "when": {
+            "features.action": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "actionViz",
+          "prompt": "Visualization GUID to attach the action to",
+          "type": "guid",
+          "specPath": "ids.actionViz",
+          "required": true,
+          "when": {
+            "features.action": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "action.name",
+          "prompt": "Action label (e.g. \"Request Bid\")",
+          "type": "string",
+          "specPath": "action.name",
+          "required": true,
+          "when": {
+            "features.action": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "action.id",
+          "prompt": "Action id",
+          "type": "string",
+          "specPath": "action.id",
+          "required": true,
+          "derivedFrom": "action.name",
+          "when": {
+            "features.action": [
+              true
+            ]
+          },
+          "help": "kebab-case of the label; derive it.",
+          "input": "text"
+        },
+        {
+          "id": "actionTabName",
+          "prompt": "Tab name for the workflow (e.g. Leaves, Capacity)",
+          "type": "string",
+          "specPath": "content.tabs.action",
+          "required": false,
+          "when": {
+            "features.action": [
+              true
+            ]
+          },
+          "input": "text"
+        },
+        {
+          "id": "actionWorkflow",
+          "prompt": "Describe what happens on click, and which row details pre-fill the form",
+          "type": "text",
+          "specPath": null,
+          "unmapped": true,
+          "required": true,
+          "when": {
+            "features.action": [
+              true
+            ]
+          },
+          "help": "MANDATORY hand-step: BidModal.tsx must be rebuilt to match this. Never ship the generic Request Bid form for a described workflow.",
+          "input": "text"
+        }
+      ]
+    },
+    {
+      "id": "askAi",
+      "title": "Ask-AI",
+      "questions": [
+        {
+          "id": "features.askMode",
+          "prompt": "Which Ask-AI surfaces?",
+          "type": "enum",
+          "specPath": "features.askMode",
+          "required": false,
+          "default": "both",
+          "options": [
+            {
+              "value": "both",
+              "label": "Both",
+              "description": "Both the fancy chat tab and the standalone Spotter tab.",
+              "recommended": true
+            },
+            {
+              "value": "normal",
+              "label": "Standalone Spotter only (removes the fancy Ask tab)",
+              "description": "Only standalone Spotter; removes the fancy Ask tab."
+            },
+            {
+              "value": "fancy",
+              "label": "Fancy chat experience only (removes the Spotter tab)",
+              "description": "Only the fancy chat experience; removes the Spotter tab."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "floatingChatbot",
+          "prompt": "The floating bottom-right chatbot is always present.",
+          "type": "boolean",
+          "specPath": null,
+          "unmapped": true,
+          "required": false,
+          "help": "Not configurable — the template has no toggle for it. Shown for awareness, not a decision.",
+          "input": "info"
+        },
+        {
+          "id": "features.monetize",
+          "prompt": "Paywall / monetization popup?",
+          "type": "boolean",
+          "specPath": "features.monetize",
+          "required": false,
+          "default": true,
+          "options": [
+            {
+              "value": true,
+              "label": "Yes",
+              "description": "Shows an upgrade popup once the SE has asked a set number of questions.",
+              "recommended": true
+            },
+            {
+              "value": false,
+              "label": "No",
+              "description": "No paywall shown."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "paywallAfter",
+          "prompt": "After how many questions should the paywall trigger?",
+          "type": "integer",
+          "specPath": "content.trialQuestionTrigger",
+          "required": false,
+          "when": {
+            "features.monetize": [
+              true
+            ]
+          },
+          "help": "The template ships trialQuestionTrigger: 3.",
+          "default": 3,
+          "input": "choice",
+          "allowsCustom": true,
+          "options": [
+            {
+              "value": 3,
+              "label": "After 3 questions",
+              "recommended": true,
+              "description": "The template default."
+            },
+            {
+              "value": 5,
+              "label": "After 5 questions",
+              "description": "A longer runway before the paywall appears."
+            },
+            {
+              "value": 10,
+              "label": "After 10 questions",
+              "description": "Paywall barely appears in a short demo."
+            }
+          ]
+        },
+        {
+          "id": "features.tiers",
+          "prompt": "Premium vs Basic user tiers?",
+          "type": "boolean",
+          "specPath": "features.tiers",
+          "required": false,
+          "default": true,
+          "options": [
+            {
+              "value": true,
+              "label": "Yes",
+              "description": "Adds a Premium/Basic tier switcher; Basic loses drill-down, Ask AI and downloads.",
+              "recommended": true
+            },
+            {
+              "value": false,
+              "label": "No",
+              "description": "Everyone sees everything (tier stays Premium)."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "tierRestrictions",
+          "prompt": "What should Basic users NOT be able to do (drill-down, Ask AI, downloads…)?",
+          "type": "text",
+          "specPath": "content.upgradeReason",
+          "required": false,
+          "when": {
+            "features.tiers": [
+              true
+            ]
+          },
+          "help": "Becomes the upgrade-prompt copy. It is the message shown, not enforcement — the template gates a fixed set of capabilities when features.tiers is on.",
+          "input": "text"
+        }
+      ]
+    },
+    {
+      "id": "pinning",
+      "title": "Pinning / Add Report",
+      "when": {
+        "depth": [
+          "advanced"
+        ]
+      },
+      "questions": [
+        {
+          "id": "features.pinning",
+          "prompt": "Want \"Add Report\" — build a chart in-app and pin it to the dashboard?",
+          "type": "boolean",
+          "specPath": "features.pinning",
+          "required": false,
+          "default": false,
+          "help": "The Report Builder renders poorly in dark mode — prefer a light default theme if this is on.",
+          "options": [
+            {
+              "value": false,
+              "label": "No",
+              "description": "Skip it.",
+              "recommended": true
+            },
+            {
+              "value": true,
+              "label": "Yes",
+              "description": "Adds 'Add Report' — build a chart in-app and pin it to the dashboard. Renders poorly in dark mode."
+            }
+          ],
+          "input": "choice"
+        }
+      ]
+    },
+    {
+      "id": "theme",
+      "title": "Look & feel",
+      "questions": [
+        {
+          "id": "screenshot",
+          "prompt": "Attach a screenshot of the brand's site (colors are derived from it)",
+          "type": "attachment",
+          "specPath": null,
+          "required": false,
+          "help": "Ask for this FIRST. Pass it as build_site's `screenshot` argument, not in the spec — it overrides spec.theme.",
+          "input": "choice",
+          "options": [
+            {
+              "value": "attach",
+              "label": "Attach a screenshot of the brand's site",
+              "attachment": true,
+              "recommended": true,
+              "description": "The palette is derived from it automatically. Best fidelity — pass it as build_site's `screenshot` argument, not inside the spec."
+            },
+            {
+              "value": "template",
+              "label": "Keep the template palette",
+              "description": "Neutral default with the brand name renamed throughout. No screenshot needed."
+            }
+          ],
+          "default": "attach"
+        },
+        {
+          "id": "theme.default",
+          "prompt": "Light, dark, or both — and which is the default?",
+          "type": "enum",
+          "specPath": "theme.default",
+          "required": false,
+          "default": "light",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light",
+              "description": "Light mode by default. Prefer this if Add Report is on — the Report Builder renders poorly in dark.",
+              "recommended": true
+            },
+            {
+              "value": "dark",
+              "label": "Dark",
+              "description": "Dark mode by default."
+            }
+          ],
+          "input": "choice"
+        },
+        {
+          "id": "font.family",
+          "prompt": "Brand font (title/body), if specific",
+          "type": "string",
+          "specPath": "font.family",
+          "required": false,
+          "help": "Google fonts render in embeds; self-hosted fonts do not. Omit to keep Inter.",
+          "input": "choice",
+          "allowsCustom": true,
+          "options": [
+            {
+              "value": null,
+              "label": "Keep Inter",
+              "recommended": true,
+              "description": "The template default. Renders identically in the host UI and inside embeds."
+            },
+            {
+              "value": "<font name>",
+              "label": "Specify a brand font",
+              "custom": true,
+              "description": "Google fonts render inside embeds; self-hosted fonts do not (the iframe is sandboxed) and fall back to the nearest Google face."
+            }
+          ],
+          "default": null
+        },
+        {
+          "id": "colorAsks",
+          "prompt": "Primary color, and any specific asks (gradients, hues, \"make the KPIs pop\")",
+          "type": "text",
+          "specPath": null,
+          "unmapped": true,
+          "required": false,
+          "help": "Feeds the palette derivation alongside the screenshot.",
+          "input": "text"
+        }
+      ]
+    }
+  ],
+  "presentation": {
+    "input": "'choice' = render `options` as selectable cards; 'text' = free typed value; 'attachment' = file upload; 'info' = display-only, not a decision.",
+    "recommended": "Exactly one option per choice carries recommended:true. It equals the question's `default`, so selecting nothing anywhere yields the most-common path. Present it first.",
+    "allowsCustom": "The caller may supply a typed value instead of picking a listed option.",
+    "attachment": "An option with attachment:true expects a file alongside the selection.",
+    "required": "true only where no default exists and the build cannot proceed. Everything else is optional."
+  }
+}

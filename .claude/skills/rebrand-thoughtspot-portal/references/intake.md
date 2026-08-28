@@ -1,5 +1,11 @@
 # Portal intake (plain English)
 
+> **Machine-readable twin:** `intake.questions.json` in this directory carries the
+> same tree with `specPath` mappings, types, defaults and `when` conditions. The
+> AgentQ site worker serves it over MCP (`get_intake_questions`) so a headless
+> caller asks exactly what this document asks. **Edit both together** — the prose
+> here is what a human reads; the JSON is the contract a caller consumes.
+
 Answer what you can — anything skipped uses a sensible default, and the assistant
 will ask follow-ups. No technical knowledge needed; just paste the values.
 
