@@ -35,6 +35,14 @@ const slug = spec.slug;
 const client = spec.client;                    // Title-case, e.g. "InTime"
 const CLIENT = client.toUpperCase();
 const clientLower = slug;                       // lowercase token
+// The `Northwind` token does double duty in the template: visible prose
+// ("Northwind's pipeline") AND code identifiers (Northwind_DOCS, NorthwindLogo,
+// AskNorthwind, and the two brand-named files). A multi-word client like
+// "Minimal Path" is fine as prose but emits `Minimal Path_DOCS` as an
+// identifier, which is a TS syntax error. So identifiers get a stripped,
+// identifier-safe variant while prose keeps the real display name.
+const clientIdent = (client.replace(/[^A-Za-z0-9_]/g, '') || 'Client')
+  .replace(/^(?=\d)/, '_');                     // identifiers can't start with a digit
 const OUT = path.join(ROOT, `${slug}-tse`);
 
 // Embed font: the brand font can't be pushed into ThoughtSpot's sandboxed iframe
@@ -87,7 +95,13 @@ const read = (p) => fs.readFileSync(p, 'utf8');
 const write = (p, s) => fs.writeFileSync(p, s);
 function edit(p, fn) { write(p, fn(read(p))); }
 function renameBrand(s) {
-  return s.split('Northwind').join(client)
+  // Identifier-adjacent first (Northwind_DOCS, AskNorthwind, NorthwindLogo —
+  // always touching an identifier char on one side), then the remaining
+  // standalone occurrences, which are prose and take the real display name.
+  // The lowercase token maps to `slug`, which the caller validates as
+  // kebab-case, so it is already safe in CSS vars, class names and filenames.
+  return s.replace(/(?<=[A-Za-z0-9_])Northwind|Northwind(?=[A-Za-z0-9_])/g, clientIdent)
+          .split('Northwind').join(client)
           .split('NORTHWIND').join(CLIENT)
           .split('northwind').join(clientLower);
 }
@@ -143,17 +157,55 @@ if (hostGoogleUrl) {
 }
 edit(path.join(OUT, 'package.json'), (s) => s.replace(/northwind-thoughtspot-portal/g, `${slug}-thoughtspot-portal`));
 const mv = (a, b) => { const A = path.join(OUT, a), B = path.join(OUT, b); if (fs.existsSync(A)) fs.renameSync(A, B); };
-mv('src/components/NorthwindLogo.tsx', `src/components/${client}Logo.tsx`);
-mv('src/tabs/AskNorthwind.tsx', `src/tabs/Ask${client}.tsx`);
+mv('src/components/NorthwindLogo.tsx', `src/components/${clientIdent}Logo.tsx`);
+mv('src/tabs/AskNorthwind.tsx', `src/tabs/Ask${clientIdent}.tsx`);
+// Rename the default logo asset to the path the renamed component now imports
+// (`../assets/${slug}-logo.svg?raw`); step 6 overwrites it if spec.logo was given,
+// otherwise the template's placeholder wordmark survives under the new name so
+// the build doesn't fail on an unresolvable import.
+mv('src/assets/northwind-logo.svg', `src/assets/${slug}-logo.svg`);
+// No logo supplied -> generate a text wordmark for the client rather than
+// keeping the template's. String-patching the template asset is not enough:
+// its monogram path literally draws an "N" (Northwind's initial) and its badge
+// is hardcoded to the template indigo, so "Tixr" would ship an N badge in the
+// wrong color. Generating gives the client's own initial, brand primary and
+// font, and a viewBox wide enough for the actual name.
+// (Skipped when spec.logo is supplied — step 6 writes the real logo instead.)
+if (!spec.logo?.svgPath) {
+  const xml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const name = client;
+  const initial = (name.trim()[0] || 'C').toUpperCase();
+  // The badge follows the brand primary when the spec carries a palette; the
+  // template's indigo is the fallback for a spec that keeps the stock theme.
+  const primary = spec.theme?.light?.['--sl-green'] || '#4F5BD5';
+  const face = [`'${brandFamily}'`, ...(brandFamily === 'Inter' ? [] : ["'Inter'"]), 'system-ui', '-apple-system', 'sans-serif'].join(', ');
+  // ~0.56em average advance at weight 700, plus the 30px badge gutter.
+  const width = Math.ceil(30 + name.length * 11.2 + 2);
+  write(path.join(OUT, `src/assets/${slug}-logo.svg`),
+`<svg viewBox="0 0 ${width} 32" fill="none" role="img" aria-label="${xml(name)}" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="6" width="20" height="20" rx="6" fill="${primary}"/>
+  <text x="10" y="21.5" text-anchor="middle" font-family="${xml(face)}" font-size="13" font-weight="700" fill="#ffffff">${xml(initial)}</text>
+  <text x="30" y="23" font-family="${xml(face)}" font-size="20" font-weight="700" letter-spacing="-0.3" fill="currentColor">${xml(name)}</text>
+</svg>
+`);
+}
 
 // ---- 2. content.ts (all copy, from spec) -----------------------------------
-const contentFile =
+// spec.content is OPTIONAL. Omit it entirely and the template's own content.ts
+// survives — step 1 already renamed the Northwind token in every casing, so the
+// default copy reads as the client's. That is the "chose nothing" path.
+// NOTE: when supplied it REPLACES the file wholesale, so a partial object drops
+// every key it omits (the app reads ~40 of them). The site worker validates
+// against that; if you call this codemod directly, pass all keys or none.
+if (spec.content) {
+  const contentFile =
 `// Generated by apply-spec.mjs — single source of truth for all portal copy.
 export interface LoginStat { value: string; label: string; }
 export const CONTENT = ${JSON.stringify(spec.content, null, 2)} as const;
 export type Content = typeof CONTENT;
 `;
-write(path.join(OUT, 'src/content.ts'), contentFile);
+  write(path.join(OUT, 'src/content.ts'), contentFile);
+}
 
 // ---- 2b. flags.ts — feature toggles (monetize / tiers / pinning) -----------
 // Tabs (inline/action/askMode) are PRUNED below; these three are gated in-place
@@ -176,34 +228,47 @@ write(path.join(OUT, 'src/content.ts'), contentFile);
 }
 
 // ---- 3. config.ts — IDs / host / action / columns / embed theme ------------
+// NOTE: inline/action ids, `spec.action`, inlineName/inlineMetrics/hierarchy are
+// only meaningful when features.inline / features.action are on — Basic-mode
+// specs (and the interview itself, which skips those sections entirely) may
+// omit them. Whatever we write here for a disabled feature is inert: its tab
+// (and the file that would read these constants) gets deleted in step 7. So we
+// fall back to harmless placeholders instead of crashing on the missing field.
 edit(path.join(OUT, 'src/config.ts'), (s) => {
   const i = spec.ids;
+  const action = spec.action || { id: 'request-bid', name: 'Request Bid' };
+  const cols = spec.columns || {};
+  const inlineName = cols.inlineName && cols.inlineName.length ? cols.inlineName : ['Name'];
+  const inlineMetrics = cols.inlineMetrics || [];
+  const hierarchy = cols.hierarchy || {};
   s = s.replace('https://YOUR-CLUSTER.thoughtspot.cloud', `https://${spec.host}`)
        .replace('REPLACE_MAIN_LIVEBOARD_GUID', i.analyticsLiveboard)
-       .replace('REPLACE_INLINE_LIVEBOARD_GUID', i.inlineLiveboard)
+       .replace('REPLACE_INLINE_LIVEBOARD_GUID', i.inlineLiveboard || i.analyticsLiveboard)
        .replace(/REPLACE_MODEL_GUID/g, i.model)
-       .replace('REPLACE_ACTION_LIVEBOARD_GUID', i.actionLiveboard)
-       .replace('REPLACE_ACTION_VIZ_GUID', i.actionViz)
-       .replace("'request-bid'", `'${spec.action.id}'`)
-       .replace("'Request Bid'", `'${spec.action.name}'`);
+       .replace('REPLACE_ACTION_LIVEBOARD_GUID', i.actionLiveboard || i.analyticsLiveboard)
+       .replace('REPLACE_ACTION_VIZ_GUID', i.actionViz || i.analyticsLiveboard)
+       .replace("'request-bid'", `'${action.id}'`)
+       .replace("'Request Bid'", `'${action.name}'`);
   // candidate column arrays
   const arr = (name, items) =>
     s = s.replace(new RegExp(`export const ${name} = \\[[\\s\\S]*?\\];`),
       `export const ${name} = [\n${items.map((x) => `  '${x}',`).join('\n')}\n];`);
-  arr('CADENCE_COLUMN_CANDIDATES', spec.columns.inlineName);
-  arr('REGION_COLUMN_CANDIDATES', spec.columns.filterPrimary);
-  arr('CORRIDOR_COLUMN_CANDIDATES', spec.columns.filterSecondary);
+  arr('CADENCE_COLUMN_CANDIDATES', inlineName);
+  arr('REGION_COLUMN_CANDIDATES', cols.filterPrimary || []);
+  arr('CORRIDOR_COLUMN_CANDIDATES', cols.filterSecondary || []);
   // inline detail metrics (CADENCE_DETAIL_COLUMNS)
-  const keys = spec.columns.inlineMetrics.map((_, n) => `metric${n + 1}`);
-  const body = spec.columns.inlineMetrics.map((m, n) =>
+  const keys = inlineMetrics.map((_, n) => `metric${n + 1}`);
+  const body = inlineMetrics.map((m, n) =>
     `  ${keys[n]}: {\n    label: '${m.label}',\n    format: '${m.format}',\n    candidates: [${m.candidates.map((c) => `'${c}'`).join(', ')}],\n  },`).join('\n');
   s = s.replace(/export const CADENCE_DETAIL_COLUMNS: Record<[\s\S]*?\n> = \{[\s\S]*?\n\};/,
-    `export const CADENCE_DETAIL_COLUMNS: Record<\n  ${keys.map((k) => `'${k}'`).join(' | ')},\n  { label: string; format: 'text' | 'date' | 'number' | 'currency'; candidates: string[] }\n> = {\n${body}\n};`);
+    keys.length
+      ? `export const CADENCE_DETAIL_COLUMNS: Record<\n  ${keys.map((k) => `'${k}'`).join(' | ')},\n  { label: string; format: 'text' | 'date' | 'number' | 'currency'; candidates: string[] }\n> = {\n${body}\n};`
+      : `export const CADENCE_DETAIL_COLUMNS: Record<\n  string,\n  { label: string; format: 'text' | 'date' | 'number' | 'currency'; candidates: string[] }\n> = {};`);
   // hierarchy + date filter columns
-  s = s.replace(/export const SEGMENT_COLUMN = '[^']*';/, `export const SEGMENT_COLUMN = '${spec.columns.hierarchy.segment}';`)
-       .replace(/export const REP_COLUMN = '[^']*';/, `export const REP_COLUMN = '${spec.columns.hierarchy.rep}';`)
-       .replace(/export const CADENCE_NAME_COLUMN = '[^']*';/, `export const CADENCE_NAME_COLUMN = '${spec.columns.hierarchy.cadence}';`)
-       .replace(/export const DATE_COLUMN = '[^']*';/, `export const DATE_COLUMN = '${spec.columns.date}';`);
+  s = s.replace(/export const SEGMENT_COLUMN = '[^']*';/, `export const SEGMENT_COLUMN = '${hierarchy.segment || (cols.filterPrimary || [])[0] || ''}';`)
+       .replace(/export const REP_COLUMN = '[^']*';/, `export const REP_COLUMN = '${hierarchy.rep || (cols.filterSecondary || [])[0] || ''}';`)
+       .replace(/export const CADENCE_NAME_COLUMN = '[^']*';/, `export const CADENCE_NAME_COLUMN = '${hierarchy.cadence || inlineName[0]}';`)
+       .replace(/export const DATE_COLUMN = '[^']*';/, `export const DATE_COLUMN = '${cols.date || ''}';`);
   // embed theme hex swaps (indigo -> brand)
   for (const [a, b] of spec.embedSwaps || []) s = s.split(a).join(b);
   // Brand-tint the LIGHT embed surfaces (secondary buttons, chips, hovers, tile
@@ -249,15 +314,24 @@ edit(path.join(OUT, 'src/styles/globals.css'), (s) => {
   // Guarantee the fixed brand tokens the chatbot depends on — if the spec's theme
   // dicts omit them, the chat FAB/header background (var(--brand-accent/navy)) would
   // be undefined and render transparent. Default from the light primary + ink.
-  for (const key of ['light', 'dark']) {
-    const d = spec.theme[key] || {};
-    if (!d['--brand-accent']) d['--brand-accent'] = spec.theme.light['--sl-green'] || '#4F5BD5';
-    if (!d['--brand-navy']) d['--brand-navy'] = spec.theme.light['--sl-evergreen'] || '#12203a';
-    spec.theme[key] = d;
+  // spec.theme is OPTIONAL: omit it (and pass no screenshot) to keep the
+  // template's palette, which step 1 already rebranded. Only regenerate the
+  // token blocks when a theme was supplied, and only for the modes it defines —
+  // block(undefined) would otherwise throw.
+  if (spec.theme) {
+    for (const key of ['light', 'dark']) {
+      const d = spec.theme[key] || {};
+      const lightDict = spec.theme.light || {};
+      if (!d['--brand-accent']) d['--brand-accent'] = lightDict['--sl-green'] || '#4F5BD5';
+      if (!d['--brand-navy']) d['--brand-navy'] = lightDict['--sl-evergreen'] || '#12203a';
+      spec.theme[key] = d;
+    }
+    const block = (dict) => Object.entries(dict).map(([k, v]) => `  ${k}: ${v};`).join('\n');
+    if (Object.keys(spec.theme.light || {}).length)
+      s = s.replace(/:root \{\n[\s\S]*?\n\}/, `:root {\n${block(spec.theme.light)}\n}`);
+    if (Object.keys(spec.theme.dark || {}).length)
+      s = s.replace(/:root\[data-theme='dark'\] \{\n[\s\S]*?\n\}/, `:root[data-theme='dark'] {\n${block(spec.theme.dark)}\n}`);
   }
-  const block = (dict) => Object.entries(dict).map(([k, v]) => `  ${k}: ${v};`).join('\n');
-  s = s.replace(/:root \{\n[\s\S]*?\n\}/, `:root {\n${block(spec.theme.light)}\n}`);
-  s = s.replace(/:root\[data-theme='dark'\] \{\n[\s\S]*?\n\}/, `:root[data-theme='dark'] {\n${block(spec.theme.dark)}\n}`);
   // leftover dark-override rules (login-left gradient, branded header fills)
   for (const [a, b] of spec.cssSwaps || []) s = s.split(a).join(b);
   if (spec.font && spec.font.file) {
@@ -269,29 +343,67 @@ edit(path.join(OUT, 'src/styles/globals.css'), (s) => {
 });
 
 // ---- 6. theme default + assets --------------------------------------------
-edit(path.join(OUT, 'src/context/ThemeContext.tsx'), (s) =>
-  s.replace(/: 'dark';/, `: '${spec.theme.default}';`).replace(/: 'light';/, `: '${spec.theme.default}';`));
+if (spec.theme?.default)
+  edit(path.join(OUT, 'src/context/ThemeContext.tsx'), (s) =>
+    s.replace(/: 'dark';/, `: '${spec.theme.default}';`).replace(/: 'light';/, `: '${spec.theme.default}';`));
 if (spec.logo?.svgPath) {
-  const svg = read(path.join(ROOT, spec.logo.svgPath)).replace(/fill:\s*#[0-9A-Fa-f]{3,6}/g, 'fill:currentColor');
+  const svg = read(path.resolve(ROOT, spec.logo.svgPath)).replace(/fill:\s*#[0-9A-Fa-f]{3,6}/g, 'fill:currentColor');
   write(path.join(OUT, `src/assets/${slug}-logo.svg`), svg);
 }
 if (spec.favicon) write(path.join(OUT, `public/${slug}-icon.svg`), spec.favicon);
-if (spec.font?.srcPath) fs.copyFileSync(path.join(ROOT, spec.font.srcPath), path.join(OUT, `public/${spec.font.file}`));
+if (spec.font?.srcPath) fs.copyFileSync(path.resolve(ROOT, spec.font.srcPath), path.join(OUT, `public/${spec.font.file}`));
 // remove stale template assets
-for (const f of ['public/northwind-icon.svg', 'src/assets/northwind-logo.svg', 'public/figma-reference.png'])
+for (const f of ['public/northwind-icon.svg', 'public/figma-reference.png'])
   { const p = path.join(OUT, f); if (fs.existsSync(p)) fs.rmSync(p); }
 
 // ---- 7. prune features the spec turns off ----------------------------------
 const f = spec.features || {};
-const rmTab = (id, extraFiles = []) => {
-  edit(path.join(OUT, 'src/App.tsx'), (s) => s.replace(new RegExp(`\\s*\\{tab === '${id}' && <[^>]+>\\}`), ''));
-  edit(path.join(OUT, 'src/components/TopBar.tsx'), (s) => s.replace(new RegExp(`\\s*\\{ id: '${id}',[^\\n]*\\},`), ''));
+// component = the imported identifier in App.tsx (e.g. 'Carriers', 'SpotterTab'),
+// icon = the lucide-react icon identifier used only by that tab's TopBar entry.
+// Both dangling imports would otherwise fail `tsc` (TS6133/TS2307) after the tab
+// and its file are pruned.
+// Removing a tab must also remove its App.tsx import — the file is deleted, so
+// a dangling `import Carriers from './tabs/Carriers'` fails tsc (TS2307/TS6133).
+// Icons are deliberately NOT removed here: they are shared candidates for the
+// iconForLabel resolver, so deleting one by name breaks every other tab that
+// could resolve to it. Orphaned icons are handled once, below.
+const rmTab = (id, component, extraFiles = []) => {
+  edit(path.join(OUT, 'src/App.tsx'), (s) => s
+    .replace(new RegExp(`\\s*\\{tab === '${id}' && <[^>]+>\\}`), '')
+    .replace(new RegExp(`import ${component} from '\\./tabs/[^']+';\\n`), ''));
+  edit(path.join(OUT, 'src/components/TopBar.tsx'), (s) =>
+    s.replace(new RegExp(`\\s*\\{ id: '${id}',[^\\n]*\\},`), ''));
   for (const rel of extraFiles) { const p = path.join(OUT, rel); if (fs.existsSync(p)) fs.rmSync(p); }
 };
-if (f.inline === false) rmTab('carriers', ['src/tabs/Carriers.tsx']);
-if (f.action === false) rmTab('capacity', ['src/tabs/Capacity.tsx', 'src/components/BidModal.tsx']);
-if (f.askMode === 'fancy') rmTab('spotter', ['src/tabs/Spotter.tsx']);
-if (f.askMode === 'normal') rmTab('ask', [`src/tabs/Ask${client}.tsx`]);
+if (f.inline === false) rmTab('carriers', 'Carriers', ['src/tabs/Carriers.tsx']);
+if (f.action === false) rmTab('capacity', 'Capacity', ['src/tabs/Capacity.tsx', 'src/components/BidModal.tsx']);
+if (f.askMode === 'fancy') rmTab('spotter', 'SpotterTab', ['src/tabs/Spotter.tsx']);
+if (f.askMode === 'normal') rmTab('ask', `Ask${clientIdent}`, [`src/tabs/Ask${clientIdent}.tsx`]);
+
+// Pruning a tab can orphan icon imports, which fails tsc under noUnusedLocals.
+// Two cases, and BOTH occur: pruning one of inline/action leaves that tab's
+// fallback icon (e.g. Zap) unused, and pruning both additionally orphans
+// iconForLabel and every candidate icon it can resolve to. Drop the resolver
+// first when nothing calls it, then sweep whatever candidate imports are left
+// unreferenced — which covers either case without naming icons per tab.
+edit(path.join(OUT, 'src/components/TopBar.tsx'), (s) => {
+  if (!/icon:\s*iconForLabel\(/.test(s)) {
+    s = s.replace(/\/\/ Pick a tab icon from its label[\s\S]*?\nfunction iconForLabel[\s\S]*?\n\}\n\n/, '');
+  }
+  const block = s.match(/(\n\s*\/\/ candidate icons the label-resolver[^\n]*\n)([\s\S]*?)(?=\n\} from 'lucide-react';)/);
+  if (!block) return s;
+  const kept = block[2]
+    .split('\n')
+    .filter((line) => {
+      const name = line.trim().replace(/,$/, '');
+      if (!/^[A-Z][A-Za-z0-9]*$/.test(name)) return false;      // drop blanks/comments
+      // Referenced anywhere outside this import block?
+      const rest = s.replace(block[0], '');
+      return new RegExp(`\\b${name}\\b`).test(rest);
+    });
+  // Keep the comment only while candidates survive; drop the block entirely otherwise.
+  return s.replace(block[0], kept.length ? block[1] + kept.join('\n') : '');
+});
 
 console.log(`\n[apply-spec] ${client} -> ${slug}-tse/ in ${((Date.now() - t0) / 1000).toFixed(2)}s`);
 if (f.action !== false)
