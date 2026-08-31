@@ -61,8 +61,15 @@ const embedFontUrl = (spec.font && spec.font.googleUrl) || gfontUrl(fbFamily);
 // or googleUrl) is loaded via index.html's <link>. isBrandGoogleFont is true when
 // the brand font IS itself a Google font (map returns it unchanged).
 const isBrandGoogleFont = fbFamily.toLowerCase() === brandFamily.toLowerCase() && brandFamily.toLowerCase() !== 'inter';
+// Host webfont. With no self-hosted file the host must still LOAD something in
+// the token stack, or it silently falls through to system-ui: the theme tokens
+// name `brandFamily, fbFamily, system-ui`, and the stock <link> loads Inter —
+// which isn't in that list. So load the brand font when it's a Google face, and
+// otherwise its fallback (a licensed font like Proxima Nova can't be fetched).
+// That is the same family the embeds get via TS_FONT_URL, so host and iframe match.
 const hostGoogleUrl = spec.font
-  ? (spec.font.googleUrl || (isBrandGoogleFont && !spec.font.file ? gfontUrl(brandFamily) : null))
+  ? (spec.font.googleUrl ||
+     (spec.font.file ? null : gfontUrl(isBrandGoogleFont ? brandFamily : fbFamily)))
   : null;
 
 // ---- helpers ---------------------------------------------------------------
