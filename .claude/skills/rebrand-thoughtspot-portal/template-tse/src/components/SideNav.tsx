@@ -3,7 +3,9 @@
 // theme toggle and user menu as the top bar; only the layout differs, so both
 // stay in sync as tabs/features change. Match a customer's left-nav UI with
 // this, then hand-tune spacing/labels as needed.
-import { ChevronDown, LogOut, Sun, Moon, Crown, Check } from 'lucide-react';
+import {
+  ChevronDown, LogOut, Sun, Moon, Crown, Check, PanelLeftClose, PanelLeftOpen,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -17,12 +19,25 @@ interface Props {
   onChange: (tab: TabId) => void;
 }
 
+// Collapsed state is per-browser and survives reloads. The brand token is
+// rewritten by apply-spec.mjs, so each generated app gets its own key.
+const COLLAPSE_KEY = 'northwind-sidenav-collapsed';
+
+function initialCollapsed(): boolean {
+  try {
+    return localStorage.getItem(COLLAPSE_KEY) === '1';
+  } catch {
+    return false; // private mode / blocked storage — start expanded.
+  }
+}
+
 export default function SideNav({ active, onChange }: Props) {
   const { username, logout } = useAuth();
   const { theme, toggle } = useTheme();
   const { tier, setTier } = useTier();
   const [menuOpen, setMenuOpen] = useState(false);
   const [tierOpen, setTierOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(initialCollapsed);
   const initials = (username || 'U').slice(0, 2).toUpperCase();
   const tierRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
@@ -39,10 +54,34 @@ export default function SideNav({ active, onChange }: Props) {
     return () => document.removeEventListener('mousedown', onDown);
   }, [menuOpen, tierOpen]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0');
+    } catch {
+      /* storage blocked — collapse still works for this session. */
+    }
+  }, [collapsed]);
+
+  // Collapsing to the icon rail would clip an open dropdown; close them first.
+  function toggleCollapsed() {
+    setMenuOpen(false);
+    setTierOpen(false);
+    setCollapsed((c) => !c);
+  }
+
   return (
-    <aside className="sidenav">
+    <aside className={`sidenav${collapsed ? ' is-collapsed' : ''}`}>
       <div className="sidenav-brand">
-        <NorthwindLogo className="sidenav-logo" />
+        {!collapsed && <NorthwindLogo className="sidenav-logo" />}
+        <button
+          className="sidenav-collapse"
+          onClick={toggleCollapsed}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-expanded={!collapsed}
+        >
+          {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+        </button>
       </div>
 
       {PLATFORM_NAV.length > 0 && (
@@ -63,6 +102,7 @@ export default function SideNav({ active, onChange }: Props) {
               key={tab.id}
               className={`sidenav-tab ${active === tab.id ? 'is-active' : ''}`}
               onClick={() => onChange(tab.id)}
+              title={collapsed ? tab.label : undefined}
             >
               <Icon size={18} strokeWidth={2} />
               <span>{tab.label}</span>
@@ -84,10 +124,17 @@ export default function SideNav({ active, onChange }: Props) {
 
         {/* Tier switcher — demo control to preview Premium vs Basic gating. */}
         {FLAGS.tiers && (
-          <div className="sidenav-tier" ref={tierRef} onClick={() => setTierOpen((o) => !o)}>
+          <div
+          className="sidenav-tier"
+          ref={tierRef}
+          onClick={() => setTierOpen((o) => !o)}
+          title={collapsed ? (tier === 'premium' ? 'Premium' : 'Basic') : undefined}
+        >
             <span className={`tier-pill tier-${tier}`}>
               <Crown size={13} />
-              {tier === 'premium' ? 'Premium' : 'Basic'}
+              <span className="tier-pill-label">
+                {tier === 'premium' ? 'Premium' : 'Basic'}
+              </span>
             </span>
             <ChevronDown size={15} />
             {tierOpen && (
@@ -111,7 +158,12 @@ export default function SideNav({ active, onChange }: Props) {
           </div>
         )}
 
-        <div className="sidenav-user" ref={userRef} onClick={() => setMenuOpen((o) => !o)}>
+        <div
+          className="sidenav-user"
+          ref={userRef}
+          onClick={() => setMenuOpen((o) => !o)}
+          title={collapsed ? username || 'User' : undefined}
+        >
           <span className="topbar-avatar">{initials}</span>
           <span className="sidenav-username">{username || 'User'}</span>
           <ChevronDown size={16} />

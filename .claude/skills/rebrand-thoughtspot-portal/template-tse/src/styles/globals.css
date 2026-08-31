@@ -169,6 +169,7 @@ button {
 .sidenav {
   width: 240px;
   flex: none;
+  transition: width 0.18s ease;
   height: 100vh;
   background: var(--sl-white);
   border-right: 1px solid var(--sl-border);
@@ -180,8 +181,27 @@ button {
   top: 0;
   z-index: 50;
 }
-.sidenav-brand { padding: 4px 8px 12px; }
-.sidenav-logo { height: 30px; }
+.sidenav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 12px;
+}
+.sidenav-logo { height: 30px; min-width: 0; flex: 1; }
+.sidenav-collapse {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sl-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.sidenav-collapse:hover { background: var(--sl-cream-2); color: var(--sl-ink); }
 .sidenav-platform {
   display: flex;
   flex-wrap: wrap;
@@ -265,6 +285,39 @@ button {
   top: auto;
   bottom: calc(100% + 6px);
 }
+
+@media (min-width: 761px) {
+  /* ---- Collapsed icon rail ------------------------------------------------- */
+  /* Labels are hidden but every control keeps a `title`, so the rail stays
+     usable; dropdowns fly out to the right instead of clipping inside 68px. */
+  .sidenav.is-collapsed { width: 68px; padding-left: 10px; padding-right: 10px; }
+  .sidenav.is-collapsed .sidenav-brand { justify-content: center; padding-bottom: 14px; }
+  .sidenav.is-collapsed .sidenav-platform { display: none; }
+  .sidenav.is-collapsed .sidenav-tab,
+  .sidenav.is-collapsed .sidenav-theme-toggle,
+  .sidenav.is-collapsed .sidenav-tier,
+  .sidenav.is-collapsed .sidenav-user {
+    justify-content: center;
+    gap: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .sidenav.is-collapsed .sidenav-tab span,
+  .sidenav.is-collapsed .sidenav-theme-toggle span,
+  .sidenav.is-collapsed .sidenav-username,
+  .sidenav.is-collapsed .tier-pill-label { display: none; }
+  /* The trailing chevrons on the tier + user rows are direct <svg> children. */
+  .sidenav.is-collapsed .sidenav-tier > svg,
+  .sidenav.is-collapsed .sidenav-user > svg { display: none; }
+  .sidenav.is-collapsed .tier-pill { padding: 5px; gap: 0; }
+  .sidenav.is-collapsed .topbar-menu {
+    left: calc(100% + 8px);
+    right: auto;
+    bottom: 0;
+    top: auto;
+  }
+}
+
 /* Narrow screens: collapse the sidebar into a horizontal strip. */
 @media (max-width: 760px) {
   .app-shell.is-sidenav { flex-direction: column; height: auto; min-height: 100vh; }
@@ -279,6 +332,7 @@ button {
     gap: 8px;
   }
   .sidenav-brand { padding: 4px 8px; }
+  .sidenav-collapse { display: none; }
   .sidenav-platform { display: none; }
   .sidenav-tabs { flex-direction: row; flex-wrap: wrap; flex: 1; }
   .sidenav-footer {
