@@ -66,7 +66,7 @@ const HOME_TAB: { id: TabId; label: string; icon: TabIcon } = {
   icon: Home,
 };
 
-const TABS: { id: TabId; label: string; icon: TabIcon }[] = [
+export const TABS: { id: TabId; label: string; icon: TabIcon }[] = [
   // Home landing tab renders first, only when enabled.
   ...(FLAGS.home ? [HOME_TAB] : []),
   { id: 'my-analytics', label: CONTENT.tabs.myReports, icon: LayoutGrid },
@@ -86,7 +86,7 @@ export const PREMIUM_ONLY_TABS: TabId[] = ['ask', 'spotter'];
 // Decorative Northwind platform nav (sets product context, non-interactive).
 // Cap the auto-generated platform links at 2 so the top bar never gets crowded,
 // no matter how many the spec lists.
-const PLATFORM_NAV = [...CONTENT.platformNav].slice(0, 2);
+export const PLATFORM_NAV = [...CONTENT.platformNav].slice(0, 2);
 
 interface Props {
   active: TabId;

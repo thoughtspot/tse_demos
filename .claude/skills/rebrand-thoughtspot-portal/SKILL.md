@@ -70,18 +70,18 @@ Rounds marked **[ADVANCED ONLY]** are skipped entirely in Basic mode.
 
 **Feature reference — MANDATORY step, do NOT skip (Advanced only).** Images can't render
 inside the `AskUserQuestion` popup, so **as the very first action when you reach Round 3
-(before asking anything in it), you MUST call the `Artifact` tool to publish the bundled
-gallery and paste its link to the user.** This is a real tool call, not a description:
+(before asking anything in it), you MUST paste the feature-reference link to the user.**
+Do NOT publish an Artifact — use this fixed, already-shared link:
 
-> Artifact `file_path`: `.claude/skills/rebrand-thoughtspot-portal/references/feature-reference.html`
-> (adjust the leading path only if the skill lives elsewhere; the file is always at
-> `<skill-folder>/references/feature-reference.html`). Then say, verbatim:
-> *"Here's a visual reference for the optional features as we go: `<artifact link>`."*
+> https://docs.google.com/document/d/1tDzpqJ2JSa4yzjICeJzLBu8Wile7PFuAwbM1ZpoBjs0/edit?usp=sharing
+>
+> Say, verbatim:
+> *"Here's a visual reference for the optional features as we go: <link above>."*
 
-It shows mockups of the four optional features (Inline insights, Custom action,
-Monetization paywall, Add Report), and each feature round below points the user to its
-section. If you find yourself asking the Round 3 gate **without** having posted this link,
-stop and post it first. In **Basic** mode, skip it (those rounds don't run).
+It shows the four optional features (Inline insights, Custom action, Monetization paywall,
+Add Report), and each feature round below points the user to its section. If you find
+yourself asking the Round 3 gate **without** having posted this link, stop and post it
+first. In **Basic** mode, skip it (those rounds don't run).
 
 ---
 
@@ -127,13 +127,21 @@ URL formats vary by version. If the user pastes a **bare GUID with no URL**, you
 the type — ask which it is. Map each confirmed value to its spec field (analyticsLiveboard,
 model, inlineLiveboard, actionLiveboard + actionViz).
 
-…then `AskUserQuestion`:
+…then `AskUserQuestion` — ask **both** questions below in the **same popup**:
 - question: `How should the embedded ThoughtSpot content authenticate?`
 - header: `Auth` · multiSelect: false
 - options:
   - `Basic – typed credentials (Recommended)` — A username/password login gate in the app.
   - `None – ride existing session` — Embeds use whatever ThoughtSpot session is already signed in. Simplest for demos.
   - `Trusted – advanced` — Token-based trusted auth; needs backend setup.
+- question: `How should the app's navigation look?`
+- header: `Nav layout` · multiSelect: false
+- options:
+  - `Top bar` — Horizontal tabs across the top (the default look).
+  - `Left sidebar` — A vertical left-hand nav panel, matching many enterprise app UIs.
+
+Record the nav answer as `features.navLayout` (`top` | `sidebar`). If the user shared a
+brand/product screenshot whose menu is a left panel, prefer `sidebar` and confirm.
 
 **ROUND 3 — Inline-insights tab** · **[ADVANCED ONLY]** · *(point them to the "Inline insights" mockup in the feature reference)* · `AskUserQuestion` gate:
 - question: `Add an inline-insights tab? (List where each row of the Client App expands to reveal a ThoughtSpot Liveboard / component filtered to the list item)`

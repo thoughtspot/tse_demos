@@ -215,7 +215,8 @@
     "monetize": true,
     "tiers": true,
     "pinning": true,
-    "home": true
+    "home": true,
+    "navLayout": "top"
   },
   "content": {
     "company": "InTime",
