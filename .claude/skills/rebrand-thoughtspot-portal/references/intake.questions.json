@@ -123,6 +123,29 @@
             }
           ],
           "default": "template"
+        },
+        {
+          "id": "features.navLayout",
+          "prompt": "How should the app's navigation look?",
+          "type": "string",
+          "specPath": "features.navLayout",
+          "required": false,
+          "default": "top",
+          "help": "If the brand screenshot shows a left-hand menu, prefer sidebar and confirm with the SE.",
+          "options": [
+            {
+              "value": "top",
+              "label": "Top bar",
+              "description": "Horizontal tabs across the top (the default look).",
+              "recommended": true
+            },
+            {
+              "value": "sidebar",
+              "label": "Left sidebar",
+              "description": "A vertical left-hand nav panel, matching many enterprise app UIs."
+            }
+          ],
+          "input": "choice"
         }
       ]
     },
