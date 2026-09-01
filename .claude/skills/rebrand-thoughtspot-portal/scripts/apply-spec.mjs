@@ -319,6 +319,18 @@ edit(path.join(OUT, 'src/styles/globals.css'), (s) => {
   // token blocks when a theme was supplied, and only for the modes it defines —
   // block(undefined) would otherwise throw.
   if (spec.theme) {
+    // Record which modes the SPEC actually defined, before the brand-token
+    // defaults below. Those defaults write two keys into whatever dict they are
+    // given, so an empty one stops looking empty — and the emptiness check that
+    // is meant to preserve the template's palette then passes, replacing the
+    // whole :root with just those two tokens. Everything else the app reads
+    // (--font-sans, --sl-green, --sl-cream, --sl-ink, …) is left referenced but
+    // undefined, so the page renders in the browser's default serif with no
+    // colours. It still builds and still serves, so nothing reports it.
+    const supplied = {
+      light: Object.keys(spec.theme.light || {}).length > 0,
+      dark: Object.keys(spec.theme.dark || {}).length > 0,
+    };
     for (const key of ['light', 'dark']) {
       const d = spec.theme[key] || {};
       const lightDict = spec.theme.light || {};
@@ -327,9 +339,9 @@ edit(path.join(OUT, 'src/styles/globals.css'), (s) => {
       spec.theme[key] = d;
     }
     const block = (dict) => Object.entries(dict).map(([k, v]) => `  ${k}: ${v};`).join('\n');
-    if (Object.keys(spec.theme.light || {}).length)
+    if (supplied.light)
       s = s.replace(/:root \{\n[\s\S]*?\n\}/, `:root {\n${block(spec.theme.light)}\n}`);
-    if (Object.keys(spec.theme.dark || {}).length)
+    if (supplied.dark)
       s = s.replace(/:root\[data-theme='dark'\] \{\n[\s\S]*?\n\}/, `:root[data-theme='dark'] {\n${block(spec.theme.dark)}\n}`);
   }
   // leftover dark-override rules (login-left gradient, branded header fills)
