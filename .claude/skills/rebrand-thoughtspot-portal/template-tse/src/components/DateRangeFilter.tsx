@@ -3,6 +3,11 @@
 // runtime filter on the Cadence Create Date column.
 import { useEffect, useRef, useState } from 'react';
 import { CalendarRange, ChevronDown, ChevronRight, X } from 'lucide-react';
+import { CONTENT } from '../content';
+
+// Names the date column being filtered (spec: columns.date). Falls back to a
+// neutral 'Date' rather than a guess, so the pill is never actively wrong.
+const DATE_LABEL = (CONTENT.filters as { dateLabel?: string }).dateLabel ?? 'Date';
 
 /** Epoch SECONDS range (either bound optional). null = no date filter. */
 export interface DateSelection {
@@ -104,7 +109,7 @@ export default function DateRangeFilter({ onApply }: Props) {
     <div className="sl-datefilter" ref={rootRef}>
       <button className="sl-hfilter-trigger" onClick={() => setOpen((o) => !o)}>
         <CalendarRange size={15} />
-        <span>Created: {label}</span>
+        <span>{DATE_LABEL}: {label}</span>
         {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
       </button>
 

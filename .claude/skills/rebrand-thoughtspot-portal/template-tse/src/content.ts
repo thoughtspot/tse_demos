@@ -81,7 +81,7 @@ export const CONTENT = {
   },
 
   // ---- analytics host filters -------------------------------------------
-  filters: { primaryLabel: 'Region', secondaryLabel: 'Freight corridor' },
+  filters: { primaryLabel: 'Region', secondaryLabel: 'Freight corridor', dateLabel: 'Load date' },
 
   // ---- Ask-AI (fancy chat) ----------------------------------------------
   sampleQuestions: [
