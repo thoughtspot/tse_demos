@@ -534,6 +534,14 @@ button {
   padding: 32px 32px 48px;
 }
 
+/* With the left sidebar there is no top bar above the content, so the Analytics
+   page title sits hard against the top of the viewport. Give it extra breathing
+   room. Scoped to >=761px: below that the sidebar reflows into a horizontal
+   strip that already separates the content, exactly like the top bar does. */
+@media (min-width: 761px) {
+  .app-shell.is-sidenav .tab-analytics { padding-top: 44px; }
+}
+
 .page-title {
   font-family: var(--font-serif);
   font-size: 34px;
