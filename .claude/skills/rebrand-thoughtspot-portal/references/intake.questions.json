@@ -5,7 +5,7 @@
     "Machine-readable form of intake.md, so the interactive skill and the AgentQ site worker",
     "ask the same questions from one source. The worker serves this via get_intake_questions.",
     "`specPath` is the dot path the answer is written to in spec.json. `specPath: null` means the",
-    "answer does not map to a spec field today (see `unmapped`) — it is context for a hand-step.",
+    "answer does not map to a spec field today (see `unmapped`); it is context for a hand-step.",
     "`when` gates a question on earlier answers: every key must match one of its listed values."
   ],
   "sections": [
@@ -20,14 +20,14 @@
           "options": [
             {
               "value": "basic",
-              "label": "Basic — quick demo",
+              "label": "Basic: quick demo",
               "description": "Dashboards, Spotter, Ask-AI and theme. Skips the inline-insights, custom-action and pinning sections.",
               "recommended": true
             },
             {
               "value": "advanced",
-              "label": "Advanced — full build",
-              "description": "Full build — adds the inline-insights list tab, a custom-action workflow, and Add Report."
+              "label": "Advanced: full build",
+              "description": "Full build. Adds the inline-insights list tab, a custom-action workflow, and Add Report."
             }
           ],
           "default": "basic",
@@ -97,11 +97,11 @@
         },
         {
           "id": "logo",
-          "prompt": "Logo — attach an SVG (preferred) or PNG, or say \"generate one\"",
+          "prompt": "Logo: attach an SVG (preferred) or PNG, or say \"generate one\"",
           "type": "attachment",
           "specPath": "logo.svgPath",
           "required": false,
-          "help": "Pass it as build_site's `logo` argument (base64), not in the spec — spec.logo.svgPath is a path on the server and is unreachable to a remote caller. SVG is strongly preferred: it is inlined and follows the theme. PNG/JPEG work but embed as a fixed raster that will not flip with the theme. Omit to keep the template placeholder wordmark, renamed to the brand.",
+          "help": "Pass it as build_site's `logo` argument (base64), not in the spec; spec.logo.svgPath is a path on the server and is unreachable to a remote caller. SVG is strongly preferred: it is inlined and follows the theme. PNG/JPEG work but embed as a fixed raster that will not flip with the theme. Omit to keep the template placeholder wordmark, renamed to the brand.",
           "input": "choice",
           "options": [
             {
@@ -119,7 +119,7 @@
             {
               "value": "generate",
               "label": "Generate one",
-              "description": "Hand-step, not automated by the codemod — someone has to produce the mark."
+              "description": "Hand-step, not automated by the codemod; someone has to produce the mark."
             }
           ],
           "default": "template"
@@ -136,7 +136,7 @@
           "type": "string",
           "specPath": "host",
           "required": false,
-          "help": "Stored as a bare host — a full pasted URL is normalized, so https://x.thoughtspot.cloud/#/ becomes x.thoughtspot.cloud.",
+          "help": "Stored as a bare host; a full pasted URL is normalized, so https://x.thoughtspot.cloud/#/ becomes x.thoughtspot.cloud.",
           "input": "choice",
           "allowsCustom": true,
           "default": "se-thoughtspot-cloud.thoughtspot.cloud",
@@ -145,7 +145,7 @@
               "value": "se-thoughtspot-cloud.thoughtspot.cloud",
               "label": "The SE demo cluster",
               "recommended": true,
-              "description": "https://se-thoughtspot-cloud.thoughtspot.cloud/#/ — the standard demo cluster. Nothing to look up."
+              "description": "https://se-thoughtspot-cloud.thoughtspot.cloud/#/. The standard demo cluster. Nothing to look up."
             },
             {
               "value": "<your-co.thoughtspot.cloud>",
@@ -161,7 +161,7 @@
           "type": "guid",
           "specPath": "ids.analyticsLiveboard",
           "required": true,
-          "help": "Confirm this is a LIVEBOARD GUID, not a viz GUID — a viz GUID here renders a blank embed.",
+          "help": "Confirm this is a LIVEBOARD GUID, not a viz GUID; a viz GUID here renders a blank embed.",
           "input": "text"
         },
         {
@@ -178,6 +178,7 @@
           "type": "enum",
           "specPath": "auth",
           "required": false,
+          "when": { "depth": ["advanced"] },
           "default": "none",
           "options": [
             {
@@ -194,7 +195,7 @@
             {
               "value": "trusted",
               "label": "Advanced / trusted auth",
-              "description": "Trusted/token auth. Needs a server component — out of scope for a static demo build."
+              "description": "Trusted/token auth. Needs a server component, out of scope for a static demo build."
             }
           ],
           "input": "choice"
@@ -205,7 +206,7 @@
           "type": "string[]",
           "specPath": "columns.filterPrimary",
           "required": false,
-          "help": "Candidate list — the first name that returns data wins.",
+          "help": "Candidate list; the first name that returns data wins.",
           "input": "text"
         },
         {
@@ -382,7 +383,7 @@
             {
               "value": true,
               "label": "Yes",
-              "description": "Right-click a chart row to open a workflow modal. Needs a viz GUID AND a hand-built modal — the generic Request Bid form must not ship."
+              "description": "Right-click a chart row to open a workflow modal. Needs a viz GUID AND a hand-built modal; the generic Request Bid form must not ship."
             }
           ],
           "input": "choice"
@@ -509,7 +510,7 @@
           "specPath": null,
           "unmapped": true,
           "required": false,
-          "help": "Not configurable — the template has no toggle for it. Shown for awareness, not a decision.",
+          "help": "Not configurable; the template has no toggle for it. Shown for awareness, not a decision.",
           "input": "info"
         },
         {
@@ -601,7 +602,7 @@
               true
             ]
           },
-          "help": "Becomes the upgrade-prompt copy. It is the message shown, not enforcement — the template gates a fixed set of capabilities when features.tiers is on.",
+          "help": "Becomes the upgrade-prompt copy. It is the message shown, not enforcement; the template gates a fixed set of capabilities when features.tiers is on.",
           "input": "text"
         }
       ]
@@ -617,12 +618,12 @@
       "questions": [
         {
           "id": "features.pinning",
-          "prompt": "Want \"Add Report\" — build a chart in-app and pin it to the dashboard?",
+          "prompt": "Want \"Add Report\", which builds a chart in-app and pins it to the dashboard?",
           "type": "boolean",
           "specPath": "features.pinning",
           "required": false,
           "default": false,
-          "help": "The Report Builder renders poorly in dark mode — prefer a light default theme if this is on.",
+          "help": "The Report Builder renders poorly in dark mode; prefer a light default theme if this is on.",
           "options": [
             {
               "value": false,
@@ -633,7 +634,7 @@
             {
               "value": true,
               "label": "Yes",
-              "description": "Adds 'Add Report' — build a chart in-app and pin it to the dashboard. Renders poorly in dark mode."
+              "description": "Adds 'Add Report', which builds a chart in-app and pin it to the dashboard. Renders poorly in dark mode."
             }
           ],
           "input": "choice"
@@ -650,7 +651,7 @@
           "type": "attachment",
           "specPath": null,
           "required": false,
-          "help": "Ask for this FIRST. Pass it as build_site's `screenshot` argument, not in the spec — it overrides spec.theme.",
+          "help": "Ask for this FIRST. Pass it as build_site's `screenshot` argument, not in the spec; it overrides spec.theme.",
           "input": "choice",
           "options": [
             {
@@ -658,7 +659,7 @@
               "label": "Attach a screenshot of the brand's site",
               "attachment": true,
               "recommended": true,
-              "description": "The palette is derived from it automatically. Best fidelity — pass it as build_site's `screenshot` argument, not inside the spec."
+              "description": "The palette is derived from it automatically. Best fidelity; pass it as build_site's `screenshot` argument, not inside the spec."
             },
             {
               "value": "template",
@@ -670,7 +671,7 @@
         },
         {
           "id": "theme.default",
-          "prompt": "Light, dark, or both — and which is the default?",
+          "prompt": "Light, dark, or both, and which is the default?",
           "type": "enum",
           "specPath": "theme.default",
           "required": false,
@@ -679,7 +680,7 @@
             {
               "value": "light",
               "label": "Light",
-              "description": "Light mode by default. Prefer this if Add Report is on — the Report Builder renders poorly in dark.",
+              "description": "Light mode by default. Prefer this if Add Report is on; the Report Builder renders poorly in dark.",
               "recommended": true
             },
             {
@@ -696,6 +697,7 @@
           "type": "string",
           "specPath": "font.family",
           "required": false,
+          "when": { "depth": ["advanced"] },
           "help": "Google fonts render in embeds; self-hosted fonts do not. Omit to keep Inter.",
           "input": "choice",
           "allowsCustom": true,
@@ -727,7 +729,7 @@
         },
         {
           "id": "features.home",
-          "prompt": "Want a brand Home landing page as the first thing users see after login (no dashboards — just a headline, tagline, call-to-action and a few highlight stats)?",
+          "prompt": "Want a brand Home landing page as the first thing users see after login (no dashboards, just a headline, tagline, call-to-action and a few highlight stats)?",
           "type": "boolean",
           "specPath": "features.home",
           "required": false,
@@ -750,7 +752,7 @@
         },
         {
           "id": "content.landing",
-          "prompt": "What should the Home page say — headline, tagline, call-to-action, and three highlight stats? (Or say \"model it on the screenshot\".)",
+          "prompt": "What should the Home page say: headline, tagline, call-to-action, and three highlight stats? (Or say \"model it on the screenshot\".)",
           "type": "object",
           "specPath": "content.landing",
           "required": false,
@@ -759,7 +761,7 @@
               true
             ]
           },
-          "help": "Shape: { eyebrow, headline: [{text, accent?}], subline, ctaLabel, stats: [{value, label}] }. NOTE: spec.content is all-or-nothing — the codemod replaces content.ts wholesale — so supplying this means supplying every other content key too. Omit content entirely to get the template copy with the brand name substituted.",
+          "help": "Shape: { eyebrow, headline: [{text, accent?}], subline, ctaLabel, stats: [{value, label}] }. NOTE: spec.content is all-or-nothing: the codemod replaces content.ts wholesale, so supplying this means supplying every other content key too. Omit content entirely to get the template copy with the brand name substituted.",
           "input": "text"
         }
       ]
