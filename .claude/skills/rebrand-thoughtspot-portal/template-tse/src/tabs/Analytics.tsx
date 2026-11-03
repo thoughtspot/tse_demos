@@ -6,7 +6,7 @@ import {
   useEmbedRef,
 } from '@thoughtspot/visual-embed-sdk/react';
 import { HostEvent, ContextType, RuntimeFilterOp, Action } from '@thoughtspot/visual-embed-sdk';
-import { Wand2, Plus, Pin, X, ChevronDown, FileSearch, MapPin, Route } from 'lucide-react';
+import { Wand2, Plus, Pin, X, ChevronDown, FileSearch, MapPin, Route, Sparkles } from 'lucide-react';
 import {
   ANALYTICS_LIVEBOARD_ID,
   WORKSHEET_ID,
@@ -15,8 +15,15 @@ import {
   REGION_COLUMN_CANDIDATES,
   CORRIDOR_COLUMN_CANDIDATES,
   DATE_COLUMN,
+  HIDE_LIVEBOARD_CHROME_RULES,
 } from '../config';
-import { liveboardCustomizations, spotterCustomizations, tsCustomizations } from '../lib/thoughtspot';
+import {
+  liveboardCustomizations,
+  spotterCustomizations,
+  tsCustomizations,
+  fetchLiveboardTabs,
+  LiveboardTab,
+} from '../lib/thoughtspot';
 import { useTheme } from '../context/ThemeContext';
 import { CONTENT } from '../content';
 import { FLAGS } from '../flags';
@@ -44,6 +51,38 @@ export default function Analytics() {
   const liveboardRef = useEmbedRef<typeof LiveboardEmbed>();
   const searchRef = useEmbedRef<typeof SearchEmbed>();
   const spotterRef = useEmbedRef<typeof SpotterEmbed>();
+
+  // ---- Host-rendered liveboard tabs -----------------------------------------
+  // The embed's own header + tab strip are hidden (HIDE_LIVEBOARD_CHROME_RULES)
+  // so the board reads as part of the portal; the host re-renders the tabs here
+  // and switches with HostEvent.SetActiveTab. Layout-neutral (top bar + sidebar).
+  const [lbTabs, setLbTabs] = useState<LiveboardTab[]>([]);
+  const [activeLbTab, setActiveLbTab] = useState<string | null>(null);
+  const activeLbTabRef = useRef<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetchLiveboardTabs(ANALYTICS_LIVEBOARD_ID)
+      .then((tabs) => {
+        if (cancelled) return;
+        setLbTabs(tabs);
+        const start = tabs[0]?.id ?? null;
+        setActiveLbTab(start);
+        activeLbTabRef.current = start;
+      })
+      .catch((e) => console.warn('[analytics] could not load liveboard tabs:', e));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  const selectLbTab = (tabId: string) => {
+    setActiveLbTab(tabId);
+    activeLbTabRef.current = tabId;
+    liveboardRef.current?.trigger(HostEvent.SetActiveTab, { tabId });
+  };
+  const restoreLbTab = () => {
+    const tabId = activeLbTabRef.current;
+    if (tabId) liveboardRef.current?.trigger(HostEvent.SetActiveTab, { tabId });
+  };
 
   // ---- host-side filter selections (refs so applyFilters reads latest) ------
   // Region + Freight corridor multiselects + a Load Date range — all empty by
@@ -202,6 +241,13 @@ export default function Analytics() {
         </div>
 
         <div className="analytics-toolbar-actions">
+          <button
+            className="analytics-ai-btn"
+            onClick={() => liveboardRef.current?.trigger(HostEvent.AIHighlights)}
+            title={`Summarize what changed with ${CONTENT.aiName ?? 'AI'}`}
+          >
+            <Sparkles size={15} /> {CONTENT.aiName ?? 'AI'} Highlights
+          </button>
           {FLAGS.pinning && (
           <div className="analytics-addmenu" ref={menuRef}>
             <button className="analytics-addreport-btn" onClick={() => setMenuOpen((o) => !o)}>
@@ -222,6 +268,22 @@ export default function Analytics() {
         </div>
       </div>
 
+      {lbTabs.length > 1 && (
+        <div className="analytics-lb-tabs" role="tablist" aria-label="Report sections">
+          {lbTabs.map((t) => (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={activeLbTab === t.id}
+              className={`analytics-lb-tab${activeLbTab === t.id ? ' is-active' : ''}`}
+              onClick={() => selectLbTab(t.id)}
+            >
+              {t.name}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className={`analytics-split${open ? ' is-split' : ''}`}>
         <div className="analytics-board-col" ref={boardColRef}>
           <div className="liveboard-wrapper">
@@ -230,10 +292,11 @@ export default function Analytics() {
               ref={liveboardRef}
               liveboardId={ANALYTICS_LIVEBOARD_ID}
               fullHeight
+              onLiveboardRendered={restoreLbTab}
               disabledActions={tier === 'basic' ? BASIC_DISABLED_ACTIONS : []}
               disabledActionReason={UPGRADE_REASON}
               frameParams={{ width: '100%' }}
-              customizations={liveboardCustomizations(theme)}
+              customizations={liveboardCustomizations(theme, HIDE_LIVEBOARD_CHROME_RULES)}
               {...LIVEBOARD_EMBED_FLAGS}
             />
           </div>

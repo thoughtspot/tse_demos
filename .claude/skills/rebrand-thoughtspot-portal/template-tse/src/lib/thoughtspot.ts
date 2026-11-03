@@ -20,6 +20,8 @@ import {
   Northwind_EMBED_RULES,
   SPOTTER_ANSWER_ACTION_RULES,
   SPOTTER_LANDING_FLAT_RULES,
+  chartPaletteRules,
+  SPOTTER_FIT_RULES,
   tsVarsFor,
   ThemeName,
 } from '../config';
@@ -65,6 +67,7 @@ export function tsCustomizations(
   theme: ThemeName,
   withStringReplacements = false,
   extraRules?: Record<string, Record<string, string>>,
+  extraVars?: Record<string, string>,
 ) {
   // Merge the dark-only surface rules with any per-embed extra rules.
   const rules = {
@@ -78,7 +81,7 @@ export function tsCustomizations(
       // Load Inter + Fraunces into the iframe so embeds match the host fonts.
       customCSSUrl: TS_FONT_URL,
       customCSS: {
-        variables: tsVarsFor(theme),
+        variables: { ...tsVarsFor(theme), ...(extraVars ?? {}) },
         ...(hasRules ? { rules_UNSTABLE: rules } : {}),
       },
     },
@@ -106,16 +109,19 @@ export function tsCustomizations(
 export function spotterCustomizations(
   theme: ThemeName,
   extraRules?: Record<string, Record<string, string>>,
+  extraVars?: Record<string, string>,
 ) {
   return {
     style: {
       customCSSUrl: TS_FONT_URL,
       customCSS: {
-        variables: tsVarsFor(theme),
+        variables: { ...tsVarsFor(theme), ...(extraVars ?? {}) },
         rules_UNSTABLE: {
           ...(theme === 'dark' ? TS_RULES_DARK : {}),
           ...SPOTTER_ANSWER_ACTION_RULES,
           ...SPOTTER_LANDING_FLAT_RULES,
+          ...chartPaletteRules(theme),
+          ...SPOTTER_FIT_RULES,
           ...(extraRules ?? {}),
         },
       },
@@ -138,7 +144,11 @@ export function spotterCustomizations(
  * override that contrasts with the (theme-dependent) label. Background-color
  * only, so it can't affect layout.
  */
-export function liveboardCustomizations(theme: ThemeName) {
+export function liveboardCustomizations(
+  theme: ThemeName,
+  extraRules?: Record<string, Record<string, string>>,
+  extraVars?: Record<string, string>,
+) {
   const hoverBg = theme === 'dark' ? '#0f9a63' : '#d9ecea';
   const activeBg = theme === 'dark' ? '#0c8554' : '#cfe3e2';
   const btnHoverRules: Record<string, Record<string, string>> = {
@@ -190,12 +200,149 @@ export function liveboardCustomizations(theme: ThemeName) {
       '[class*="funnel" i] *',
     ].join(',')]: { 'font-family': `${APP_FONT} !important` },
   };
-  return tsCustomizations(theme, false, {
-    ...HIDE_FILTER_PILL_RULES,
-    ...btnHoverRules,
-    ...tabRules,
-    ...chartFontRules,
+  return tsCustomizations(
+    theme,
+    false,
+    {
+      ...HIDE_FILTER_PILL_RULES,
+      ...btnHoverRules,
+      ...tabRules,
+      ...chartFontRules,
+      ...chartPaletteRules(theme),
+      ...(extraRules ?? {}),
+    },
+    extraVars,
+  );
+}
+
+export interface LiveboardTab {
+  id: string;
+  name: string;
+}
+
+/**
+ * A liveboard's tabs (id + name, in display order), read from its TML. Used to
+ * render host-side tabs when the embed's own header/tab bar is hidden; switch
+ * with HostEvent.SetActiveTab({ tabId }). Returns [] for an untabbed liveboard.
+ */
+export async function fetchLiveboardTabs(liveboardId: string): Promise<LiveboardTab[]> {
+  const res = await fetch(`${THOUGHTSPOT_HOST}/api/rest/2.0/metadata/tml/export`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      metadata: [{ identifier: liveboardId, type: 'LIVEBOARD' }],
+      edoc_format: 'JSON',
+    }),
   });
+  if (!res.ok) throw new Error(`tml/export failed (${res.status})`);
+  const data = await res.json();
+  const edoc = JSON.parse(data?.[0]?.edoc ?? '{}');
+  const tabs: any[] = edoc?.liveboard?.layout?.tabs ?? [];
+  return tabs.filter((t) => t?.id && t?.name).map((t) => ({ id: t.id, name: t.name }));
+}
+
+// ---------------------------------------------------------------------------
+// "What changed" — the Overview's in-flow single-number answer. Latest month vs
+// the month before for each measure, plus the dimension value that drove it.
+// Queried over REST (searchData) against FILTER_SOURCE_ID.
+// ---------------------------------------------------------------------------
+
+export interface ChangeSpec {
+  /** Short name used in the headline, e.g. "Net GMV". */
+  label: string;
+  /** Measure column, e.g. "Net Gmv". */
+  measure: string;
+  /** Attribute that explains the change, e.g. "Placement Name". */
+  dimension: string;
+  /** How the figure reads: a count, a currency amount or a 0–1 rate. */
+  format?: 'number' | 'currency' | 'percent';
+  /** A fall is good news (e.g. discount amount) — colours flip. */
+  lowerIsBetter?: boolean;
+}
+
+/** Format a "what changed" figure for its spec. */
+export function formatChangeValue(n: number, format: ChangeSpec['format'] = 'number'): string {
+  const abs = Math.abs(n);
+  if (format === 'currency') {
+    if (abs >= 1_000_000) return `$${(n / 1_000_000).toFixed(2)}M`;
+    if (abs >= 1_000) return `$${(n / 1_000).toFixed(1)}K`;
+    return `$${Math.round(n).toLocaleString('en-US')}`;
+  }
+  if (format === 'percent') return `${(n * 100).toFixed(1)}%`;
+  return Math.round(n).toLocaleString('en-US');
+}
+
+export interface ChangeInsight {
+  spec: ChangeSpec;
+  current: number;
+  previous: number;
+  /** (current − previous) / previous. */
+  change: number;
+  currentLabel: string;
+  previousLabel: string;
+  /** The dimension value that moved most in the same direction as the total. */
+  driver: { name: string; delta: number; change: number } | null;
+}
+
+const monthLabel = (epochSeconds: number) =>
+  new Date(epochSeconds * 1000).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const bucketOf = (raw: any): number => Number(raw?.v?.s ?? raw);
+
+export async function fetchWhatChanged(
+  username: string,
+  password: string,
+  specs: ChangeSpec[],
+  dateColumn: string,
+  filters: { column: string; values: string[] }[] = [],
+): Promise<ChangeInsight[]> {
+  await ensureRestSession(username, password);
+  const where = filters
+    .flatMap((f) => f.values.map((v) => ` [${f.column}] = '${v.replace(/'/g, "\\'")}'`))
+    .join('');
+  const month = `[${dateColumn}].monthly${where}`;
+  const one = async (spec: ChangeSpec): Promise<ChangeInsight | null> => {
+    const [total, split] = await Promise.all([
+      searchData(`[${spec.measure}] ${month}`, 1000),
+      searchData(`[${spec.measure}] [${spec.dimension}] ${month}`, 5000),
+    ]);
+    if (!total?.data_rows?.length) return null;
+    const series = total.data_rows
+      .map((r: any[]) => ({ t: bucketOf(r[0]), v: Number(r[1]) || 0 }))
+      .sort((a: { t: number }, b: { t: number }) => b.t - a.t);
+    if (series.length < 2) return null;
+    const [cur, prev] = series;
+    const change = prev.v ? (cur.v - prev.v) / prev.v : 0;
+
+    let driver: ChangeInsight['driver'] = null;
+    if (split?.data_rows?.length) {
+      const by = new Map<string, { c: number; p: number }>();
+      for (const r of split.data_rows) {
+        const t = bucketOf(r[1]);
+        if (t !== cur.t && t !== prev.t) continue;
+        const k = String(r[0] ?? '');
+        const e = by.get(k) ?? { c: 0, p: 0 };
+        if (t === cur.t) e.c += Number(r[2]) || 0;
+        else e.p += Number(r[2]) || 0;
+        by.set(k, e);
+      }
+      const ranked = [...by.entries()]
+        .map(([name, e]) => ({ name, delta: e.c - e.p, change: e.p ? (e.c - e.p) / e.p : 0 }))
+        .sort((a, b) => (change < 0 ? a.delta - b.delta : b.delta - a.delta));
+      if (ranked[0] && Math.sign(ranked[0].delta) === Math.sign(change || ranked[0].delta)) driver = ranked[0];
+    }
+    return {
+      spec,
+      current: cur.v,
+      previous: prev.v,
+      change,
+      currentLabel: monthLabel(cur.t),
+      previousLabel: monthLabel(prev.t),
+      driver,
+    };
+  };
+  const results = await Promise.all(specs.map((s) => one(s).catch(() => null)));
+  return results.filter((r): r is ChangeInsight => r !== null);
 }
 
 // ---------------------------------------------------------------------------

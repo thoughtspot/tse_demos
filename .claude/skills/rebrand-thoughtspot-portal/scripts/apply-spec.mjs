@@ -222,6 +222,11 @@ export type Content = typeof CONTENT;
     `  pinning: ${b(ff.pinning)},\n` +
     // home is opt-in: off unless the spec explicitly asks for a Home landing page.
     `  home: ${ff.home === true ? 'true' : 'false'},\n` +
+    // homeStyle: 'overview' = data-driven firework-style home (needs spec.overview
+    // viz ids/measures); 'landing' = static marketing hero. Default to the safe
+    // landing unless the spec asks for overview.
+    `  homeStyle: '${ff.homeStyle === 'overview' ? 'overview' : 'landing'}',\n` +
+    // navLayout: 'sidebar' = left nav panel; 'top' = horizontal top bar (default).
     // navLayout: 'top' (default horizontal bar) or 'sidebar' (left panel).
     `  navLayout: '${ff.navLayout === 'sidebar' ? 'sidebar' : 'top'}',\n` +
     '} as const;\n');

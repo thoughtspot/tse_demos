@@ -1,5 +1,5 @@
 import { SpotterEmbed } from '@thoughtspot/visual-embed-sdk/react';
-import { WORKSHEET_ID, SPOTTER_EMBED_FLAGS } from '../config';
+import { WORKSHEET_ID, SPOTTER_EMBED_FLAGS, SPOTTER_CHROME_RULES } from '../config';
 import { CONTENT } from '../content';
 import { spotterCustomizations } from '../lib/thoughtspot';
 import { useTheme } from '../context/ThemeContext';
@@ -22,7 +22,7 @@ export default function SpotterTab() {
           key={theme}
           worksheetId={WORKSHEET_ID}
           frameParams={{ width: '100%', height: '100%' }}
-          customizations={spotterCustomizations(theme)}
+          customizations={spotterCustomizations(theme, SPOTTER_CHROME_RULES)}
           {...SPOTTER_EMBED_FLAGS}
         />
       </div>

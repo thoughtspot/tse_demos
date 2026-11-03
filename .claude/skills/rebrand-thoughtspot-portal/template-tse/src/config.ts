@@ -1,4 +1,5 @@
 import { CONTENT } from './content';
+import type { ChangeSpec } from './lib/thoughtspot';
 // ---------------------------------------------------------------------------
 // Central configuration for the Northwind Analytics mockup.
 // IDs + ThoughtSpot styling are sourced from northwind_fin.json so that every
@@ -799,3 +800,399 @@ export const HIDE_FILTER_PILL_RULES: Record<string, Record<string, string>> = {
   '[data-testid*="pinboard-filters" i]': PILL_HIDE,
 };
 
+
+// ---------------------------------------------------------------------------
+// Host-rendered liveboard chrome + chart recolour (portable treatment).
+//   Ported from the per-client demos so the base template produces the same
+//   "embedded content reads as part of the portal" look the custom builds have:
+//   the liveboard's own header + tab strip are hidden with CSS and the host app
+//   re-renders them, and native Highcharts series are recoloured to the brand.
+//   All of this is layout-neutral — it renders identically under the top-bar and
+//   the sidebar nav. Rebrand codemod: swap the right-hand values of
+//   CHART_COLOR_PALETTE (and the KPI colour in chartPaletteRules) per client.
+// ---------------------------------------------------------------------------
+
+/**
+ * Hide the embedded liveboard's OWN header bar + tab strip with CSS (not the
+ * SDK's `hideLiveboardHeader` flag — that unmounts the header and with it the AI
+ * Highlights flow: HostEvent.AIHighlights still generates, but "View" never
+ * opens the panel). Hidden this way the header stays mounted (so the highlights
+ * modal, a body-level portal, still works) but is invisible — the host app
+ * re-renders the page title, the liveboard tabs and a white-labelled AI
+ * Highlights button itself.
+ *   Class names come from the cluster bundle — version-fragile.
+ */
+export const HIDE_LIVEBOARD_CHROME_RULES: Record<string, Record<string, string>> = {
+  '[class*="pinboard-header-module__pinboardHeaderContainer" i]': { display: 'none !important' },
+  '[class*="pinboard-tab-panel-module__tabPanelContainer" i]': { display: 'none !important' },
+};
+
+/**
+ * Brand categorical palette for native ThoughtSpot charts. The rebrand codemod
+ * rewrites these per client (same mechanism as the theme-token swaps). The
+ * default is a neutral multi-hue ramp led by the template green.
+ */
+export const CHART_COLOR_PALETTE = [
+  '#15ae6e', '#2f7fb8', '#4fb3a9', '#f2a541', '#ea6f5a', '#8e7cc3', '#c8304a', '#7d8a96',
+];
+export const VIZ_OVERRIDES = {
+  chart: { legend: { colorPalette: { colors: CHART_COLOR_PALETTE } } },
+};
+
+const rgbOf = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+
+// ThoughtSpot's default categorical palette, remapped value-by-value onto the
+// brand palette (belt-and-braces alongside the by-index recolour below).
+const CHART_PALETTE_REMAP: [from: string, to: string][] = [
+  ['#2770EF', CHART_COLOR_PALETTE[0]],
+  ['#A67F31', CHART_COLOR_PALETTE[3]],
+  ['#06BF7F', CHART_COLOR_PALETTE[2]],
+  ['#8C62F5', CHART_COLOR_PALETTE[5]],
+  ['#FF8142', CHART_COLOR_PALETTE[4]],
+  ['#48D1E0', CHART_COLOR_PALETTE[1]],
+  ['#FCC838', CHART_COLOR_PALETTE[6]],
+];
+
+/**
+ * Chart colours for native ThoughtSpot charts (Highcharts SVG). Series colours
+ * are SVG `stroke`/`fill` ATTRIBUTES, which a stylesheet rule overrides — so this
+ * recolours even a single-measure bar chart (whose colour is the cluster's chart
+ * "primary"), which `visualOverrides.legend.colorPalette` alone does NOT touch.
+ * (a) recolours BY structural `highcharts-color-{n}` class (robust to any source
+ * palette), (b) remaps the default categorical hexes, and (c) forces KPI
+ * sparklines to the brand colour. Applied on every embed via rules_UNSTABLE.
+ *   NOTE: MUZE_STUDIO vizzes + Spotter answer bars read the shared *cluster*
+ *   chart palette, which portal CSS cannot reach — recolour those via a TML
+ *   re-import. https://developers.thoughtspot.com/docs/css-rules
+ */
+export function chartPaletteRules(theme: ThemeName): Record<string, Record<string, string>> {
+  const kpi = theme === 'dark' ? '#1bb978' : CHART_COLOR_PALETTE[0];
+  const [kr, kg, kb] = rgbOf(kpi);
+  const SP = '[data-testid="kpi_sparkline" i]';
+  return {
+    ...Object.fromEntries(
+      CHART_COLOR_PALETTE.flatMap((c, i) => {
+        const [r, g, b] = rgbOf(c);
+        const CN = `highcharts-color-${i}`;
+        return [
+          [`.highcharts-graph.${CN}`, { stroke: `${c} !important` }],
+          [
+            `.highcharts-point.${CN}, .${CN}.highcharts-point, .highcharts-markers.${CN} path, .highcharts-data-labels .${CN}`,
+            { fill: `${c} !important`, stroke: `${c} !important` },
+          ],
+          [`.highcharts-area.${CN}`, { fill: `rgba(${r}, ${g}, ${b}, 0.18) !important` }],
+          [`.highcharts-legend-item .${CN}, .highcharts-legend-item.${CN} .highcharts-point`, { fill: `${c} !important`, stroke: `${c} !important` }],
+        ];
+      }),
+    ),
+    ...Object.fromEntries(
+      CHART_PALETTE_REMAP.flatMap(([from, to]) => {
+        const [r, g, b] = rgbOf(from);
+        const [tr, tg, tb] = rgbOf(to);
+        return [
+          [`[stroke="${from}" i]`, { stroke: `${to} !important` }],
+          [`[fill="${from}" i]`, { fill: `${to} !important` }],
+          [
+            `[fill="rgba(${r},${g},${b},0.2)"], [fill="rgba(${r}, ${g}, ${b}, 0.2)"]`,
+            { fill: `rgba(${tr}, ${tg}, ${tb}, 0.2) !important` },
+          ],
+        ];
+      }),
+    ),
+    [`${SP} .highcharts-graph, ${SP} path:not([class])`]: { stroke: `${kpi} !important` },
+    [`${SP} .highcharts-area`]: { fill: `rgba(${kr}, ${kg}, ${kb}, 0.12) !important` },
+    [`${SP} .highcharts-markers *, ${SP} .highcharts-point`]: { fill: `${kpi} !important`, stroke: `${kpi} !important` },
+  };
+}
+
+/**
+ * Paint Spotter's own root surfaces the page colour so the embedded chat reads as
+ * part of the portal (no "box in a box"). Pass as extraRules to
+ * spotterCustomizations on the standalone Ask tab.
+ */
+export function spotterSurfaceRules(
+  theme: ThemeName,
+  light = '#f7f8f9',
+  dark = '#0b1015',
+): Record<string, Record<string, string>> {
+  const bg = theme === 'dark' ? dark : light;
+  return {
+    [['html', 'body', '#root', '[class*="embed-module" i]', '[class*="authenticated-app-view-module" i]', '[class*="chat-module" i]'].join(', ')]: {
+      background: `${bg} !important`,
+      'background-color': `${bg} !important`,
+    },
+  };
+}
+
+/** Hide Spotter's past-conversations sidebar + the "Powered by ThoughtSpot"
+ *  footer on the standalone Ask tab. */
+export const SPOTTER_CHROME_RULES: Record<string, Record<string, string>> = {
+  '[class*="chat-history-sidebar-module__chatHistorySidebar" i]': { display: 'none !important' },
+  '[class*="embed-module__footerWrapper" i]': { visibility: 'hidden !important' },
+};
+
+/** Let Spotter's user-command bubble use the full panel width. */
+export const SPOTTER_FIT_RULES: Record<string, Record<string, string>> = {
+  '[class*="convex-user-command-module__userCmd" i]': {
+    width: 'auto !important',
+    'max-width': '100% !important',
+    'min-width': '0 !important',
+    'box-sizing': 'border-box !important',
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Firework-style Overview (the data-driven home page).
+//   KPI + chart cards embed individual liveboard vizzes (by id) so the host
+//   controls the layout; an in-flow "what changed" answer is queried over REST;
+//   an ask bar drives a Spotter pane. Rebrand codemod fills DASHBOARD_KPIS /
+//   DASHBOARD_CHARTS / WHAT_CHANGED (ids, labels, measures) from spec.overview,
+//   and swaps the accent (--sl-green token + the send-button blue) per client.
+// ---------------------------------------------------------------------------
+
+/** KPI cards on the Overview — one liveboard viz each (id from the liveboard's
+ *  TML / metadata). Placeholders until spec.overview fills them; only rendered
+ *  when FLAGS.homeStyle === 'overview'. */
+export const DASHBOARD_KPIS: { id: string; label: string; note: string }[] = [
+  { id: 'REPLACE_KPI_VIZ_1', label: 'Revenue', note: 'Latest period' },
+  { id: 'REPLACE_KPI_VIZ_2', label: 'Conversion rate', note: 'Latest period' },
+  { id: 'REPLACE_KPI_VIZ_3', label: 'Orders', note: 'Latest period' },
+  { id: 'REPLACE_KPI_VIZ_4', label: 'Avg order value', note: 'Latest period' },
+];
+/** Chart cards on the Overview — one liveboard viz each. `reportTabId` is unused
+ *  by default (Explore just opens the Analytics tab). */
+export const DASHBOARD_CHARTS: { id: string; title: string; subtitle: string; reportTabId?: string }[] = [
+  { id: 'REPLACE_CHART_VIZ_1', title: 'Trend', subtitle: 'Over time' },
+  { id: 'REPLACE_CHART_VIZ_2', title: 'By segment', subtitle: 'Across the business' },
+  { id: 'REPLACE_CHART_VIZ_3', title: 'By category', subtitle: 'Breakdown' },
+  { id: 'REPLACE_CHART_VIZ_4', title: 'Top performers', subtitle: 'Leaders' },
+];
+
+/** The in-flow "what changed" answer: latest period vs the one before, per
+ *  measure, with the dimension value that drove the move. Codemod fills from
+ *  spec.overview.whatChanged. */
+export const WHAT_CHANGED: ChangeSpec[] = [
+  { label: 'Revenue', measure: 'REPLACE_MEASURE', dimension: 'REPLACE_DIMENSION', format: 'currency' },
+];
+/** Date column every WHAT_CHANGED measure is bucketed on (monthly). */
+export const CHANGE_DATE_COLUMN = DATE_COLUMN;
+
+/** Suggestion chips under the Overview ask bar. Codemod may replace per domain. */
+export const OVERVIEW_SUGGESTIONS = [
+  'Top 5 by revenue last month',
+  'Which segment has the best conversion rate?',
+  'How did orders trend this quarter?',
+];
+
+const VIZ_BARE_RULES: Record<string, Record<string, string>> = {
+  '[class*="answer-title-module__titleContainer" i]': { display: 'none !important' },
+  'html, body, #root': { background: 'transparent !important' },
+  '[class*="embed-module__footerWrapper" i]': { display: 'none !important' },
+  '[class*="embed-module__tsEmbedContainer" i]': {
+    height: '100vh !important',
+    'min-height': '0 !important',
+    overflow: 'hidden !important',
+  },
+  '[class*="embed-module__tsEmbedContainer" i] div:has(iframe), [class*="chart-module__chartIframe" i] iframe': {
+    height: '100% !important',
+    'min-height': '0 !important',
+    'max-height': '100% !important',
+  },
+};
+
+/** KPI card — one KPI viz inside a white host card; host prints the label, the
+ *  embed shows the hero figure + change, sparkline/sublabel hidden. */
+export function dashboardKpiStyle(theme: ThemeName): { vars: Record<string, string>; rules: Record<string, Record<string, string>> } {
+  const dark = theme === 'dark';
+  const hero = dark ? '#F2F3F5' : '#2A2F35';
+  const muted = dark ? '#C6C8CD' : '#5F6470';
+  return {
+    vars: {
+      '--ts-var-root-background': 'transparent',
+      '--ts-var-viz-background': 'transparent',
+      '--ts-var-liveboard-layout-background': 'transparent',
+      '--ts-var-liveboard-tile-background': 'transparent',
+      '--ts-var-viz-box-shadow': 'none',
+      '--ts-var-kpi-hero-color': hero,
+      '--ts-var-kpi-comparison-color': muted,
+      '--ts-var-kpi-positive-change-color': dark ? '#7DD3A0' : '#17663D',
+      '--ts-var-kpi-negative-change-color': dark ? '#FF9A8F' : '#A5281B',
+    },
+    rules: {
+      ...VIZ_BARE_RULES,
+      '[data-testid="kpi_sparkline" i], [class*="kpi-module__analyzeBtn" i], [class*="kpi-module__sublabel" i]': {
+        display: 'none !important',
+      },
+      '*': { 'background-color': 'transparent !important', 'box-shadow': 'none !important', 'border-color': 'transparent !important' },
+      '[class*="embed-module__tsEmbedContainer" i] div:has([class*="kpi-module__kpi" i]), [class*="kpi-module__kpi" i]': {
+        height: '100% !important',
+        'min-height': '0 !important',
+        'max-height': '100% !important',
+        margin: '0 !important',
+        padding: '0 !important',
+      },
+      '[class*="kpi-module__kpi" i], [class*="kpi-module__heroDataContainer" i], [class*="kpi-module__comparison" i]': {
+        display: 'flex !important',
+        'flex-direction': 'column !important',
+        'align-items': 'flex-start !important',
+        'justify-content': 'center !important',
+        'text-align': 'left !important',
+        width: '100% !important',
+        padding: '0 !important',
+      },
+      '[class*="kpi-module__hero" i], [class*="kpi-module__hero" i] *': {
+        'font-size': '32px !important',
+        'font-weight': '500 !important',
+        'letter-spacing': '-0.01em !important',
+        'line-height': '1.1 !important',
+        color: `${hero} !important`,
+      },
+      '[class*="kpi-module__comparisonText" i]': {
+        display: 'flex !important',
+        'flex-direction': 'row !important',
+        'align-items': 'center !important',
+        gap: '6px !important',
+        'font-size': '12px !important',
+        color: `${muted} !important`,
+      },
+      '[class*="kpi-module__comparisonText" i] *': { color: `${muted} !important`, 'font-size': '12px !important' },
+      '[class*="kpi-module__difflabel" i]': {
+        'background-color': `${dark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(42, 47, 53, 0.06)'} !important`,
+        'border-radius': '999px !important',
+        padding: '1px 8px !important',
+      },
+      '[class*="kpi-module__difflabel" i] *': { 'font-weight': '700 !important' },
+    },
+  };
+}
+
+/** Chart card — one chart viz inside a white host card, no tile chrome. */
+export function dashboardChartStyle(theme: ThemeName): { vars: Record<string, string>; rules: Record<string, Record<string, string>> } {
+  const card = theme === 'dark' ? '#1A1D24' : '#FFFFFF';
+  return {
+    vars: {
+      '--ts-var-root-background': card,
+      '--ts-var-viz-background': card,
+      '--ts-var-liveboard-layout-background': card,
+      '--ts-var-liveboard-tile-background': card,
+      '--ts-var-viz-box-shadow': 'none',
+      '--ts-var-viz-border-radius': '0',
+    },
+    rules: {
+      ...VIZ_BARE_RULES,
+      '[data-testid="layout-item"], [class*="vizContainer" i], [class*="answerVizContainer" i]': {
+        'box-shadow': 'none !important',
+        'border-color': 'transparent !important',
+        'background-color': `${card} !important`,
+      },
+    },
+  };
+}
+
+// Overview Spotter pane: hide the past-conversations sidebar and fit the narrow
+// (~420px) pane; simple prompt box (send button only).
+const SIMPLE_SPOTTER_INPUT_RULES: Record<string, Record<string, string>> = {
+  [[
+    '[data-testid="chat-input-controls"]',
+    '[class*="spotter-prompt-bar-module__leftCluster" i]',
+    '[class*="chat-connectors-module__spotterToolsButtonWrapper" i]',
+    '[data-testid="spotter-starter-pill-container"]',
+  ].join(',')]: { display: 'none !important' },
+  '[class*="spotter-prompt-bar-module__barInner" i]': {
+    display: 'flex !important',
+    'flex-direction': 'row !important',
+    'align-items': 'center !important',
+    gap: '6px !important',
+    'padding-right': '8px !important',
+  },
+  '[class*="spotter-prompt-bar-module__composerRow" i]': { flex: '1 1 auto !important', 'min-width': '0 !important' },
+  '[class*="spotter-prompt-bar-module__actions" i]': { flex: 'none !important', width: 'auto !important', margin: '0 !important', padding: '0 !important' },
+};
+
+export const SPOTTER_PANE_RULES: Record<string, Record<string, string>> = {
+  ...SIMPLE_SPOTTER_INPUT_RULES,
+  [[
+    '[class*="past-conversation" i]',
+    '[class*="conversation-sidebar" i]',
+    '[class*="conversation-history" i]',
+    '[class*="chat-history" i]',
+    '[data-testid*="past-conversation" i]',
+    '[data-testid*="spotter-sidebar" i]',
+  ].join(',')]: { display: 'none !important' },
+  '[class*="embed-module__tsEmbedContainer" i], [class*="chat-module__chatContainerWrapper" i]': { 'min-width': '0 !important' },
+  '[class*="chat-module__chatContentArea" i]': { 'overflow-x': 'hidden !important' },
+  '[class*="chat-module__chatContentArea" i] [class*="module__" i]': { 'min-width': '0 !important' },
+  '[class*="chat-input-module__chatInputContainer" i]': {
+    'min-width': '0 !important',
+    width: '100% !important',
+    'max-width': '100% !important',
+    padding: '0 10px 10px !important',
+  },
+  '[class*="query-suggestions-module__querySuggestionsContainer" i]': { width: '100% !important', 'max-width': '100% !important' },
+  '[class*="landing-page-module__landingPageWrapper" i]': { padding: '0 14px !important' },
+  '[class*="embed-module__footerWrapper" i]': { display: 'none !important' },
+};
+
+/** A plain Spotter prompt box (text area + round send button). The accent blue
+ *  below (#2f7fb8 family) is swapped to the brand by the codemod. */
+export function spotterInputStyle(theme: ThemeName): Record<string, Record<string, string>> {
+  const dark = theme === 'dark';
+  const accent = '#2f7fb8';
+  const accentHover = '#276a9c';
+  const card = {
+    position: 'relative !important',
+    background: `${dark ? '#1A1D24' : '#FFFFFF'} !important`,
+    'background-image': 'none !important',
+    border: `1px solid ${dark ? '#2E333D' : '#E3E6EB'} !important`,
+    'border-radius': '16px !important',
+    'box-shadow': `${dark ? '0 10px 28px rgba(0, 0, 0, 0.35)' : '0 1px 2px rgba(10, 10, 10, 0.04), 0 8px 24px rgba(47, 127, 184, 0.08)'} !important`,
+    transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+  };
+  const focus = { 'border-color': `${accent} !important`, 'box-shadow': `0 0 0 3px rgba(47, 127, 184, 0.18) !important` };
+  const CARD = '[class*="updated-chat-input-module__chatInputContainerWrapper" i]:not([class*="ForBorder" i])';
+  return {
+    '[class*="chat-input-module__" i]': { background: 'transparent !important', 'box-shadow': 'none !important', 'border-color': 'transparent !important' },
+    [CARD]: card,
+    [`${CARD}:focus-within`]: focus,
+    '[data-testid="spotter-prompt-bar"]': card,
+    '[data-testid="spotter-prompt-bar"]:focus-within': focus,
+    [[
+      '[class*="chatInputContainerWrapperForBorder" i] [class*="segment-control-module" i]',
+      '[data-testid="conv-assist-data-source-selection-btn"]',
+      '[data-testid="chat-connectors-button"]',
+    ].join(',')]: { display: 'none !important' },
+    '[data-testid="chat-input-container-id"]': { padding: '0 14px !important' },
+    [`${CARD} [data-testid="conv-assist-send-btn"]`]: {
+      position: 'absolute !important',
+      right: '9px !important',
+      top: '50% !important',
+      transform: 'translateY(-50%) !important',
+    },
+    '[data-testid="conv-assist-chat-input"]': {
+      display: 'block !important',
+      width: '100% !important',
+      height: 'auto !important',
+      'min-height': '22px !important',
+      'max-height': '140px !important',
+      padding: '17px 52px 9px 2px !important',
+      'font-size': '14.5px !important',
+      'line-height': '1.4 !important',
+      color: `${dark ? '#F3F4F6' : '#0A0A0A'} !important`,
+      background: 'transparent !important',
+    },
+    '[data-testid="conv-assist-send-btn"]': {
+      display: 'grid !important',
+      'place-items': 'center !important',
+      width: '36px !important',
+      height: '36px !important',
+      'min-width': '36px !important',
+      'border-radius': '50% !important',
+      border: '0 !important',
+      background: `${accent} !important`,
+      color: '#FFFFFF !important',
+      cursor: 'pointer !important',
+    },
+    '[data-testid="conv-assist-send-btn"]:hover': { background: `${accentHover} !important` },
+    '[data-testid="conv-assist-send-btn"] svg, [data-testid="conv-assist-send-btn"] path': { color: '#FFFFFF !important', fill: '#FFFFFF !important' },
+  };
+}
