@@ -19,7 +19,7 @@ A run takes about 15–20 minutes and does not stop for approvals.
 
 ```bash
 # 1. This repo: the bespoke skill plus the portal codemod it uses
-git clone https://github.com/koushik426/tse_demos.git ~/tse_demos
+git clone https://github.com/thoughtspot/tse_demos.git ~/tse_demos
 mkdir -p ~/.claude/skills
 ln -s ~/tse_demos/.claude/skills/bespoke-thoughtspot-portal ~/.claude/skills/bespoke-thoughtspot-portal
 ln -s ~/tse_demos/.claude/skills/rebrand-thoughtspot-portal ~/.claude/skills/rebrand-thoughtspot-portal
