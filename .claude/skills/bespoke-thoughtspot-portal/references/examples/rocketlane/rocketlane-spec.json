@@ -1,0 +1,356 @@
+{
+ "client": "Rocketlane",
+ "slug": "rocketlane",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "875e4d96-a39b-497c-825f-dd7062e4ecfe",
+  "model": "31fac18f-81d1-4cdc-81aa-3b2e91229d51",
+  "inlineLiveboard": "875e4d96-a39b-497c-825f-dd7062e4ecfe",
+  "actionLiveboard": "875e4d96-a39b-497c-825f-dd7062e4ecfe",
+  "actionViz": "efe5471e-7ae3-47d1-bf48-45c16860b133"
+ },
+ "action": {
+  "id": "escalate-task",
+  "name": "Escalate Task"
+ },
+ "columns": {
+  "inlineName": [
+   "Project Manager"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Tasks",
+    "format": "number",
+    "candidates": [
+     "Total Tasks",
+     "Tasks"
+    ]
+   },
+   {
+    "label": "Overdue rate",
+    "format": "percent",
+    "candidates": [
+     "Overdue Rate"
+    ]
+   },
+   {
+    "label": "Time to value (days)",
+    "format": "number",
+    "candidates": [
+     "Average Time to Value (days)",
+     "Time to Value (days)"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Customer Segment"
+  ],
+  "filterSecondary": [
+   "Delivery Team"
+  ],
+  "date": "Task Start Date",
+  "hierarchy": {
+   "segment": "Customer Segment",
+   "rep": "Project Manager",
+   "cadence": "Project Name"
+  }
+ },
+ "font": {
+  "family": "IBM Plex Sans",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+ },
+ "logo": {
+  "svgPath": "rocketlane/rocketlane-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"8\" fill=\"#0F62FE\"/><text x=\"16\" y=\"23\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-weight=\"700\" font-size=\"19\" fill=\"#ffffff\">R</text></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f5f5f7",
+   "--sl-cream-2": "#eef3ff",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#1d1d1f",
+   "--sl-evergreen-2": "#262626",
+   "--sl-green": "#0f62fe",
+   "--sl-green-dark": "#0043ce",
+   "--sl-primary-rgb": "15, 98, 254",
+   "--intime-blue": "#4c6fe7",
+   "--sl-gold": "#ff7832",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #0f62fe 0%, #4589ff 60%, #8a3ffc 100%)",
+   "--sl-mint": "#e5eeff",
+   "--sl-mint-2": "#d0e2ff",
+   "--sl-coral": "#da1e28",
+   "--sl-warn": "#fff8f5",
+   "--sl-warn-ink": "#702600",
+   "--sl-ink": "#1d1d1f",
+   "--sl-muted": "#6f6f6f",
+   "--sl-border": "#e0e0e0",
+   "--sl-border-soft": "#f0f0f2",
+   "--font-serif": "'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "52px",
+   "--shadow-card": "0 1px 2px rgba(29, 29, 31, 0.05), 0 8px 24px rgba(15, 98, 254, 0.06)",
+   "--shadow-lift": "0 6px 14px rgba(29, 29, 31, 0.08), 0 18px 40px rgba(15, 98, 254, 0.12)",
+   "--brand-navy": "#1d1d1f",
+   "--brand-accent": "#0f62fe"
+  },
+  "dark": {
+   "--sl-cream": "#0e1014",
+   "--sl-cream-2": "#121722",
+   "--sl-white": "#161a22",
+   "--sl-evergreen": "#eef1f6",
+   "--sl-evergreen-2": "#d5dbe6",
+   "--sl-green": "#4589ff",
+   "--sl-green-dark": "#0f62fe",
+   "--sl-primary-rgb": "69, 137, 255",
+   "--intime-blue": "#78a9ff",
+   "--sl-gold": "#ff8f52",
+   "--sl-gold-ink": "#0e1014",
+   "--intime-grad": "linear-gradient(40deg, #4589ff 0%, #78a9ff 60%, #a56eff 100%)",
+   "--sl-mint": "#14223d",
+   "--sl-mint-2": "#1a2c4f",
+   "--sl-coral": "#ff6b6b",
+   "--sl-ink": "#eef1f6",
+   "--sl-muted": "#9aa3b2",
+   "--sl-border": "#262c38",
+   "--sl-border-soft": "#1d222c",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#1d1d1f",
+   "--brand-accent": "#4589ff"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#0f62fe"
+  ],
+  [
+   "#3F49B8",
+   "#0353e9"
+  ],
+  [
+   "#333C99",
+   "#0043ce"
+  ],
+  [
+   "#22B8CF",
+   "#ff7832"
+  ],
+  [
+   "#0b0d10",
+   "#0e1014"
+  ],
+  [
+   "#14181f",
+   "#161a22"
+  ],
+  [
+   "#1a212b",
+   "#14223d"
+  ],
+  [
+   "#232a34",
+   "#262c38"
+  ],
+  [
+   "#0b1f19",
+   "#121722"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(15,98,254,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#0f62fe"
+  ],
+  [
+   "#0c8554",
+   "#0043ce"
+  ],
+  [
+   "#d9ecea",
+   "#e5eeff"
+  ],
+  [
+   "#cfe3e2",
+   "#d0e2ff"
+  ],
+  [
+   "#1bb978",
+   "#4c6fe7"
+  ],
+  [
+   "#15ae6e",
+   "#1d1d1f"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#121722"
+  ],
+  [
+   "#10222a",
+   "#121722"
+  ],
+  [
+   "#123047",
+   "#161a22"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Rocketlane",
+  "aiName": "Nitro",
+  "website": "https://www.rocketlane.com",
+  "loginTitleHtml": "Deliver projects on time.<br />Every customer, every phase.",
+  "landing": {
+   "eyebrow": "Rocketlane Project Analytics",
+   "headline": [
+    {
+     "text": "The "
+    },
+    {
+     "text": "agentic PSA",
+     "accent": true
+    },
+    {
+     "text": " platform for professional services."
+    }
+   ],
+   "subline": "Run onboarding and implementation projects, resources, time and financials in one place, with analytics on every project, phase and task.",
+   "ctaLabel": "Open project analytics",
+   "stats": [
+    {
+     "value": "198K",
+     "label": "Tasks tracked"
+    },
+    {
+     "value": "10.9%",
+     "label": "Overdue rate"
+    },
+    {
+     "value": "79%",
+     "label": "Billable utilization"
+    }
+   ]
+  },
+  "loginSubtitle": "Project performance for your services team: progress, overdue and at-risk tasks, cost, utilization and time to value by project, PM and phase, with AI answers on live data.",
+  "loginStats": [
+   {
+    "value": "198K",
+    "label": "Tasks tracked"
+   },
+   {
+    "value": "600+",
+    "label": "Projects"
+   },
+   {
+    "value": "4.4",
+    "label": "Avg CSAT"
+   }
+  ],
+  "loginCardSubtitle": "Sign in with your credentials",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Projects",
+   "Resources",
+   "Financials"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Dashboards",
+   "inline": "Resources",
+   "action": "Tasks",
+   "ask": "Ask Nitro",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Key metrics, task analysis, risk and the overdue task queue",
+  "spotterSubtitle": "Ask questions of your Rocketlane project data in natural language.",
+  "inline": {
+   "subtitleReady": "Tasks, overdue rate and time to value by project manager. Select a PM to view their KPIs",
+   "subtitleIdle": "Tasks, overdue rate and time to value across project managers",
+   "loading": "Loading project managers\u2026",
+   "errorTitle": "Couldn't load project managers",
+   "errorMsg": "Unable to load project manager data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Segment",
+   "secondaryLabel": "Delivery team",
+   "dateLabel": "Task start date"
+  },
+  "sampleQuestions": [
+   "Overdue rate by customer segment by month",
+   "Top 10 active projects by tasks at risk",
+   "Time to value by project manager this quarter",
+   "Project cost vs budget by delivery team"
+  ],
+  "askWelcome": "Ask me anything about Rocketlane: projects, phases, tasks, resource management, time tracking and PSA financials. Or ask about your own project data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your projects, tasks, overdue and at-risk work, hours, cost and time to value. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Escalate Task",
+   "subtitlePrefix": "Open tasks past their due date, most overdue first. Right-click a task and choose",
+   "subtitleSuffix": "to escalate it, reassign it to another resource or set a new due date.",
+   "modalTitle": "Escalate Task",
+   "modalLead": "Pre-filled from the selected task. Choose the escalation path and the next step so this task gets unblocked.",
+   "submitLabel": "Escalate",
+   "successTitle": "Task escalated"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm Nitro, Rocketlane's AI assistant. Ask me about projects, overdue tasks, resources and time to value, or ask a question about your data.",
+   "overview": "Rocketlane is an agentic PSA platform for professional services teams: project management and customer onboarding, resource management, time tracking, project financials and a customer portal, with Nitro AI agents.",
+   "greetingExample": "overdue rate by segment",
+   "examples": [
+    "time to value by project manager",
+    "project cost by month"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Rocketlane Premium to unlock drill-down, Ask Nitro and downloads.",
+  "analyticsKeywords": [
+   "project",
+   "projects",
+   "task",
+   "tasks",
+   "overdue",
+   "at risk",
+   "phase",
+   "milestone",
+   "customer",
+   "segment",
+   "pm",
+   "project manager",
+   "resource",
+   "assignee",
+   "hours",
+   "billable",
+   "utilization",
+   "cost",
+   "budget",
+   "revenue",
+   "progress",
+   "time to value",
+   "ttv",
+   "csat",
+   "onboarding"
+  ]
+ }
+}

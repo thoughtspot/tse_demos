@@ -1,0 +1,24 @@
+{
+  "name": "Scania Fleet Performance",
+  "description": "Scania connected fleet analytics: fuel and energy, CO2, idling, driver evaluation, maintenance adherence and uptime by fleet, depot, application and powertrain, with the overdue workshop queue.",
+  "model": { "guid": "3921b61d-70b3-4cb3-8d11-190d18ec09fa", "name": "Scania Fleet Analytics" },
+  "palette": { "primary": "#16417F", "ramp": ["#E6EEF9", "#7FA6DD", "#2058A8", "#041E42"], "series": ["#D6001C", "#7FA6DD"] },
+  "tabs": [
+    { "name": "Overview", "description": "Fleet KPIs, fuel and CO2, driver evaluation, uptime and the overdue workshop queue", "tiles": [
+      { "type": "KPI", "name": "Distance driven (km)", "description": "Weekly kilometres driven across the fleet, last 12 months.", "search": "[Distance (km)] [Shift Date].weekly [Shift Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Fuel per 100 km", "description": "Weekly litres per 100 km on combustion vehicles.", "search": "[Fuel per 100 km] [Shift Date].weekly [Shift Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "CO2 per km (kg)", "description": "Weekly kilograms of CO2 per km driven.", "search": "[CO2 per km] [Shift Date].weekly [Shift Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Driver Score", "description": "Weekly average Scania driver evaluation score (0-100).", "search": "[Driver Score] [Shift Date].weekly [Shift Date] = 'last 12 months'" },
+      { "type": "SANKEY", "name": "CO2 emissions: region to application to powertrain", "search": "[CO2 Emissions (kg)] [Region] [Application] [Powertrain] [Shift Date] = 'last 12 months'" },
+      { "type": "HEATMAP", "name": "Idle share by country and application (last 90 days)", "search": "[Idle Share] [Country] [Application] [Shift Date] = 'last 90 days'" },
+      { "type": "TABLE", "name": "Workshop queue: vehicles overdue for service", "action": true, "search": "[Vehicle] [Fleet] [Depot] [Driver] [Days Overdue] [Idle Share] [Service Status] = 'overdue' [Shift Date] = 'last 7 days' sort by [Days Overdue] descending" },
+      { "type": "LINE", "name": "Poland long haulage: idling drives fuel use up", "search": "[Idle Share] [Shift Date].monthly [Country] [Application] = 'long haulage' [Country] = 'poland' 'germany' 'sweden' 'netherlands' [Powertrain] != 'battery electric' [Shift Date] = 'last 12 months'" },
+      { "type": "LINE", "name": "Nordics: BEV adoption cuts CO2 per km", "search": "[CO2 per km] [Shift Date].monthly [Region] [Shift Date] = 'last 18 months'" },
+      { "type": "COLUMN", "name": "Driver evaluation by application", "search": "[Anticipation Score] [Brake Use Score] [Hill Driving Score] [Application]" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Idle Share", "search": "[Idle Share] [Shift Date].weekly [Shift Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "BEV Share", "search": "[BEV Share] [Shift Date].weekly [Shift Date] = 'last 12 months'" }
+    ]}
+  ]
+}

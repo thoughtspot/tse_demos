@@ -1,0 +1,24 @@
+{
+  "name": "Ecosurety Packaging EPR Analytics",
+  "description": "UK packaging EPR for Ecosurety members: tonnage placed on market, RAM recyclability, modulated EPR fees, PRN costs and data validation.",
+  "model": { "guid": "ea200db2-2719-46af-a004-8cf07b3367ba", "name": "Ecosurety Packaging EPR Analytics" },
+  "palette": { "primary": "#00B8FF", "ramp": ["#E6F8FF", "#7FD8FF", "#00B8FF", "#0B3A5C"] },
+  "tabs": [
+    { "name": "Overview", "description": "Packaging placed on market, recyclability, EPR fees, PRN costs and data quality", "tiles": [
+      { "type": "KPI", "name": "Packaging tonnage", "search": "[Tonnage] [Placed on Market Date].weekly" },
+      { "type": "KPI", "name": "EPR fees", "search": "[EPR Fee] [Placed on Market Date].weekly" },
+      { "type": "KPI", "name": "PRN cost per tonne", "search": "[PRN Cost per Tonne] [Placed on Market Date].weekly" },
+      { "type": "KPI", "name": "Data issue rate", "search": "[Data Issue Rate] [Placed on Market Date].weekly" },
+      { "type": "SANKEY", "name": "Tonnage flow: sector to material to RAM rating", "search": "[Tonnage] [Sector] [Material] [RAM Rating]" },
+      { "type": "HEATMAP", "name": "Red-rated share by sector and material", "search": "[Red-rated Share] [Sector] [Material]" },
+      { "type": "TABLE", "name": "Open data issues blocking submission", "action": true,
+        "search": "[Record ID] [Producer] [Material] [Data Issue] [Supplier] [Days Open] [Issue Status] = 'open' sort by [Days Open] descending" },
+      { "type": "LINE", "name": "PRN cost per tonne by material", "search": "[PRN Cost per Tonne] [Placed on Market Date].monthly [Material] [Material] = 'plastic' 'paper and card' 'glass' 'aluminium' 'steel'" },
+      { "type": "LINE", "name": "Red-rated share of plastic by sector", "search": "[Red-rated Share] [Placed on Market Date].monthly [Sector] [Material] = 'plastic' [Sector] = 'health & beauty' 'food & drink' 'household goods' 'grocery retail'" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Total compliance cost", "search": "[Total Compliance Cost] [Placed on Market Date].weekly" },
+      { "type": "KPI", "name": "Red-rated share", "search": "[Red-rated Share] [Placed on Market Date].weekly" }
+    ]}
+  ]
+}

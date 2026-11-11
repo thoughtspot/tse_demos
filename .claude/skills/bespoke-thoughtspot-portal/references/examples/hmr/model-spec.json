@@ -1,0 +1,425 @@
+{
+ "name": "HMR Pharmacy Market Intelligence",
+ "description": "HMR pharmacy panel sell-out across Portugal: units and value by pharmacy, region, ATC class, product and manufacturer, with generic penetration, SNS reimbursement, stock-outs, unfilled prescriptions and stock alerts. One row per sell-out line, daily from Oct 2024 to Oct 2026.",
+ "table": "HMR_PHARMACY_SELLOUT",
+ "columns": [
+  {
+   "db": "SELLOUT_LINE_ID",
+   "name": "Sell-out Line ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique pharmacy sell-out line.",
+   "synonyms": [
+    "line"
+   ]
+  },
+  {
+   "db": "SALE_DATE",
+   "name": "Sale Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the pack was dispensed or sold at the pharmacy.",
+   "synonyms": [
+    "date",
+    "dispense date"
+   ]
+  },
+  {
+   "db": "REGION",
+   "name": "Region",
+   "type": "ATTRIBUTE",
+   "desc": "NUTS II region of Portugal.",
+   "synonyms": [
+    "NUTS region",
+    "area"
+   ]
+  },
+  {
+   "db": "DISTRICT",
+   "name": "District",
+   "type": "ATTRIBUTE",
+   "desc": "District of the pharmacy.",
+   "synonyms": [
+    "territory",
+    "county"
+   ]
+  },
+  {
+   "db": "PHARMACY_NAME",
+   "name": "Pharmacy",
+   "type": "ATTRIBUTE",
+   "desc": "Pharmacy in the HMR panel.",
+   "synonyms": [
+    "pharmacy name",
+    "outlet",
+    "store"
+   ]
+  },
+  {
+   "db": "PHARMACY_ID",
+   "name": "Pharmacy ID",
+   "type": "ATTRIBUTE",
+   "desc": "HMR panel pharmacy code."
+  },
+  {
+   "db": "PHARMACY_GROUP",
+   "name": "Pharmacy Group",
+   "type": "ATTRIBUTE",
+   "desc": "Pharmacy network or buying group.",
+   "synonyms": [
+    "network",
+    "banner",
+    "chain"
+   ]
+  },
+  {
+   "db": "PHARMACY_TYPE",
+   "name": "Pharmacy Type",
+   "type": "ATTRIBUTE",
+   "desc": "Location type of the pharmacy.",
+   "synonyms": [
+    "outlet type"
+   ]
+  },
+  {
+   "db": "THERAPEUTIC_AREA",
+   "name": "Therapeutic Area",
+   "type": "ATTRIBUTE",
+   "desc": "ATC level 1 therapeutic area or consumer health.",
+   "synonyms": [
+    "ATC1",
+    "therapy area",
+    "TA"
+   ]
+  },
+  {
+   "db": "ATC_CLASS",
+   "name": "ATC Class",
+   "type": "ATTRIBUTE",
+   "desc": "ATC level 3 therapeutic class.",
+   "synonyms": [
+    "ATC3",
+    "class",
+    "market"
+   ]
+  },
+  {
+   "db": "PRODUCT_BASE",
+   "name": "Product Line",
+   "type": "ATTRIBUTE",
+   "desc": "Product line before generic substitution."
+  },
+  {
+   "db": "PRODUCT",
+   "name": "Product",
+   "type": "ATTRIBUTE",
+   "desc": "Brand or generic pack sold.",
+   "synonyms": [
+    "brand",
+    "pack",
+    "SKU",
+    "medicine"
+   ]
+  },
+  {
+   "db": "MANUFACTURER",
+   "name": "Manufacturer",
+   "type": "ATTRIBUTE",
+   "desc": "Marketing authorisation holder of the product.",
+   "synonyms": [
+    "company",
+    "lab",
+    "corporation"
+   ]
+  },
+  {
+   "db": "PRODUCT_TYPE",
+   "name": "Product Type",
+   "type": "ATTRIBUTE",
+   "desc": "Originator brand, generic or OTC brand.",
+   "synonyms": [
+    "brand vs generic"
+   ]
+  },
+  {
+   "db": "MARKET_SEGMENT",
+   "name": "Market Segment",
+   "type": "ATTRIBUTE",
+   "desc": "Reimbursed Rx, non-reimbursed Rx or consumer health.",
+   "synonyms": [
+    "segment",
+    "channel"
+   ]
+  },
+  {
+   "db": "REIMBURSEMENT_TIER",
+   "name": "Reimbursement Tier",
+   "type": "ATTRIBUTE",
+   "desc": "SNS reimbursement tier (escalão).",
+   "synonyms": [
+    "escalao",
+    "comparticipacao"
+   ]
+  },
+  {
+   "db": "PRESCRIBER_SPECIALTY",
+   "name": "Prescriber Specialty",
+   "type": "ATTRIBUTE",
+   "desc": "Specialty of the prescribing doctor.",
+   "synonyms": [
+    "specialty",
+    "prescriber"
+   ]
+  },
+  {
+   "db": "PATIENT_AGE_BAND",
+   "name": "Patient Age Band",
+   "type": "ATTRIBUTE",
+   "desc": "Age band of the patient.",
+   "synonyms": [
+    "age"
+   ]
+  },
+  {
+   "db": "PATIENT_GENDER",
+   "name": "Patient Gender",
+   "type": "ATTRIBUTE",
+   "desc": "Gender of the patient.",
+   "synonyms": [
+    "gender",
+    "sex"
+   ]
+  },
+  {
+   "db": "STOCK_STATUS",
+   "name": "Stock Status",
+   "type": "ATTRIBUTE",
+   "desc": "Pharmacy stock status for the pack at the time of the request.",
+   "synonyms": [
+    "availability"
+   ]
+  },
+  {
+   "db": "SUPPLYING_WHOLESALER",
+   "name": "Wholesaler",
+   "type": "ATTRIBUTE",
+   "desc": "Wholesaler that supplies the pharmacy for this pack.",
+   "synonyms": [
+    "distributor",
+    "supplier"
+   ]
+  },
+  {
+   "db": "ALERT_ID",
+   "name": "Alert ID",
+   "type": "ATTRIBUTE",
+   "desc": "Stock alert raised for an out-of-stock or low-stock request.",
+   "synonyms": [
+    "shortage alert"
+   ]
+  },
+  {
+   "db": "ALERT_DATE",
+   "name": "Alert Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the stock alert was raised."
+  },
+  {
+   "db": "ALERT_STATUS",
+   "name": "Alert Status",
+   "type": "ATTRIBUTE",
+   "desc": "Status of the stock alert: Open, In Review, Resolved, Escalated to Supplier, No Alert.",
+   "synonyms": [
+    "status"
+   ]
+  },
+  {
+   "db": "PACK_PRICE_EUR",
+   "name": "Pack Price",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Retail price per pack (PVP) in euros.",
+   "synonyms": [
+    "price",
+    "PVP"
+   ],
+   "currency": "EUR"
+  },
+  {
+   "db": "UNITS_DEMANDED",
+   "name": "Units Demanded",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Packs requested by patients, filled or not.",
+   "synonyms": [
+    "demand"
+   ]
+  },
+  {
+   "db": "UNITS_SOLD",
+   "name": "Units Sold",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Packs dispensed or sold.",
+   "synonyms": [
+    "units",
+    "packs",
+    "volume",
+    "sell-out units"
+   ]
+  },
+  {
+   "db": "UNFILLED_UNITS",
+   "name": "Unfilled Units",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Packs requested but not dispensed because of stock issues.",
+   "synonyms": [
+    "lost units",
+    "unfilled packs"
+   ]
+  },
+  {
+   "db": "UNFILLED_RX_FLAG",
+   "name": "Unfilled Prescriptions",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Prescription lines not fully dispensed.",
+   "synonyms": [
+    "unfilled rx"
+   ]
+  },
+  {
+   "db": "SALES_VALUE_EUR",
+   "name": "Sales Value",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Sell-out value at retail price, in euros.",
+   "synonyms": [
+    "sales",
+    "revenue",
+    "sell-out",
+    "value"
+   ],
+   "currency": "EUR"
+  },
+  {
+   "db": "LOST_SALES_EUR",
+   "name": "Lost Sales",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Sell-out value lost to stock-outs, in euros.",
+   "synonyms": [
+    "lost revenue"
+   ],
+   "currency": "EUR"
+  },
+  {
+   "db": "SNS_REIMBURSED_EUR",
+   "name": "SNS Reimbursement",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Value reimbursed by the national health service (SNS).",
+   "synonyms": [
+    "reimbursement",
+    "SNS"
+   ],
+   "currency": "EUR"
+  },
+  {
+   "db": "PATIENT_COPAY_EUR",
+   "name": "Patient Co-pay",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Value paid by the patient.",
+   "synonyms": [
+    "copay",
+    "out of pocket"
+   ],
+   "currency": "EUR"
+  },
+  {
+   "db": "STOCK_ON_HAND_UNITS",
+   "name": "Stock on Hand",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Packs on the shelf at the time of the request.",
+   "synonyms": [
+    "stock",
+    "inventory"
+   ]
+  },
+  {
+   "db": "DAYS_OPEN",
+   "name": "Days Open",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days the stock alert has been open.",
+   "synonyms": [
+    "alert age",
+    "age"
+   ]
+  },
+  {
+   "db": "STOCKOUT_FLAG",
+   "name": "Stock-outs",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Requests that hit an out-of-stock pack.",
+   "synonyms": [
+    "stockouts",
+    "out of stocks"
+   ]
+  },
+  {
+   "db": "GENERIC_FLAG",
+   "name": "Generic Lines",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Lines where a generic was sold."
+  },
+  {
+   "db": "LINE_COUNT",
+   "name": "Sell-out Lines",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Number of sell-out lines.",
+   "synonyms": [
+    "transactions",
+    "lines",
+    "dispensations"
+   ]
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Generic Share",
+   "desc": "Share of units sold that are generics.",
+   "format": "0.0%",
+   "expr": "sum ( if ( [{T}::GENERIC_FLAG] = 1 ) then [{T}::UNITS_SOLD] else 0 ) / sum ( [{T}::UNITS_SOLD] )"
+  },
+  {
+   "name": "Stock-out Rate",
+   "desc": "Share of requests that hit an out-of-stock pack.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::STOCKOUT_FLAG] ) / sum ( [{T}::LINE_COUNT] )"
+  },
+  {
+   "name": "Fill Rate",
+   "desc": "Share of demanded units that were dispensed.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::UNITS_SOLD] ) / sum ( [{T}::UNITS_DEMANDED] )"
+  },
+  {
+   "name": "Average Price per Unit",
+   "desc": "Sales value per unit sold, in euros.",
+   "format": "0.00",
+   "expr": "sum ( [{T}::SALES_VALUE_EUR] ) / sum ( [{T}::UNITS_SOLD] )"
+  },
+  {
+   "name": "SNS Share",
+   "desc": "Share of sales value reimbursed by the SNS.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::SNS_REIMBURSED_EUR] ) / sum ( [{T}::SALES_VALUE_EUR] )"
+  }
+ ],
+ "theme_parameter": true
+}

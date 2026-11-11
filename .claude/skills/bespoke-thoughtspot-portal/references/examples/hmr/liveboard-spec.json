@@ -1,0 +1,24 @@
+{
+  "name": "HMR Pharmacy Market Intelligence",
+  "description": "Pharmacy panel sell-out across Portugal: value, units, generic penetration, stock-outs and unfilled prescriptions by region, district, ATC class and product.",
+  "model": { "guid": "00eced95-4a8b-46f3-88bd-2a628181816d", "name": "HMR Pharmacy Market Intelligence" },
+  "palette": { "primary": "#47CEB8", "ramp": ["#E3F7F3", "#47CEB8", "#1E9E89", "#123F3A"] },
+  "tabs": [
+    { "name": "Overview", "description": "Sell-out, generic penetration and supply health across the pharmacy panel", "tiles": [
+      { "type": "KPI", "name": "Sell-out Value", "search": "[Sales Value] [Sale Date].weekly" },
+      { "type": "KPI", "name": "Units Sold", "search": "[Units Sold] [Sale Date].weekly" },
+      { "type": "KPI", "name": "Generic Share", "search": "[Generic Share] [Sale Date].weekly" },
+      { "type": "KPI", "name": "Stock-out Rate", "search": "[Stock-out Rate] [Sale Date].weekly" },
+      { "type": "SANKEY", "name": "Sell-out flow: therapeutic area to product type to region", "search": "[Sales Value] [Therapeutic Area] [Product Type] [Region]" },
+      { "type": "HEATMAP", "name": "Stock-out rate by district and therapeutic area", "search": "[Stock-out Rate] [District] [Therapeutic Area]" },
+      { "type": "TABLE", "name": "Open stock alerts", "action": true,
+        "search": "[Alert ID] [Pharmacy] [Product] [District] [Wholesaler] [Days Open] [Alert Status] = 'open' sort by [Days Open] descending" },
+      { "type": "LINE", "name": "Statin market: units by product after Cardiolis loss of exclusivity", "search": "[Units Sold] [Sale Date].monthly [Product] [ATC Class] = 'c10 lipid modifying agents'" },
+      { "type": "LINE", "name": "Asthma & COPD stock-out rate by region", "search": "[Stock-out Rate] [Sale Date].monthly [Region] [ATC Class] = 'r03 asthma & copd'" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Lost Sales to Stock-outs", "search": "[Lost Sales] [Sale Date].weekly" },
+      { "type": "KPI", "name": "Fill Rate", "search": "[Fill Rate] [Sale Date].weekly" }
+    ]}
+  ]
+}

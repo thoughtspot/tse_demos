@@ -1,0 +1,461 @@
+{
+ "name": "Rocketlane Project Analytics",
+ "description": "Rocketlane PSA and customer onboarding: one row per project task with customer, segment, PM, delivery team, phase, assignee, status, overdue and at-risk flags, hours, budget vs actual cost, billed revenue, project progress, time to value and CSAT. Daily Oct 2024 to Oct 2026.",
+ "table": "ROCKETLANE_TASKS",
+ "columns": [
+  {
+   "db": "TASK_ID",
+   "name": "Task ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique Rocketlane task.",
+   "synonyms": [
+    "task",
+    "task number"
+   ]
+  },
+  {
+   "db": "TASK_START_DATE",
+   "name": "Task Start Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the task started (or was scheduled to start).",
+   "synonyms": [
+    "date",
+    "start date",
+    "month",
+    "week"
+   ]
+  },
+  {
+   "db": "CUSTOMER_NAME",
+   "name": "Customer",
+   "type": "ATTRIBUTE",
+   "desc": "Customer being onboarded or implemented.",
+   "synonyms": [
+    "client",
+    "account",
+    "customer name"
+   ]
+  },
+  {
+   "db": "SEGMENT",
+   "name": "Customer Segment",
+   "type": "ATTRIBUTE",
+   "desc": "Customer segment: Enterprise, Mid-Market, SMB.",
+   "synonyms": [
+    "segment",
+    "tier"
+   ]
+  },
+  {
+   "db": "REGION",
+   "name": "Region",
+   "type": "ATTRIBUTE",
+   "desc": "Customer region.",
+   "synonyms": [
+    "geo",
+    "territory"
+   ]
+  },
+  {
+   "db": "CUSTOMER_INDUSTRY",
+   "name": "Customer Industry",
+   "type": "ATTRIBUTE",
+   "desc": "Customer's industry.",
+   "synonyms": [
+    "industry",
+    "vertical"
+   ]
+  },
+  {
+   "db": "PROJECT_MANAGER",
+   "name": "Project Manager",
+   "type": "ATTRIBUTE",
+   "desc": "PM who owns the project.",
+   "synonyms": [
+    "pm",
+    "owner",
+    "project owner"
+   ]
+  },
+  {
+   "db": "BILLING_TYPE",
+   "name": "Billing Type",
+   "type": "ATTRIBUTE",
+   "desc": "Commercial model of the project.",
+   "synonyms": [
+    "contract type",
+    "pricing model"
+   ]
+  },
+  {
+   "db": "DELIVERY_TEAM",
+   "name": "Delivery Team",
+   "type": "ATTRIBUTE",
+   "desc": "Professional services team delivering the project.",
+   "synonyms": [
+    "team",
+    "pod",
+    "services team"
+   ]
+  },
+  {
+   "db": "PROJECT_DAY",
+   "name": "Project Day",
+   "type": "ATTRIBUTE",
+   "desc": "Days since the project kicked off when this task started.",
+   "synonyms": [
+    "day of project"
+   ]
+  },
+  {
+   "db": "PROJECT_TYPE",
+   "name": "Project Type",
+   "type": "ATTRIBUTE",
+   "desc": "Onboarding, Implementation, Integration Rollout, Expansion, Migration.",
+   "synonyms": [
+    "engagement type"
+   ]
+  },
+  {
+   "db": "PROJECT_NAME",
+   "name": "Project Name",
+   "type": "ATTRIBUTE",
+   "desc": "Rocketlane project.",
+   "synonyms": [
+    "project",
+    "engagement"
+   ]
+  },
+  {
+   "db": "PROJECT_ID",
+   "name": "Project ID",
+   "type": "ATTRIBUTE",
+   "desc": "Project identifier.",
+   "synonyms": [
+    "project number"
+   ]
+  },
+  {
+   "db": "PROJECT_STATUS",
+   "name": "Project Status",
+   "type": "ATTRIBUTE",
+   "desc": "Active or Completed.",
+   "synonyms": [
+    "project state"
+   ]
+  },
+  {
+   "db": "PROJECT_PHASE",
+   "name": "Project Phase",
+   "type": "ATTRIBUTE",
+   "desc": "Phase of the onboarding runway the task belongs to.",
+   "synonyms": [
+    "phase",
+    "stage",
+    "milestone phase"
+   ]
+  },
+  {
+   "db": "TASK_NAME",
+   "name": "Task Name",
+   "type": "ATTRIBUTE",
+   "desc": "Task title.",
+   "synonyms": [
+    "task title"
+   ]
+  },
+  {
+   "db": "TASK_TYPE",
+   "name": "Task Type",
+   "type": "ATTRIBUTE",
+   "desc": "Internal task, customer task, approval or customer milestone.",
+   "synonyms": [
+    "type"
+   ]
+  },
+  {
+   "db": "ASSIGNEE_ROLE",
+   "name": "Assignee Role",
+   "type": "ATTRIBUTE",
+   "desc": "Role of the person the task is assigned to.",
+   "synonyms": [
+    "role",
+    "resource role"
+   ]
+  },
+  {
+   "db": "ASSIGNEE",
+   "name": "Assignee",
+   "type": "ATTRIBUTE",
+   "desc": "Person (resource) the task is assigned to.",
+   "synonyms": [
+    "resource",
+    "owner",
+    "consultant",
+    "assigned to"
+   ]
+  },
+  {
+   "db": "TASK_DUE_DATE",
+   "name": "Task Due Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the task is due.",
+   "synonyms": [
+    "due date",
+    "deadline"
+   ]
+  },
+  {
+   "db": "TASK_STATUS",
+   "name": "Task Status",
+   "type": "ATTRIBUTE",
+   "desc": "To Do, In Progress, Blocked, Completed.",
+   "synonyms": [
+    "status"
+   ]
+  },
+  {
+   "db": "IS_OVERDUE",
+   "name": "Overdue Tasks",
+   "type": "MEASURE",
+   "desc": "Tasks completed late or open past their due date.",
+   "synonyms": [
+    "overdue",
+    "late tasks"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "DAYS_OVERDUE",
+   "name": "Days Overdue",
+   "type": "MEASURE",
+   "desc": "Days past due.",
+   "synonyms": [
+    "days late",
+    "overdue days"
+   ],
+   "agg": "MAX"
+  },
+  {
+   "db": "IS_AT_RISK",
+   "name": "Tasks At Risk",
+   "type": "MEASURE",
+   "desc": "Tasks flagged at risk (blocked, slipping or overdue).",
+   "synonyms": [
+    "at risk",
+    "risky tasks"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "IS_COMPLETED",
+   "name": "Completed Tasks",
+   "type": "MEASURE",
+   "desc": "Tasks completed.",
+   "synonyms": [
+    "done tasks",
+    "closed tasks"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "IS_IN_PROGRESS",
+   "name": "In-progress Tasks",
+   "type": "MEASURE",
+   "desc": "Tasks in progress.",
+   "synonyms": [
+    "wip",
+    "in progress"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "IS_TODO",
+   "name": "To-do Tasks",
+   "type": "MEASURE",
+   "desc": "Tasks not started.",
+   "synonyms": [
+    "todo",
+    "not started"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "IS_BLOCKED",
+   "name": "Blocked Tasks",
+   "type": "MEASURE",
+   "desc": "Tasks blocked.",
+   "synonyms": [
+    "blocked",
+    "stuck tasks"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "TASK_COUNT",
+   "name": "Tasks",
+   "type": "MEASURE",
+   "desc": "Number of tasks.",
+   "synonyms": [
+    "tasks",
+    "task count",
+    "number of tasks"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PLANNED_HOURS",
+   "name": "Planned Hours",
+   "type": "MEASURE",
+   "desc": "Estimated effort.",
+   "synonyms": [
+    "estimate",
+    "budget hours"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "ACTUAL_HOURS",
+   "name": "Logged Hours",
+   "type": "MEASURE",
+   "desc": "Hours logged on timesheets.",
+   "synonyms": [
+    "actual hours",
+    "time logged",
+    "effort"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "BILLABLE_HOURS",
+   "name": "Billable Hours",
+   "type": "MEASURE",
+   "desc": "Billable hours logged.",
+   "synonyms": [
+    "billable time"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "COST_RATE",
+   "name": "Cost Rate",
+   "type": "MEASURE",
+   "desc": "Hourly cost rate of the assignee role.",
+   "synonyms": [
+    "hourly cost"
+   ],
+   "agg": "AVERAGE"
+  },
+  {
+   "db": "BUDGET_COST",
+   "name": "Budget Cost",
+   "type": "MEASURE",
+   "desc": "Planned cost (planned hours x cost rate).",
+   "synonyms": [
+    "budget",
+    "planned cost"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "ACTUAL_COST",
+   "name": "Project Cost",
+   "type": "MEASURE",
+   "desc": "Actual cost (logged hours x cost rate).",
+   "synonyms": [
+    "actual cost",
+    "cost",
+    "spend"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "BILLED_REVENUE",
+   "name": "Billed Revenue",
+   "type": "MEASURE",
+   "desc": "Revenue billed for billable hours.",
+   "synonyms": [
+    "revenue",
+    "billings"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "PROJECT_PROGRESS_PCT",
+   "name": "Project Progress",
+   "type": "MEASURE",
+   "desc": "Project percent complete (0-100) when the task started.",
+   "synonyms": [
+    "progress",
+    "percent complete",
+    "completion"
+   ],
+   "agg": "AVERAGE"
+  },
+  {
+   "db": "TIME_TO_VALUE_DAYS",
+   "name": "Time to Value (days)",
+   "type": "MEASURE",
+   "desc": "Days from kickoff to the customer's first value (go-live).",
+   "synonyms": [
+    "ttv",
+    "time to value",
+    "time to go-live"
+   ],
+   "agg": "AVERAGE"
+  },
+  {
+   "db": "CSAT_SCORE",
+   "name": "CSAT",
+   "type": "MEASURE",
+   "desc": "Customer satisfaction (1-5) captured at customer milestones.",
+   "synonyms": [
+    "csat",
+    "satisfaction",
+    "customer satisfaction"
+   ],
+   "agg": "AVERAGE"
+  }
+ ],
+ "theme_parameter": true,
+ "formulas": [
+  {
+   "name": "Overdue Rate",
+   "desc": "Overdue tasks / total tasks.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::IS_OVERDUE] ) / sum ( [{T}::TASK_COUNT] )"
+  },
+  {
+   "name": "Completion Rate",
+   "desc": "Completed tasks / total tasks.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::IS_COMPLETED] ) / sum ( [{T}::TASK_COUNT] )"
+  },
+  {
+   "name": "At-Risk Rate",
+   "desc": "Tasks at risk / total tasks.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::IS_AT_RISK] ) / sum ( [{T}::TASK_COUNT] )"
+  },
+  {
+   "name": "Budget Variance %",
+   "desc": "(Actual cost - budget) / budget.",
+   "format": "0.0%",
+   "expr": "( sum ( [{T}::ACTUAL_COST] ) - sum ( [{T}::BUDGET_COST] ) ) / sum ( [{T}::BUDGET_COST] )"
+  },
+  {
+   "name": "Billable Utilization",
+   "desc": "Billable hours / logged hours.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::BILLABLE_HOURS] ) / sum ( [{T}::ACTUAL_HOURS] )"
+  },
+  {
+   "name": "Active Projects",
+   "desc": "Unique projects.",
+   "expr": "unique count ( [{T}::PROJECT_ID] )"
+  }
+ ]
+}

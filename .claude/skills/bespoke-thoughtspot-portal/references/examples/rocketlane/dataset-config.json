@@ -1,0 +1,503 @@
+{
+ "table": "ROCKETLANE_TASKS",
+ "seed": 20261030,
+ "days": 730,
+ "as_of": null,
+ "id_column": "TASK_ID",
+ "id_prefix": "TSK-",
+ "date_column": "TASK_START_DATE",
+ "actors": {
+  "count": 150,
+  "label": "CUSTOMER_NAME",
+  "names": "companies",
+  "attributes": {
+   "SEGMENT": {
+    "weights": {
+     "Enterprise": 24,
+     "Mid-Market": 44,
+     "SMB": 32
+    }
+   },
+   "REGION": {
+    "weights": {
+     "North America": 52,
+     "EMEA": 28,
+     "APAC": 14,
+     "LATAM": 6
+    }
+   },
+   "CUSTOMER_INDUSTRY": {
+    "weights": {
+     "SaaS": 34,
+     "Fintech": 16,
+     "Healthcare IT": 12,
+     "Martech": 12,
+     "HR Tech": 10,
+     "Supply Chain": 9,
+     "Insurance": 7
+    }
+   },
+   "PROJECT_MANAGER": {
+    "weights": {
+     "Ava Mehta": 9,
+     "Daniel Okafor": 9,
+     "Sofia Lindqvist": 8,
+     "Marcus Reid": 8,
+     "Priya Raman": 9,
+     "Jonas Bauer": 7,
+     "Leah Novak": 8,
+     "Kenji Sato": 7,
+     "Grace Hughes": 8,
+     "Omar Haddad": 7,
+     "Clara Moreau": 7,
+     "Ravi Patel": 8,
+     "Ingrid Jensen": 6,
+     "Tom Brennan": 6
+    }
+   },
+   "BILLING_TYPE": {
+    "weights": {
+     "Fixed Fee": 46,
+     "Time & Materials": 38,
+     "Subscription Onboarding": 16
+    }
+   },
+   "_OFF": {
+    "expr": "int(uniform(0, 180))"
+   },
+   "_NUM": {
+    "expr": "int(uniform(1000, 9999))"
+   },
+   "_EFF": {
+    "expr": "lognorm(1.0, 0.12)"
+   }
+  },
+  "rate": 2.0,
+  "rate_by": {
+   "SEGMENT": {
+    "Enterprise": 1.9,
+    "Mid-Market": 1.0,
+    "SMB": 0.55
+   }
+  },
+  "rate_spread": 0.3
+ },
+ "calendar": {
+  "growth_yoy": 0.12,
+  "weekday": [
+   1.12,
+   1.15,
+   1.12,
+   1.08,
+   0.95,
+   0.04,
+   0.02
+  ],
+  "month": {
+   "1": 1.04,
+   "2": 1.02,
+   "3": 1.08,
+   "4": 1.0,
+   "5": 1.0,
+   "6": 0.98,
+   "7": 0.9,
+   "8": 0.88,
+   "9": 1.06,
+   "10": 1.08,
+   "11": 1.0,
+   "12": 0.78
+  },
+  "holidays": "us"
+ },
+ "columns": [
+  {
+   "name": "DELIVERY_TEAM",
+   "map_from": "PROJECT_MANAGER",
+   "map": {
+    "Ava Mehta": [
+     "Enterprise Onboarding"
+    ],
+    "Daniel Okafor": [
+     "Enterprise Onboarding"
+    ],
+    "Sofia Lindqvist": [
+     "Enterprise Onboarding"
+    ],
+    "Marcus Reid": [
+     "Enterprise Onboarding"
+    ],
+    "Priya Raman": [
+     "Mid-Market Launch"
+    ],
+    "Jonas Bauer": [
+     "Mid-Market Launch"
+    ],
+    "Leah Novak": [
+     "Mid-Market Launch"
+    ],
+    "Kenji Sato": [
+     "Mid-Market Launch"
+    ],
+    "Grace Hughes": [
+     "Mid-Market Launch"
+    ],
+    "Omar Haddad": [
+     "Velocity (SMB)"
+    ],
+    "Clara Moreau": [
+     "Velocity (SMB)"
+    ],
+    "Ravi Patel": [
+     "Velocity (SMB)"
+    ],
+    "Ingrid Jensen": [
+     "Integrations & Data"
+    ],
+    "Tom Brennan": [
+     "Integrations & Data"
+    ]
+   }
+  },
+  {
+   "name": "_SEQ",
+   "expr": "(d.toordinal() + actor['_OFF']) // 180"
+  },
+  {
+   "name": "PROJECT_DAY",
+   "expr": "(d.toordinal() + actor['_OFF']) % 180"
+  },
+  {
+   "name": "PROJECT_TYPE",
+   "expr": "['Onboarding', 'Implementation', 'Integration Rollout', 'Expansion', 'Migration'][r['_SEQ'] % 5]"
+  },
+  {
+   "name": "PROJECT_NAME",
+   "expr": "r['CUSTOMER_NAME'] + ' ' + r['PROJECT_TYPE']"
+  },
+  {
+   "name": "PROJECT_ID",
+   "expr": "'PRJ-' + str(actor['_NUM']) + '-' + str(r['_SEQ'] % 100)"
+  },
+  {
+   "name": "PROJECT_STATUS",
+   "expr": "'Active' if r['_SEQ'] == (as_of.toordinal() + actor['_OFF']) // 180 else 'Completed'"
+  },
+  {
+   "name": "PROJECT_PHASE",
+   "expr": "'1. Kickoff' if r['PROJECT_DAY'] < 10 else ('2. Discovery' if r['PROJECT_DAY'] < 30 else ('3. Configuration' if r['PROJECT_DAY'] < 75 else ('4. Data Migration' if r['PROJECT_DAY'] < 110 else ('5. Testing & UAT' if r['PROJECT_DAY'] < 140 else ('6. Go-Live' if r['PROJECT_DAY'] < 155 else '7. Hypercare')))))"
+  },
+  {
+   "name": "TASK_NAME",
+   "map_from": "PROJECT_PHASE",
+   "map": {
+    "1. Kickoff": [
+     "Kickoff call",
+     "Confirm project charter",
+     "Share project plan",
+     "Provision customer workspace",
+     "Introduce delivery team"
+    ],
+    "2. Discovery": [
+     "Requirements workshop",
+     "Current-state process review",
+     "Stakeholder interviews",
+     "Sign off solution design",
+     "Collect data samples"
+    ],
+    "3. Configuration": [
+     "Configure workflows",
+     "Set up user roles",
+     "Build custom fields",
+     "Configure notifications",
+     "Template setup",
+     "SSO configuration"
+    ],
+    "4. Data Migration": [
+     "Map legacy data",
+     "Data cleansing",
+     "Trial data load",
+     "Validate migrated records",
+     "Final data load",
+     "Integration API setup"
+    ],
+    "5. Testing & UAT": [
+     "Write UAT scripts",
+     "Run UAT session",
+     "Fix UAT defects",
+     "Regression test",
+     "UAT sign-off"
+    ],
+    "6. Go-Live": [
+     "Go-live readiness check",
+     "Cutover plan",
+     "End-user training",
+     "Go-live",
+     "Admin handover"
+    ],
+    "7. Hypercare": [
+     "Hypercare check-in",
+     "Resolve post-launch issues",
+     "Adoption review",
+     "Handover to CSM",
+     "Value review with sponsor"
+    ]
+   }
+  },
+  {
+   "name": "TASK_TYPE",
+   "expr": "'Customer Milestone' if r['TASK_NAME'] in ('Kickoff call', 'Sign off solution design', 'UAT sign-off', 'Go-live', 'Value review with sponsor', 'Admin handover') else weighted({'Internal Task': 58, 'Customer Task': 30, 'Approval': 12})"
+  },
+  {
+   "name": "ASSIGNEE_ROLE",
+   "map_from": "PROJECT_PHASE",
+   "map": {
+    "1. Kickoff": {
+     "Project Manager": 70,
+     "Implementation Consultant": 30
+    },
+    "2. Discovery": {
+     "Solutions Architect": 45,
+     "Implementation Consultant": 40,
+     "Project Manager": 15
+    },
+    "3. Configuration": {
+     "Implementation Consultant": 65,
+     "Solutions Architect": 25,
+     "Technical Consultant": 10
+    },
+    "4. Data Migration": {
+     "Data Migration Specialist": 60,
+     "Technical Consultant": 30,
+     "Implementation Consultant": 10
+    },
+    "5. Testing & UAT": {
+     "QA Consultant": 50,
+     "Implementation Consultant": 40,
+     "Customer": 10
+    },
+    "6. Go-Live": {
+     "Implementation Consultant": 45,
+     "Trainer": 35,
+     "Project Manager": 20
+    },
+    "7. Hypercare": {
+     "Implementation Consultant": 50,
+     "Customer Success Manager": 50
+    }
+   }
+  },
+  {
+   "name": "ASSIGNEE",
+   "map_from": "ASSIGNEE_ROLE",
+   "map": {
+    "Project Manager": [
+     "(PM)"
+    ],
+    "Implementation Consultant": [
+     "Hannah Kim",
+     "Lucas Silva",
+     "Mei Chen",
+     "Felix Wright",
+     "Nina Costa",
+     "Owen Clarke",
+     "Julia Rossi",
+     "Arjun Singh",
+     "Chloe Martin",
+     "Samuel Evans"
+    ],
+    "Solutions Architect": [
+     "Elena Petrov",
+     "David Tanaka",
+     "Amara Johnson",
+     "Hugo Dubois"
+    ],
+    "Technical Consultant": [
+     "Kavya Mehta",
+     "Stefan Fischer",
+     "Diego Romero"
+    ],
+    "Data Migration Specialist": [
+     "Yuki Yamada",
+     "Connor Murphy",
+     "Imani Walker",
+     "Pablo Ferreira"
+    ],
+    "QA Consultant": [
+     "Tara Hall",
+     "Leon Schmidt",
+     "Beatriz Lopez"
+    ],
+    "Trainer": [
+     "Freya Andersen",
+     "Gabriel Davies"
+    ],
+    "Customer Success Manager": [
+     "Naomi Lewis",
+     "Emeka Okafor",
+     "Rina Ito"
+    ],
+    "Customer": [
+     "Customer team"
+    ]
+   }
+  },
+  {
+   "name": "ASSIGNEE",
+   "expr": "r['PROJECT_MANAGER'] if r['ASSIGNEE'] == '(PM)' else r['ASSIGNEE']"
+  },
+  {
+   "name": "_DUE",
+   "expr": "max(1, int(lognorm(6, 0.6)))"
+  },
+  {
+   "name": "TASK_DUE_DATE",
+   "expr": "d + timedelta(days=r['_DUE'])"
+  },
+  {
+   "name": "_TAGE",
+   "expr": "(as_of - d).days"
+  },
+  {
+   "name": "TASK_STATUS",
+   "expr": "weighted({'To Do': 60, 'In Progress': 36, 'Completed': 4}) if r['_TAGE'] <= 2 else (weighted({'To Do': 22, 'In Progress': 50, 'Completed': 24, 'Blocked': 4}) if r['_TAGE'] <= r['_DUE'] else (weighted({'Completed': 86, 'In Progress': 9, 'Blocked': 3, 'To Do': 2}) if r['_TAGE'] <= r['_DUE'] + 21 else (weighted({'Completed': 96, 'In Progress': 2.5, 'Blocked': 1.5}) if r['_TAGE'] <= 75 else 'Completed')))"
+  },
+  {
+   "name": "_OVP",
+   "expr": "0.06 + (0.05 if r['PROJECT_PHASE'] in ('4. Data Migration', '5. Testing & UAT') else 0) + (0.03 if r['SEGMENT'] == 'Enterprise' else 0) + ((0.30 * ramp(150)) if (r['SEGMENT'] == 'Enterprise' and r['PROJECT_PHASE'] in ('4. Data Migration', '5. Testing & UAT', '3. Configuration')) else 0)"
+  },
+  {
+   "name": "IS_OVERDUE",
+   "expr": "1 if (r['TASK_STATUS'] != 'Completed' and r['_TAGE'] > r['_DUE']) else (1 if chance(r['_OVP']) else 0)"
+  },
+  {
+   "name": "DAYS_OVERDUE",
+   "expr": "(r['_TAGE'] - r['_DUE']) if (r['IS_OVERDUE'] == 1 and r['TASK_STATUS'] != 'Completed') else (max(1, int(lognorm(4, 0.6) * (1.6 if r['SEGMENT'] == 'Enterprise' else 1))) if r['IS_OVERDUE'] == 1 else 0)"
+  },
+  {
+   "name": "IS_AT_RISK",
+   "expr": "1 if r['TASK_STATUS'] == 'Blocked' else (1 if (r['IS_OVERDUE'] == 1 and chance(0.45)) else (1 if chance(0.04 + r['_OVP'] * 0.5) else 0))"
+  },
+  {
+   "name": "IS_COMPLETED",
+   "expr": "1 if r['TASK_STATUS'] == 'Completed' else 0"
+  },
+  {
+   "name": "IS_IN_PROGRESS",
+   "expr": "1 if r['TASK_STATUS'] == 'In Progress' else 0"
+  },
+  {
+   "name": "IS_TODO",
+   "expr": "1 if r['TASK_STATUS'] == 'To Do' else 0"
+  },
+  {
+   "name": "IS_BLOCKED",
+   "expr": "1 if r['TASK_STATUS'] == 'Blocked' else 0"
+  },
+  {
+   "name": "TASK_COUNT",
+   "value": 1
+  },
+  {
+   "name": "PLANNED_HOURS",
+   "lognormal": {
+    "by": "PROJECT_PHASE",
+    "median": {
+     "1. Kickoff": 1.5,
+     "2. Discovery": 2.5,
+     "3. Configuration": 3.0,
+     "4. Data Migration": 3.5,
+     "5. Testing & UAT": 2.5,
+     "6. Go-Live": 2.0,
+     "7. Hypercare": 1.5
+    },
+    "sigma": 0.5
+   },
+   "round": 1
+  },
+  {
+   "name": "ACTUAL_HOURS",
+   "expr": "r['PLANNED_HOURS'] * lognorm(1.04, 0.18) * (1.35 if r['IS_OVERDUE'] == 1 else 1) * (0 if r['TASK_STATUS'] == 'To Do' else (0.5 if r['TASK_STATUS'] in ('In Progress', 'Blocked') else 1))",
+   "round": 1
+  },
+  {
+   "name": "BILLABLE_HOURS",
+   "expr": "0 if r['ASSIGNEE_ROLE'] == 'Customer' else r['ACTUAL_HOURS'] * (0.92 if r['BILLING_TYPE'] == 'Time & Materials' else (0.78 if r['BILLING_TYPE'] == 'Fixed Fee' else 0.65))",
+   "round": 1
+  },
+  {
+   "name": "COST_RATE",
+   "map_from": "ASSIGNEE_ROLE",
+   "map": {
+    "Project Manager": [
+     95
+    ],
+    "Implementation Consultant": [
+     82
+    ],
+    "Solutions Architect": [
+     118
+    ],
+    "Technical Consultant": [
+     96
+    ],
+    "Data Migration Specialist": [
+     102
+    ],
+    "QA Consultant": [
+     70
+    ],
+    "Trainer": [
+     64
+    ],
+    "Customer Success Manager": [
+     76
+    ],
+    "Customer": [
+     0
+    ]
+   }
+  },
+  {
+   "name": "BUDGET_COST",
+   "expr": "r['PLANNED_HOURS'] * r['COST_RATE']",
+   "round": 2
+  },
+  {
+   "name": "ACTUAL_COST",
+   "expr": "r['ACTUAL_HOURS'] * r['COST_RATE']",
+   "round": 2
+  },
+  {
+   "name": "BILLED_REVENUE",
+   "expr": "r['BILLABLE_HOURS'] * r['COST_RATE'] * 1.85",
+   "round": 2
+  },
+  {
+   "name": "PROJECT_PROGRESS_PCT",
+   "expr": "min(100.0, max(1.0, (r['PROJECT_DAY'] + 4) / 1.75 * actor['_EFF'] * ((1 - 0.22 * ramp(150)) if r['SEGMENT'] == 'Enterprise' else 1)))",
+   "round": 1
+  },
+  {
+   "name": "TIME_TO_VALUE_DAYS",
+   "expr": "{'Enterprise': 96, 'Mid-Market': 64, 'SMB': 41}[r['SEGMENT']] * actor['_EFF'] * lognorm(1.0, 0.06) * ((1 - 0.36 * ramp(200)) if r['PROJECT_MANAGER'] == 'Priya Raman' else 1)",
+   "round": 1
+  },
+  {
+   "name": "CSAT_SCORE",
+   "expr": "(min(5.0, max(1.0, 4.45 - (0.9 if r['IS_OVERDUE'] == 1 else 0) + uniform(-0.5, 0.5)))) if r['TASK_TYPE'] == 'Customer Milestone' and r['TASK_STATUS'] == 'Completed' else None",
+   "round": 1
+  }
+ ],
+ "types": {
+  "PLANNED_HOURS": "NUMBER(8,1)",
+  "ACTUAL_HOURS": "NUMBER(8,1)",
+  "BILLABLE_HOURS": "NUMBER(8,1)",
+  "BUDGET_COST": "NUMBER(12,2)",
+  "ACTUAL_COST": "NUMBER(12,2)",
+  "BILLED_REVENUE": "NUMBER(12,2)",
+  "PROJECT_PROGRESS_PCT": "NUMBER(5,1)",
+  "TIME_TO_VALUE_DAYS": "NUMBER(6,1)",
+  "CSAT_SCORE": "NUMBER(3,1)",
+  "COST_RATE": "NUMBER(6,0)"
+ }
+}

@@ -1,0 +1,367 @@
+{
+ "name": "Emburse Expense Analytics",
+ "description": "Employee travel & expense analytics for Emburse customers: spend, policy compliance, approval and reimbursement cycle times, audit risk and VAT recovery. One row per expense line, daily from Oct 2024 to Oct 2026.",
+ "table": "EMBURSE_EXPENSE_LINES",
+ "columns": [
+  {
+   "db": "EXPENSE_LINE_ID",
+   "name": "Expense Line ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique identifier of an individual expense line.",
+   "synonyms": [
+    "line id",
+    "expense id"
+   ]
+  },
+  {
+   "db": "REPORT_ID",
+   "name": "Report ID",
+   "type": "ATTRIBUTE",
+   "desc": "Expense report the line belongs to; one report per trip or per employee-month.",
+   "synonyms": [
+    "expense report",
+    "report number"
+   ]
+  },
+  {
+   "db": "TRANSACTION_DATE",
+   "name": "Transaction Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the expense was incurred.",
+   "synonyms": [
+    "expense date",
+    "spend date",
+    "date"
+   ]
+  },
+  {
+   "db": "SUBMITTED_DATE",
+   "name": "Submitted Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the expense report was submitted for approval; empty for drafts.",
+   "synonyms": [
+    "submission date"
+   ]
+  },
+  {
+   "db": "REPORT_STATUS",
+   "name": "Report Status",
+   "type": "ATTRIBUTE",
+   "desc": "Workflow status: Draft, Pending Approval, Returned, Approved, Exported or Reimbursed.",
+   "synonyms": [
+    "status",
+    "approval status"
+   ]
+  },
+  {
+   "db": "EMPLOYEE_NAME",
+   "name": "Employee",
+   "type": "ATTRIBUTE",
+   "desc": "Employee who incurred the expense.",
+   "synonyms": [
+    "employee name",
+    "spender",
+    "expense owner"
+   ]
+  },
+  {
+   "db": "DEPARTMENT",
+   "name": "Department",
+   "type": "ATTRIBUTE",
+   "desc": "Employee's department.",
+   "synonyms": [
+    "team",
+    "business unit"
+   ]
+  },
+  {
+   "db": "COST_CENTER",
+   "name": "Cost Center",
+   "type": "ATTRIBUTE",
+   "desc": "Cost center the expense is charged to (department by region).",
+   "synonyms": [
+    "budget",
+    "cost centre"
+   ]
+  },
+  {
+   "db": "APPROVER_NAME",
+   "name": "Approver",
+   "type": "ATTRIBUTE",
+   "desc": "Manager responsible for approving the report.",
+   "synonyms": [
+    "manager",
+    "approving manager"
+   ]
+  },
+  {
+   "db": "REGION",
+   "name": "Region",
+   "type": "ATTRIBUTE",
+   "desc": "Region where the expense was incurred: North America, EMEA or APAC.",
+   "synonyms": [
+    "geo",
+    "territory"
+   ]
+  },
+  {
+   "db": "COUNTRY",
+   "name": "Country",
+   "type": "ATTRIBUTE",
+   "desc": "Country where the expense was incurred."
+  },
+  {
+   "db": "CITY",
+   "name": "City",
+   "type": "ATTRIBUTE",
+   "desc": "City where the expense was incurred (trip destination or home office).",
+   "synonyms": [
+    "location",
+    "destination"
+   ]
+  },
+  {
+   "db": "CURRENCY",
+   "name": "Currency",
+   "type": "ATTRIBUTE",
+   "desc": "Original transaction currency.",
+   "synonyms": [
+    "transaction currency"
+   ]
+  },
+  {
+   "db": "EXPENSE_CATEGORY",
+   "name": "Expense Category",
+   "type": "ATTRIBUTE",
+   "desc": "Expense type such as Airfare, Lodging, Meals & Entertainment, Ground Transport or Mileage.",
+   "synonyms": [
+    "expense type",
+    "category",
+    "spend category"
+   ]
+  },
+  {
+   "db": "MERCHANT",
+   "name": "Merchant",
+   "type": "ATTRIBUTE",
+   "desc": "Normalized merchant name.",
+   "synonyms": [
+    "vendor",
+    "supplier",
+    "payee"
+   ]
+  },
+  {
+   "db": "MCC_GROUP",
+   "name": "Merchant Category",
+   "type": "ATTRIBUTE",
+   "desc": "Merchant category code group, e.g. Airlines, Hotels & Lodging, Restaurants & Bars.",
+   "synonyms": [
+    "mcc",
+    "merchant category code"
+   ]
+  },
+  {
+   "db": "PAYMENT_METHOD",
+   "name": "Payment Method",
+   "type": "ATTRIBUTE",
+   "desc": "Corporate Card, Out-of-Pocket, P-Card or Travel Agency (TMC).",
+   "synonyms": [
+    "payment type",
+    "card type"
+   ]
+  },
+  {
+   "db": "POLICY_STATUS",
+   "name": "Policy Status",
+   "type": "ATTRIBUTE",
+   "desc": "In Policy, Soft Violation, Hard Violation or Missing Receipt.",
+   "synonyms": [
+    "compliance status"
+   ]
+  },
+  {
+   "db": "POLICY_FLAG",
+   "name": "Policy Flag",
+   "type": "ATTRIBUTE",
+   "desc": "Specific policy rule triggered, e.g. Over Hotel Cap, Alcohol on Receipt, Duplicate Suspected; None when compliant.",
+   "synonyms": [
+    "violation type",
+    "policy rule",
+    "audit flag"
+   ]
+  },
+  {
+   "db": "PROJECT_CLIENT",
+   "name": "Project / Client",
+   "type": "ATTRIBUTE",
+   "desc": "Client or matter the expense is billable to; Internal when not billable.",
+   "synonyms": [
+    "client",
+    "matter",
+    "project"
+   ]
+  },
+  {
+   "db": "EXPENSE_AMOUNT_USD",
+   "name": "Expense Amount",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "currency": true,
+   "desc": "Expense amount converted to USD.",
+   "synonyms": [
+    "spend",
+    "total spend",
+    "amount",
+    "expenses"
+   ]
+  },
+  {
+   "db": "OUT_OF_POLICY_AMOUNT_USD",
+   "name": "Out-of-Policy Amount",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "currency": true,
+   "desc": "Portion of the expense amount that breaches policy.",
+   "synonyms": [
+    "out of policy spend",
+    "non-compliant spend",
+    "policy leakage"
+   ]
+  },
+  {
+   "db": "VIOLATION_COUNT",
+   "name": "Violations",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Number of policy violations.",
+   "synonyms": [
+    "policy violations",
+    "violation count"
+   ]
+  },
+  {
+   "db": "RECEIPT_MISSING_FLAG",
+   "name": "Missing Receipts",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Number of expense lines missing a receipt.",
+   "synonyms": [
+    "missing receipt count"
+   ]
+  },
+  {
+   "db": "APPROVAL_DAYS",
+   "name": "Approval Days",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days from submission to approval.",
+   "synonyms": [
+    "time to approve",
+    "approval cycle time",
+    "approval time"
+   ]
+  },
+  {
+   "db": "REIMBURSEMENT_DAYS",
+   "name": "Reimbursement Days",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days from approval to employee reimbursement (out-of-pocket lines).",
+   "synonyms": [
+    "time to reimburse",
+    "payment time"
+   ]
+  },
+  {
+   "db": "DAYS_PENDING",
+   "name": "Days Pending",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days a report has been waiting for approval (pending reports only).",
+   "synonyms": [
+    "approval aging",
+    "days waiting",
+    "age"
+   ]
+  },
+  {
+   "db": "AUDIT_RISK_SCORE",
+   "name": "Audit Risk Score",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "AI audit risk score from 0 to 100; higher means riskier.",
+   "synonyms": [
+    "risk score",
+    "fraud score",
+    "risk"
+   ]
+  },
+  {
+   "db": "VAT_RECLAIMABLE_USD",
+   "name": "VAT Reclaimable",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "currency": true,
+   "desc": "Recoverable VAT/GST on eligible non-US expenses, in USD.",
+   "synonyms": [
+    "vat",
+    "tax reclaim",
+    "gst"
+   ]
+  },
+  {
+   "db": "NEGOTIATED_RATE_USD",
+   "name": "Negotiated Hotel Rate",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "currency": true,
+   "desc": "Corporate negotiated nightly hotel rate for the city (lodging lines only).",
+   "synonyms": [
+    "hotel cap",
+    "contracted rate"
+   ]
+  },
+  {
+   "db": "MILES",
+   "name": "Miles",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Miles claimed on mileage expenses.",
+   "synonyms": [
+    "mileage",
+    "distance"
+   ]
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Out-of-Policy %",
+   "agg": "SUM",
+   "desc": "Share of spend that breaches policy.",
+   "expr": "sum ( [{T}::OUT_OF_POLICY_AMOUNT_USD] ) / sum ( [{T}::EXPENSE_AMOUNT_USD] )",
+   "format": "0.0%"
+  },
+  {
+   "name": "Violation Rate",
+   "agg": "SUM",
+   "desc": "Policy violations per expense line.",
+   "expr": "sum ( [{T}::VIOLATION_COUNT] ) / count ( [{T}::EXPENSE_LINE_ID] )",
+   "format": "0.0%"
+  },
+  {
+   "name": "Hotel Rate vs Negotiated %",
+   "agg": "SUM",
+   "desc": "How far actual nightly hotel spend runs above the negotiated rate.",
+   "expr": "sum ( if ( [{T}::EXPENSE_CATEGORY] = 'Lodging' ) then [{T}::EXPENSE_AMOUNT_USD] else 0 ) / sum ( [{T}::NEGOTIATED_RATE_USD] ) - 1",
+   "format": "0.0%"
+  },
+  {
+   "name": "Report Count",
+   "agg": "SUM",
+   "desc": "Number of distinct expense reports.",
+   "expr": "unique count ( [{T}::REPORT_ID] )"
+  }
+ ],
+ "theme_parameter": true
+}

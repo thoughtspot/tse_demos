@@ -1,0 +1,11 @@
+Tangoe cost-leakage pipeline (technology expense management: telecom, mobile, SaaS, cloud).
+Metaphor: billed technology spend as liquid running through one pipe per business unit. Pipe thickness = billed spend (sqrt).
+Valve 1, the zero-usage leak: heat = zero-usage rate (deep purple -> magenta -> Tangoe orange #F37822); orange drips fall into a
+puddle sized by wasted spend (spend billed on lines/licenses idle 30+ days); the pipe narrows after the leak. A BU whose rate is
+1.6x the median (and over 9%) turns orange with a pulsing ring. Valve 2, invoice audit: green diamond whose return loop carries
+recovered credits back upstream (width = credits / billed). Coin particles flow along every pipe. Right column: zero-usage rate
+(+/- pt vs first month) or wasted $ (metric dropdown). Footer: billed, wasted (idle %), credits recovered for the month.
+Month scrubber + Play walks Nov 2025 -> Oct 2026. Partial months (<40% of median billed) dropped.
+Story: Field Operations zero-usage 6.3% (Nov 2025) -> 20.8% (Oct 2026), +14.4 pt; other BUs 4.7-6.9%.
+Search: [Billed Amount] [Wasted Spend] [Disputed Amount] [Credits Recovered] [Billed Lines] [Zero-Usage Lines] [Business Unit] [Invoice Date].monthly [Invoice Date] = 'last 12 months' [Theme Mode]  (84 rows)
+Font: Figtree (nearest Google match to Proxima Nova), embedded via make_font_patch. Tile: KPIs tab x0 y0 w5 h6.

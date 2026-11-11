@@ -1,0 +1,111 @@
+/* ===================================================================
+   Icon rail navigation (FLAGS.navLayout: 'rail') - Rocketlane product UI
+   =================================================================== */
+.app-shell.is-rail .app-main { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+/* A column flex parent shrinks `margin: 0 auto` children to their content width, which squeezed the
+   Liveboard and Report Builder into a narrow centred column. Stretch every page to the full width. */
+.app-shell.is-rail .app-main > * { align-self: stretch; width: 100%; max-width: none; box-sizing: border-box; }
+.navrail {
+  width: 48px; flex: none; height: 100vh; position: relative; z-index: 40;
+  display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 0 12px;
+  background: var(--sl-white); border-right: 1px solid var(--sl-border);
+}
+.navrail-logo { width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; color: var(--sl-ink); padding: 3px; margin-bottom: 6px; }
+.navrail-logo svg { width: 24px; height: 20px; display: block; }
+.navrail-items, .navrail-bottom { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.navrail-bottom { margin-top: auto; gap: 10px; }
+.navrail-slot { position: relative; }
+.navrail-btn {
+  position: relative; width: 32px; height: 32px; border-radius: 8px; border: 0; background: transparent;
+  display: grid; place-items: center; color: var(--sl-muted); cursor: pointer; transition: background .12s, color .12s;
+}
+.navrail-btn:hover { background: var(--sl-cream); color: var(--sl-ink); }
+.navrail-btn.is-active { background: var(--sl-mint); color: var(--sl-green); box-shadow: inset 0 0 0 1px rgba(var(--sl-primary-rgb), .18); }
+.navrail-btn:focus-visible, .navrail-flyout-item:focus-visible, .navrail-avatar:focus-visible { outline: 2px solid var(--sl-green); outline-offset: 2px; }
+.navrail-dot { position: absolute; top: 6px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: #da1e28; box-shadow: 0 0 0 2px var(--sl-white); }
+/* dark tooltip + dark flyout, shown on hover / keyboard focus */
+.navrail-tip, .navrail-flyout {
+  position: absolute; left: calc(100% + 10px); top: 50%; transform: translateY(-50%);
+  background: #1f2023; color: #f4f4f5; border-radius: 6px; box-shadow: 0 8px 24px rgba(0,0,0,.28);
+  opacity: 0; pointer-events: none; transition: opacity .12s ease .06s; white-space: nowrap; z-index: 60;
+}
+.navrail-tip { padding: 5px 9px; font-size: 12px; font-weight: 500; }
+.navrail-flyout { top: -6px; transform: none; min-width: 200px; padding: 6px; }
+.navrail-flyout::before { content: ''; position: absolute; left: -12px; top: 0; bottom: 0; width: 12px; } /* hover bridge */
+.navrail-slot:hover > .navrail-tip, .navrail-slot:focus-within > .navrail-tip,
+.navrail-slot.has-flyout:hover > .navrail-flyout, .navrail-slot.has-flyout:focus-within > .navrail-flyout,
+.navrail-flyout.is-open { opacity: 1; pointer-events: auto; }
+.navrail-flyout-title { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #a1a1aa; padding: 4px 8px 6px; }
+.navrail-flyout-item {
+  display: flex; align-items: center; gap: 9px; width: 100%; border: 0; background: transparent; color: #f4f4f5;
+  font: inherit; font-size: 13px; padding: 7px 8px; border-radius: 5px; cursor: pointer; text-align: left;
+}
+.navrail-flyout-item:hover { background: #34363b; }
+.navrail-flyout-item.is-on { background: #2c2e33; }
+.navrail-flyout-item svg { color: #c4c4cc; flex: none; }
+.navrail-check { margin-left: auto; color: #8ab0ff !important; }
+.navrail-flyout-note { font-size: 12.5px; color: #e4e4e7; padding: 6px 8px; border-top: 1px solid #2f3136; white-space: normal; width: 240px; line-height: 1.35; }
+.navrail-avatar {
+  width: 28px; height: 28px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+  background: #e8467c; color: #fff; font: inherit; font-size: 13px; font-weight: 600;
+}
+.navrail-avatar-menu { top: auto; bottom: 0; min-width: 240px; }
+.navrail-credit-mini { margin-left: auto; font-style: normal; font-size: 11.5px; color: #a1a1aa; }
+/* breadcrumb strip above every tab (Rocketlane: "Back to dashboards | Project Performance & Analytics") */
+.rail-crumbs {
+  flex: none; display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 22px;
+  background: var(--sl-white); border-bottom: 1px solid var(--sl-border); font-size: 13px; position: sticky; top: 0; z-index: 5;
+}
+.rail-crumbs-back { display: inline-flex; align-items: center; gap: 4px; border: 0; background: transparent; font: inherit; font-weight: 600; color: var(--sl-ink); cursor: pointer; padding: 4px 6px 4px 0; }
+.rail-crumbs-back:hover { color: var(--sl-green); }
+.rail-crumbs-sep { width: 1px; height: 14px; background: var(--sl-border); }
+.rail-crumbs-current { color: var(--sl-muted); }
+.app-shell.is-rail .tab-analytics { padding-top: 24px; }
+@media (max-width: 760px) {
+  .app-shell.is-rail { flex-direction: column; }
+  .navrail { width: 100%; height: 52px; flex-direction: row; padding: 0 10px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--sl-border); }
+  .navrail-items, .navrail-bottom { flex-direction: row; }
+  .navrail-bottom { margin: 0 0 0 auto; }
+  .navrail-logo { margin: 0 6px 0 0; }
+  .navrail-tip, .navrail-flyout { display: none; }
+  .navrail-flyout.is-open { display: block; position: fixed; left: auto; right: 10px; top: 56px; bottom: auto; }
+  .rail-crumbs { padding: 0 16px; }
+}
+
+/* ===========================  Consumption Stats (credits)  =============== */
+.credits-modal { max-width: 480px; }
+.credits-body { padding: 4px 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+.credits-plan-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.credits-plan-pill { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--sl-mint); color: var(--sl-green); }
+.credits-reset { font-size: 12.5px; color: var(--sl-muted); }
+.credits-figure { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; color: var(--sl-muted); font-size: 13.5px; }
+.credits-figure strong { font-size: 30px; color: var(--sl-ink); letter-spacing: -0.02em; }
+.credits-figure em { margin-left: auto; font-style: normal; font-weight: 600; color: var(--sl-green); }
+.credits-figure em.is-warn { color: var(--sl-gold); }
+.credits-bar { height: 10px; border-radius: 999px; background: var(--sl-border-soft); overflow: hidden; box-shadow: inset 0 0 0 1px var(--sl-border); }
+.credits-bar-fill { height: 100%; border-radius: inherit; background: var(--sl-green); transition: width .6s cubic-bezier(.2,.8,.2,1); }
+.credits-bar-fill.is-warn { background: linear-gradient(90deg, var(--sl-green), var(--sl-gold)); }
+.credits-breakdown { border: 1px solid var(--sl-border); border-radius: 10px; overflow: hidden; }
+.credits-breakdown-row { display: grid; grid-template-columns: 1fr auto 64px; gap: 10px; padding: 9px 12px; font-size: 13px; color: var(--sl-ink); }
+.credits-breakdown-row + .credits-breakdown-row { border-top: 1px solid var(--sl-border-soft); }
+.credits-breakdown-count { color: var(--sl-muted); font-variant-numeric: tabular-nums; }
+.credits-breakdown-row strong { text-align: right; font-variant-numeric: tabular-nums; }
+.credits-upgrade { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 14px; }
+.credits-upgraded { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 9px 12px; border-radius: 8px; background: var(--sl-mint); color: var(--sl-ink); }
+.credits-upgraded svg { color: var(--sl-green); flex: none; }
+.credits-top { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--sl-muted); padding: 9px 12px; border-radius: 8px; border: 1px dashed var(--sl-border); }
+.credits-top a { color: var(--sl-green); font-weight: 600; }
+
+/* ===========================  Report Builder  ============================ */
+.tab-reports { max-width: 1680px; margin: 0 auto; padding: 24px 32px 28px; display: flex; flex-direction: column; box-sizing: border-box; }
+/* Fills the viewport; the embed opens on a starter search (ReportBuilder.tsx) so the canvas is never blank. */
+.tab-reports { height: calc(100vh - 40px); }
+.reports-header { flex: none; margin-bottom: 14px; }
+.reports-embed { flex: 1; min-height: 520px; border-radius: 12px; overflow: hidden; background: var(--sl-white); border: 1px solid var(--sl-border); box-shadow: var(--shadow-card); }
+.reports-meter { flex: none; display: flex; flex-direction: column; gap: 5px; padding: 10px 2px 0; }
+.reports-meter-bar { height: 3px; border-radius: 999px; background: var(--sl-border-soft); overflow: hidden; }
+.reports-meter-fill { height: 100%; background: var(--sl-green); border-radius: inherit; transition: width .7s cubic-bezier(.2,.8,.2,1); }
+.reports-meter.is-bump .reports-meter-fill { box-shadow: 0 0 8px rgba(var(--sl-primary-rgb), .7); }
+.reports-meter-caption { font-size: 11.5px; color: var(--sl-muted); font-variant-numeric: tabular-nums; }
+.reports-meter-plus { color: var(--sl-green); font-weight: 600; }
+@media (max-width: 760px) { .tab-reports { padding: 16px; height: auto; } }

@@ -1,0 +1,24 @@
+{
+  "name": "Surescripts Network Intelligence",
+  "description": "Surescripts network analytics for participants: transaction volume, response time, rejects, e-prescribing, Real-Time Prescription Benefit adoption and patient savings, prescription abandonment, EPCS and electronic prior authorization turnaround, with the pending prior-auth queue. Synthetic, non-PHI data.",
+  "model": { "guid": "85ed75fd-25d9-41f9-afa6-7eccae453e74", "name": "Surescripts Network Analytics" },
+  "palette": { "primary": "#005677", "ramp": ["#E3F1F6", "#67CBEC", "#005677", "#002A3B"], "series": ["#F26027", "#009DD1"] },
+  "tabs": [
+    { "name": "Overview", "description": "Network volume, response time, rejects, prior authorization, RTPB and the pending PA queue", "tiles": [
+      { "type": "KPI", "name": "Network transactions", "description": "Weekly transactions across the Surescripts network, last 12 months.", "search": "[Transactions] [Transaction Date].weekly [Transaction Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Avg response time (ms)", "description": "Weekly average network round-trip response time.", "search": "[Response Time ms] [Transaction Date].weekly [Transaction Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Reject rate", "description": "Weekly share of messages rejected by the receiving system.", "search": "[Reject Rate] [Transaction Date].weekly [Transaction Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "PA turnaround (hours)", "description": "Weekly average hours from prior authorization submission to determination.", "search": "[PA Turnaround Hours] [Transaction Date].weekly [Transaction Date] = 'last 12 months'" },
+      { "type": "SANKEY", "name": "NewRx routing: EHR vendor to PBM to pharmacy", "search": "[New Prescriptions] [EHR Vendor] [PBM] [Pharmacy] [Transaction Type] = 'newrx' [Transaction Date] = 'last 12 months'" },
+      { "type": "HEATMAP", "name": "Reject rate by EHR vendor and transaction type (last 90 days)", "search": "[Reject Rate] [EHR Vendor] [Transaction Type] [Transaction Date] = 'last 90 days'" },
+      { "type": "TABLE", "name": "Prior auth queue: pending determinations", "action": true, "search": "[Transaction ID] [Prescriber Organization] [PBM] [Therapeutic Class] [PA Channel] [Days Pending] [PA Outcome] = 'pending' sort by [Days Pending] descending" },
+      { "type": "LINE", "name": "Texas: ePA rollout cuts prior auth turnaround", "search": "[PA Turnaround Hours] [Transaction Date].monthly [State] [State] = 'texas' 'california' 'florida' 'illinois' [Transaction Date] = 'last 18 months'" },
+      { "type": "LINE", "name": "Navitus: RTPB adoption cuts prescription abandonment", "search": "[Abandonment Rate] [Transaction Date].monthly [PBM] [Transaction Date] = 'last 18 months'" },
+      { "type": "BAR", "name": "Patient savings by therapeutic class (last 12 months)", "search": "[Patient Savings] [Therapeutic Class] [Transaction Date] = 'last 12 months' sort by [Patient Savings] descending" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "ePA share of prior auths", "search": "[ePA Share] [Transaction Date].weekly [Transaction Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "RTPB adoption", "search": "[RTPB Adoption] [Transaction Date].weekly [Transaction Date] = 'last 12 months'" }
+    ]}
+  ]
+}

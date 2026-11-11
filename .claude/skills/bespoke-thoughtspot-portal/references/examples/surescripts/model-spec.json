@@ -1,0 +1,479 @@
+{
+ "name": "Surescripts Network Analytics",
+ "description": "Surescripts Health Information Network analytics for participants: one row per network transaction (NewRx, RxRenewal, CancelRx, RxChange, Medication History, Eligibility, Formulary, Prior Authorization, Clinical Direct Messaging) by prescriber organization, EHR vendor, state, PBM, pharmacy and therapeutic class, with response time, rejects and errors, Real-Time Prescription Benefit checks and patient savings, first-fill abandonment, EPCS and electronic prior authorization turnaround and approvals. Synthetic, non-PHI. Daily, Nov 2024 to Nov 2026.",
+ "table": "SURESCRIPTS_NETWORK_TRANSACTIONS",
+ "columns": [
+  {
+   "db": "TRANSACTION_ID",
+   "name": "Transaction ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique network transaction (message) ID.",
+   "synonyms": [
+    "transaction",
+    "message id"
+   ]
+  },
+  {
+   "db": "TRANSACTION_DATE",
+   "name": "Transaction Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the transaction crossed the Surescripts network.",
+   "synonyms": [
+    "date",
+    "day",
+    "month",
+    "week"
+   ]
+  },
+  {
+   "db": "REGION",
+   "name": "Region",
+   "type": "ATTRIBUTE",
+   "desc": "US region of the prescriber site.",
+   "synonyms": [
+    "area"
+   ]
+  },
+  {
+   "db": "STATE",
+   "name": "State",
+   "type": "ATTRIBUTE",
+   "desc": "US state of the prescriber site.",
+   "synonyms": [
+    "us state"
+   ]
+  },
+  {
+   "db": "ORG_TYPE",
+   "name": "Organization Type",
+   "type": "ATTRIBUTE",
+   "desc": "Type of prescriber organization: health system, ambulatory clinic, specialty practice, LTPAC, urgent care.",
+   "synonyms": [
+    "org type",
+    "site type",
+    "care setting"
+   ]
+  },
+  {
+   "db": "EHR_VENDOR",
+   "name": "EHR Vendor",
+   "type": "ATTRIBUTE",
+   "desc": "EHR or e-prescribing software the prescriber site uses.",
+   "synonyms": [
+    "ehr",
+    "emr",
+    "vendor",
+    "software"
+   ]
+  },
+  {
+   "db": "PRESCRIBER_ORG",
+   "name": "Prescriber Organization",
+   "type": "ATTRIBUTE",
+   "desc": "Prescriber site (practice, clinic or health system) sending the transaction.",
+   "synonyms": [
+    "prescriber",
+    "practice",
+    "clinic",
+    "site",
+    "health system"
+   ]
+  },
+  {
+   "db": "TRANSACTION_TYPE",
+   "name": "Transaction Type",
+   "type": "ATTRIBUTE",
+   "desc": "Network message type: NewRx, RxRenewal, CancelRx, RxChange, Medication History, Eligibility, Formulary, Prior Authorization, Clinical Direct Message.",
+   "synonyms": [
+    "message type",
+    "transaction",
+    "product"
+   ]
+  },
+  {
+   "db": "PBM",
+   "name": "PBM",
+   "type": "ATTRIBUTE",
+   "desc": "Pharmacy benefit manager covering the patient.",
+   "synonyms": [
+    "pharmacy benefit manager",
+    "payer",
+    "plan"
+   ]
+  },
+  {
+   "db": "THERAPEUTIC_CLASS",
+   "name": "Therapeutic Class",
+   "type": "ATTRIBUTE",
+   "desc": "Drug class of the prescription or prior authorization.",
+   "synonyms": [
+    "drug class",
+    "medication class",
+    "therapy area"
+   ]
+  },
+  {
+   "db": "SPECIALTY_MEDICATION",
+   "name": "Specialty Medication",
+   "type": "ATTRIBUTE",
+   "desc": "Yes when the drug is a specialty medication.",
+   "synonyms": [
+    "specialty",
+    "specialty drug"
+   ]
+  },
+  {
+   "db": "CONTROLLED_SUBSTANCE",
+   "name": "Controlled Substance",
+   "type": "ATTRIBUTE",
+   "desc": "Yes when the drug is a controlled substance (EPCS).",
+   "synonyms": [
+    "controlled",
+    "schedule ii",
+    "epcs drug"
+   ]
+  },
+  {
+   "db": "PHARMACY",
+   "name": "Pharmacy",
+   "type": "ATTRIBUTE",
+   "desc": "Pharmacy the prescription was routed to.",
+   "synonyms": [
+    "pharmacy chain",
+    "dispenser",
+    "store"
+   ]
+  },
+  {
+   "db": "PA_CHANNEL",
+   "name": "PA Channel",
+   "type": "ATTRIBUTE",
+   "desc": "How the prior authorization was submitted: Touchless ePA, Electronic (ePA) or Fax / Phone.",
+   "synonyms": [
+    "prior auth channel",
+    "epa channel",
+    "submission channel"
+   ]
+  },
+  {
+   "db": "PA_OUTCOME",
+   "name": "PA Outcome",
+   "type": "ATTRIBUTE",
+   "desc": "Prior authorization result: Approved, Denied, More Info Requested or Pending.",
+   "synonyms": [
+    "prior auth status",
+    "pa status",
+    "determination"
+   ]
+  },
+  {
+   "db": "MESSAGE_STATUS",
+   "name": "Message Status",
+   "type": "ATTRIBUTE",
+   "desc": "Delivered, Rejected (by the receiving system) or Error (network or format failure).",
+   "synonyms": [
+    "status",
+    "delivery status"
+   ]
+  },
+  {
+   "db": "NEW_RX",
+   "name": "New Prescriptions",
+   "type": "MEASURE",
+   "desc": "NewRx e-prescriptions.",
+   "synonyms": [
+    "newrx",
+    "e-prescriptions",
+    "new rx"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "EPCS_RX",
+   "name": "EPCS Prescriptions",
+   "type": "MEASURE",
+   "desc": "Electronic prescriptions for controlled substances.",
+   "synonyms": [
+    "epcs",
+    "controlled e-prescriptions"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "RTPB_CHECKS",
+   "name": "RTPB Checks",
+   "type": "MEASURE",
+   "desc": "New prescriptions where the prescriber ran a Real-Time Prescription Benefit check.",
+   "synonyms": [
+    "rtpb",
+    "price checks",
+    "benefit checks",
+    "real-time benefit"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "ALTERNATIVES_PRESENTED",
+   "name": "Alternatives Presented",
+   "type": "MEASURE",
+   "desc": "RTPB responses that returned a lower-cost alternative.",
+   "synonyms": [
+    "alternatives offered"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "ALTERNATIVES_SELECTED",
+   "name": "Alternatives Selected",
+   "type": "MEASURE",
+   "desc": "Lower-cost alternatives the prescriber switched to.",
+   "synonyms": [
+    "switches",
+    "alternatives chosen"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PATIENT_SAVINGS_USD",
+   "name": "Patient Savings",
+   "type": "MEASURE",
+   "desc": "Out-of-pocket savings for patients when a lower-cost alternative was chosen (USD).",
+   "synonyms": [
+    "savings",
+    "cost savings",
+    "patient savings usd"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "PATIENT_OOP_USD",
+   "name": "Patient Out-of-Pocket",
+   "type": "MEASURE",
+   "desc": "Patient out-of-pocket cost on new prescriptions (USD).",
+   "synonyms": [
+    "oop",
+    "copay",
+    "out of pocket"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "ABANDONED_RX",
+   "name": "Abandoned Prescriptions",
+   "type": "MEASURE",
+   "desc": "New prescriptions never picked up (first-fill abandonment).",
+   "synonyms": [
+    "abandonment",
+    "unfilled",
+    "not picked up"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PA_REQUESTS",
+   "name": "PA Requests",
+   "type": "MEASURE",
+   "desc": "Prior authorization requests.",
+   "synonyms": [
+    "prior auths",
+    "prior authorizations",
+    "epa requests"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PA_APPROVED",
+   "name": "PA Approvals",
+   "type": "MEASURE",
+   "desc": "Prior authorizations approved.",
+   "synonyms": [
+    "approved prior auths"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PA_DECIDED",
+   "name": "PA Decisions",
+   "type": "MEASURE",
+   "desc": "Prior authorizations with a determination.",
+   "synonyms": [
+    "determinations"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PA_TURNAROUND_HOURS",
+   "name": "PA Turnaround Hours",
+   "type": "MEASURE",
+   "desc": "Hours from PA submission to determination.",
+   "synonyms": [
+    "time to decision",
+    "turnaround",
+    "pa tat"
+   ],
+   "agg": "AVERAGE"
+  },
+  {
+   "db": "PA_DAYS_PENDING",
+   "name": "Days Pending",
+   "type": "MEASURE",
+   "desc": "Days a pending prior authorization has been waiting.",
+   "synonyms": [
+    "pa age",
+    "days waiting"
+   ],
+   "agg": "MAX"
+  },
+  {
+   "db": "NETWORK_LATENCY_MS",
+   "name": "Response Time ms",
+   "type": "MEASURE",
+   "desc": "Network round-trip response time in milliseconds.",
+   "synonyms": [
+    "latency",
+    "response time",
+    "round trip"
+   ],
+   "agg": "AVERAGE"
+  },
+  {
+   "db": "REJECTED",
+   "name": "Rejected Messages",
+   "type": "MEASURE",
+   "desc": "Messages rejected by the receiving system.",
+   "synonyms": [
+    "rejects",
+    "rejections"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "ERRORS",
+   "name": "Error Messages",
+   "type": "MEASURE",
+   "desc": "Messages failed by a network or format error.",
+   "synonyms": [
+    "errors",
+    "failures"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "MED_HISTORY_MATCHED",
+   "name": "Med History Matches",
+   "type": "MEASURE",
+   "desc": "Medication history requests that returned a patient match.",
+   "synonyms": [
+    "med history hits",
+    "matches"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "TRANSACTIONS",
+   "name": "Transactions",
+   "type": "MEASURE",
+   "desc": "Network transactions.",
+   "synonyms": [
+    "volume",
+    "messages",
+    "exchanges"
+   ],
+   "agg": "SUM"
+  }
+ ],
+ "theme_parameter": true,
+ "formulas": [
+  {
+   "name": "Reject Rate",
+   "expr": "sum ( [{T}::REJECTED] ) / sum ( [{T}::TRANSACTIONS] )",
+   "desc": "Share of transactions rejected by the receiving system.",
+   "format": "0.00%",
+   "synonyms": [
+    "rejection rate"
+   ]
+  },
+  {
+   "name": "Error Rate",
+   "expr": "( sum ( [{T}::REJECTED] ) + sum ( [{T}::ERRORS] ) ) / sum ( [{T}::TRANSACTIONS] )",
+   "desc": "Share of transactions rejected or failed.",
+   "format": "0.00%",
+   "synonyms": [
+    "message error rate",
+    "failure rate"
+   ]
+  },
+  {
+   "name": "RTPB Adoption",
+   "expr": "sum ( [{T}::RTPB_CHECKS] ) / sum ( [{T}::NEW_RX] )",
+   "desc": "Share of new prescriptions with a Real-Time Prescription Benefit check.",
+   "format": "0.0%",
+   "synonyms": [
+    "rtpb use rate",
+    "price transparency adoption"
+   ]
+  },
+  {
+   "name": "Abandonment Rate",
+   "expr": "sum ( [{T}::ABANDONED_RX] ) / sum ( [{T}::NEW_RX] )",
+   "desc": "Share of new prescriptions never picked up.",
+   "format": "0.0%",
+   "synonyms": [
+    "prescription abandonment",
+    "first-fill abandonment"
+   ]
+  },
+  {
+   "name": "PA Approval Rate",
+   "expr": "sum ( [{T}::PA_APPROVED] ) / sum ( [{T}::PA_DECIDED] )",
+   "desc": "Approved share of decided prior authorizations.",
+   "format": "0.0%",
+   "synonyms": [
+    "approval rate",
+    "epa approval rate"
+   ]
+  },
+  {
+   "name": "ePA Share",
+   "expr": "sum ( if ( [{T}::PA_CHANNEL] != 'Fax / Phone' and [{T}::PA_REQUESTS] = 1 ) then 1 else 0 ) / sum ( [{T}::PA_REQUESTS] )",
+   "desc": "Share of prior authorizations submitted electronically (ePA or touchless).",
+   "format": "0.0%",
+   "synonyms": [
+    "electronic pa share",
+    "epa adoption"
+   ]
+  },
+  {
+   "name": "EPCS Share",
+   "expr": "sum ( [{T}::EPCS_RX] ) / sum ( [{T}::NEW_RX] )",
+   "desc": "Controlled-substance e-prescriptions as a share of new prescriptions.",
+   "format": "0.0%",
+   "synonyms": [
+    "epcs rate"
+   ]
+  },
+  {
+   "name": "Savings per RTPB Check",
+   "expr": "sum ( [{T}::PATIENT_SAVINGS_USD] ) / sum ( [{T}::RTPB_CHECKS] )",
+   "desc": "Patient savings per RTPB check (USD).",
+   "currency": "USD"
+  },
+  {
+   "name": "Alternative Switch Rate",
+   "expr": "sum ( [{T}::ALTERNATIVES_SELECTED] ) / sum ( [{T}::ALTERNATIVES_PRESENTED] )",
+   "desc": "Share of presented lower-cost alternatives the prescriber chose.",
+   "format": "0.0%",
+   "synonyms": [
+    "switch rate"
+   ]
+  },
+  {
+   "name": "Active Prescriber Organizations",
+   "expr": "unique count ( [{T}::PRESCRIBER_ORG] )",
+   "desc": "Distinct prescriber organizations transacting.",
+   "format": "#,##0"
+  }
+ ]
+}

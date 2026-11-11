@@ -1,0 +1,43 @@
+
+/* ---- Unite Us home (modelled on uniteus.com) ---- */
+.uu-home { padding: 28px 36px 48px; max-width: 1280px; margin: 0 auto; color: var(--sl-ink); font-family: var(--font-sans); }
+.uu-home-hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; padding: 36px 0 28px; }
+.uu-home-h1 { font-size: clamp(32px, 3.6vw, 50px); line-height: 1.12; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 18px; color: var(--sl-evergreen); }
+.uu-home-grad { background: linear-gradient(90deg, #216cff 0%, #c26cff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.uu-home-sub { font-size: 17px; line-height: 1.6; color: var(--sl-muted); max-width: 600px; margin: 0 0 28px; }
+.uu-home-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.uu-home-btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 13px 24px; font: 600 15px var(--font-sans); cursor: pointer; border: 1.5px solid transparent; transition: transform .15s, box-shadow .15s, background .15s; }
+.uu-home-btn:hover { transform: translateY(-1px); }
+.uu-home-btn-primary { background: var(--sl-green); color: #fff; box-shadow: 0 8px 22px rgba(var(--sl-primary-rgb), .28); }
+.uu-home-btn-ghost { background: transparent; color: var(--sl-green); border-color: var(--sl-green); }
+.uu-home-btn-light { background: #fff; color: #216cff; }
+.uu-home-hero-art { position: relative; min-height: 380px; }
+.uu-home-photo { position: absolute; inset: 0 0 0 40px; border-radius: 28px; overflow: hidden; background: linear-gradient(135deg, #216cff, #9643ff); box-shadow: var(--shadow-lift); }
+.uu-home-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.uu-home-float { position: absolute; display: flex; align-items: center; gap: 10px; background: var(--sl-white); color: var(--sl-ink); border: 1px solid var(--sl-border); border-radius: 16px; padding: 12px 16px; box-shadow: var(--shadow-card); font-size: 13px; }
+.uu-home-float b { display: block; font-size: 13.5px; }
+.uu-home-float span { color: var(--sl-muted); }
+.uu-home-float svg { color: #216cff; flex: none; }
+.uu-home-float-a { left: 0; top: 34px; }
+.uu-home-float-b { right: 18px; bottom: 28px; }
+.uu-home-dot { width: 12px; height: 12px; border-radius: 50%; background: #9643ff; box-shadow: 0 0 0 5px rgba(150, 67, 255, .18); flex: none; }
+.uu-home-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: var(--sl-white); border: 1px solid var(--sl-border); border-radius: 22px; box-shadow: var(--shadow-card); margin: 8px 0 44px; }
+.uu-home-stat { display: flex; flex-direction: column; gap: 4px; padding: 22px 26px; border-left: 1px solid var(--sl-border-soft); }
+.uu-home-stat:first-child { border-left: 0; }
+.uu-home-stat-v { font-size: 30px; font-weight: 700; color: var(--sl-green); letter-spacing: -0.01em; }
+.uu-home-stat-l { font-size: 13px; color: var(--sl-muted); }
+.uu-home-section { margin-bottom: 44px; }
+.uu-home-h2 { font-size: 28px; font-weight: 700; color: var(--sl-evergreen); margin: 0 0 20px; letter-spacing: -0.01em; }
+.uu-home-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.uu-home-card { text-align: left; background: var(--sl-white); border: 1px solid var(--sl-border); border-radius: 20px; padding: 22px; box-shadow: var(--shadow-card); color: var(--sl-ink); font: inherit; display: flex; flex-direction: column; gap: 8px; }
+.uu-home-card h3 { margin: 6px 0 0; font-size: 17px; font-weight: 700; color: var(--sl-evergreen); }
+.uu-home-card p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--sl-muted); }
+.uu-home-icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: rgba(var(--sl-primary-rgb), .12); color: var(--sl-green); }
+.uu-home-icon-alt { background: rgba(150, 67, 255, .12); color: #9643ff; }
+.uu-home-aud { cursor: pointer; transition: transform .15s, border-color .15s; }
+.uu-home-aud:hover { transform: translateY(-2px); border-color: var(--sl-green); }
+.uu-home-more { margin-top: auto; padding-top: 6px; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--sl-green); }
+.uu-home-band { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 30px 36px; border-radius: 26px; background: linear-gradient(110deg, #216cff 0%, #5a5cff 55%, #9643ff 100%); color: #fff; }
+.uu-home-band h2 { margin: 0 0 6px; font-size: 24px; font-weight: 700; }
+.uu-home-band p { margin: 0; font-size: 15px; opacity: .9; }
+@media (max-width: 1000px) { .uu-home-hero { grid-template-columns: 1fr; } .uu-home-hero-art { min-height: 300px; } .uu-home-grid4, .uu-home-stats { grid-template-columns: repeat(2, 1fr); } .uu-home-band { flex-direction: column; align-items: flex-start; } }

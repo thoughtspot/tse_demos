@@ -1,0 +1,367 @@
+{
+ "client": "Scania",
+ "slug": "scania",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "bed7889b-49c0-4757-847f-2b5a4fef85f6",
+  "model": "3921b61d-70b3-4cb3-8d11-190d18ec09fa",
+  "inlineLiveboard": "bed7889b-49c0-4757-847f-2b5a4fef85f6",
+  "actionLiveboard": "bed7889b-49c0-4757-847f-2b5a4fef85f6",
+  "actionViz": "09f4e93b-ad2f-4adb-9ee6-6f759fdc975c"
+ },
+ "action": {
+  "id": "book-workshop-visit",
+  "name": "Book workshop visit"
+ },
+ "columns": {
+  "inlineName": [
+   "Driver"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Distance (km)",
+    "format": "number",
+    "candidates": [
+     "Total Distance (km)",
+     "Distance (km)"
+    ]
+   },
+   {
+    "label": "Idle share",
+    "format": "percent",
+    "candidates": [
+     "Idle Share"
+    ]
+   },
+   {
+    "label": "Driver score",
+    "format": "number",
+    "candidates": [
+     "Average Driver Score",
+     "Driver Score"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Region"
+  ],
+  "filterSecondary": [
+   "Application"
+  ],
+  "date": "Shift Date",
+  "hierarchy": {
+   "segment": "Region",
+   "rep": "Driver",
+   "cadence": "Vehicle"
+  }
+ },
+ "font": {
+  "family": "Barlow",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+ },
+ "logo": {
+  "svgPath": "scania/scania-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"6\" fill=\"#041E42\"/><text x=\"16\" y=\"23\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-weight=\"700\" font-size=\"19\" fill=\"#ffffff\">S</text></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f6f7f9",
+   "--sl-cream-2": "#edf2fa",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#041e42",
+   "--sl-evergreen-2": "#0f3263",
+   "--sl-green": "#16417f",
+   "--sl-green-dark": "#041e42",
+   "--sl-primary-rgb": "22, 65, 127",
+   "--intime-blue": "#2a6ecf",
+   "--sl-gold": "#d6001c",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #041e42 0%, #16417f 55%, #2a6ecf 100%)",
+   "--sl-mint": "#e6eef9",
+   "--sl-mint-2": "#bacde8",
+   "--sl-coral": "#d6001c",
+   "--sl-warn": "#fff5f6",
+   "--sl-warn-ink": "#6c0011",
+   "--sl-ink": "#0b0c0f",
+   "--sl-muted": "#4e5e75",
+   "--sl-border": "#d1d7e0",
+   "--sl-border-soft": "#edeff3",
+   "--font-serif": "'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "52px",
+   "--shadow-card": "0 1px 2px rgba(4, 30, 66, 0.06), 0 8px 24px rgba(22, 65, 127, 0.07)",
+   "--shadow-lift": "0 6px 14px rgba(4, 30, 66, 0.09), 0 18px 40px rgba(22, 65, 127, 0.13)",
+   "--brand-navy": "#041e42",
+   "--brand-accent": "#16417f"
+  },
+  "dark": {
+   "--sl-cream": "#0b0f17",
+   "--sl-cream-2": "#0f1726",
+   "--sl-white": "#121b2b",
+   "--sl-evergreen": "#eef2f8",
+   "--sl-evergreen-2": "#d1d7e0",
+   "--sl-green": "#4a89f3",
+   "--sl-green-dark": "#2a6ecf",
+   "--sl-primary-rgb": "74, 137, 243",
+   "--intime-blue": "#7fa6dd",
+   "--sl-gold": "#ff2337",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #2a6ecf 0%, #4a89f3 60%, #93b5ec 100%)",
+   "--sl-mint": "#14223d",
+   "--sl-mint-2": "#1a2c4f",
+   "--sl-coral": "#ff4d5e",
+   "--sl-ink": "#eef2f8",
+   "--sl-muted": "#93a2b7",
+   "--sl-border": "#242c37",
+   "--sl-border-soft": "#1a212b",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#041e42",
+   "--brand-accent": "#4a89f3"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#16417f"
+  ],
+  [
+   "#3F49B8",
+   "#0f3263"
+  ],
+  [
+   "#333C99",
+   "#041e42"
+  ],
+  [
+   "#22B8CF",
+   "#d6001c"
+  ],
+  [
+   "#0b0d10",
+   "#0b0f17"
+  ],
+  [
+   "#14181f",
+   "#121b2b"
+  ],
+  [
+   "#1a212b",
+   "#14223d"
+  ],
+  [
+   "#232a34",
+   "#242c37"
+  ],
+  [
+   "#0b1f19",
+   "#0f1726"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(22,65,127,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#16417f"
+  ],
+  [
+   "#0c8554",
+   "#041e42"
+  ],
+  [
+   "#d9ecea",
+   "#e6eef9"
+  ],
+  [
+   "#cfe3e2",
+   "#bacde8"
+  ],
+  [
+   "#1bb978",
+   "#2a6ecf"
+  ],
+  [
+   "#15ae6e",
+   "#041e42"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#0f1726"
+  ],
+  [
+   "#10222a",
+   "#0f1726"
+  ],
+  [
+   "#123047",
+   "#121b2b"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Scania",
+  "aiName": "Scania Assistant",
+  "website": "https://www.scania.com/group/en/",
+  "loginTitleHtml": "Driving the shift<br />towards a sustainable transport system.",
+  "landing": {
+   "eyebrow": "Scania Fleet Management",
+   "headline": [
+    {
+     "text": "Driving the shift towards a "
+    },
+    {
+     "text": "sustainable transport system",
+     "accent": true
+    },
+    {
+     "text": "."
+    }
+   ],
+   "subline": "Connected services for every Scania truck, bus and coach: fuel and energy, CO2, driver evaluation and uptime analytics for your whole fleet.",
+   "ctaLabel": "Open fleet analytics",
+   "stats": [
+    {
+     "value": "359K",
+     "label": "Vehicle shifts"
+    },
+    {
+     "value": "0.44 kg",
+     "label": "Nordic CO2 per km"
+    },
+    {
+     "value": "90.8%",
+     "label": "Maintenance adherence"
+    }
+   ]
+  },
+  "loginSubtitle": "Fleet performance for hauliers and bus operators: fuel and energy, CO2, idling, driver evaluation, maintenance adherence and uptime by fleet, depot and vehicle, with AI answers on live data.",
+  "loginStats": [
+   {
+    "value": "359K",
+    "label": "Vehicle shifts"
+   },
+   {
+    "value": "633",
+    "label": "Connected vehicles"
+   },
+   {
+    "value": "90.8%",
+    "label": "Maintenance adherence"
+   }
+  ],
+  "loginCardSubtitle": "Sign in to My Scania fleet analytics",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Fleet",
+   "Drivers",
+   "Workshop"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Fleet Performance",
+   "inline": "Driver Evaluation",
+   "action": "Workshop Queue",
+   "ask": "Ask Scania",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Fuel, CO2, idling, driver evaluation, uptime and the overdue workshop queue",
+  "spotterSubtitle": "Ask questions of your Scania fleet data in natural language.",
+  "inline": {
+   "subtitleReady": "Distance, idle share and driver score by driver. Select a driver to view their KPIs",
+   "subtitleIdle": "Distance, idle share and driver score across drivers",
+   "loading": "Loading drivers\u2026",
+   "errorTitle": "Couldn't load drivers",
+   "errorMsg": "Unable to load driver data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Region",
+   "secondaryLabel": "Application",
+   "dateLabel": "Shift date"
+  },
+  "sampleQuestions": [
+   "Idle share by country by month for long haulage",
+   "CO2 per km by region by quarter",
+   "Fuel per 100 km by vehicle model this year",
+   "Top 10 drivers by driver score last 90 days"
+  ],
+  "askWelcome": "Ask me anything about Scania connected services: Fleet Management, driver evaluation, environmental reports, maintenance plans and battery-electric trucks. Or ask about your own fleet data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your fleet: distance, fuel and energy, CO2, idling, driver scores, maintenance adherence and unplanned stops. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Book workshop visit",
+   "subtitlePrefix": "Vehicles past their service due date, most overdue first. Right-click a vehicle and choose",
+   "subtitleSuffix": "to book a Scania workshop slot, pick the job and notify the driver.",
+   "modalTitle": "Book workshop visit",
+   "modalLead": "Pre-filled from the selected vehicle. Choose the workshop, slot and job so this vehicle is back on plan.",
+   "submitLabel": "Book visit",
+   "successTitle": "Workshop visit booked"
+  },
+  "chatbot": {
+   "welcome": "Hej! I'm the Scania Assistant. Ask me about fuel, CO2, idling, driver evaluation and workshop planning, or ask a question about your fleet data.",
+   "overview": "Scania is a world-leading provider of transport solutions: trucks, buses and coaches, industrial and marine engines, and connected services such as Scania Fleet Management, driver evaluation, environmental reports, flexible maintenance and charging for battery-electric vehicles.",
+   "greetingExample": "idle share by country",
+   "examples": [
+    "CO2 per km by region",
+    "fuel per 100 km by vehicle model"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Scania Control to unlock drill-down, Ask Scania and downloads.",
+  "analyticsKeywords": [
+   "fleet",
+   "vehicle",
+   "vehicles",
+   "truck",
+   "trucks",
+   "bus",
+   "coach",
+   "driver",
+   "drivers",
+   "fuel",
+   "l/100",
+   "energy",
+   "kwh",
+   "co2",
+   "emissions",
+   "idle",
+   "idling",
+   "distance",
+   "km",
+   "depot",
+   "region",
+   "country",
+   "application",
+   "powertrain",
+   "bev",
+   "electric",
+   "hvo",
+   "maintenance",
+   "service",
+   "workshop",
+   "overdue",
+   "unplanned",
+   "uptime",
+   "score",
+   "grade",
+   "model"
+  ]
+ }
+}

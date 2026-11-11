@@ -1,0 +1,24 @@
+{
+  "name": "Unite Us Social Care Analytics",
+  "description": "Closed-loop social care referrals: volume, partner acceptance, resolution, outcomes, capacity and Medicaid invoicing across Unite Us networks.",
+  "model": { "guid": "8944f9d4-7763-4cee-b07d-7de7d10f9bba", "name": "Unite Us Social Care Analytics" },
+  "palette": { "primary": "#216CFF", "ramp": ["#EEF5FC", "#56A2FF", "#216CFF", "#182A44"] },
+  "tabs": [
+    { "name": "Overview", "description": "Referral volume, acceptance, outcomes and partner capacity", "tiles": [
+      { "type": "KPI", "name": "Referrals", "search": "[Referrals] [Referral Date].weekly" },
+      { "type": "KPI", "name": "Acceptance Rate", "search": "[Acceptance Rate] [Referral Date].weekly" },
+      { "type": "KPI", "name": "Avg Days to Accept", "search": "average [Days to Accept] [Referral Date].weekly" },
+      { "type": "KPI", "name": "Resolution Rate", "search": "[Resolution Rate] [Referral Date].weekly" },
+      { "type": "SANKEY", "name": "Referral flow: sender type to need to outcome", "search": "[Referrals] [Sending Org Type] [Service Type] [Outcome Reason]" },
+      { "type": "HEATMAP", "name": "SLA breach rate by county and service type", "search": "[SLA Breach Rate] [County] [Service Type]" },
+      { "type": "TABLE", "name": "Referrals pending acceptance past SLA", "action": true,
+        "search": "[Referral ID] [Service Type] [Receiving Organization] [County] [Urgency] [Days Pending] [Referral Status] = 'pending' sort by [Days Pending] descending" },
+      { "type": "LINE", "name": "Housing days to accept by county", "search": "average [Days to Accept] [Referral Date].monthly [County] [Service Type] = 'housing & shelter' [County] = 'maricopa' 'pima' 'mecklenburg' 'kings' 'multnomah'" },
+      { "type": "BAR", "name": "Food resolution rate by partner", "search": "[Resolution Rate] [Receiving Organization] [Service Type] = 'food assistance' sort by [Resolution Rate] descending" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "reserve_right": true, "tiles": [
+      { "type": "KPI", "name": "Referrals", "search": "[Referrals] [Referral Date].weekly", "w": 3 },
+      { "type": "KPI", "name": "Avg Days to Resolve", "search": "average [Days to Resolve] [Referral Date].weekly", "w": 3 }
+    ]}
+  ]
+}

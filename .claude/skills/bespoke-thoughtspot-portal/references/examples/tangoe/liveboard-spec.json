@@ -1,0 +1,24 @@
+{
+  "name": "Tangoe One Expense Intelligence",
+  "description": "Tangoe One technology expense analytics: billed spend across mobile, SaaS, UCaaS, network and cloud, zero-usage (zombie) lines and wasted spend by business unit, invoice audit billing errors, disputes and credits recovered by carrier, with the zero-usage line reclaim queue. Synthetic data.",
+  "model": { "guid": "8801992a-6578-420d-a527-23e56a61d1a5", "name": "Tangoe Technology Expense Analytics" },
+  "palette": { "primary": "#6633CA", "ramp": ["#EEE8FA", "#A88BE3", "#6633CA", "#2C1355"], "series": ["#20A65F", "#1999D1", "#F37822"] },
+  "tabs": [
+    { "name": "Overview", "description": "Spend, zero-usage lines, invoice audit and the reclaim queue", "tiles": [
+      { "type": "KPI", "name": "Billed technology spend", "description": "Weekly billed spend across mobile, SaaS, UCaaS, network and cloud, last 12 months.", "search": "[Billed Amount] [Invoice Date].weekly [Invoice Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Zero-usage rate", "description": "Weekly share of billed lines and licenses with no usage for 30+ days.", "search": "[Zero-Usage Rate] [Invoice Date].weekly [Invoice Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Billing error rate", "description": "Weekly share of charge lines where invoice audit found a billing error.", "search": "[Billing Error Rate] [Invoice Date].weekly [Invoice Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Credits recovered", "description": "Weekly credits and refunds recovered from vendors through disputes.", "search": "[Credits Recovered] [Invoice Date].weekly [Invoice Date] = 'last 12 months'" },
+      { "type": "SANKEY", "name": "Invoice audit flow: service to error type to outcome", "search": "[Disputed Amount] [Service Category] [Error Type] [Audit Status] [Audit Status] != 'clean' [Invoice Date] = 'last 12 months'" },
+      { "type": "HEATMAP", "name": "Zero-usage rate by business unit and service (last 90 days)", "search": "[Zero-Usage Rate] [Business Unit] [Service Category] [Invoice Date] = 'last 90 days'" },
+      { "type": "TABLE", "name": "Reclaim queue: zero-usage lines and licenses", "action": true, "search": "[Service ID] [Assigned User] [Business Unit] [Vendor] [Billed Amount] [Days Since Last Use] [Recommended Action] = 'cancel line' 'suspend line' 'reclaim license' 'confirm with owner' [Invoice Date] = 'last 30 days' sort by [Days Since Last Use] descending" },
+      { "type": "LINE", "name": "Field Operations: zombie lines and licenses climbing", "search": "[Zero-Usage Rate] [Invoice Date].monthly [Business Unit] [Business Unit] = 'field operations' 'sales' 'manufacturing' 'corporate' [Invoice Date] = 'last 18 months'" },
+      { "type": "LINE", "name": "Vodafone: billing error rate surge after rate-plan migration", "search": "[Billing Error Rate] [Invoice Date].monthly [Vendor] [Vendor] = 'vodafone' 'verizon' 'at&t' 'orange' 'deutsche telekom' [Service Category] = 'mobile' [Invoice Date] = 'last 18 months'" },
+      { "type": "BAR", "name": "Wasted spend by business unit (last 90 days)", "search": "[Wasted Spend] [Business Unit] [Invoice Date] = 'last 90 days' sort by [Wasted Spend] descending" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Wasted spend on zero-usage lines", "search": "[Wasted Spend] [Invoice Date].weekly [Invoice Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Disputed amount", "search": "[Disputed Amount] [Invoice Date].weekly [Invoice Date] = 'last 12 months'" }
+    ]}
+  ]
+}

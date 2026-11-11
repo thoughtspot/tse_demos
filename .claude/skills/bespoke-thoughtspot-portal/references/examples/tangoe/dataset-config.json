@@ -1,0 +1,76 @@
+{
+ "table": "TANGOE_TELECOM_CHARGES",
+ "seed": 20261106,
+ "days": 730,
+ "as_of": null,
+ "id_column": "CHARGE_ID",
+ "id_prefix": "CH-",
+ "date_column": "INVOICE_DATE",
+ "actors": {
+  "count": 14200,
+  "label": "ASSIGNED_USER",
+  "names": "people",
+  "attributes": {
+   "GEO": {"levels": ["REGION", "COUNTRY"], "tree": {
+     "North America": [46, {"United States": [86], "Canada": [14]}],
+     "EMEA": [30, {"United Kingdom": [30], "Germany": [26], "France": [16], "Netherlands": [12], "Spain": [16]}],
+     "APAC": [15, {"India": [36], "Australia": [26], "Japan": [22], "Singapore": [16]}],
+     "LATAM": [9, {"Mexico": [55], "Brazil": [45]}]
+   }},
+   "BUSINESS_UNIT": {"weights": {"Sales": 20, "Field Operations": 18, "Manufacturing": 14, "Corporate": 13, "R&D": 12, "Retail Stores": 12, "Customer Support": 11}},
+   "SERVICE_CATEGORY": {"expr": "weighted({'Mobile': 64 if actor['BUSINESS_UNIT'] in ('Field Operations', 'Sales') else 46, 'SaaS': 20 if actor['BUSINESS_UNIT'] in ('Field Operations', 'Retail Stores') else 30, 'UCaaS': 6, 'Wireline Voice': 4, 'Data Network': 3, 'Internet': 3, 'IaaS': 2 if actor['BUSINESS_UNIT'] != 'R&D' else 9})"},
+   "VENDOR": {"expr": "weighted({'United States': {'Verizon': 45, 'AT&T': 35, 'T-Mobile': 20}, 'Canada': {'Rogers': 45, 'Bell': 35, 'Telus': 20}, 'United Kingdom': {'Vodafone': 50, 'EE': 30, 'O2': 20}, 'Germany': {'Vodafone': 45, 'Deutsche Telekom': 55}, 'France': {'Orange': 70, 'SFR': 30}, 'Netherlands': {'Vodafone': 45, 'KPN': 55}, 'Spain': {'Vodafone': 40, 'Telefonica': 60}, 'India': {'Airtel': 60, 'Jio': 40}, 'Australia': {'Telstra': 70, 'Optus': 30}, 'Japan': {'NTT Docomo': 60, 'SoftBank': 40}, 'Singapore': {'Singtel': 70, 'StarHub': 30}, 'Mexico': {'Telcel': 75, 'AT&T': 25}, 'Brazil': {'Claro': 60, 'Vivo': 40}}[actor['COUNTRY']] if actor['SERVICE_CATEGORY'] == 'Mobile' else ({'Microsoft 365': 42, 'Salesforce': 14, 'Zoom': 10, 'Adobe Creative Cloud': 9, 'ServiceNow': 8, 'Slack': 10, 'Workday': 7} if actor['SERVICE_CATEGORY'] == 'SaaS' else ({'Microsoft Teams Phone': 50, 'Zoom Phone': 30, 'RingCentral': 20} if actor['SERVICE_CATEGORY'] == 'UCaaS' else ({'AWS': 50, 'Microsoft Azure': 35, 'Google Cloud': 15} if actor['SERVICE_CATEGORY'] == 'IaaS' else {'North America': {'Lumen': 40, 'AT&T': 30, 'Verizon': 20, 'Comcast Business': 10}, 'EMEA': {'BT': 40, 'Orange': 35, 'Colt': 25}, 'APAC': {'Telstra': 40, 'Singtel': 35, 'NTT Docomo': 25}, 'LATAM': {'Claro': 55, 'Telcel': 45}}[actor['REGION']]))))"},
+   "DEVICE_MODEL": {"expr": "(weighted({'Zebra TC58 Rugged': 30, 'Samsung Galaxy XCover7': 20, 'iPhone 15': 20, 'iPad (10th gen)': 15, 'MiFi Hotspot': 15}) if actor['BUSINESS_UNIT'] == 'Field Operations' else weighted({'iPhone 16': 30, 'iPhone 15': 24, 'Samsung Galaxy S25': 16, 'Samsung Galaxy S24': 10, 'Google Pixel 9': 8, 'iPad Air': 7, 'MiFi Hotspot': 5})) if actor['SERVICE_CATEGORY'] == 'Mobile' else 'Not a device'"},
+   "RATE_PLAN": {"expr": "{'Mobile': pick(['Unlimited Pooled', 'Unlimited Pooled', 'Business 10GB Shared', 'Data-only 5GB', 'Unlimited + Intl Roaming']), 'SaaS': {'Microsoft 365': pick(['M365 E3', 'M365 E3', 'M365 E5']), 'Salesforce': 'Sales Cloud Enterprise', 'Zoom': 'Zoom Workplace Business', 'Adobe Creative Cloud': 'CC All Apps', 'ServiceNow': 'ITSM Fulfiller', 'Slack': 'Slack Business+', 'Workday': 'Workday HCM Seat'}.get(actor['VENDOR'], 'Enterprise Seat'), 'UCaaS': 'Calling Plan Seat', 'Wireline Voice': pick(['PRI Trunk', 'POTS Line', 'SIP Trunk']), 'Data Network': pick(['MPLS 100M', 'SD-WAN 200M']), 'Internet': pick(['DIA 500M', 'DIA 1G', 'Broadband 300M']), 'IaaS': 'Pay-as-you-go + RI'}[actor['SERVICE_CATEGORY']]"},
+   "COST_CENTER": {"expr": "{'Sales': 'CC-1', 'Field Operations': 'CC-2', 'Manufacturing': 'CC-3', 'Corporate': 'CC-4', 'R&D': 'CC-5', 'Retail Stores': 'CC-6', 'Customer Support': 'CC-7'}[actor['BUSINESS_UNIT']] + str(int(uniform(10, 19))) + {'North America': '0', 'EMEA': '2', 'APAC': '4', 'LATAM': '6'}[actor['REGION']]"},
+   "GL_CODE": {"expr": "{'Mobile': '6410 Wireless Services', 'SaaS': '6510 Software Subscriptions', 'UCaaS': '6420 Voice & UC', 'Wireline Voice': '6420 Voice & UC', 'Data Network': '6430 Network & Data', 'Internet': '6430 Network & Data', 'IaaS': '6520 Cloud Infrastructure'}[actor['SERVICE_CATEGORY']]"},
+   "SERVICE_ID": {"expr": "{'Mobile': 'MOB', 'SaaS': 'SAS', 'UCaaS': 'UCS', 'Wireline Voice': 'WLV', 'Data Network': 'NET', 'Internet': 'INT', 'IaaS': 'CLD'}[actor['SERVICE_CATEGORY']] + '-' + str(int(uniform(100000, 999999)))"},
+   "_MRC": {"expr": "{'Mobile': lognorm(44 if actor['REGION'] == 'North America' else 31, 0.22), 'SaaS': {'Microsoft 365': 41.0, 'Salesforce': 165.0, 'Zoom': 18.0, 'Adobe Creative Cloud': 89.0, 'ServiceNow': 100.0, 'Slack': 15.0, 'Workday': 52.0}.get(actor['VENDOR'], 30.0), 'UCaaS': 24.0, 'Wireline Voice': lognorm(380, 0.5), 'Data Network': lognorm(1750, 0.45), 'Internet': lognorm(690, 0.45), 'IaaS': lognorm(2600, 0.8)}[actor['SERVICE_CATEGORY']]"},
+   "_Z": {"expr": "uniform(0, 1)"},
+   "_ZAGE": {"expr": "uniform(35, 240)"},
+   "_FO": {"expr": "1 if (actor['BUSINESS_UNIT'] == 'Field Operations' and actor['SERVICE_CATEGORY'] in ('Mobile', 'SaaS', 'UCaaS')) else 0"},
+   "_ZB": {"expr": "{'Mobile': 0.055, 'SaaS': 0.10, 'UCaaS': 0.07}.get(actor['SERVICE_CATEGORY'], 0.012)"}
+  },
+  "rate": 0.0329,
+  "rate_spread": 0.04
+ },
+ "calendar": {
+  "growth_yoy": 0.06,
+  "weekday": [1, 1, 1, 1, 1, 1, 1],
+  "month": {},
+  "holidays": "none"
+ },
+ "columns": [
+  {"name": "SERVICE_CATEGORY", "expr": "actor['SERVICE_CATEGORY']"},
+  {"name": "_DA", "expr": "(as_of - d).days"},
+  {"name": "_ZT", "expr": "actor['_ZB'] + (0.175 * ramp(180) if actor['_FO'] else 0)"},
+  {"name": "ZERO_USAGE_LINES", "expr": "1 if actor['_Z'] < r['_ZT'] else 0"},
+  {"name": "INVOICE_NUMBER", "expr": "r['VENDOR'].replace(' ', '').replace('&', '')[:4].upper() + '-' + str(d.year) + ('0' + str(d.month))[-2:] + '-' + actor['COUNTRY'][:2].upper()"},
+  {"name": "USAGE_GB", "round": 2, "expr": "0.0 if r['ZERO_USAGE_LINES'] else ({'Mobile': lognorm(9 if 'MiFi' in r['DEVICE_MODEL'] or 'iPad' in r['DEVICE_MODEL'] else 6, 0.6), 'Data Network': lognorm(2400, 0.5), 'Internet': lognorm(3100, 0.5), 'IaaS': lognorm(800, 0.9)}.get(r['SERVICE_CATEGORY'], 0.0))"},
+  {"name": "VOICE_MINUTES", "round": 0, "expr": "0.0 if (r['ZERO_USAGE_LINES'] or r['SERVICE_CATEGORY'] not in ('Mobile', 'UCaaS', 'Wireline Voice') or 'MiFi' in r['DEVICE_MODEL'] or 'iPad' in r['DEVICE_MODEL']) else lognorm({'Mobile': 420, 'UCaaS': 260, 'Wireline Voice': 2200}[r['SERVICE_CATEGORY']], 0.6)"},
+  {"name": "RECURRING_CHARGES", "round": 2, "expr": "actor['_MRC'] * uniform(0.995, 1.005)"},
+  {"name": "USAGE_CHARGES", "round": 2, "expr": "(lognorm(actor['_MRC'] * 0.6, 0.35) if r['SERVICE_CATEGORY'] == 'IaaS' else (lognorm(19, 0.6) if (r['SERVICE_CATEGORY'] == 'Mobile' and not r['ZERO_USAGE_LINES'] and chance(0.075)) else 0.0))"},
+  {"name": "ROAMING_CHARGES", "round": 2, "expr": "lognorm(48, 0.8) if (r['SERVICE_CATEGORY'] == 'Mobile' and not r['ZERO_USAGE_LINES'] and chance(0.036 * (1.9 if month in (6, 7, 8) else (0.6 if month == 12 else 1)) * (2.2 if 'Intl' in r['RATE_PLAN'] else 1))) else 0.0"},
+  {"name": "TAXES_FEES", "round": 2, "expr": "(r['RECURRING_CHARGES'] + r['USAGE_CHARGES'] + r['ROAMING_CHARGES']) * (0.04 if r['SERVICE_CATEGORY'] in ('SaaS', 'IaaS') else 0.115)"},
+  {"name": "BILLED_AMOUNT", "round": 2, "expr": "r['RECURRING_CHARGES'] + r['USAGE_CHARGES'] + r['ROAMING_CHARGES'] + r['TAXES_FEES']"},
+  {"name": "WASTED_SPEND", "round": 2, "expr": "r['BILLED_AMOUNT'] if r['ZERO_USAGE_LINES'] else 0.0"},
+  {"name": "DAYS_SINCE_LAST_USE", "round": 0, "expr": "(max(30.0, actor['_ZAGE'] - r['_DA'] * 0.0) if actor['_Z'] < actor['_ZB'] else max(30.0, 30 + 180 * (1 - (actor['_Z'] - actor['_ZB']) / 0.175) - r['_DA'])) if r['ZERO_USAGE_LINES'] else float(int(uniform(0, 6)))"},
+  {"name": "_VOD", "expr": "1 if (r['VENDOR'] == 'Vodafone' and r['SERVICE_CATEGORY'] == 'Mobile') else 0"},
+  {"name": "_STORY2", "expr": "1 if (r['_VOD'] and chance(0.26 * ramp(130))) else 0"},
+  {"name": "BILLING_ERRORS", "expr": "1 if (r['_STORY2'] or chance(0.072 + (0.06 if r['ZERO_USAGE_LINES'] else 0))) else 0"},
+  {"name": "ERROR_TYPE", "expr": "('Rate Mismatch' if r['_STORY2'] else ('Inactive Line Billed' if (r['ZERO_USAGE_LINES'] and chance(0.5)) else weighted({'Rate Mismatch': 28, 'Duplicate Charge': 17, 'Inactive Line Billed': 10, 'Tax / Surcharge Error': 15, 'Unapplied Credit': 13, 'Late Payment Fee': 9, 'Expired Contract Rate': 8}))) if r['BILLING_ERRORS'] else 'No Error'"},
+  {"name": "DISPUTED_AMOUNT", "round": 2, "expr": "r['BILLED_AMOUNT'] * (uniform(0.18, 0.34) if r['_STORY2'] else uniform(0.06, 0.28)) if r['BILLING_ERRORS'] else 0.0"},
+  {"name": "AUDIT_STATUS", "expr": "(weighted({'Dispute Open': 86, 'Credited': 14}) if r['_DA'] <= 21 else (weighted({'Credited': 58, 'Dispute Open': 28, 'Rejected': 14}) if r['_DA'] <= 75 else weighted({'Credited': 81, 'Rejected': 16, 'Dispute Open': 3}))) if r['BILLING_ERRORS'] else 'Clean'"},
+  {"name": "CREDITS_RECOVERED", "round": 2, "expr": "r['DISPUTED_AMOUNT'] * uniform(0.82, 1.0) if r['AUDIT_STATUS'] == 'Credited' else 0.0"},
+  {"name": "DISPUTE_AGE_DAYS", "expr": "r['_DA'] if r['AUDIT_STATUS'] == 'Dispute Open' else None"},
+  {"name": "LINE_STATUS", "expr": "('Suspended' if chance(0.22) else 'Active') if (r['ZERO_USAGE_LINES'] and r['DAYS_SINCE_LAST_USE'] > 90) else 'Active'"},
+  {"name": "RECOMMENDED_ACTION", "expr": "(('Reclaim License' if r['SERVICE_CATEGORY'] in ('SaaS', 'UCaaS') else ('Cancel Line' if r['DAYS_SINCE_LAST_USE'] > 90 else ('Suspend Line' if r['DAYS_SINCE_LAST_USE'] > 45 else 'Confirm with Owner')))) if r['ZERO_USAGE_LINES'] else ('Pursue Dispute' if r['AUDIT_STATUS'] == 'Dispute Open' else ('Change Rate Plan' if (r['USAGE_CHARGES'] > 0 and r['SERVICE_CATEGORY'] == 'Mobile') else 'No Action'))"},
+  {"name": "BILLED_LINES", "expr": "1"}
+ ],
+ "types": {
+  "CHARGE_ID": "VARCHAR(16)", "ZERO_USAGE_LINES": "NUMBER(1,0)", "USAGE_GB": "NUMBER(10,2)", "VOICE_MINUTES": "NUMBER(8,0)",
+  "RECURRING_CHARGES": "NUMBER(12,2)", "USAGE_CHARGES": "NUMBER(12,2)", "ROAMING_CHARGES": "NUMBER(12,2)", "TAXES_FEES": "NUMBER(12,2)",
+  "BILLED_AMOUNT": "NUMBER(12,2)", "WASTED_SPEND": "NUMBER(12,2)", "DAYS_SINCE_LAST_USE": "NUMBER(4,0)", "BILLING_ERRORS": "NUMBER(1,0)",
+  "DISPUTED_AMOUNT": "NUMBER(12,2)", "CREDITS_RECOVERED": "NUMBER(12,2)", "DISPUTE_AGE_DAYS": "NUMBER(4,0)", "BILLED_LINES": "NUMBER(1,0)"
+ }
+}

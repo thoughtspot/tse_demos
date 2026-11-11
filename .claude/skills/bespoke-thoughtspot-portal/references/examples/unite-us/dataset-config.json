@@ -1,0 +1,430 @@
+{
+ "table": "UNITEUS_REFERRALS",
+ "seed": 20261018,
+ "days": 730,
+ "as_of": "2026-10-17",
+ "id_column": "REFERRAL_ID",
+ "id_prefix": "RF-",
+ "date_column": "REFERRAL_DATE",
+ "actors": {
+  "count": 640,
+  "label": "SENDING_ORGANIZATION",
+  "names": "companies",
+  "attributes": {
+   "SENDING_ORG_TYPE": {
+    "weights": {
+     "Health System": 22,
+     "Health Plan": 14,
+     "Community-Based Organization": 34,
+     "Government Agency": 12,
+     "Behavioral Health Provider": 10,
+     "Federally Qualified Health Center": 8
+    }
+   },
+   "GEO": {
+    "levels": [
+     "STATE",
+     "COUNTY"
+    ],
+    "tree": {
+     "North Carolina": [
+      30,
+      {
+       "Mecklenburg": 20,
+       "Wake": 18,
+       "Guilford": 10,
+       "Durham": 8,
+       "Forsyth": 7,
+       "Cumberland": 6
+      }
+     ],
+     "Arizona": [
+      24,
+      {
+       "Maricopa": 30,
+       "Pima": 12,
+       "Pinal": 5,
+       "Yavapai": 4,
+       "Coconino": 3
+      }
+     ],
+     "New York": [
+      22,
+      {
+       "Kings": 16,
+       "Queens": 14,
+       "Bronx": 12,
+       "New York": 12,
+       "Erie": 6
+      }
+     ],
+     "Oregon": [
+      12,
+      {
+       "Multnomah": 14,
+       "Lane": 7,
+       "Washington": 8,
+       "Marion": 6
+      }
+     ],
+     "Missouri": [
+      12,
+      {
+       "St. Louis": 14,
+       "Jackson": 12,
+       "Greene": 6,
+       "Boone": 5
+      }
+     ]
+    }
+   }
+  },
+  "rate": 0.56,
+  "rate_by": {
+   "SENDING_ORG_TYPE": {
+    "Health System": 1.9,
+    "Health Plan": 1.6,
+    "Community-Based Organization": 0.8,
+    "Government Agency": 1.0,
+    "Behavioral Health Provider": 0.7,
+    "Federally Qualified Health Center": 1.2
+   }
+  },
+  "rate_spread": 0.55
+ },
+ "calendar": {
+  "growth_yoy": 0.14,
+  "weekday": [
+   1.2,
+   1.18,
+   1.12,
+   1.08,
+   0.95,
+   0.25,
+   0.18
+  ],
+  "month": {
+   "1": 1.12,
+   "2": 1.04,
+   "3": 1.0,
+   "4": 0.96,
+   "5": 0.95,
+   "6": 1.0,
+   "7": 1.06,
+   "8": 1.04,
+   "9": 0.98,
+   "10": 1.0,
+   "11": 1.08,
+   "12": 1.06
+  },
+  "holidays": "us"
+ },
+ "columns": [
+  {
+   "name": "NETWORK",
+   "expr": "{'North Carolina':'Carolina Cares Network','Arizona':'Desert Connect Network','New York':'Empire Community Care Network','Oregon':'Cascade Care Connect','Missouri':'Show-Me Community Network'}[r['STATE']]"
+  },
+  {
+   "name": "SERVICE_TYPE",
+   "expr": "weighted({'Food Assistance': 26, 'Housing & Shelter': 16 * ((1 + 1.6 * ramp(200)) if r['COUNTY'] == 'Maricopa' else 1) * (1.15 if d.day >= 26 or d.day <= 3 else 1), 'Utilities': 11 * (1.6 if month in (1, 2) or (month in (7, 8) and r['STATE'] == 'Arizona') else 1), 'Transportation': 10, 'Benefits Navigation': 9, 'Income Support': 7, 'Employment': 6, 'Mental & Behavioral Health': 7, 'Individual & Family Support': 4, 'Legal Assistance': 3, 'Clothing & Household Goods': 2})"
+  },
+  {
+   "name": "RECEIVING_ORGANIZATION",
+   "map_from": "SERVICE_TYPE",
+   "map": {
+    "Food Assistance": [
+     "Piedmont Community Pantry",
+     "Neighbors Pantry Alliance",
+     "Fresh Start Community Kitchen",
+     "Good Shepherd Food Bank",
+     "Common Ground Meals"
+    ],
+    "Housing & Shelter": [
+     "Desert Bridge Housing Alliance",
+     "Open Door Housing Partners",
+     "Safe Harbor Shelter",
+     "HomeFirst Collaborative",
+     "Bridgeway Housing Services"
+    ],
+    "Utilities": [
+     "Warm Homes Energy Assistance",
+     "Community Action Utility Fund",
+     "LightPath Assistance"
+    ],
+    "Transportation": [
+     "Cascade Ride Share Partners",
+     "RideWell Medical Transport",
+     "Community Wheels"
+    ],
+    "Income Support": [
+     "Stability Fund Partners",
+     "Family Cash Assistance Program"
+    ],
+    "Employment": [
+     "Pathways to Work",
+     "SkillBridge Workforce Center",
+     "Second Chance Careers"
+    ],
+    "Benefits Navigation": [
+     "Benefits Access Center",
+     "Navigator Legal Aid"
+    ],
+    "Individual & Family Support": [
+     "Family Resource Collective",
+     "Kinship Care Network"
+    ],
+    "Legal Assistance": [
+     "Community Legal Aid Society",
+     "Tenant Rights Project"
+    ],
+    "Mental & Behavioral Health": [
+     "Clearview Counseling",
+     "Harbor Behavioral Health",
+     "Mindful Community Services"
+    ],
+    "Clothing & Household Goods": [
+     "Second Look Thrift Partners",
+     "Household Basics Bank"
+    ]
+   }
+  },
+  {
+   "name": "RECEIVING_ORGANIZATION_FINAL",
+   "expr": "'Queen City Food Collective' if r['SERVICE_TYPE'] == 'Food Assistance' and r['COUNTY'] == 'Mecklenburg' and ramp(150) > 0 and chance(0.6) else r['RECEIVING_ORGANIZATION']"
+  },
+  {
+   "name": "NEW_PARTNER_EFFECT",
+   "expr": "1 if r['RECEIVING_ORGANIZATION_FINAL'] == 'Queen City Food Collective' else 0"
+  },
+  {
+   "name": "PROGRAM_NAME",
+   "expr": "{'Food Assistance':'Medically Tailored Meals' if chance(0.3) else 'Food Box Delivery','Housing & Shelter':'Rental Arrears Assistance' if chance(0.5) else 'Emergency Shelter Placement','Utilities':'LIHEAP Navigation','Transportation':'NEMT Rides','Benefits Navigation':'SNAP & Medicaid Enrollment','Income Support':'Emergency Cash Assistance','Employment':'Job Readiness Coaching','Mental & Behavioral Health':'Counseling Sessions','Individual & Family Support':'Family Case Management','Legal Assistance':'Eviction Defense','Clothing & Household Goods':'Household Essentials Kit'}[r['SERVICE_TYPE']]"
+  },
+  {
+   "name": "FUNDING_SOURCE",
+   "expr": "weighted({'1115 Medicaid Waiver': 45, 'Grant Funded': 30, 'Unfunded': 25}) if r['STATE'] in ('North Carolina','Arizona','Oregon') else weighted({'Grant Funded': 45, 'Unfunded': 55})"
+  },
+  {
+   "name": "REFERRAL_SOURCE",
+   "weights": {
+    "SDOH Screening": 34,
+    "Care Manager": 28,
+    "Assistance Request (Self-Referral)": 16,
+    "211 Call Center": 12,
+    "Discharge Planning": 10
+   }
+  },
+  {
+   "name": "URGENCY",
+   "expr": "weighted({'Routine': 70, 'Urgent': 24, 'Emergency': 6}) if r['SERVICE_TYPE'] != 'Housing & Shelter' else weighted({'Routine': 45, 'Urgent': 40, 'Emergency': 15})"
+  },
+  {
+   "name": "PAYER",
+   "weights": {
+    "Medicaid": 46,
+    "Medicare Advantage": 14,
+    "Dual Eligible": 8,
+    "Commercial": 10,
+    "Uninsured": 16,
+    "Unknown": 6
+   }
+  },
+  {
+   "name": "HEALTH_PLAN",
+   "expr": "pick(['Bluepeak Health Plan', 'Summit Community Care', 'Harborline Medicaid', 'Evergreen Health Partners']) if r['PAYER'] in ('Medicaid', 'Medicare Advantage', 'Dual Eligible') else 'None'"
+  },
+  {
+   "name": "CLIENT_AGE_BAND",
+   "weights": {
+    "0-17": 12,
+    "18-25": 10,
+    "26-39": 22,
+    "40-54": 22,
+    "55-64": 16,
+    "65+": 18
+   }
+  },
+  {
+   "name": "CLIENT_GENDER",
+   "weights": {
+    "Female": 57,
+    "Male": 41,
+    "Non-binary / Other": 2
+   }
+  },
+  {
+   "name": "CLIENT_RACE_ETHNICITY",
+   "weights": {
+    "Black or African American": 34,
+    "White": 30,
+    "Hispanic or Latino": 22,
+    "Asian": 5,
+    "American Indian or Alaska Native": 2,
+    "Multiracial / Other": 4,
+    "Not Reported": 3
+   }
+  },
+  {
+   "name": "PRIMARY_LANGUAGE",
+   "weights": {
+    "English": 78,
+    "Spanish": 17,
+    "Other": 5
+   }
+  },
+  {
+   "name": "HOUSEHOLD_SIZE",
+   "expr": "weighted({1: 30, 2: 22, 3: 18, 4: 15, 5: 9, 6: 6})"
+  },
+  {
+   "name": "DAYS_TO_ACCEPT",
+   "round": 1,
+   "expr": "round(lognorm(1.4 * (1 + 3.2 * ramp(200) if r['SERVICE_TYPE'] == 'Housing & Shelter' and r['COUNTY'] == 'Maricopa' else 1) * (0.6 if r['URGENCY'] == 'Emergency' else 1), 0.65), 1)"
+  },
+  {
+   "name": "SERVICE_COST_USD",
+   "round": 2,
+   "expr": "lognorm({'Food Assistance': 120, 'Housing & Shelter': 1450, 'Utilities': 380, 'Transportation': 55, 'Income Support': 450, 'Employment': 260, 'Mental & Behavioral Health': 180, 'Benefits Navigation': 75, 'Individual & Family Support': 140, 'Legal Assistance': 220, 'Clothing & Household Goods': 90}[r['SERVICE_TYPE']], 0.45) * (1 + 0.1 * (r['HOUSEHOLD_SIZE'] - 1))"
+  }
+ ],
+ "groups": {
+  "id_column": "CASE_ID",
+  "id_prefix": "CS",
+  "per": "event",
+  "submitted_column": "SENT_DATE",
+  "lag_days": [
+   0,
+   0
+  ],
+  "month_end_share": 0,
+  "status_column": "REFERRAL_STATUS",
+  "status_rules": [
+   {
+    "if": "age <= r['DAYS_TO_ACCEPT']",
+    "status": "Pending"
+   },
+   {
+    "if": "age <= 21 and chance(0.10 + (0.12 * ramp(200) if r['SERVICE_TYPE'] == 'Housing & Shelter' and r['COUNTY'] == 'Maricopa' else 0))",
+    "status": "Declined"
+   },
+   {
+    "if": "age <= 21",
+    "weights": {
+     "Accepted": 45,
+     "In Progress": 55
+    }
+   },
+   {
+    "if": "chance(0.09)",
+    "status": "Declined"
+   },
+   {
+    "if": "chance(0.04)",
+    "status": "Recalled"
+   },
+   {
+    "weights": {
+     "Closed - Resolved": 74,
+     "Closed - Unresolved": 26
+    }
+   }
+  ]
+ },
+ "post": [
+  {
+   "name": "RECEIVING_ORGANIZATION",
+   "expr": "r['RECEIVING_ORGANIZATION_FINAL']"
+  },
+  {
+   "name": "REFERRAL_STATUS",
+   "expr": "('Auto-Recalled' if age > 14 and chance(0.75) else 'Pending') if r['REFERRAL_STATUS'] == 'Pending' else r['REFERRAL_STATUS']"
+  },
+  {
+   "name": "OUTCOME_SUCCESS_FLAG",
+   "expr": "(1 if chance(0.88 if r['NEW_PARTNER_EFFECT'] else 0.6 if r['SERVICE_TYPE'] == 'Food Assistance' else 0.7) else 0) if r['REFERRAL_STATUS'].startswith('Closed') else 0"
+  },
+  {
+   "name": "REFERRAL_STATUS",
+   "expr": "('Closed - Resolved' if r['OUTCOME_SUCCESS_FLAG'] else 'Closed - Unresolved') if r['REFERRAL_STATUS'].startswith('Closed') else r['REFERRAL_STATUS']"
+  },
+  {
+   "name": "OUTCOME_REASON",
+   "expr": "'Client Received Services' if r['OUTCOME_SUCCESS_FLAG'] else weighted({'Unable to Contact Client': 40 * (0.4 if r['NEW_PARTNER_EFFECT'] else 1), 'Client Declined': 18, 'Not Eligible': 14, 'Outside Service Area': 8, 'Program at Capacity': 20 * (3 if r['SERVICE_TYPE'] == 'Housing & Shelter' and r['COUNTY'] == 'Maricopa' and ramp(200) > 0 else 1)}) if r['REFERRAL_STATUS'] in ('Closed - Unresolved','Declined','Auto-Recalled','Recalled') else 'In Progress'"
+  },
+  {
+   "name": "ACCEPTED_FLAG",
+   "expr": "1 if r['REFERRAL_STATUS'] in ('Accepted','In Progress','Closed - Resolved','Closed - Unresolved') else 0"
+  },
+  {
+   "name": "RESOLVED_FLAG",
+   "expr": "1 if r['REFERRAL_STATUS'] == 'Closed - Resolved' else 0"
+  },
+  {
+   "name": "CLOSED_FLAG",
+   "expr": "1 if r['REFERRAL_STATUS'].startswith('Closed') else 0"
+  },
+  {
+   "name": "DAYS_TO_RESOLVE",
+   "round": 1,
+   "expr": "round(r['DAYS_TO_ACCEPT'] + lognorm({'Food Assistance': 3, 'Transportation': 3, 'Utilities': 8, 'Housing & Shelter': 21, 'Income Support': 10, 'Employment': 24, 'Mental & Behavioral Health': 14, 'Benefits Navigation': 9, 'Individual & Family Support': 12, 'Legal Assistance': 28, 'Clothing & Household Goods': 4}[r['SERVICE_TYPE']] * (0.7 if r['NEW_PARTNER_EFFECT'] else 1), 0.5), 1) if r['CLOSED_FLAG'] else None"
+  },
+  {
+   "name": "DAYS_TO_ACCEPT",
+   "expr": "r['DAYS_TO_ACCEPT'] if r['ACCEPTED_FLAG'] else None"
+  },
+  {
+   "name": "DAYS_PENDING",
+   "expr": "age if r['REFERRAL_STATUS'] == 'Pending' else None"
+  },
+  {
+   "name": "SLA_BREACH_FLAG",
+   "expr": "1 if (r['REFERRAL_STATUS'] in ('Pending','Auto-Recalled') and age > 2) or (r['DAYS_TO_ACCEPT'] is not None and r['DAYS_TO_ACCEPT'] > 2) else 0"
+  },
+  {
+   "name": "INVOICE_AMOUNT_USD",
+   "round": 2,
+   "expr": "r['SERVICE_COST_USD'] if r['FUNDING_SOURCE'] == '1115 Medicaid Waiver' and r['RESOLVED_FLAG'] else 0.0"
+  },
+  {
+   "name": "INVOICE_STATUS",
+   "expr": "'Not Invoiced' if not r['INVOICE_AMOUNT_USD'] else ('Pending' if age < 20 else weighted({'Paid': 88, 'Approved': 9, 'Rejected': 3}))"
+  },
+  {
+   "name": "AMOUNT_PAID_USD",
+   "round": 2,
+   "expr": "r['INVOICE_AMOUNT_USD'] if r['INVOICE_STATUS'] == 'Paid' else 0.0"
+  },
+  {
+   "name": "SERVICE_COST_USD",
+   "round": 2,
+   "expr": "r['SERVICE_COST_USD'] if r['ACCEPTED_FLAG'] else 0.0"
+  },
+  {
+   "name": "FOLLOW_UP_COUNT",
+   "expr": "rng.randint(0, 2) + (3 if r['OUTCOME_REASON'] == 'Unable to Contact Client' else 0) + (1 if r['URGENCY'] != 'Routine' else 0)"
+  },
+  {
+   "name": "REFERRAL_COUNT",
+   "expr": "1"
+  }
+ ],
+ "types": {
+  "REFERRAL_ID": "VARCHAR(16)",
+  "CASE_ID": "VARCHAR(20)",
+  "SERVICE_COST_USD": "NUMBER(12,2)",
+  "DAYS_TO_ACCEPT": "NUMBER(6,1)",
+  "DAYS_TO_RESOLVE": "NUMBER(6,1)",
+  "HOUSEHOLD_SIZE": "NUMBER(2,0)",
+  "RESOLVED_FLAG": "NUMBER(1,0)",
+  "CLOSED_FLAG": "NUMBER(1,0)",
+  "OUTCOME_SUCCESS_FLAG": "NUMBER(1,0)",
+  "NEW_PARTNER_EFFECT": "NUMBER(1,0)",
+  "DAYS_PENDING": "NUMBER(4,0)",
+  "SLA_BREACH_FLAG": "NUMBER(1,0)",
+  "FOLLOW_UP_COUNT": "NUMBER(3,0)",
+  "REFERRAL_COUNT": "NUMBER(1,0)",
+  "INVOICE_AMOUNT_USD": "NUMBER(12,2)",
+  "AMOUNT_PAID_USD": "NUMBER(12,2)",
+  "ACCEPTED_FLAG": "NUMBER(1,0)"
+ }
+}

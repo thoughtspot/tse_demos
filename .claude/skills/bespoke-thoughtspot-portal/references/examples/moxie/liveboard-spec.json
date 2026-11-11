@@ -1,0 +1,24 @@
+{
+  "name": "Moxie Practice Performance",
+  "description": "Medspa practice performance across Moxie-supported practices: revenue, rebooking, no-shows, memberships and neurotoxin recalls by practice, provider and service.",
+  "model": { "guid": "1a3fd75b-a210-46fe-bad3-f6978829b0f8", "name": "Moxie Practice Performance" },
+  "palette": { "primary": "#6A8E8B", "ramp": ["#E1EBEA", "#9CB4B1", "#6A8E8B", "#204C47"] },
+  "tabs": [
+    { "name": "Overview", "description": "Revenue, rebooking and recall health across every Moxie practice", "tiles": [
+      { "type": "KPI", "name": "Net Revenue", "search": "[Net Revenue] [Appointment Date].weekly" },
+      { "type": "KPI", "name": "Completed Visits", "search": "[Completed Visits] [Appointment Date].weekly" },
+      { "type": "KPI", "name": "Rebook Rate", "search": "[Rebook Rate] [Appointment Date].weekly" },
+      { "type": "KPI", "name": "Average Ticket", "search": "[Average Ticket] [Appointment Date].weekly" },
+      { "type": "SANKEY", "name": "Revenue flow: marketing source to service to membership", "search": "[Net Revenue] [Marketing Source] [Service Category] [Membership Status]" },
+      { "type": "HEATMAP", "name": "No-show rate by practice and service category", "search": "[No-show Rate] [Practice] [Service Category]" },
+      { "type": "TABLE", "name": "Neurotoxin patients due for recall", "action": true,
+        "search": "[Recall ID] [Patient] [Provider] [Practice] [Service] [Days Since Visit] [Follow-up Status] = 'due for recall' sort by [Days Since Visit] descending" },
+      { "type": "LINE", "name": "Desert Bloom Aesthetics: rebook rate by injector", "search": "[Rebook Rate] [Appointment Date].monthly [Provider] [Practice] = 'desert bloom aesthetics' [Provider Role] != 'licensed aesthetician'" },
+      { "type": "LINE", "name": "Member share: Moxie Memberships practices vs packages only", "search": "[Member Share] [Appointment Date].monthly [Membership Program]" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Member Share", "search": "[Member Share] [Appointment Date].weekly" },
+      { "type": "KPI", "name": "No-show Rate", "search": "[No-show Rate] [Appointment Date].weekly" }
+    ]}
+  ]
+}

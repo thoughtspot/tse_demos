@@ -1,0 +1,209 @@
+{
+  "client": "Emburse",
+  "slug": "emburse",
+  "host": "sebe.thoughtspotstaging.cloud",
+  "auth": "basic",
+  "ids": {
+    "analyticsLiveboard": "4f624965-1b06-4a85-ad7e-f38d84d7ab29",
+    "model": "bb0f6c02-cb31-4a2d-ace1-e8ac1023a167",
+    "inlineLiveboard": "4f624965-1b06-4a85-ad7e-f38d84d7ab29",
+    "actionLiveboard": "4f624965-1b06-4a85-ad7e-f38d84d7ab29",
+    "actionViz": "b0be16dc-b96c-4916-87ab-f14731fe93ab"
+  },
+  "action": {
+    "id": "review-expense-report",
+    "name": "Review Report"
+  },
+  "columns": {
+    "inlineName": ["Department", "Team"],
+    "inlineMetrics": [
+      { "label": "Spend", "format": "currency", "candidates": ["Total Expense Amount", "Expense Amount"] },
+      { "label": "Out-of-Policy Spend", "format": "currency", "candidates": ["Total Out-of-Policy Amount", "Out-of-Policy Amount"] },
+      { "label": "Violations", "format": "number", "candidates": ["Total Violations", "Violations"] }
+    ],
+    "filterPrimary": ["Department"],
+    "filterSecondary": ["Expense Category"],
+    "date": "Transaction Date",
+    "hierarchy": { "segment": "Region", "rep": "Department", "cadence": "Employee" }
+  },
+  "font": {
+    "family": "Lato",
+    "googleUrl": "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap"
+  },
+  "logo": { "svgPath": "emburse-logo.svg" },
+  "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#0097DC\"/><text x=\"16\" y=\"23\" text-anchor=\"middle\" font-family=\"Lato, Arial, sans-serif\" font-weight=\"900\" font-size=\"21\" fill=\"#ffffff\">e</text></svg>",
+  "theme": {
+    "default": "light",
+    "light": {
+      "--sl-cream": "#f4f8fc",
+      "--sl-cream-2": "#e7f0fa",
+      "--sl-white": "#ffffff",
+      "--sl-evergreen": "#041e3e",
+      "--sl-evergreen-2": "#02132a",
+      "--sl-green": "#015cb7",
+      "--sl-green-dark": "#012b6b",
+      "--sl-primary-rgb": "1, 92, 183",
+      "--intime-blue": "#0497dc",
+      "--sl-gold": "#5ff6fc",
+      "--sl-gold-ink": "#041e3e",
+      "--intime-grad": "linear-gradient(90deg, #015cb7 0%, #0497dc 100%)",
+      "--sl-mint": "#e6f0fa",
+      "--sl-mint-2": "#d3e5f7",
+      "--sl-coral": "#b3261e",
+      "--sl-warn": "#fff7e6",
+      "--sl-warn-ink": "#7a4a00",
+      "--sl-ink": "#041e3e",
+      "--sl-muted": "#56677d",
+      "--sl-border": "#dde6f0",
+      "--sl-border-soft": "#edf2f8",
+      "--font-serif": "'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif",
+      "--font-sans": "'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif",
+      "--topbar-h": "66px",
+      "--shadow-card": "0 1px 2px rgba(4, 30, 62, 0.05), 0 8px 24px rgba(4, 30, 62, 0.07)",
+      "--shadow-lift": "0 6px 14px rgba(4, 30, 62, 0.08), 0 18px 40px rgba(4, 30, 62, 0.12)",
+      "--brand-navy": "#041e3e",
+      "--brand-accent": "#015cb7"
+    },
+    "dark": {
+      "--sl-cream": "#03142b",
+      "--sl-cream-2": "#061c38",
+      "--sl-white": "#0a2546",
+      "--sl-evergreen": "#eef4fb",
+      "--sl-evergreen-2": "#d8e5f3",
+      "--sl-green": "#4da3ec",
+      "--sl-green-dark": "#2f8ad8",
+      "--sl-primary-rgb": "77, 163, 236",
+      "--intime-blue": "#5ff6fc",
+      "--sl-gold": "#5ff6fc",
+      "--sl-gold-ink": "#03142b",
+      "--intime-grad": "linear-gradient(90deg, #4da3ec 0%, #5ff6fc 100%)",
+      "--sl-mint": "#0b2648",
+      "--sl-mint-2": "#103057",
+      "--sl-coral": "#f0616a",
+      "--sl-ink": "#eaf1f9",
+      "--sl-muted": "#9fb3c9",
+      "--sl-border": "#1d3a60",
+      "--sl-border-soft": "#132d4f",
+      "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+      "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+      "--brand-navy": "#041e3e",
+      "--brand-accent": "#015cb7"
+    }
+  },
+  "embedSwaps": [
+    ["#4F5BD5", "#015cb7"],
+    ["#3F49B8", "#014e9c"],
+    ["#333C99", "#012b6b"],
+    ["#22B8CF", "#0497dc"],
+    ["#0b0d10", "#03142b"],
+    ["#14181f", "#0a2546"],
+    ["#1a212b", "#0b2648"],
+    ["#232a34", "#1d3a60"],
+    ["#0b1f19", "#061c38"],
+    ["rgba(45,164,191,0.14)", "rgba(1,92,183,0.14)"]
+  ],
+  "greenSwaps": [
+    ["#0f9a63", "#015cb7"],
+    ["#0c8554", "#012b6b"],
+    ["#d9ecea", "#e6f0fa"],
+    ["#cfe3e2", "#d3e5f7"],
+    ["#1bb978", "#0497dc"],
+    ["#15ae6e", "#041e3e"]
+  ],
+  "cssSwaps": [
+    ["#0e1116", "#061c38"],
+    ["#10222a", "#061c38"],
+    ["#123047", "#0a2546"]
+  ],
+  "features": {
+    "askMode": "both",
+    "inline": true,
+    "action": true,
+    "monetize": true,
+    "tiers": true,
+    "pinning": false,
+    "home": true,
+    "navLayout": "sidebar"
+  },
+  "content": {
+    "company": "Emburse",
+    "aiName": "Emburse AI",
+    "website": "https://www.emburse.com",
+    "loginTitleHtml": "Spend smarter with<br />expense intelligence.",
+    "landing": {
+      "eyebrow": "Emburse Analytics",
+      "headline": [
+        { "text": "See every dollar of " },
+        { "text": "employee spend", "accent": true },
+        { "text": " before it becomes a problem." }
+      ],
+      "subline": "Travel and expense spend, policy compliance, approval cycle times and audit risk across every department, with AI answers on your live data.",
+      "ctaLabel": "Explore spend analytics",
+      "stats": [
+        { "value": "$45M", "label": "Spend analyzed" },
+        { "value": "7.2%", "label": "Out-of-policy spend" },
+        { "value": "3.0 days", "label": "Avg approval time" }
+      ]
+    },
+    "loginSubtitle": "Travel and expense analytics for finance teams: spend, policy compliance, approvals and audit risk, with AI-powered answers on live data.",
+    "loginStats": [
+      { "value": "14,000+", "label": "Organizations" },
+      { "value": "120", "label": "Countries" },
+      { "value": "Real-time", "label": "Spend Intel" }
+    ],
+    "loginCardSubtitle": "Sign in with your credentials",
+    "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+    "platformNav": ["Expense", "Travel", "Cards"],
+    "tabs": {
+      "home": "Home",
+      "myReports": "My Reports",
+      "analytics": "Spend Analytics",
+      "inline": "Department Insights",
+      "action": "Approvals",
+      "ask": "Ask Emburse AI",
+      "spotter": "Spotter"
+    },
+    "analyticsSubtitle": "Your live spend, compliance and approvals dashboard",
+    "spotterSubtitle": "Ask questions of your Emburse expense data in natural language.",
+    "inline": {
+      "subtitleReady": "Spend and policy risk by department. Select a department to view its KPIs",
+      "subtitleIdle": "Spend and policy risk across your departments",
+      "loading": "Loading departments…",
+      "errorTitle": "Couldn't load departments",
+      "errorMsg": "Unable to load department data.",
+      "moreLabel": "View insights",
+      "hideLabel": "Hide insights"
+    },
+    "filters": {
+      "primaryLabel": "Department",
+      "secondaryLabel": "Expense Category",
+      "dateLabel": "Transaction date"
+    },
+    "sampleQuestions": [
+      "Out-of-policy spend by department",
+      "Hotel rate vs negotiated rate by city",
+      "Average approval days by approver",
+      "Top 10 merchants by spend"
+    ],
+    "askWelcome": "Ask me anything about Emburse: expense policy, approvals, travel spend, VAT recovery. Or ask about your own data and I will chart it live.",
+    "askEmptySub": "Ask any analytical question about your expenses, policy compliance, approvals and audit risk. Answers come straight from your live data with an interactive chart you can drill into.",
+    "action": {
+      "label": "Review Report",
+      "subtitlePrefix": "Expense reports waiting for approval, oldest first. Right-click a report and choose",
+      "subtitleSuffix": "to approve it, return it to the employee or flag it for audit.",
+      "modalTitle": "Review Expense Report",
+      "modalLead": "Pre-filled from the selected report. Choose a decision and submit it to the approval workflow.",
+      "submitLabel": "Submit decision",
+      "successTitle": "Decision recorded"
+    },
+    "chatbot": {
+      "welcome": "Hi! I'm Emburse AI. Ask me about expense policy, approvals and travel spend, or ask a question about your data.",
+      "overview": "Emburse is spend management software for travel and expenses, AP and corporate cards, used by 14,000+ organizations in 120 countries. Emburse Analytics gives finance teams visibility into employee spend, policy compliance, approval cycle times and audit risk.",
+      "greetingExample": "out-of-policy spend by department",
+      "examples": ["spend by expense category by month", "average approval days by approver"]
+    },
+    "trialQuestionTrigger": 3,
+    "upgradeReason": "Upgrade to Emburse Analytics Pro to unlock drill-down, Ask AI and downloads.",
+    "analyticsKeywords": ["spend", "expense", "expenses", "policy", "violation", "violations", "approval", "approver", "reimbursement", "merchant", "hotel", "travel", "department", "category", "audit", "risk", "vat"]
+  }
+}

@@ -1,0 +1,114 @@
+{
+ "table": "ECOSURETY_PACKAGING_LINES",
+ "seed": 20261020,
+ "days": 730,
+ "as_of": "2026-10-19",
+ "id_column": "RECORD_ID",
+ "id_prefix": "PK-",
+ "date_column": "PLACED_ON_MARKET_DATE",
+ "actors": {
+  "count": 520,
+  "label": "PRODUCER_NAME",
+  "names": "companies",
+  "attributes": {
+   "SECTOR": {"weights": {"Food & Drink": 30, "Grocery Retail": 12, "Health & Beauty": 14, "Household Goods": 10, "Fashion & Footwear": 9, "Electricals": 8, "Hospitality": 7, "Industrial & B2B": 10}},
+   "PRODUCER_SIZE": {"weights": {"Large Producer": 78, "Small Producer": 22}},
+   "GEO": {
+    "levels": ["UK_NATION", "UK_REGION"],
+    "tree": {
+     "England": [82, {"London": 20, "South East": 15, "North West": 11, "West Midlands": 10, "Yorkshire and the Humber": 9, "East of England": 9, "South West": 10, "East Midlands": 8, "North East": 4}],
+     "Scotland": [9, {"Central Belt": 70, "Highlands and Islands": 8, "North East Scotland": 22}],
+     "Wales": [6, {"South Wales": 75, "North Wales": 25}],
+     "Northern Ireland": [3, {"Belfast and East": 80, "West and South": 20}]
+    }
+   }
+  },
+  "rate": 0.9,
+  "rate_by": {"PRODUCER_SIZE": {"Large Producer": 1.18, "Small Producer": 0.38}, "SECTOR": {"Food & Drink": 1.25, "Grocery Retail": 1.5, "Health & Beauty": 1.0, "Household Goods": 0.9, "Fashion & Footwear": 0.8, "Electricals": 0.75, "Hospitality": 0.85, "Industrial & B2B": 0.7}},
+  "rate_spread": 0.5
+ },
+ "calendar": {
+  "growth_yoy": 0.06,
+  "weekday": [1.12, 1.12, 1.1, 1.08, 1.0, 0.3, 0.18],
+  "month": {"1": 0.86, "2": 0.9, "3": 0.98, "4": 0.98, "5": 1.0, "6": 1.0, "7": 0.98, "8": 0.95, "9": 1.02, "10": 1.08, "11": 1.16, "12": 1.06},
+  "holidays": "none"
+ },
+ "columns": [
+  {"name": "MATERIAL", "expr": "weighted({'Plastic': 30, 'Paper and Card': 31, 'Glass': 12 if r['SECTOR'] in ('Food & Drink','Hospitality','Grocery Retail') else 3, 'Aluminium': 6 if r['SECTOR'] in ('Food & Drink','Grocery Retail','Health & Beauty') else 2, 'Steel': 4, 'Wood': 3 if r['SECTOR'] in ('Industrial & B2B','Electricals') else 1, 'Fibre-based Composite': 5 if r['SECTOR'] in ('Food & Drink','Grocery Retail','Hospitality') else 1, 'Other': 1})"},
+  {"name": "PACKAGING_FORMAT", "map_from": "MATERIAL", "map": {
+   "Plastic": ["Bottle", "Tray", "Flexible Film", "Pouch", "Pot and Tub", "Flexible Film", "Closure", "Pump and Trigger"],
+   "Paper and Card": ["Corrugated Box", "Folding Carton", "Paper Bag", "Corrugated Box", "Label and Sleeve"],
+   "Glass": ["Bottle", "Jar"],
+   "Aluminium": ["Can", "Foil and Tray", "Aerosol"],
+   "Steel": ["Can", "Aerosol", "Closure"],
+   "Wood": ["Pallet", "Crate"],
+   "Fibre-based Composite": ["Beverage Carton", "Coffee Cup", "Composite Tube"],
+   "Other": ["Mixed Material", "Ceramic"]
+  }},
+  {"name": "PACKAGING_TYPE", "expr": "weighted({'Household': 62, 'Non-household': 26, 'Public Bin': 5, 'Household Drinks Container': 7 if r['PACKAGING_FORMAT'] in ('Bottle','Can') else 0}) if r['SECTOR'] != 'Industrial & B2B' else weighted({'Non-household': 85, 'Household': 15})"},
+  {"name": "PACKAGING_CLASS", "expr": "'Shipment Packaging' if r['PACKAGING_FORMAT'] in ('Pallet','Crate') else weighted({'Primary Packaging': 64, 'Secondary Packaging': 22, 'Shipment Packaging': 14}) if r['MATERIAL'] == 'Paper and Card' else weighted({'Primary Packaging': 86, 'Secondary Packaging': 10, 'Shipment Packaging': 4})"},
+  {"name": "NATION_OF_SALE", "weights": {"England": 84, "Scotland": 8.4, "Wales": 4.9, "Northern Ireland": 2.7}},
+  {"name": "SUPPLIER", "map_from": "MATERIAL", "map": {
+   "Plastic": ["Amcor Flexibles UK", "Berry Global UK", "RPC Bramlage", "Klöckner Pentaplast", "Coveris UK", "Alpla UK"],
+   "Paper and Card": ["DS Smith", "Smurfit Westrock UK", "Saica Pack UK", "Graphic Packaging UK", "Mondi UK"],
+   "Glass": ["Encirc", "Verallia UK", "O-I Alloa"],
+   "Aluminium": ["Ball Beverage Packaging", "Crown Bevcan UK", "Novelis UK"],
+   "Steel": ["Crown Food UK", "Ardagh Metal UK"],
+   "Wood": ["LPR Pallets", "Scott Pallets"],
+   "Fibre-based Composite": ["Tetra Pak UK", "SIG Combibloc UK", "Huhtamaki UK"],
+   "Other": ["Mixed Pack Partners"]
+  }},
+  {"name": "RAM_RATING", "expr": "weighted({'Red': (52 if r['PACKAGING_FORMAT'] in ('Flexible Film','Pouch','Pump and Trigger','Composite Tube','Coffee Cup','Mixed Material','Ceramic') else 14 if r['MATERIAL'] in ('Plastic','Fibre-based Composite') else 4) * ((1 - 0.72 * ramp(300)) if r['SECTOR'] == 'Health & Beauty' else 1), 'Amber': 26 if r['MATERIAL'] in ('Plastic','Fibre-based Composite','Other') else 8, 'Green': (22 if r['MATERIAL'] in ('Plastic','Fibre-based Composite','Other') else 88) * ((1 + 1.4 * ramp(300)) if r['SECTOR'] == 'Health & Beauty' else 1)})"},
+  {"name": "RECYCLED_CONTENT_PCT", "round": 1, "expr": "round(min(95.0, max(0.0, {'Plastic': 22, 'Paper and Card': 64, 'Glass': 38, 'Aluminium': 48, 'Steel': 40, 'Wood': 20, 'Fibre-based Composite': 8, 'Other': 5}[r['MATERIAL']] * (1 + 0.25 * ramp(365)) * uniform(0.55, 1.45))), 1)"},
+  {"name": "UNITS_PLACED", "expr": "int(lognorm({'Plastic': 42000, 'Paper and Card': 15000, 'Glass': 9000, 'Aluminium': 30000, 'Steel': 12000, 'Wood': 160, 'Fibre-based Composite': 26000, 'Other': 3000}[r['MATERIAL']] * (0.35 if r['PRODUCER_SIZE'] == 'Small Producer' else 1), 0.8))"},
+  {"name": "WEIGHT_TONNES", "round": 3, "expr": "round(r['UNITS_PLACED'] * {'Bottle': 28 if r['MATERIAL'] == 'Plastic' else 310, 'Tray': 18, 'Flexible Film': 4, 'Pouch': 6, 'Pot and Tub': 14, 'Closure': 2.5, 'Pump and Trigger': 22, 'Corrugated Box': 280, 'Folding Carton': 32, 'Paper Bag': 45, 'Label and Sleeve': 1.5, 'Jar': 220, 'Can': 14 if r['MATERIAL'] == 'Aluminium' else 52, 'Foil and Tray': 9, 'Aerosol': 38 if r['MATERIAL'] == 'Aluminium' else 62, 'Pallet': 22000, 'Crate': 4500, 'Beverage Carton': 27, 'Coffee Cup': 11, 'Composite Tube': 24, 'Mixed Material': 40, 'Ceramic': 180}[r['PACKAGING_FORMAT']] * uniform(0.85, 1.15) / 1000000.0, 3)"},
+  {"name": "BASE_FEE_PER_TONNE_GBP", "round": 2, "expr": "({'Plastic': 423, 'Paper and Card': 196, 'Glass': 192, 'Aluminium': 266, 'Steel': 259, 'Wood': 280, 'Fibre-based Composite': 461, 'Other': 259}[r['MATERIAL']] * (1.0 if d.year < 2026 or (d.year == 2026 and d.month < 4) else 1.07)) if r['PACKAGING_TYPE'] in ('Household', 'Public Bin') else 0.0"},
+  {"name": "EPR_FEE_GBP", "round": 2, "expr": "round(r['WEIGHT_TONNES'] * r['BASE_FEE_PER_TONNE_GBP'] * {'Red': 1.2, 'Amber': 1.0, 'Green': 0.9}[r['RAM_RATING']], 2)"},
+  {"name": "PRN_OBLIGATION_TONNES", "round": 3, "expr": "round(r['WEIGHT_TONNES'] * {'Plastic': 0.61, 'Paper and Card': 0.83, 'Glass': 0.79, 'Aluminium': 0.67, 'Steel': 0.86, 'Wood': 0.48, 'Fibre-based Composite': 0.83, 'Other': 0.5}[r['MATERIAL']], 3)"},
+  {"name": "PRN_PRICE_PER_TONNE_GBP", "round": 2, "expr": "round({'Plastic': 88 * (1 + 1.75 * ramp(210)), 'Paper and Card': 24, 'Glass': 52, 'Aluminium': 46, 'Steel': 34, 'Wood': 14, 'Fibre-based Composite': 24, 'Other': 30}[r['MATERIAL']] * uniform(0.92, 1.08), 2)"},
+  {"name": "PRN_COST_GBP", "round": 2, "expr": "round(r['PRN_OBLIGATION_TONNES'] * r['PRN_PRICE_PER_TONNE_GBP'], 2)"},
+  {"name": "VALIDATION_CHECKS_FAILED", "expr": "weighted({0: 90, 1: 6, 2: 2.5, 3: 1.5}) if r['PRODUCER_SIZE'] == 'Large Producer' else weighted({0: 82, 1: 10, 2: 5, 3: 3})"},
+  {"name": "ISSUE_TYPE", "expr": "'None' if r['VALIDATION_CHECKS_FAILED'] == 0 else weighted({'Missing Weight': 22, 'Unit Weight Outlier': 20, 'Material Not Classified': 14, 'Nation of Sale Missing': 12, 'Packaging Type Mismatch': 14, 'Supplier Data Not Received': 18})"}
+ ],
+ "groups": {
+  "id_column": "SUBMISSION_ID",
+  "id_prefix": "SUB",
+  "per": "actor_month",
+  "submitted_column": "SUBMISSION_DATE",
+  "lag_days": [4, 24],
+  "month_end_share": 0.0,
+  "status_column": "SUBMISSION_STATUS",
+  "status_rules": [
+   {"if": "age < 0", "status": "Data Collection"},
+   {"if": "age <= 14", "weights": {"In Validation": 65, "Validated": 35}},
+   {"if": "chance(0.03)", "status": "Resubmission Required"},
+   {"status": "Submitted to Regulator"}
+  ]
+ },
+ "post": [
+  {"name": "ISSUE_STATUS", "expr": "'No Issue' if r['ISSUE_TYPE'] == 'None' else ('Open' if r['SUBMISSION_STATUS'] in ('Data Collection', 'In Validation', 'Resubmission Required') else 'Resolved')"},
+  {"name": "DAYS_OPEN", "expr": "(as_of - d).days if r['ISSUE_STATUS'] == 'Open' else None"},
+  {"name": "ISSUE_FLAG", "expr": "0 if r['ISSUE_TYPE'] == 'None' else 1"},
+  {"name": "OPEN_ISSUE_FLAG", "expr": "1 if r['ISSUE_STATUS'] == 'Open' else 0"},
+  {"name": "RED_RATED_TONNES", "round": 3, "expr": "r['WEIGHT_TONNES'] if r['RAM_RATING'] == 'Red' else 0.0"},
+  {"name": "LINE_COUNT", "expr": "1"}
+ ],
+ "types": {
+  "RECORD_ID": "VARCHAR(16)",
+  "SUBMISSION_ID": "VARCHAR(24)",
+  "UNITS_PLACED": "NUMBER(10,0)",
+  "WEIGHT_TONNES": "NUMBER(12,3)",
+  "RED_RATED_TONNES": "NUMBER(12,3)",
+  "PRN_OBLIGATION_TONNES": "NUMBER(12,3)",
+  "BASE_FEE_PER_TONNE_GBP": "NUMBER(8,2)",
+  "PRN_PRICE_PER_TONNE_GBP": "NUMBER(8,2)",
+  "EPR_FEE_GBP": "NUMBER(12,2)",
+  "PRN_COST_GBP": "NUMBER(12,2)",
+  "RECYCLED_CONTENT_PCT": "NUMBER(5,1)",
+  "VALIDATION_CHECKS_FAILED": "NUMBER(2,0)",
+  "DAYS_OPEN": "NUMBER(4,0)",
+  "ISSUE_FLAG": "NUMBER(1,0)",
+  "OPEN_ISSUE_FLAG": "NUMBER(1,0)",
+  "LINE_COUNT": "NUMBER(1,0)"
+ }
+}

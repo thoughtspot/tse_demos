@@ -1,0 +1,110 @@
+{
+ "table": "MOXIE_APPOINTMENT_LINES",
+ "seed": 20261022,
+ "days": 730,
+ "as_of": null,
+ "id_column": "APPOINTMENT_LINE_ID",
+ "id_prefix": "AL-",
+ "date_column": "APPOINTMENT_DATE",
+ "actors": {
+  "count": 96,
+  "label": "_PNAME",
+  "names": "people",
+  "attributes": {
+   "GEO": {
+    "levels": ["LOCATION_STATE", "LOCATION_CITY", "PRACTICE_NAME"],
+    "tree": {
+     "Arizona": [12, {"Scottsdale": [60, {"Desert Bloom Aesthetics": 55, "Sonoran Glow Medspa": 45}], "Phoenix": [40, {"Camelback Skin Studio": 100}]}],
+     "Texas": [18, {"Austin": [40, {"Lumiere Aesthetics": 55, "Hill Country Injectables": 45}], "Dallas": [35, {"Uptown Glow Lab": 100}], "Houston": [25, {"Bayou Aesthetic Medicine": 100}]}],
+     "Florida": [16, {"Miami": [45, {"Brickell Skin Bar": 55, "Coral Gables Aesthetics": 45}], "Tampa": [30, {"GoodJuju Medspa": 100}], "Naples": [25, {"Gulfshore Renew": 100}]}],
+     "California": [14, {"Newport Beach": [55, {"Harbor Glow Medspa": 100}], "San Diego": [45, {"Coastline Aesthetics": 100}]}],
+     "Georgia": [7, {"Atlanta": [100, {"Peachtree Skin Society": 55, "Buckhead Aesthetics": 45}]}],
+     "New York": [8, {"Brooklyn": [100, {"Williamsburg Injectables": 100}]}],
+     "Colorado": [6, {"Denver": [100, {"Mile High Medspa": 100}]}],
+     "North Carolina": [6, {"Charlotte": [100, {"Queen City Aesthetics": 100}]}],
+     "Tennessee": [7, {"Nashville": [100, {"Music Row Medspa": 55, "Skinique Aesthetics": 45}]}],
+     "Nevada": [6, {"Las Vegas": [100, {"Summerlin Skin Studio": 100}]}]
+    }
+   },
+   "PROVIDER_ROLE": {"weights": {"Nurse Practitioner (NP)": 40, "Registered Nurse (RN)": 28, "Physician Assistant (PA)": 12, "Physician (MD)": 6, "Licensed Aesthetician": 14}},
+   "PROVIDER_NAME": {"expr": "r['_PNAME'] + ', ' + {'Nurse Practitioner (NP)': 'NP', 'Registered Nurse (RN)': 'RN', 'Physician Assistant (PA)': 'PA-C', 'Physician (MD)': 'MD', 'Licensed Aesthetician': 'LE'}[r['PROVIDER_ROLE']]"},
+   "MEMBERSHIP_PROGRAM": {"expr": "'Moxie Memberships (launched Feb 2026)' if r['PRACTICE_NAME'] in ('Lumiere Aesthetics', 'Brickell Skin Bar', 'GoodJuju Medspa', 'Harbor Glow Medspa', 'Peachtree Skin Society', 'Mile High Medspa', 'Skinique Aesthetics', 'Uptown Glow Lab') else 'Packages Only'"}
+  },
+  "rate": 5.6,
+  "rate_by": {"PROVIDER_ROLE": {"Physician (MD)": 0.7, "Registered Nurse (RN)": 0.9, "Licensed Aesthetician": 1.0}},
+  "rate_spread": 0.3
+ },
+ "calendar": {
+  "growth_yoy": 0.11,
+  "weekday": [0.85, 1.05, 1.1, 1.15, 1.2, 0.8, 0.08],
+  "month": {"1": 0.88, "2": 0.92, "3": 1.02, "4": 1.04, "5": 1.08, "6": 0.97, "7": 0.9, "8": 0.92, "9": 0.98, "10": 1.05, "11": 1.15, "12": 1.12},
+  "holidays": "us",
+  "holiday_factor": 0.25
+ },
+ "columns": [
+  {"name": "APPOINTMENT_HOUR", "weights": {"9": 7, "10": 10, "11": 11, "12": 9, "13": 10, "14": 12, "15": 13, "16": 12, "17": 9, "18": 5, "19": 2}},
+  {"name": "SERVICE_CATEGORY", "expr": "weighted({'Facials & Skin': 58, 'Laser & IPL': 30 * (1.35 if month in (11, 12, 1, 2) else 0.65 if month in (6, 7, 8) else 1), 'Microneedling & PRP': 12}) if r['PROVIDER_ROLE'] == 'Licensed Aesthetician' else weighted({'Neurotoxin': 36, 'Dermal Filler': 17 * (1.15 if month in (10, 11, 12) else 1), 'Laser & IPL': 7 * (1.35 if month in (11, 12, 1, 2) else 0.65 if month in (6, 7, 8) else 1), 'Facials & Skin': 6, 'Microneedling & PRP': 8, 'Weight Loss (GLP-1)': 14 * (1.3 if month == 1 else 1), 'Body Contouring': 8 * (1.25 if month in (3, 4, 5) else 1)})"},
+  {"name": "SERVICE_NAME", "map_from": "SERVICE_CATEGORY", "map": {
+   "Neurotoxin": {"Forehead & Frown Lines": 42, "Crow's Feet": 22, "Full Face Neurotoxin": 18, "Lip Flip": 8, "Masseter Slimming": 6, "Hyperhidrosis": 4},
+   "Dermal Filler": {"Lip Filler": 38, "Cheek Filler": 20, "Chin & Jawline Filler": 16, "Under-Eye Filler": 12, "Nasolabial Folds": 10, "Biostimulator (Sculptra)": 4},
+   "Laser & IPL": {"IPL Photofacial": 34, "Laser Hair Removal": 36, "Fractional Laser Resurfacing": 18, "Tattoo Removal": 4, "Laser Skin Tightening": 8},
+   "Facials & Skin": {"HydraFacial": 46, "Chemical Peel": 24, "Dermaplaning": 18, "Medical-Grade Facial": 12},
+   "Microneedling & PRP": {"RF Microneedling (Morpheus8)": 40, "Microneedling with PRP": 38, "Hair Restoration PRP": 22},
+   "Weight Loss (GLP-1)": {"Semaglutide Monthly": 52, "Tirzepatide Monthly": 34, "Weight Loss Consult": 8, "B12 / Lipo Injection": 6},
+   "Body Contouring": {"CoolSculpting": 40, "Emsculpt NEO": 34, "Kybella": 26}
+  }},
+  {"name": "PRODUCT_BRAND", "expr": "weighted({'Botox': 44, 'Dysport': 26, 'Xeomin': 12, 'Daxxify': 9, 'Jeuveau': 9}) if r['SERVICE_CATEGORY'] == 'Neurotoxin' else ('Sculptra' if 'Sculptra' in r['SERVICE_NAME'] else weighted({'Juvederm': 44, 'Restylane': 34, 'RHA Collection': 22})) if r['SERVICE_CATEGORY'] == 'Dermal Filler' else {'Semaglutide Monthly': 'Semaglutide (compounded)', 'Tirzepatide Monthly': 'Tirzepatide (compounded)', 'CoolSculpting': 'CoolSculpting', 'Emsculpt NEO': 'Emsculpt NEO', 'Kybella': 'Kybella', 'HydraFacial': 'HydraFacial', 'RF Microneedling (Morpheus8)': 'Morpheus8', 'Microneedling with PRP': 'SkinPen', 'IPL Photofacial': 'Lumenis IPL', 'Fractional Laser Resurfacing': 'Halo by Sciton'}.get(r['SERVICE_NAME'], 'House Protocol')"},
+  {"name": "PATIENT_TYPE", "expr": "weighted({'New Patient': 23, 'Returning Patient': 77})"},
+  {"name": "PATIENT_NAME", "expr": "pick(['Ava','Mia','Sophia','Emma','Olivia','Isabella','Harper','Chloe','Madison','Ella','Grace','Lily','Zoe','Nora','Riley','Layla','Aubrey','Hannah','Brooke','Kayla','Jenna','Taylor','Morgan','Lauren','Ashley','Megan','Rachel','Nicole','Dana','Priya','Camila','Valeria','Elena','Gabriela','Jasmine','Tiffany','Kristen','Amanda','Jessica','Sarah','Michael','David','Chris','Ryan','James','Marcus','Daniel','Kevin']) + ' ' + pick(['A','B','C','D','E','F','G','H','J','K','L','M','N','P','R','S','T','V','W']) + '.'"},
+  {"name": "PATIENT_ID", "expr": "'PT-' + str(rng.randint(100000, 999999))"},
+  {"name": "PATIENT_AGE_BAND", "weights": {"18-29": 18, "30-39": 31, "40-49": 26, "50-59": 16, "60+": 9}},
+  {"name": "MEMBERSHIP_STATUS", "expr": "'Non-member' if r['PATIENT_TYPE'] == 'New Patient' and chance(0.9) else weighted({'Non-member': 1 - (0.13 + 0.27 * ramp(250) if r['MEMBERSHIP_PROGRAM'].startswith('Moxie') else 0.12), 'Glow Member': 0.55 * (0.13 + 0.27 * ramp(250) if r['MEMBERSHIP_PROGRAM'].startswith('Moxie') else 0.12), 'Radiance Member': 0.33 * (0.13 + 0.27 * ramp(250) if r['MEMBERSHIP_PROGRAM'].startswith('Moxie') else 0.12), 'VIP Member': 0.12 * (0.13 + 0.27 * ramp(250) if r['MEMBERSHIP_PROGRAM'].startswith('Moxie') else 0.12)})"},
+  {"name": "BOOKING_CHANNEL", "expr": "weighted({'Online Booking': 44, 'Phone': 20 - 8 * ramp(365), 'In-Clinic Rebook': 22, 'MAIA AI Assistant': 3 + 10 * ramp(365), 'Walk-in': 5})"},
+  {"name": "MARKETING_SOURCE", "expr": "'Returning Patient' if r['PATIENT_TYPE'] == 'Returning Patient' else weighted({'Instagram': 30, 'Google Search': 24, 'Patient Referral': 20, 'TikTok': 11, 'Promo / Groupon': 7, 'Community Event': 8})"},
+  {"name": "APPOINTMENT_STATUS", "expr": "weighted({'Completed': 87.5, 'Cancelled': 7, 'No-show': 5.5 * (0.6 if r['MEMBERSHIP_STATUS'] != 'Non-member' else 1)})"},
+  {"name": "PAYMENT_METHOD", "expr": "None if r['APPOINTMENT_STATUS'] != 'Completed' else weighted({'Membership Wallet': 55, 'Credit Card': 35, 'Package Credit': 10}) if r['MEMBERSHIP_STATUS'] != 'Non-member' else weighted({'Credit Card': 70, 'Patient Financing (Cherry)': 9, 'Package Credit': 9, 'Gift Card': 5, 'HSA / FSA': 4, 'Cash': 3})"},
+  {"name": "UNITS_USED", "expr": "max(8, int(lognorm(30, 0.38) * (1.15 if r['MEMBERSHIP_STATUS'] != 'Non-member' else 1))) if r['SERVICE_CATEGORY'] == 'Neurotoxin' else weighted({1: 62, 2: 30, 3: 8}) if r['SERVICE_CATEGORY'] == 'Dermal Filler' else weighted({1: 70, 2: 22, 3: 8}) if r['SERVICE_CATEGORY'] in ('Body Contouring', 'Laser & IPL') else 1"},
+  {"name": "UNIT_PRICE", "round": 2, "expr": "(lognorm({'Neurotoxin': 14.5, 'Dermal Filler': 735, 'Laser & IPL': 380, 'Facials & Skin': 195, 'Microneedling & PRP': 640, 'Weight Loss (GLP-1)': 449, 'Body Contouring': 820}[r['SERVICE_CATEGORY']], 0.12) * (1.18 if r['LOCATION_STATE'] in ('California', 'New York') else 1.0))"},
+  {"name": "GROSS_REVENUE", "round": 2, "expr": "r['UNITS_USED'] * r['UNIT_PRICE'] if r['APPOINTMENT_STATUS'] == 'Completed' else 0.0"},
+  {"name": "DISCOUNT_AMOUNT", "round": 2, "expr": "r['GROSS_REVENUE'] * (uniform(0.10, 0.16) if r['MEMBERSHIP_STATUS'] != 'Non-member' else 0.2 if r['MARKETING_SOURCE'] == 'Promo / Groupon' else (uniform(0.05, 0.1) if chance(0.12) else 0))"},
+  {"name": "NET_REVENUE", "round": 2, "expr": "r['GROSS_REVENUE'] - r['DISCOUNT_AMOUNT']"},
+  {"name": "PRODUCT_COST", "round": 2, "expr": "r['GROSS_REVENUE'] * {'Neurotoxin': 0.44, 'Dermal Filler': 0.37, 'Laser & IPL': 0.12, 'Facials & Skin': 0.18, 'Microneedling & PRP': 0.16, 'Weight Loss (GLP-1)': 0.34, 'Body Contouring': 0.22}[r['SERVICE_CATEGORY']] * uniform(0.9, 1.1)"},
+  {"name": "GROSS_MARGIN", "round": 2, "expr": "r['NET_REVENUE'] - r['PRODUCT_COST']"},
+  {"name": "NO_SHOW_FEE", "round": 2, "expr": "50.0 if r['APPOINTMENT_STATUS'] == 'No-show' and chance(0.65) else 0.0"},
+  {"name": "TIP_AMOUNT", "round": 2, "expr": "r['NET_REVENUE'] * uniform(0.08, 0.2) if r['APPOINTMENT_STATUS'] == 'Completed' and r['SERVICE_CATEGORY'] in ('Facials & Skin', 'Laser & IPL', 'Microneedling & PRP') and chance(0.55) else 0.0"},
+  {"name": "APPOINTMENT_MINUTES", "expr": "{'Neurotoxin': 30, 'Dermal Filler': 45, 'Laser & IPL': 45, 'Facials & Skin': 60, 'Microneedling & PRP': 60, 'Weight Loss (GLP-1)': 15, 'Body Contouring': 60}[r['SERVICE_CATEGORY']] + 15 * (r['UNITS_USED'] - 1 if r['SERVICE_CATEGORY'] in ('Dermal Filler', 'Body Contouring') else 0) + (15 if r['PATIENT_TYPE'] == 'New Patient' else 0)"},
+  {"name": "REBOOKED_FLAG", "expr": "0 if r['APPOINTMENT_STATUS'] != 'Completed' else (1 if chance(min(0.95, (0.56 + (0.06 if r['SERVICE_CATEGORY'] in ('Neurotoxin', 'Weight Loss (GLP-1)') else 0) + (0.17 if r['MEMBERSHIP_STATUS'] != 'Non-member' else 0) - (0.08 if r['PATIENT_TYPE'] == 'New Patient' else 0)) * (1.22 - 0.6 * ramp(150) if r['PROVIDER_NAME'] == 'Zara Hughes, NP' else 1))) else 0)"},
+  {"name": "COMPLETED_FLAG", "expr": "1 if r['APPOINTMENT_STATUS'] == 'Completed' else 0"},
+  {"name": "NO_SHOW_FLAG", "expr": "1 if r['APPOINTMENT_STATUS'] == 'No-show' else 0"},
+  {"name": "MEMBER_FLAG", "expr": "0 if r['MEMBERSHIP_STATUS'] == 'Non-member' else 1"},
+  {"name": "NEW_PATIENT_FLAG", "expr": "1 if r['PATIENT_TYPE'] == 'New Patient' else 0"}
+ ],
+ "groups": {
+  "id_column": "RECALL_ID",
+  "id_prefix": "RC",
+  "per": "event",
+  "lag_days": [0, 0],
+  "month_end_share": 0,
+  "status_column": "FOLLOW_UP_STATUS",
+  "status_rules": [
+   {"if": "not (r['SERVICE_CATEGORY'] == 'Neurotoxin' and r['APPOINTMENT_STATUS'] == 'Completed' and r['REBOOKED_FLAG'] == 0)", "status": "No Follow-up"},
+   {"if": "age < 75", "status": "No Follow-up"},
+   {"if": "age <= 120", "weights": {"Due for Recall": 78, "Recall Sent": 22}},
+   {"if": "age <= 200", "weights": {"Overdue": 52, "Recall Sent": 18, "Returned": 30}},
+   {"weights": {"Returned": 58, "Lapsed": 42}}
+  ]
+ },
+ "post": [
+  {"name": "RECALL_ID", "expr": "r['RECALL_ID'] if r['FOLLOW_UP_STATUS'] != 'No Follow-up' else None"},
+  {"name": "DAYS_SINCE_VISIT", "expr": "age if r['FOLLOW_UP_STATUS'] in ('Due for Recall', 'Overdue', 'Recall Sent') else None"},
+  {"name": "LINE_COUNT", "expr": "1"}
+ ],
+ "types": {
+  "APPOINTMENT_LINE_ID": "VARCHAR(16)", "RECALL_ID": "VARCHAR(20)", "APPOINTMENT_HOUR": "NUMBER(2,0)",
+  "UNITS_USED": "NUMBER(5,0)", "UNIT_PRICE": "NUMBER(10,2)", "GROSS_REVENUE": "NUMBER(12,2)", "DISCOUNT_AMOUNT": "NUMBER(12,2)",
+  "NET_REVENUE": "NUMBER(12,2)", "PRODUCT_COST": "NUMBER(12,2)", "GROSS_MARGIN": "NUMBER(12,2)", "NO_SHOW_FEE": "NUMBER(8,2)",
+  "TIP_AMOUNT": "NUMBER(10,2)", "APPOINTMENT_MINUTES": "NUMBER(4,0)", "REBOOKED_FLAG": "NUMBER(1,0)", "COMPLETED_FLAG": "NUMBER(1,0)",
+  "NO_SHOW_FLAG": "NUMBER(1,0)", "MEMBER_FLAG": "NUMBER(1,0)", "NEW_PATIENT_FLAG": "NUMBER(1,0)", "DAYS_SINCE_VISIT": "NUMBER(4,0)",
+  "LINE_COUNT": "NUMBER(1,0)"
+ }
+}

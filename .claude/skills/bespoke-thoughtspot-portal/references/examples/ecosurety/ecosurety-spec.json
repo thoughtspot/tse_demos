@@ -1,0 +1,348 @@
+{
+ "client": "Ecosurety",
+ "slug": "ecosurety",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "a86b1e87-6d45-4901-92bb-ba0bdbe819c7",
+  "model": "ea200db2-2719-46af-a004-8cf07b3367ba",
+  "inlineLiveboard": "a86b1e87-6d45-4901-92bb-ba0bdbe819c7",
+  "actionLiveboard": "a86b1e87-6d45-4901-92bb-ba0bdbe819c7",
+  "actionViz": "08cfed1c-afc5-4150-93bc-41ec095d0084"
+ },
+ "action": {
+  "id": "resolve-data-issue",
+  "name": "Resolve Data Issue"
+ },
+ "columns": {
+  "inlineName": [
+   "Sector"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Tonnage",
+    "format": "number",
+    "candidates": [
+     "Total Tonnage",
+     "Tonnage"
+    ]
+   },
+   {
+    "label": "EPR Fees",
+    "format": "currency",
+    "candidates": [
+     "Total EPR Fee",
+     "EPR Fee"
+    ]
+   },
+   {
+    "label": "Red-rated Share",
+    "format": "percent",
+    "candidates": [
+     "Red-rated Share"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Material"
+  ],
+  "filterSecondary": [
+   "Sector"
+  ],
+  "date": "Placed on Market Date",
+  "hierarchy": {
+   "segment": "Sector",
+   "rep": "Producer",
+   "cadence": "Material"
+  }
+ },
+ "font": {
+  "family": "Manrope",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+ },
+ "logo": {
+  "svgPath": "ecosurety/ecosurety-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#020A1D\"/><circle cx=\"16\" cy=\"16\" r=\"8\" fill=\"none\" stroke=\"#00B8FF\" stroke-width=\"3.5\"/><circle cx=\"16\" cy=\"16\" r=\"2.6\" fill=\"#00B8FF\"/></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f6f5f4",
+   "--sl-cream-2": "#eef8fc",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#020a1d",
+   "--sl-evergreen-2": "#000a1e",
+   "--sl-green": "#00a3e6",
+   "--sl-green-dark": "#0086c2",
+   "--sl-primary-rgb": "0, 163, 230",
+   "--intime-blue": "#52b5f9",
+   "--sl-gold": "#00b8ff",
+   "--sl-gold-ink": "#020a1d",
+   "--intime-grad": "linear-gradient(90deg, #00b8ff 0%, #1447e6 100%)",
+   "--sl-mint": "#e6f8ff",
+   "--sl-mint-2": "#c0edff",
+   "--sl-coral": "#e40014",
+   "--sl-warn": "#fffbeb",
+   "--sl-warn-ink": "#953d00",
+   "--sl-ink": "#020a1d",
+   "--sl-muted": "#4a5565",
+   "--sl-border": "#e5e5e5",
+   "--sl-border-soft": "#f1f1f0",
+   "--font-serif": "'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "66px",
+   "--shadow-card": "0 1px 2px rgba(2, 10, 29, 0.05), 0 8px 24px rgba(2, 10, 29, 0.07)",
+   "--shadow-lift": "0 6px 14px rgba(2, 10, 29, 0.08), 0 18px 40px rgba(2, 10, 29, 0.12)",
+   "--brand-navy": "#020a1d",
+   "--brand-accent": "#00b8ff"
+  },
+  "dark": {
+   "--sl-cream": "#020a1d",
+   "--sl-cream-2": "#06132a",
+   "--sl-white": "#0b1a33",
+   "--sl-evergreen": "#eaf4ff",
+   "--sl-evergreen-2": "#d4e6f5",
+   "--sl-green": "#00b8ff",
+   "--sl-green-dark": "#33c6ff",
+   "--sl-primary-rgb": "0, 184, 255",
+   "--intime-blue": "#7fd8ff",
+   "--sl-gold": "#7fd8ff",
+   "--sl-gold-ink": "#020a1d",
+   "--intime-grad": "linear-gradient(90deg, #00b8ff 0%, #7fd8ff 100%)",
+   "--sl-mint": "#0e2240",
+   "--sl-mint-2": "#13294d",
+   "--sl-coral": "#ff6b72",
+   "--sl-ink": "#eaf4ff",
+   "--sl-muted": "#9fb3c8",
+   "--sl-border": "#1c3150",
+   "--sl-border-soft": "#132743",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#020a1d",
+   "--brand-accent": "#00b8ff"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#00a3e6"
+  ],
+  [
+   "#3F49B8",
+   "#0093d0"
+  ],
+  [
+   "#333C99",
+   "#0086c2"
+  ],
+  [
+   "#22B8CF",
+   "#1447e6"
+  ],
+  [
+   "#0b0d10",
+   "#020a1d"
+  ],
+  [
+   "#14181f",
+   "#0b1a33"
+  ],
+  [
+   "#1a212b",
+   "#0e2240"
+  ],
+  [
+   "#232a34",
+   "#1c3150"
+  ],
+  [
+   "#0b1f19",
+   "#06132a"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(0,184,255,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#00a3e6"
+  ],
+  [
+   "#0c8554",
+   "#0086c2"
+  ],
+  [
+   "#d9ecea",
+   "#e6f8ff"
+  ],
+  [
+   "#cfe3e2",
+   "#c0edff"
+  ],
+  [
+   "#1bb978",
+   "#1447e6"
+  ],
+  [
+   "#15ae6e",
+   "#020a1d"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#06132a"
+  ],
+  [
+   "#10222a",
+   "#06132a"
+  ],
+  [
+   "#123047",
+   "#0b1a33"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Ecosurety",
+  "aiName": "Ecosurety AI",
+  "website": "https://ecosurety.com",
+  "loginTitleHtml": "Managing packaging data<br />is complex. We make it simple.",
+  "landing": {
+   "eyebrow": "Ecosurety Insights",
+   "headline": [
+    {
+     "text": "Managing packaging data is complex. "
+    },
+    {
+     "text": "We make it simple.",
+     "accent": true
+    }
+   ],
+   "subline": "Tonnage placed on market, RAM recyclability, modulated EPR fees, PRN costs and data validation for every member brand, with AI answers on your live data.",
+   "ctaLabel": "Explore EPR analytics",
+   "stats": [
+    {
+     "value": "365K",
+     "label": "Packaging data lines"
+    },
+    {
+     "value": "588K t",
+     "label": "Packaging placed on market"
+    },
+    {
+     "value": "£110M",
+     "label": "EPR fees and PRN costs"
+    }
+   ]
+  },
+  "loginSubtitle": "Packaging EPR insights for UK producers: tonnage, recyclability, fees, PRNs and data quality, with AI-powered answers on live data.",
+  "loginStats": [
+   {
+    "value": "520",
+    "label": "Member producers"
+   },
+   {
+    "value": "220+",
+    "label": "Automated data checks"
+   },
+   {
+    "value": "B Corp",
+    "label": "Purpose-led since 2020"
+   }
+  ],
+  "loginCardSubtitle": "Sign in with your credentials",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Data",
+   "Compliance",
+   "Insights"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "EPR Analytics",
+   "inline": "Sector Insights",
+   "action": "Data Issues",
+   "ask": "Ask Ecosurety AI",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Your live packaging, fees and recycling-evidence dashboard",
+  "spotterSubtitle": "Ask questions of your packaging EPR data in natural language.",
+  "inline": {
+   "subtitleReady": "Tonnage, fees and recyclability by sector. Select a sector to view its KPIs",
+   "subtitleIdle": "Tonnage, fees and recyclability across sectors",
+   "loading": "Loading sectors…",
+   "errorTitle": "Couldn't load sectors",
+   "errorMsg": "Unable to load sector data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Material",
+   "secondaryLabel": "Sector",
+   "dateLabel": "Placed on market"
+  },
+  "sampleQuestions": [
+   "EPR fees by material this quarter",
+   "Red-rated share by sector",
+   "PRN cost per tonne by material by month",
+   "Top data issues by supplier"
+  ],
+  "askWelcome": "Ask me anything about Ecosurety: packaging EPR, RAM ratings, PRNs, nation of sale. Or ask about your own data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your packaging tonnage, recyclability, EPR fees, PRN costs and data quality. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Resolve Data Issue",
+   "subtitlePrefix": "Packaging data lines failing validation, oldest first. Right-click a line and choose",
+   "subtitleSuffix": "to correct it, request supplier data or escalate to your account manager.",
+   "modalTitle": "Resolve Data Issue",
+   "modalLead": "Pre-filled from the selected data line. Fix it so your EPR submission passes validation.",
+   "submitLabel": "Submit",
+   "successTitle": "Fix recorded"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm Ecosurety AI. Ask me about packaging EPR, RAM ratings and PRNs, or ask a question about your data.",
+   "overview": "Ecosurety is a UK packaging compliance scheme and B Corp. It turns raw packaging data into accurate EPR submissions, buys recycling evidence (PRNs) for members, and gives actionable insights and scenario modelling to cut EPR costs.",
+   "greetingExample": "EPR fees by material",
+   "examples": [
+    "red-rated share by sector by month",
+    "PRN cost per tonne for plastic"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Ecosurety Insights Premium to unlock drill-down, Ask AI and downloads.",
+  "analyticsKeywords": [
+   "packaging",
+   "tonnage",
+   "tonnes",
+   "material",
+   "plastic",
+   "paper",
+   "glass",
+   "epr",
+   "fee",
+   "fees",
+   "prn",
+   "pern",
+   "ram",
+   "recyclability",
+   "red",
+   "sector",
+   "producer",
+   "supplier",
+   "issue",
+   "nation"
+  ]
+ }
+}

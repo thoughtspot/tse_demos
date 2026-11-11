@@ -1,0 +1,503 @@
+{
+ "name": "Scania Fleet Analytics",
+ "description": "Scania connected fleet analytics for hauliers and bus operators: one row per vehicle shift with fleet, depot, application, powertrain, model and driver, plus distance, fuel and energy, CO2, idling, driver evaluation scores, maintenance plan adherence and unplanned stops. Daily, Nov 2024 to Nov 2026.",
+ "table": "SCANIA_VEHICLE_SHIFTS",
+ "columns": [
+  {
+   "db": "SHIFT_ID",
+   "name": "Shift ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique vehicle shift (one vehicle, one operating day).",
+   "synonyms": [
+    "shift",
+    "trip id"
+   ]
+  },
+  {
+   "db": "SHIFT_DATE",
+   "name": "Shift Date",
+   "type": "ATTRIBUTE",
+   "desc": "Operating date of the shift.",
+   "synonyms": [
+    "date",
+    "day",
+    "month",
+    "week"
+   ]
+  },
+  {
+   "db": "DRIVER_NAME",
+   "name": "Driver",
+   "type": "ATTRIBUTE",
+   "desc": "Primary driver of the vehicle.",
+   "synonyms": [
+    "driver name",
+    "operator"
+   ]
+  },
+  {
+   "db": "REGION",
+   "name": "Region",
+   "type": "ATTRIBUTE",
+   "desc": "European sales region of the fleet depot.",
+   "synonyms": [
+    "market",
+    "area"
+   ]
+  },
+  {
+   "db": "COUNTRY",
+   "name": "Country",
+   "type": "ATTRIBUTE",
+   "desc": "Country of the depot.",
+   "synonyms": [
+    "nation"
+   ]
+  },
+  {
+   "db": "DEPOT",
+   "name": "Depot",
+   "type": "ATTRIBUTE",
+   "desc": "Home depot / city of the vehicle.",
+   "synonyms": [
+    "base",
+    "hub",
+    "city"
+   ]
+  },
+  {
+   "db": "APPLICATION",
+   "name": "Application",
+   "type": "ATTRIBUTE",
+   "desc": "Transport application: Long Haulage, Regional/Urban Distribution, Construction, City Bus, Coach.",
+   "synonyms": [
+    "segment",
+    "use case",
+    "operation type"
+   ]
+  },
+  {
+   "db": "CUSTOMER_FLEET",
+   "name": "Fleet",
+   "type": "ATTRIBUTE",
+   "desc": "Customer fleet (haulier or operator) owning the vehicle.",
+   "synonyms": [
+    "customer",
+    "haulier",
+    "operator",
+    "fleet owner"
+   ]
+  },
+  {
+   "db": "MAINTENANCE_PLAN",
+   "name": "Maintenance Plan",
+   "type": "ATTRIBUTE",
+   "desc": "Scania maintenance plan: Flexible (usage-based) or Periodic.",
+   "synonyms": [
+    "service plan",
+    "plan type"
+   ]
+  },
+  {
+   "db": "SERVICE_PACKAGE",
+   "name": "Connected Services Package",
+   "type": "ATTRIBUTE",
+   "desc": "Scania connected services package: Monitor, Control, Data Access.",
+   "synonyms": [
+    "package",
+    "fleet management package"
+   ]
+  },
+  {
+   "db": "POWERTRAIN",
+   "name": "Powertrain",
+   "type": "ATTRIBUTE",
+   "desc": "Fuel / propulsion: Diesel, HVO100, Biogas, Battery Electric.",
+   "synonyms": [
+    "fuel type",
+    "propulsion",
+    "bev"
+   ]
+  },
+  {
+   "db": "VEHICLE_MODEL",
+   "name": "Vehicle Model",
+   "type": "ATTRIBUTE",
+   "desc": "Scania model, e.g. R 450, S 500, 25 P BEV, Citywide BEV.",
+   "synonyms": [
+    "model",
+    "truck model"
+   ]
+  },
+  {
+   "db": "CAB_SERIES",
+   "name": "Cab Series",
+   "type": "ATTRIBUTE",
+   "desc": "L, P, G, R, S series or Bus & Coach.",
+   "synonyms": [
+    "series",
+    "range"
+   ]
+  },
+  {
+   "db": "VEHICLE_REG",
+   "name": "Vehicle",
+   "type": "ATTRIBUTE",
+   "desc": "Vehicle registration number.",
+   "synonyms": [
+    "registration",
+    "truck",
+    "reg",
+    "vehicle id"
+   ]
+  },
+  {
+   "db": "DISTANCE_KM",
+   "name": "Distance (km)",
+   "type": "MEASURE",
+   "desc": "Kilometres driven in the shift.",
+   "synonyms": [
+    "distance",
+    "km",
+    "mileage"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "AVG_SPEED_KMH",
+   "name": "Average Speed",
+   "type": "MEASURE",
+   "desc": "Average driving speed in km/h.",
+   "synonyms": [
+    "speed",
+    "km/h"
+   ],
+   "agg": "AVERAGE",
+   "format": "#,##0.0"
+  },
+  {
+   "db": "DRIVING_HOURS",
+   "name": "Driving Hours",
+   "type": "MEASURE",
+   "desc": "Hours driving.",
+   "synonyms": [
+    "drive time"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "IDLE_HOURS",
+   "name": "Idle Hours",
+   "type": "MEASURE",
+   "desc": "Engine running while stationary.",
+   "synonyms": [
+    "idling hours",
+    "idle time"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "ENGINE_HOURS",
+   "name": "Engine Hours",
+   "type": "MEASURE",
+   "desc": "Total engine running hours (driving + idle).",
+   "synonyms": [
+    "engine time",
+    "running hours"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "FUEL_L",
+   "name": "Fuel Used (L)",
+   "type": "MEASURE",
+   "desc": "Litres of fuel (diesel, HVO or biogas equivalent).",
+   "synonyms": [
+    "fuel",
+    "litres",
+    "fuel consumption"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "ENERGY_KWH",
+   "name": "Energy Used (kWh)",
+   "type": "MEASURE",
+   "desc": "Battery energy used by electric vehicles.",
+   "synonyms": [
+    "kwh",
+    "electricity",
+    "energy"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "CO2_KG",
+   "name": "CO2 Emissions (kg)",
+   "type": "MEASURE",
+   "desc": "Calculated CO2 emissions (tank-to-wheel for fuels, grid factor for BEV).",
+   "synonyms": [
+    "co2",
+    "emissions",
+    "carbon"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "PAYLOAD_TONNES",
+   "name": "Payload (t)",
+   "type": "MEASURE",
+   "desc": "Average payload carried in tonnes.",
+   "synonyms": [
+    "load",
+    "weight"
+   ],
+   "agg": "AVERAGE",
+   "format": "#,##0.0"
+  },
+  {
+   "db": "TONNE_KM",
+   "name": "Transport Work (tkm)",
+   "type": "MEASURE",
+   "desc": "Tonne-kilometres of transport work.",
+   "synonyms": [
+    "tonne km",
+    "tkm",
+    "transport work"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "HARSH_BRAKES",
+   "name": "Harsh Brakes",
+   "type": "MEASURE",
+   "desc": "Harsh brake applications.",
+   "synonyms": [
+    "harsh braking",
+    "hard brakes"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "COASTING_KM",
+   "name": "Coasting (km)",
+   "type": "MEASURE",
+   "desc": "Distance driven with powertrain coasting.",
+   "synonyms": [
+    "coasting",
+    "eco-roll"
+   ],
+   "agg": "SUM",
+   "format": "#,##0"
+  },
+  {
+   "db": "ANTICIPATION_SCORE",
+   "name": "Anticipation Score",
+   "type": "MEASURE",
+   "desc": "Driver evaluation: anticipation (0-100).",
+   "synonyms": [
+    "anticipation"
+   ],
+   "agg": "AVERAGE",
+   "format": "#,##0.0"
+  },
+  {
+   "db": "BRAKING_SCORE",
+   "name": "Brake Use Score",
+   "type": "MEASURE",
+   "desc": "Driver evaluation: brake use (0-100).",
+   "synonyms": [
+    "braking score",
+    "brake score"
+   ],
+   "agg": "AVERAGE",
+   "format": "#,##0.0"
+  },
+  {
+   "db": "HILL_DRIVING_SCORE",
+   "name": "Hill Driving Score",
+   "type": "MEASURE",
+   "desc": "Driver evaluation: hill driving (0-100).",
+   "synonyms": [
+    "hill driving"
+   ],
+   "agg": "AVERAGE",
+   "format": "#,##0.0"
+  },
+  {
+   "db": "IDLING_SCORE",
+   "name": "Idling Score",
+   "type": "MEASURE",
+   "desc": "Driver evaluation: idling (0-100; lower = more idling).",
+   "synonyms": [
+    "idling grade"
+   ],
+   "agg": "AVERAGE",
+   "format": "#,##0.0"
+  },
+  {
+   "db": "DRIVER_SCORE",
+   "name": "Driver Score",
+   "type": "MEASURE",
+   "desc": "Overall Scania driver evaluation score (0-100).",
+   "synonyms": [
+    "driver support score",
+    "driving score",
+    "eco score"
+   ],
+   "agg": "AVERAGE",
+   "format": "#,##0.0"
+  },
+  {
+   "db": "DRIVER_GRADE",
+   "name": "Driver Grade",
+   "type": "ATTRIBUTE",
+   "desc": "Overall driver evaluation grade A (best) to E.",
+   "synonyms": [
+    "grade",
+    "evaluation grade"
+   ]
+  },
+  {
+   "db": "DAYS_OVERDUE",
+   "name": "Days Overdue",
+   "type": "MEASURE",
+   "desc": "Days the vehicle is past its workshop service due date.",
+   "synonyms": [
+    "overdue days",
+    "service overdue"
+   ],
+   "agg": "MAX"
+  },
+  {
+   "db": "SERVICE_STATUS",
+   "name": "Service Status",
+   "type": "ATTRIBUTE",
+   "desc": "Maintenance status: On plan, Due soon, Overdue.",
+   "synonyms": [
+    "maintenance status",
+    "workshop status"
+   ]
+  },
+  {
+   "db": "SERVICE_DUE",
+   "name": "Services Due",
+   "type": "MEASURE",
+   "desc": "Planned workshop services falling due.",
+   "synonyms": [
+    "planned services"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "SERVICE_ON_TIME",
+   "name": "Services On Time",
+   "type": "MEASURE",
+   "desc": "Planned services completed on time.",
+   "synonyms": [
+    "on-time services"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "UNPLANNED_STOPS",
+   "name": "Unplanned Stops",
+   "type": "MEASURE",
+   "desc": "Breakdowns or unplanned workshop stops.",
+   "synonyms": [
+    "breakdowns",
+    "unplanned stop",
+    "downtime events"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "SHIFTS",
+   "name": "Shifts",
+   "type": "MEASURE",
+   "desc": "Vehicle shifts (operating days).",
+   "synonyms": [
+    "vehicle days",
+    "operating days",
+    "trips"
+   ],
+   "agg": "SUM"
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Fuel per 100 km",
+   "expr": "sum ( [{T}::FUEL_L] ) * 100 / sum ( if ( [{T}::FUEL_L] > 0 ) then [{T}::DISTANCE_KM] else 0 )",
+   "desc": "Litres per 100 km on combustion vehicles.",
+   "format": "#,##0.0",
+   "synonyms": [
+    "l/100km",
+    "fuel consumption",
+    "fuel efficiency"
+   ]
+  },
+  {
+   "name": "Energy per 100 km",
+   "expr": "sum ( [{T}::ENERGY_KWH] ) * 100 / sum ( if ( [{T}::ENERGY_KWH] > 0 ) then [{T}::DISTANCE_KM] else 0 )",
+   "desc": "kWh per 100 km on battery-electric vehicles.",
+   "format": "#,##0.0"
+  },
+  {
+   "name": "CO2 per km",
+   "expr": "sum ( [{T}::CO2_KG] ) / sum ( [{T}::DISTANCE_KM] )",
+   "desc": "Kilograms of CO2 per km driven.",
+   "format": "#,##0.000"
+  },
+  {
+   "name": "Idle Share",
+   "expr": "sum ( [{T}::IDLE_HOURS] ) / sum ( [{T}::ENGINE_HOURS] )",
+   "desc": "Share of engine time spent idling.",
+   "format": "0.0%"
+  },
+  {
+   "name": "Maintenance Adherence",
+   "expr": "sum ( [{T}::SERVICE_ON_TIME] ) / sum ( [{T}::SERVICE_DUE] )",
+   "desc": "Planned services completed on time.",
+   "format": "0.0%"
+  },
+  {
+   "name": "Unplanned Stops per 100k km",
+   "expr": "sum ( [{T}::UNPLANNED_STOPS] ) * 100000 / sum ( [{T}::DISTANCE_KM] )",
+   "desc": "Unplanned stops per 100,000 km.",
+   "format": "#,##0.00"
+  },
+  {
+   "name": "BEV Share",
+   "expr": "sum ( if ( [{T}::POWERTRAIN] = 'Battery Electric' ) then 1 else 0 ) / sum ( [{T}::SHIFTS] )",
+   "desc": "Share of shifts run by battery-electric vehicles.",
+   "format": "0.0%"
+  },
+  {
+   "name": "Harsh Brakes per 100 km",
+   "expr": "sum ( [{T}::HARSH_BRAKES] ) * 100 / sum ( [{T}::DISTANCE_KM] )",
+   "desc": "Harsh brake applications per 100 km.",
+   "format": "#,##0.00"
+  },
+  {
+   "name": "Active Vehicles",
+   "expr": "unique count ( [{T}::VEHICLE_REG] )",
+   "desc": "Distinct vehicles operating.",
+   "format": "#,##0"
+  },
+  {
+   "name": "Energy Cost",
+   "expr": "sum ( [{T}::FUEL_L] ) * 1.62 + sum ( [{T}::ENERGY_KWH] ) * 0.26",
+   "desc": "Estimated fuel and charging cost in EUR (EUR 1.62 per litre, EUR 0.26 per kWh).",
+   "currency": "EUR"
+  }
+ ],
+ "theme_parameter": true
+}

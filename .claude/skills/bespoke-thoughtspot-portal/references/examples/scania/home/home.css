@@ -1,0 +1,149 @@
+/* ---- Scania home (modelled on scania.com/group/en) ---- */
+.scania-home {
+  --scania-red: var(--sl-gold);
+  --scania-band-alt: #eef2f8;
+  --scania-card: var(--sl-white);
+  width: 100%;
+  min-width: 0;
+  color: var(--sl-ink);
+  font-family: var(--font-sans);
+  background: var(--sl-cream);
+}
+:root[data-theme='dark'] .scania-home { --scania-band-alt: #0f1726; --scania-card: #121b2b; }
+.scania-home-wrap { width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); box-sizing: border-box; }
+
+/* Hero: full-bleed photo, navy shade, white copy (as the site's start-page hero) */
+.scania-home-hero {
+  position: relative; overflow: hidden; min-height: 600px; display: flex; align-items: center;
+  background-color: var(--brand-navy);
+  background-image: linear-gradient(120deg, #041e42, #16417f);
+  background-size: cover; background-position: center 55%;
+  color: #ffffff;
+}
+.scania-home-hero-shade { position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(4, 30, 66, 0.92) 0%, rgba(4, 30, 66, 0.72) 38%, rgba(4, 30, 66, 0.15) 70%, rgba(4, 30, 66, 0.05) 100%),
+    linear-gradient(0deg, rgba(4, 30, 66, 0.55), transparent 35%); }
+.scania-home-hero-inner { position: relative; padding-top: 88px; padding-bottom: 96px; }
+.scania-home-hero-copy { max-width: 620px; }
+.scania-home-eyebrow { display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sl-green); }
+.scania-home-hero .scania-home-eyebrow { color: #c8d6ec; }
+.scania-home-eyebrow::before { content: ''; display: inline-block; width: 22px; height: 3px; background: var(--scania-red); vertical-align: middle; margin-right: 10px; transform: translateY(-2px); }
+.scania-home-h1 { margin: 14px 0 0; font-size: clamp(44px, 5.4vw, 76px); line-height: 1.02; font-weight: 700; letter-spacing: -0.01em; }
+.scania-home-hero-sub { margin: 22px 0 0; font-size: clamp(17px, 1.45vw, 21px); line-height: 1.55; color: #e3eaf5; font-weight: 400; }
+.scania-home-accent { font-weight: 700; background: linear-gradient(90deg, #ffffff, #93b5ec); -webkit-background-clip: text; background-clip: text; color: transparent; border-bottom: 3px solid var(--scania-red); }
+.scania-home-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.scania-home-btn { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 4px; padding: 13px 20px; font: 600 15px/1 var(--font-sans); cursor: pointer; transition: transform .15s, box-shadow .15s, background .15s; }
+.scania-home-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(4, 30, 66, 0.25); }
+.scania-home-btn-primary { background: var(--sl-green); color: #ffffff; }
+.scania-home-hero .scania-home-btn-primary { background: #ffffff; color: #041e42; }
+.scania-home-btn-ghost { background: transparent; color: var(--sl-ink); box-shadow: inset 0 0 0 1.5px var(--sl-border); }
+.scania-home-hero .scania-home-btn-ghost { color: #ffffff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.7); }
+.scania-home-btn-light { background: #ffffff; color: #041e42; }
+.scania-home-btn-red { background: var(--scania-red); color: #ffffff; }
+
+.scania-home-float { position: absolute; z-index: 1; display: flex; align-items: center; gap: 10px; padding: 12px 15px; border-radius: 8px;
+  background: var(--sl-white); color: var(--sl-ink); box-shadow: var(--shadow-lift); font-size: 12.5px; border-left: 3px solid var(--sl-green); }
+.scania-home-float svg { color: var(--sl-green); flex: none; }
+.scania-home-float .scania-home-float-alert { color: var(--scania-red); }
+.scania-home-float-b { border-left-color: var(--scania-red); }
+.scania-home-float strong { display: block; font-size: 13.5px; }
+.scania-home-float span { color: var(--sl-muted); }
+.scania-home-float-a { right: 6%; top: 16%; }
+.scania-home-float-b { right: 22%; top: 47%; }
+.scania-home-float-c { right: 5%; bottom: 13%; }
+@media (max-width: 1100px) { .scania-home-float { display: none; } }
+
+/* Stats strip */
+.scania-home-stats { background: var(--sl-white); border-bottom: 1px solid var(--sl-border); padding: 30px 0 34px; }
+.scania-home-stats-title { margin: 0 0 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sl-muted); }
+.scania-home-stats-row { display: grid; grid-template-columns: repeat(6, 1fr); }
+.scania-home-stat { padding: 4px 18px; border-left: 1px solid var(--sl-border); display: flex; flex-direction: column; gap: 3px; }
+.scania-home-stat:first-child { border-left: 0; padding-left: 0; }
+.scania-home-stat strong { font-size: clamp(28px, 2.4vw, 36px); font-weight: 700; color: var(--sl-green); letter-spacing: -0.01em; line-height: 1.1; }
+.scania-home-stat-label { font-size: 14px; font-weight: 600; color: var(--sl-ink); }
+.scania-home-stat-note { font-size: 12.5px; color: var(--sl-muted); }
+
+/* Bands */
+.scania-home-band { padding: 64px 0; background: var(--sl-cream); }
+.scania-home-band-alt { background: var(--scania-band-alt); }
+.scania-home-head { max-width: 760px; margin-bottom: 30px; }
+.scania-home-h2 { margin: 0; font-size: clamp(28px, 2.6vw, 38px); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; color: var(--sl-ink); }
+.scania-home-lead { margin: 10px 0 0; font-size: 16.5px; line-height: 1.6; color: var(--sl-muted); }
+.scania-home-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--scania-red); }
+.scania-home-link { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding: 0; border: 0; background: none; color: var(--sl-green); font: 700 14px/1.2 var(--font-sans); cursor: pointer; }
+.scania-home-link:hover { text-decoration: underline; }
+.scania-home-icon { color: var(--sl-green); }
+
+/* In focus */
+.scania-home-focus { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.scania-home-focus-card { display: flex; flex-direction: column; background: var(--scania-card); border: 1px solid var(--sl-border); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-card); }
+.scania-home-focus-img { aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--brand-navy); }
+.scania-home-focus-body { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 20px 22px 22px; }
+.scania-home-focus-body h3 { margin: 0; font-size: 21px; font-weight: 700; line-height: 1.2; }
+.scania-home-focus-body p { margin: 0 0 8px; font-size: 14.5px; line-height: 1.6; color: var(--sl-muted); }
+
+/* Products and services */
+.scania-home-series { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.scania-home-series-card { background: var(--scania-card); border-radius: 8px; overflow: hidden; border: 1px solid var(--sl-border); }
+.scania-home-series-img { position: relative; aspect-ratio: 4 / 3; background-size: cover; background-position: center; background-color: var(--brand-navy); }
+.scania-home-stars { position: absolute; left: 10px; top: 10px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; border-radius: 3px; background: rgba(4, 30, 66, 0.85); color: #ffffff; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; }
+.scania-home-stars svg { color: #ffd34d; fill: #ffd34d; }
+.scania-home-series-body { padding: 14px 16px 18px; }
+.scania-home-series-body h4 { margin: 0 0 4px; font-size: 18px; font-weight: 700; }
+.scania-home-series-body p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--sl-muted); }
+.scania-home-range { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 18px; }
+.scania-home-range-card { display: flex; flex-direction: column; gap: 6px; padding: 22px; border-radius: 8px; background: var(--scania-card); border: 1px solid var(--sl-border); border-top: 3px solid var(--sl-green); }
+.scania-home-range-card h3 { margin: 6px 0 0; font-size: 18px; font-weight: 700; }
+.scania-home-range-card p { margin: 0 0 10px; font-size: 14px; line-height: 1.55; color: var(--sl-muted); }
+
+/* Sustainable transport: full-bleed split */
+.scania-home-sustain { display: grid; grid-template-columns: 1.05fr 1fr; background: var(--brand-navy); color: #ffffff; min-height: 460px; }
+.scania-home-sustain-img { background-size: cover; background-position: center; min-height: 320px; }
+.scania-home-sustain-copy { padding: 64px clamp(24px, 5vw, 80px); display: flex; flex-direction: column; justify-content: center; max-width: 680px; }
+.scania-home-sustain-copy .scania-home-eyebrow { color: #93b5ec; }
+.scania-home-sustain-copy .scania-home-h2 { color: #ffffff; margin-top: 12px; }
+.scania-home-sustain-copy p { margin: 14px 0 0; font-size: 16px; line-height: 1.65; color: #c8d6ec; }
+.scania-home-sustain-kpis { display: flex; flex-wrap: wrap; gap: 36px; margin-top: 24px; }
+.scania-home-sustain-kpis strong { display: block; font-size: 30px; font-weight: 700; color: #ffffff; }
+.scania-home-sustain-kpis span { font-size: 13.5px; color: #c8d6ec; }
+.scania-home-sustain .scania-home-btn-primary { background: #ffffff; color: #041e42; }
+.scania-home-sustain .scania-home-btn-ghost { color: #ffffff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.6); }
+
+/* Audiences */
+.scania-home-aud { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.scania-home-aud-card { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; padding: 22px 20px; border-radius: 8px; cursor: pointer;
+  background: var(--scania-card); border: 1px solid var(--sl-border); color: var(--sl-ink); font-family: var(--font-sans); transition: transform .15s, box-shadow .15s, border-color .15s; }
+.scania-home-aud-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: var(--sl-green); }
+.scania-home-aud-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--intime-grad); color: #ffffff; }
+.scania-home-aud-card h3 { margin: 6px 0 0; font-size: 17px; font-weight: 700; }
+.scania-home-aud-card p { margin: 0 0 10px; font-size: 13.5px; line-height: 1.55; color: var(--sl-muted); flex: 1; }
+
+/* Scania in brief + careers */
+.scania-home-split { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.scania-home-split-card { position: relative; min-height: 360px; border-radius: 8px; overflow: hidden; background-size: cover; background-position: center; background-color: var(--brand-navy); display: flex; align-items: flex-end; color: #ffffff; }
+.scania-home-split-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(4, 30, 66, 0.95) 0%, rgba(4, 30, 66, 0.75) 45%, rgba(4, 30, 66, 0.1) 100%); }
+.scania-home-split-copy { position: relative; padding: 28px 30px; }
+.scania-home-split-copy .scania-home-eyebrow { color: #c8d6ec; }
+.scania-home-split-copy h3 { margin: 10px 0 6px; font-size: 28px; font-weight: 700; }
+.scania-home-split-copy p { margin: 0 0 18px; font-size: 15px; line-height: 1.55; color: #e3eaf5; max-width: 460px; }
+
+/* Closing band */
+.scania-home-close { background: var(--intime-grad); color: #ffffff; padding: 52px 0; }
+:root[data-theme='dark'] .scania-home-close { background: linear-gradient(40deg, #041e42 0%, #16417f 60%, #2a6ecf 100%); }
+.scania-home-close-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.scania-home-close h2 { margin: 0 0 8px; font-size: clamp(24px, 2.2vw, 32px); font-weight: 700; }
+.scania-home-close p { margin: 0; font-size: 16px; color: #dbe5f4; }
+.scania-home-close .scania-home-btn { flex: none; }
+
+@media (max-width: 1100px) {
+  .scania-home-stats-row { grid-template-columns: repeat(3, 1fr); row-gap: 20px; }
+  .scania-home-stat:nth-child(4) { border-left: 0; padding-left: 0; }
+  .scania-home-aud { grid-template-columns: repeat(3, 1fr); }
+  .scania-home-series, .scania-home-range { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 800px) {
+  .scania-home-focus, .scania-home-split, .scania-home-sustain { grid-template-columns: 1fr; }
+  .scania-home-aud, .scania-home-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .scania-home-stat { border-left: 0; padding-left: 0; }
+  .scania-home-close-inner { flex-direction: column; align-items: flex-start; }
+}

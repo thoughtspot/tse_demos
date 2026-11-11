@@ -1,0 +1,80 @@
+{
+ "table": "SURESCRIPTS_NETWORK_TRANSACTIONS",
+ "seed": 20261104,
+ "days": 730,
+ "as_of": null,
+ "id_column": "TRANSACTION_ID",
+ "id_prefix": "TX-",
+ "date_column": "TRANSACTION_DATE",
+ "actors": {
+  "count": 1150,
+  "attributes": {
+   "GEO": {"levels": ["REGION", "STATE"], "tree": {
+     "Northeast": [18, {"New York": 34, "Pennsylvania": 24, "Massachusetts": 16, "New Jersey": 16, "Connecticut": 10}],
+     "Southeast": [23, {"Florida": 36, "Georgia": 20, "North Carolina": 20, "Tennessee": 13, "Virginia": 11}],
+     "Midwest": [20, {"Illinois": 26, "Ohio": 25, "Michigan": 20, "Minnesota": 15, "Missouri": 14}],
+     "Southwest": [18, {"Texas": 66, "Arizona": 20, "New Mexico": 6, "Oklahoma": 8}],
+     "West": [21, {"California": 55, "Washington": 17, "Colorado": 15, "Oregon": 13}]
+   }},
+   "ORG_TYPE": {"weights": {"Health System": 34, "Ambulatory Clinic": 33, "Specialty Practice": 18, "Long-Term & Post-Acute Care": 8, "Urgent Care": 7}},
+   "EHR_VENDOR": {"weights": {"Epic": 33, "Oracle Health": 15, "athenahealth": 12, "eClinicalWorks": 11, "MEDITECH": 8, "NextGen": 7, "Veradigm": 7, "ModMed": 7}},
+   "PRESCRIBER_ORG": {"expr": "pick(['Cedar Ridge','Lakeshore','Bluebonnet','Riverbend','Summit','Harbor View','Prairie','Magnolia','Pinecrest','Northgate','Silver Creek','Brookside','Granite Peak','Oak Hollow','Bayfront','Sunridge','Willow Park','Mesa Verde','Highland','Clearwater','Stonebridge','Evergreen','Red River','Juniper','Maple Grove','Canyon','Liberty','Crescent','Heritage','Coastal']) + ' ' + {'Health System': pick(['Health','Health System','Medical Group','Physicians Network']), 'Ambulatory Clinic': pick(['Family Medicine','Primary Care','Internal Medicine','Community Clinic']), 'Specialty Practice': pick(['Rheumatology','Oncology Associates','Endocrinology','Behavioral Health','Dermatology']), 'Long-Term & Post-Acute Care': pick(['Senior Care','Rehab Center','Skilled Nursing']), 'Urgent Care': pick(['Urgent Care','Express Care'])}[actor['ORG_TYPE']] + ' (' + {'New York':'NY','Pennsylvania':'PA','Massachusetts':'MA','New Jersey':'NJ','Connecticut':'CT','Florida':'FL','Georgia':'GA','North Carolina':'NC','Tennessee':'TN','Virginia':'VA','Illinois':'IL','Ohio':'OH','Michigan':'MI','Minnesota':'MN','Missouri':'MO','Texas':'TX','Arizona':'AZ','New Mexico':'NM','Oklahoma':'OK','California':'CA','Washington':'WA','Colorado':'CO','Oregon':'OR'}[actor['STATE']] + ')'"},
+   "_RTPB": {"expr": "{'Epic': 0.40, 'Oracle Health': 0.33, 'athenahealth': 0.36, 'eClinicalWorks': 0.30, 'MEDITECH': 0.24, 'NextGen': 0.28, 'Veradigm': 0.27, 'ModMed': 0.31}[actor['EHR_VENDOR']] * uniform(0.8, 1.2)"},
+   "_EPA": {"expr": "{'Epic': 0.66, 'Oracle Health': 0.6, 'athenahealth': 0.62, 'eClinicalWorks': 0.55, 'MEDITECH': 0.5, 'NextGen': 0.54, 'Veradigm': 0.52, 'ModMed': 0.58}[actor['EHR_VENDOR']]"},
+   "_TX": {"expr": "1 if actor['STATE'] == 'Texas' else 0"}
+  },
+  "rate": 0.38,
+  "rate_by": {"ORG_TYPE": {"Health System": 1.6, "Ambulatory Clinic": 0.8, "Specialty Practice": 0.7, "Long-Term & Post-Acute Care": 0.9, "Urgent Care": 0.6}},
+  "rate_spread": 0.45
+ },
+ "calendar": {
+  "growth_yoy": 0.12,
+  "weekday": [1.22, 1.18, 1.12, 1.1, 1.04, 0.28, 0.16],
+  "month": {"1": 1.07, "2": 1.0, "3": 1.03, "4": 0.99, "5": 0.98, "6": 0.95, "7": 0.92, "8": 0.97, "9": 1.0, "10": 1.04, "11": 1.0, "12": 0.94},
+  "holidays": "us"
+ },
+ "columns": [
+  {"name": "TRANSACTION_TYPE", "weights": {"NewRx": 34, "RxRenewal": 10, "CancelRx": 3, "RxChange": 3, "Medication History": 20, "Eligibility": 9, "Prior Authorization": 7, "Clinical Direct Message": 5, "Formulary": 9}},
+  {"name": "_RX", "expr": "1 if r['TRANSACTION_TYPE'] in ('NewRx', 'RxRenewal', 'CancelRx', 'RxChange') else 0"},
+  {"name": "PBM", "weights": {"CVS Caremark": 29, "Express Scripts": 24, "Optum Rx": 21, "Prime Therapeutics": 8, "Navitus": 9, "MedImpact": 5, "Humana Pharmacy Solutions": 4}},
+  {"name": "_CLS", "expr": "weighted({'Diabetes & GLP-1': 12, 'Cardiovascular': 16, 'Behavioral Health': 11, 'Respiratory': 9, 'Anti-infectives': 10, 'Thyroid': 6, 'Pain (non-opioid)': 7, 'Opioid Analgesics': 6, 'ADHD Stimulants': 4, 'Benzodiazepines': 3, 'Specialty: Immunology': 5 if actor['ORG_TYPE'] != 'Specialty Practice' else 22, 'Specialty: Oncology': 2 if actor['ORG_TYPE'] != 'Specialty Practice' else 14, 'Dermatology': 4}) if (r['_RX'] or r['TRANSACTION_TYPE'] == 'Prior Authorization') else None"},
+  {"name": "THERAPEUTIC_CLASS", "expr": "r['_CLS'] if r['_CLS'] else 'Not drug-specific'"},
+  {"name": "SPECIALTY_MEDICATION", "expr": "'Yes' if (r['_CLS'] or '').startswith('Specialty') else 'No'"},
+  {"name": "CONTROLLED_SUBSTANCE", "expr": "'Yes' if r['_CLS'] in ('Opioid Analgesics', 'ADHD Stimulants', 'Benzodiazepines') else 'No'"},
+  {"name": "PHARMACY", "expr": "(('Specialty Pharmacy' if r['SPECIALTY_MEDICATION'] == 'Yes' and chance(0.85) else weighted({'CVS Pharmacy': 24, 'Walgreens': 20, 'Walmart Pharmacy': 12, 'Kroger': 7, 'Independent Pharmacy': 18, 'Publix': 4 if actor['REGION'] == 'Southeast' else 0.5, 'H-E-B': 9 if actor['STATE'] == 'Texas' else 0.2, 'Mail Order': 7}))) if r['_RX'] else 'Not routed to pharmacy'"},
+  {"name": "_NAV", "expr": "1 if r['PBM'] == 'Navitus' else 0"},
+  {"name": "_DAYSAGO", "expr": "(as_of - d).days"},
+  {"name": "_PROG", "expr": "1 - r['_DAYSAGO'] / 730.0"},
+  {"name": "NEW_RX", "expr": "1 if r['TRANSACTION_TYPE'] == 'NewRx' else 0"},
+  {"name": "EPCS_RX", "expr": "1 if (r['NEW_RX'] and r['CONTROLLED_SUBSTANCE'] == 'Yes') else 0"},
+  {"name": "RTPB_CHECKS", "expr": "(1 if chance(min(0.95, (0.27 + 0.5 * ramp(270)) if r['_NAV'] else actor['_RTPB'] * (0.9 + 0.2 * r['_PROG'])) ) else 0) if r['NEW_RX'] else 0"},
+  {"name": "ALTERNATIVES_PRESENTED", "expr": "(1 if chance(0.3 if r['SPECIALTY_MEDICATION'] == 'Yes' else 0.17) else 0) if r['RTPB_CHECKS'] else 0"},
+  {"name": "ALTERNATIVES_SELECTED", "expr": "(1 if chance(0.42 + (0.18 * ramp(270) if r['_NAV'] else 0)) else 0) if r['ALTERNATIVES_PRESENTED'] else 0"},
+  {"name": "PATIENT_SAVINGS_USD", "round": 2, "expr": "(lognorm(780, 0.45) if r['SPECIALTY_MEDICATION'] == 'Yes' else lognorm(58, 0.65)) if r['ALTERNATIVES_SELECTED'] else 0.0"},
+  {"name": "PATIENT_OOP_USD", "round": 2, "expr": "max(0.0, (lognorm({'Specialty: Immunology': 420, 'Specialty: Oncology': 520, 'Diabetes & GLP-1': 55, 'Dermatology': 40}.get(r['_CLS'], 14), 0.9) * (1.18 if month in (1, 2) else 1) - r['PATIENT_SAVINGS_USD'] * 0.6)) if r['NEW_RX'] else 0.0"},
+  {"name": "ABANDONED_RX", "expr": "(1 if chance(min(0.7, (0.045 + 0.5 * min(1.0, r['PATIENT_OOP_USD'] / 450.0) + (0.02 if month in (1, 2) else 0)) * (0.78 if r['RTPB_CHECKS'] else 1) * ((1.45 - 0.75 * ramp(270)) if r['_NAV'] else 1))) else 0) if r['NEW_RX'] else 0"},
+  {"name": "PA_REQUESTS", "expr": "1 if r['TRANSACTION_TYPE'] == 'Prior Authorization' else 0"},
+  {"name": "PA_CHANNEL", "expr": "(('Touchless ePA' if chance(0.45 if actor['_TX'] else 0.18 + 0.15 * r['_PROG']) else 'Electronic (ePA)') if chance((0.24 + 0.68 * ramp(240)) if actor['_TX'] else min(0.9, actor['_EPA'] + 0.1 * r['_PROG'])) else 'Fax / Phone') if r['PA_REQUESTS'] else 'Not a PA'"},
+  {"name": "_PEND", "expr": "1 if r['PA_REQUESTS'] and ((r['_DAYSAGO'] <= 2 and chance(0.45)) or (r['_DAYSAGO'] <= 30 and chance(0.035 if r['PA_CHANNEL'] == 'Fax / Phone' else 0.012))) else 0"},
+  {"name": "PA_OUTCOME", "expr": "('Pending' if r['_PEND'] else weighted({'Approved': 70 if r['PA_CHANNEL'] == 'Fax / Phone' else 78, 'Denied': 16 if r['PA_CHANNEL'] == 'Fax / Phone' else 12, 'More Info Requested': 14 if r['PA_CHANNEL'] == 'Fax / Phone' else 10})) if r['PA_REQUESTS'] else 'Not a PA'"},
+  {"name": "PA_APPROVED", "expr": "1 if r['PA_OUTCOME'] == 'Approved' else 0"},
+  {"name": "PA_DECIDED", "expr": "1 if r['PA_REQUESTS'] and r['PA_OUTCOME'] != 'Pending' else 0"},
+  {"name": "PA_TURNAROUND_HOURS", "round": 2, "expr": "({'Fax / Phone': lognorm(22, 0.6) * (1.6 if r['SPECIALTY_MEDICATION'] == 'Yes' else 1), 'Electronic (ePA)': lognorm(5.4, 0.7) * (1.4 if r['SPECIALTY_MEDICATION'] == 'Yes' else 1), 'Touchless ePA': lognorm(0.08, 0.8)}[r['PA_CHANNEL']]) if r['PA_DECIDED'] else None"},
+  {"name": "PA_DAYS_PENDING", "expr": "r['_DAYSAGO'] if r['_PEND'] else None"},
+  {"name": "NETWORK_LATENCY_MS", "round": 0, "expr": "lognorm({'NewRx': 280, 'RxRenewal': 300, 'CancelRx': 310, 'RxChange': 330, 'Medication History': 1350, 'Eligibility': 620, 'Prior Authorization': 950, 'Clinical Direct Message': 460, 'Formulary': 520}[r['TRANSACTION_TYPE']], 0.42) + (1450 * uniform(0.6, 1.4) if r['RTPB_CHECKS'] else 0)"},
+  {"name": "_ERR", "expr": "uniform(0, 1)"},
+  {"name": "_RJP", "expr": "{'NewRx': 0.011, 'RxRenewal': 0.022, 'CancelRx': 0.042, 'RxChange': 0.048, 'Medication History': 0.018, 'Eligibility': 0.014, 'Prior Authorization': 0.03, 'Clinical Direct Message': 0.01, 'Formulary': 0.008}[r['TRANSACTION_TYPE']] * (1.25 if actor['EHR_VENDOR'] in ('Veradigm', 'MEDITECH') else 1)"},
+  {"name": "MESSAGE_STATUS", "expr": "'Rejected' if r['_ERR'] < r['_RJP'] else ('Error' if r['_ERR'] < r['_RJP'] + 0.004 else 'Delivered')"},
+  {"name": "REJECTED", "expr": "1 if r['MESSAGE_STATUS'] == 'Rejected' else 0"},
+  {"name": "ERRORS", "expr": "1 if r['MESSAGE_STATUS'] == 'Error' else 0"},
+  {"name": "MED_HISTORY_MATCHED", "expr": "(1 if chance(0.87) else 0) if r['TRANSACTION_TYPE'] == 'Medication History' else 0"},
+  {"name": "TRANSACTIONS", "expr": "1"}
+ ],
+ "types": {
+  "TRANSACTION_ID": "VARCHAR(16)", "NEW_RX": "NUMBER(1,0)", "EPCS_RX": "NUMBER(1,0)", "RTPB_CHECKS": "NUMBER(1,0)",
+  "ALTERNATIVES_PRESENTED": "NUMBER(1,0)", "ALTERNATIVES_SELECTED": "NUMBER(1,0)", "PATIENT_SAVINGS_USD": "NUMBER(12,2)",
+  "PATIENT_OOP_USD": "NUMBER(12,2)", "ABANDONED_RX": "NUMBER(1,0)", "PA_REQUESTS": "NUMBER(1,0)", "PA_APPROVED": "NUMBER(1,0)",
+  "PA_DECIDED": "NUMBER(1,0)", "PA_TURNAROUND_HOURS": "NUMBER(8,2)", "PA_DAYS_PENDING": "NUMBER(4,0)", "NETWORK_LATENCY_MS": "NUMBER(8,0)",
+  "REJECTED": "NUMBER(1,0)", "ERRORS": "NUMBER(1,0)", "MED_HISTORY_MATCHED": "NUMBER(1,0)", "TRANSACTIONS": "NUMBER(1,0)"
+ }
+}

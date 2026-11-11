@@ -1,0 +1,471 @@
+{
+ "name": "Moxie Practice Performance",
+ "description": "Moxie medspa practice analytics: every service line booked across 20 Moxie-supported aesthetic practices, with revenue, margin, units, rebooking, no-shows, memberships and neurotoxin recalls by practice, provider, service and patient. Daily from Oct 2024 to Oct 2026.",
+ "table": "MOXIE_APPOINTMENT_LINES",
+ "columns": [
+  {
+   "db": "APPOINTMENT_LINE_ID",
+   "name": "Appointment Line ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique service line on an appointment.",
+   "synonyms": [
+    "line",
+    "service line"
+   ]
+  },
+  {
+   "db": "APPOINTMENT_DATE",
+   "name": "Appointment Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date of the appointment.",
+   "synonyms": [
+    "date",
+    "visit date",
+    "service date"
+   ]
+  },
+  {
+   "db": "LOCATION_STATE",
+   "name": "State",
+   "type": "ATTRIBUTE",
+   "desc": "US state of the practice location.",
+   "synonyms": [
+    "region",
+    "location state"
+   ]
+  },
+  {
+   "db": "LOCATION_CITY",
+   "name": "City",
+   "type": "ATTRIBUTE",
+   "desc": "City of the practice location.",
+   "synonyms": [
+    "location city",
+    "market"
+   ]
+  },
+  {
+   "db": "PRACTICE_NAME",
+   "name": "Practice",
+   "type": "ATTRIBUTE",
+   "desc": "Medspa practice (location) running on Moxie.",
+   "synonyms": [
+    "medspa",
+    "location",
+    "clinic",
+    "practice name"
+   ]
+  },
+  {
+   "db": "PROVIDER_ROLE",
+   "name": "Provider Role",
+   "type": "ATTRIBUTE",
+   "desc": "Clinical role of the provider.",
+   "synonyms": [
+    "credential",
+    "role"
+   ]
+  },
+  {
+   "db": "PROVIDER_NAME",
+   "name": "Provider",
+   "type": "ATTRIBUTE",
+   "desc": "Injector or aesthetician who delivered the service.",
+   "synonyms": [
+    "injector",
+    "clinician",
+    "provider name"
+   ]
+  },
+  {
+   "db": "MEMBERSHIP_PROGRAM",
+   "name": "Membership Program",
+   "type": "ATTRIBUTE",
+   "desc": "Whether the practice runs Moxie Memberships (launched Feb 2026) or packages only.",
+   "synonyms": [
+    "program",
+    "membership pilot"
+   ]
+  },
+  {
+   "db": "APPOINTMENT_HOUR",
+   "name": "Appointment Hour",
+   "type": "ATTRIBUTE",
+   "desc": "Hour of day the appointment started (24h).",
+   "synonyms": [
+    "hour",
+    "time slot"
+   ]
+  },
+  {
+   "db": "SERVICE_CATEGORY",
+   "name": "Service Category",
+   "type": "ATTRIBUTE",
+   "desc": "Treatment category.",
+   "synonyms": [
+    "category",
+    "treatment category",
+    "service line"
+   ]
+  },
+  {
+   "db": "SERVICE_NAME",
+   "name": "Service",
+   "type": "ATTRIBUTE",
+   "desc": "Treatment performed.",
+   "synonyms": [
+    "treatment",
+    "procedure",
+    "service name"
+   ]
+  },
+  {
+   "db": "PRODUCT_BRAND",
+   "name": "Product Brand",
+   "type": "ATTRIBUTE",
+   "desc": "Product or device brand used.",
+   "synonyms": [
+    "brand",
+    "product",
+    "injectable brand"
+   ]
+  },
+  {
+   "db": "PATIENT_TYPE",
+   "name": "Patient Type",
+   "type": "ATTRIBUTE",
+   "desc": "New or returning patient.",
+   "synonyms": [
+    "new vs returning"
+   ]
+  },
+  {
+   "db": "PATIENT_NAME",
+   "name": "Patient",
+   "type": "ATTRIBUTE",
+   "desc": "Patient (first name and initial).",
+   "synonyms": [
+    "client",
+    "patient name"
+   ]
+  },
+  {
+   "db": "PATIENT_ID",
+   "name": "Patient ID",
+   "type": "ATTRIBUTE",
+   "desc": "Patient chart number.",
+   "synonyms": [
+    "chart number"
+   ]
+  },
+  {
+   "db": "PATIENT_AGE_BAND",
+   "name": "Patient Age Band",
+   "type": "ATTRIBUTE",
+   "desc": "Patient age group.",
+   "synonyms": [
+    "age group",
+    "age"
+   ]
+  },
+  {
+   "db": "MEMBERSHIP_STATUS",
+   "name": "Membership Status",
+   "type": "ATTRIBUTE",
+   "desc": "Patient membership tier at the time of the visit.",
+   "synonyms": [
+    "membership tier",
+    "member tier"
+   ]
+  },
+  {
+   "db": "BOOKING_CHANNEL",
+   "name": "Booking Channel",
+   "type": "ATTRIBUTE",
+   "desc": "How the appointment was booked.",
+   "synonyms": [
+    "channel",
+    "booking source"
+   ]
+  },
+  {
+   "db": "MARKETING_SOURCE",
+   "name": "Marketing Source",
+   "type": "ATTRIBUTE",
+   "desc": "Acquisition source of the patient.",
+   "synonyms": [
+    "lead source",
+    "source",
+    "acquisition channel"
+   ]
+  },
+  {
+   "db": "APPOINTMENT_STATUS",
+   "name": "Appointment Status",
+   "type": "ATTRIBUTE",
+   "desc": "Completed, cancelled or no-show.",
+   "synonyms": [
+    "status",
+    "visit status"
+   ]
+  },
+  {
+   "db": "PAYMENT_METHOD",
+   "name": "Payment Method",
+   "type": "ATTRIBUTE",
+   "desc": "How the service was paid.",
+   "synonyms": [
+    "tender",
+    "payment type"
+   ]
+  },
+  {
+   "db": "UNITS_USED",
+   "name": "Units Used",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Neurotoxin units, filler syringes or sessions used.",
+   "synonyms": [
+    "units",
+    "syringes"
+   ]
+  },
+  {
+   "db": "UNIT_PRICE",
+   "name": "Unit Price",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Price per unit, syringe or session.",
+   "synonyms": [
+    "price per unit",
+    "price"
+   ],
+   "currency": true
+  },
+  {
+   "db": "GROSS_REVENUE",
+   "name": "Gross Revenue",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Revenue before discounts.",
+   "synonyms": [
+    "gross sales"
+   ],
+   "currency": true
+  },
+  {
+   "db": "DISCOUNT_AMOUNT",
+   "name": "Discounts",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Member, promo and courtesy discounts.",
+   "synonyms": [
+    "discount"
+   ],
+   "currency": true
+  },
+  {
+   "db": "NET_REVENUE",
+   "name": "Net Revenue",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Revenue after discounts.",
+   "synonyms": [
+    "revenue",
+    "sales",
+    "net sales"
+   ],
+   "currency": true
+  },
+  {
+   "db": "PRODUCT_COST",
+   "name": "Product Cost",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Cost of injectables, devices and consumables used.",
+   "synonyms": [
+    "COGS",
+    "supply cost"
+   ],
+   "currency": true
+  },
+  {
+   "db": "GROSS_MARGIN",
+   "name": "Gross Margin",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Net revenue minus product cost.",
+   "synonyms": [
+    "margin",
+    "profit"
+   ],
+   "currency": true
+  },
+  {
+   "db": "NO_SHOW_FEE",
+   "name": "No-show Fees",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Forfeited deposits and no-show fees collected.",
+   "synonyms": [
+    "no show fee"
+   ],
+   "currency": true
+  },
+  {
+   "db": "TIP_AMOUNT",
+   "name": "Tips",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Gratuity on the service.",
+   "synonyms": [
+    "gratuity",
+    "tip"
+   ],
+   "currency": true
+  },
+  {
+   "db": "APPOINTMENT_MINUTES",
+   "name": "Appointment Minutes",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Booked chair minutes for the service.",
+   "synonyms": [
+    "chair time",
+    "minutes"
+   ]
+  },
+  {
+   "db": "REBOOKED_FLAG",
+   "name": "Rebooked Visits",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Completed services where the patient booked the next visit before leaving.",
+   "synonyms": [
+    "rebooks"
+   ]
+  },
+  {
+   "db": "COMPLETED_FLAG",
+   "name": "Completed Visits",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Completed service lines.",
+   "synonyms": [
+    "visits",
+    "completed services"
+   ]
+  },
+  {
+   "db": "NO_SHOW_FLAG",
+   "name": "No-shows",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Service lines where the patient did not show.",
+   "synonyms": [
+    "no shows"
+   ]
+  },
+  {
+   "db": "MEMBER_FLAG",
+   "name": "Member Visits",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Service lines by members.",
+   "synonyms": [
+    "member lines"
+   ]
+  },
+  {
+   "db": "NEW_PATIENT_FLAG",
+   "name": "New Patient Visits",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Service lines for new patients.",
+   "synonyms": [
+    "new patients"
+   ]
+  },
+  {
+   "db": "RECALL_ID",
+   "name": "Recall ID",
+   "type": "ATTRIBUTE",
+   "desc": "Neurotoxin recall task for a patient who left without rebooking.",
+   "synonyms": [
+    "recall",
+    "follow-up id"
+   ]
+  },
+  {
+   "db": "FOLLOW_UP_STATUS",
+   "name": "Follow-up Status",
+   "type": "ATTRIBUTE",
+   "desc": "Recall status of a neurotoxin patient who did not rebook.",
+   "synonyms": [
+    "recall status"
+   ]
+  },
+  {
+   "db": "DAYS_SINCE_VISIT",
+   "name": "Days Since Visit",
+   "type": "MEASURE",
+   "agg": "MAX",
+   "desc": "Days since the patient's last neurotoxin visit (open recalls).",
+   "synonyms": [
+    "days since last visit",
+    "recall age"
+   ]
+  },
+  {
+   "db": "LINE_COUNT",
+   "name": "Service Lines",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Number of service lines booked.",
+   "synonyms": [
+    "appointments",
+    "bookings",
+    "lines"
+   ]
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Rebook Rate",
+   "desc": "Share of completed services where the patient booked the next visit before leaving.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::REBOOKED_FLAG] ) / sum ( [{T}::COMPLETED_FLAG] )"
+  },
+  {
+   "name": "No-show Rate",
+   "desc": "Share of booked service lines that were no-shows.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::NO_SHOW_FLAG] ) / sum ( [{T}::LINE_COUNT] )"
+  },
+  {
+   "name": "Member Share",
+   "desc": "Share of completed services delivered to members.",
+   "format": "0.0%",
+   "expr": "sum ( if ( [{T}::COMPLETED_FLAG] = 1 ) then [{T}::MEMBER_FLAG] else 0 ) / sum ( [{T}::COMPLETED_FLAG] )"
+  },
+  {
+   "name": "Gross Margin %",
+   "desc": "Gross margin as a share of net revenue.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::GROSS_MARGIN] ) / sum ( [{T}::NET_REVENUE] )"
+  },
+  {
+   "name": "Average Ticket",
+   "desc": "Net revenue per completed service line.",
+   "format": "0.00",
+   "expr": "sum ( [{T}::NET_REVENUE] ) / sum ( [{T}::COMPLETED_FLAG] )"
+  },
+  {
+   "name": "Revenue per Chair Hour",
+   "desc": "Net revenue per booked chair hour.",
+   "format": "0.00",
+   "expr": "sum ( [{T}::NET_REVENUE] ) / ( sum ( [{T}::APPOINTMENT_MINUTES] ) / 60 )"
+  }
+ ],
+ "theme_parameter": true
+}

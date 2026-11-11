@@ -1,0 +1,402 @@
+{
+ "name": "Nooks Call Analytics",
+ "description": "Nooks AI dialer activity for a sales team: one row per dial with rep, team, sequence and source tool, target account, prospect persona, outcome funnel, objections, callbacks and buying signals. Daily Oct 2024 to Oct 2026.",
+ "table": "NOOKS_CALLS",
+ "columns": [
+  {
+   "db": "CALL_ID",
+   "name": "Call ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique dial / call record.",
+   "synonyms": [
+    "call",
+    "dial id"
+   ]
+  },
+  {
+   "db": "CALL_DATE",
+   "name": "Call Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the dial was placed.",
+   "synonyms": [
+    "date",
+    "day",
+    "dial date"
+   ]
+  },
+  {
+   "db": "REP_NAME",
+   "name": "Rep",
+   "type": "ATTRIBUTE",
+   "desc": "Sales rep (SDR/BDR) who placed the dial.",
+   "synonyms": [
+    "user",
+    "sdr",
+    "bdr",
+    "caller",
+    "rep name"
+   ]
+  },
+  {
+   "db": "TEAM",
+   "name": "Team",
+   "type": "ATTRIBUTE",
+   "desc": "Rep's sales team.",
+   "synonyms": [
+    "squad",
+    "pod"
+   ]
+  },
+  {
+   "db": "REP_TENURE",
+   "name": "Rep Tenure",
+   "type": "ATTRIBUTE",
+   "desc": "How long the rep has been on the team.",
+   "synonyms": [
+    "tenure",
+    "ramp"
+   ]
+  },
+  {
+   "db": "TEAM_MANAGER",
+   "name": "Manager",
+   "type": "ATTRIBUTE",
+   "desc": "Rep's front-line manager.",
+   "synonyms": [
+    "sales manager",
+    "team lead"
+   ]
+  },
+  {
+   "db": "CALL_HOUR",
+   "name": "Call Hour",
+   "type": "ATTRIBUTE",
+   "desc": "Local hour of day the dial was placed.",
+   "synonyms": [
+    "hour",
+    "time of day"
+   ]
+  },
+  {
+   "db": "SEQUENCE_NAME",
+   "name": "Sequence",
+   "type": "ATTRIBUTE",
+   "desc": "Sequence / cadence the prospect was dialed from.",
+   "synonyms": [
+    "cadence",
+    "play",
+    "campaign"
+   ]
+  },
+  {
+   "db": "SEQUENCE_SOURCE",
+   "name": "Sequence Source",
+   "type": "ATTRIBUTE",
+   "desc": "Where the sequence lives: Nooks or a connected tool (Outreach, Salesloft, HubSpot).",
+   "synonyms": [
+    "sequence tool",
+    "source tool",
+    "engagement platform"
+   ]
+  },
+  {
+   "db": "ACCOUNT_NAME",
+   "name": "Account",
+   "type": "ATTRIBUTE",
+   "desc": "Target account the prospect works at.",
+   "synonyms": [
+    "company",
+    "target account",
+    "account name"
+   ]
+  },
+  {
+   "db": "ACCOUNT_INDUSTRY",
+   "name": "Account Industry",
+   "type": "ATTRIBUTE",
+   "desc": "Industry of the target account.",
+   "synonyms": [
+    "industry",
+    "vertical"
+   ]
+  },
+  {
+   "db": "ACCOUNT_TIER",
+   "name": "Account Tier",
+   "type": "ATTRIBUTE",
+   "desc": "ABM tier of the target account.",
+   "synonyms": [
+    "tier",
+    "abm tier"
+   ]
+  },
+  {
+   "db": "PROSPECT_PERSONA",
+   "name": "Persona",
+   "type": "ATTRIBUTE",
+   "desc": "Buyer persona of the prospect dialed.",
+   "synonyms": [
+    "prospect persona",
+    "buyer persona"
+   ]
+  },
+  {
+   "db": "PROSPECT_DEPARTMENT",
+   "name": "Department",
+   "type": "ATTRIBUTE",
+   "desc": "Prospect department.",
+   "synonyms": [
+    "function",
+    "prospect department"
+   ]
+  },
+  {
+   "db": "PROSPECT_SENIORITY",
+   "name": "Seniority",
+   "type": "ATTRIBUTE",
+   "desc": "Prospect seniority level.",
+   "synonyms": [
+    "level",
+    "prospect seniority"
+   ]
+  },
+  {
+   "db": "PROSPECT_TITLE",
+   "name": "Prospect Title",
+   "type": "ATTRIBUTE",
+   "desc": "Prospect job title.",
+   "synonyms": [
+    "title",
+    "job title"
+   ]
+  },
+  {
+   "db": "PROSPECT_NAME",
+   "name": "Prospect",
+   "type": "ATTRIBUTE",
+   "desc": "Prospect dialed.",
+   "synonyms": [
+    "contact",
+    "lead",
+    "prospect name"
+   ]
+  },
+  {
+   "db": "BUYING_SIGNAL",
+   "name": "Buying Signal",
+   "type": "ATTRIBUTE",
+   "desc": "Nooks Signals intent trigger on the prospect or account at dial time.",
+   "synonyms": [
+    "signal",
+    "intent signal",
+    "trigger"
+   ]
+  },
+  {
+   "db": "DIAL_MODE",
+   "name": "Dial Mode",
+   "type": "ATTRIBUTE",
+   "desc": "Parallel Dialer, Signal-Based Dialing or Single Dial.",
+   "synonyms": [
+    "dialer",
+    "dialing mode"
+   ]
+  },
+  {
+   "db": "CONNECTED_FLAG",
+   "name": "Connects",
+   "type": "MEASURE",
+   "desc": "Dials answered by a live person.",
+   "synonyms": [
+    "connects",
+    "connected calls",
+    "pickups"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "CONVERSATION_FLAG",
+   "name": "Conversations",
+   "type": "MEASURE",
+   "desc": "Connects that became a real conversation.",
+   "synonyms": [
+    "conversations",
+    "live conversations",
+    "convos"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "OBJECTION_TYPE",
+   "name": "Objection",
+   "type": "ATTRIBUTE",
+   "desc": "Main objection raised in the conversation.",
+   "synonyms": [
+    "objection type",
+    "pushback"
+   ]
+  },
+  {
+   "db": "OBJECTION_HANDLED_FLAG",
+   "name": "Objections Handled",
+   "type": "MEASURE",
+   "desc": "Objections the rep handled and kept the conversation going.",
+   "synonyms": [
+    "handled objections"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "MEETING_BOOKED_FLAG",
+   "name": "Meetings Booked",
+   "type": "MEASURE",
+   "desc": "Conversations that booked a meeting.",
+   "synonyms": [
+    "meetings",
+    "meetings set",
+    "appointments"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "CALLBACK_REQUESTED_FLAG",
+   "name": "Callbacks Requested",
+   "type": "MEASURE",
+   "desc": "Calls where the prospect asked for a callback.",
+   "synonyms": [
+    "callbacks",
+    "call backs"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "CALL_OUTCOME",
+   "name": "Call Outcome",
+   "type": "ATTRIBUTE",
+   "desc": "Furthest stage reached: No Answer, Voicemail, Bad Number, Connected, Conversation, Meeting Booked.",
+   "synonyms": [
+    "disposition",
+    "outcome",
+    "result"
+   ]
+  },
+  {
+   "db": "TALK_TIME_SEC",
+   "name": "Talk Time (sec)",
+   "type": "MEASURE",
+   "desc": "Talk time in seconds.",
+   "synonyms": [
+    "talk time",
+    "call duration"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "CALL_SCORE",
+   "name": "Call Score",
+   "type": "MEASURE",
+   "desc": "AI call score (0-100) for conversations.",
+   "synonyms": [
+    "score",
+    "ai score"
+   ],
+   "agg": "AVERAGE"
+  },
+  {
+   "db": "CALLBACK_STATUS",
+   "name": "Callback Status",
+   "type": "ATTRIBUTE",
+   "desc": "Scheduled, Due Today, Overdue, Completed, Missed or No Callback.",
+   "synonyms": [
+    "callback state"
+   ]
+  },
+  {
+   "db": "CALLBACK_DUE_DATE",
+   "name": "Callback Due Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the requested callback is due.",
+   "synonyms": [
+    "callback date",
+    "due date"
+   ]
+  },
+  {
+   "db": "DAYS_OVERDUE",
+   "name": "Days Overdue",
+   "type": "MEASURE",
+   "desc": "Days past the callback due date (open callbacks only).",
+   "synonyms": [
+    "overdue days"
+   ],
+   "agg": "MAX"
+  },
+  {
+   "db": "DIAL_COUNT",
+   "name": "Dials",
+   "type": "MEASURE",
+   "desc": "Dials placed.",
+   "synonyms": [
+    "calls",
+    "dials",
+    "call volume"
+   ],
+   "agg": "SUM"
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Connect Rate",
+   "desc": "Connects / dials.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::CONNECTED_FLAG] ) / sum ( [{T}::DIAL_COUNT] )"
+  },
+  {
+   "name": "Conversation Rate",
+   "desc": "Conversations / connects.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::CONVERSATION_FLAG] ) / sum ( [{T}::CONNECTED_FLAG] )"
+  },
+  {
+   "name": "Meeting Rate",
+   "desc": "Meetings booked / conversations.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::MEETING_BOOKED_FLAG] ) / sum ( [{T}::CONVERSATION_FLAG] )"
+  },
+  {
+   "name": "Dial to Meeting Rate",
+   "desc": "Meetings booked / dials.",
+   "format": "0.00%",
+   "expr": "sum ( [{T}::MEETING_BOOKED_FLAG] ) / sum ( [{T}::DIAL_COUNT] )"
+  },
+  {
+   "name": "Objection Handled Rate",
+   "desc": "Objections handled / objections raised.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::OBJECTION_HANDLED_FLAG] ) / sum ( if ( [{T}::OBJECTION_TYPE] != 'None' ) then 1 else 0 )"
+  },
+  {
+   "name": "Objections Raised",
+   "desc": "Conversations where an objection was raised.",
+   "expr": "sum ( if ( [{T}::OBJECTION_TYPE] != 'None' ) then 1 else 0 )"
+  },
+  {
+   "name": "Objection Converted Rate",
+   "desc": "Meetings booked after an objection / objections raised.",
+   "format": "0.0%",
+   "expr": "sum ( if ( [{T}::OBJECTION_TYPE] != 'None' and [{T}::MEETING_BOOKED_FLAG] = 1 ) then 1 else 0 ) / sum ( if ( [{T}::OBJECTION_TYPE] != 'None' ) then 1 else 0 )"
+  },
+  {
+   "name": "Dials per Day",
+   "desc": "Dials / active calling days.",
+   "format": "0.0",
+   "expr": "sum ( [{T}::DIAL_COUNT] ) / unique count ( [{T}::CALL_DATE] )"
+  },
+  {
+   "name": "Open Callbacks",
+   "desc": "Callbacks due today or overdue.",
+   "expr": "sum ( if ( [{T}::CALLBACK_STATUS] = 'Due Today' or [{T}::CALLBACK_STATUS] = 'Overdue' ) then 1 else 0 )"
+  }
+ ],
+ "theme_parameter": true
+}

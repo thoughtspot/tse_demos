@@ -1,0 +1,126 @@
+{
+ "table": "HMR_PHARMACY_SELLOUT",
+ "seed": 20261020,
+ "days": 730,
+ "as_of": null,
+ "id_column": "SELLOUT_LINE_ID",
+ "id_prefix": "SL-",
+ "date_column": "SALE_DATE",
+ "actors": {
+  "count": 900,
+  "attributes": {
+   "GEO": {
+    "levels": ["REGION", "DISTRICT"],
+    "tree": {
+     "Norte": [35, {"Porto": 40, "Braga": 20, "Viana do Castelo": 7, "Vila Real": 6, "Bragança": 4}],
+     "Centro": [22, {"Aveiro": 22, "Coimbra": 20, "Leiria": 18, "Viseu": 15, "Castelo Branco": 8, "Guarda": 6}],
+     "Área Metropolitana de Lisboa": [27, {"Lisboa": 70, "Setúbal": 30}],
+     "Alentejo": [8, {"Santarém": 30, "Évora": 28, "Beja": 22, "Portalegre": 20}],
+     "Algarve": [5, {"Faro": 100}],
+     "Regiões Autónomas": [3, {"Madeira": 55, "Açores": 45}]
+    }
+   },
+   "PHARMACY_NAME": {"expr": "'Farmácia ' + pick(['Silva','Santos','Ferreira','Pereira','Oliveira','Costa','Rodrigues','Martins','Sousa','Fernandes','Gonçalves','Gomes','Lopes','Marques','Alves','Almeida','Ribeiro','Pinto','Carvalho','Teixeira','Moreira','Correia','Mendes','Nunes','Soares','Vieira','Monteiro','Cardoso','Rocha','Neves','Coelho','Cruz','Cunha','Pires','Ramos','Reis','Simões','Antunes','Matos','Fonseca','Central','Moderna','Avenida','do Mercado','da Sé','Nova','São João','Estrela','Saúde','do Carmo','Lusitana','Popular']) + ' ' + r['DISTRICT'] + ' ' + str(rng.randint(1, 99))"},
+   "PHARMACY_ID": {"expr": "'PH-' + str(rng.randint(10000, 99999))"},
+   "PHARMACY_GROUP": {"weights": {"Independent": 46, "Farmácias Portuguesas Network": 24, "Mais Farmácia": 11, "Grupo Holon": 9, "Alliance Pharmacy Network": 6, "Dr. Well's Group": 4}},
+   "PHARMACY_TYPE": {"weights": {"Urban Street": 52, "Neighbourhood": 22, "Rural": 14, "Shopping Centre": 8, "Hospital Adjacent": 4}}
+  },
+  "rate": 0.52,
+  "rate_by": {"PHARMACY_TYPE": {"Urban Street": 1.1, "Neighbourhood": 0.9, "Rural": 0.6, "Shopping Centre": 1.5, "Hospital Adjacent": 1.7}},
+  "rate_spread": 0.45
+ },
+ "calendar": {
+  "growth_yoy": 0.06,
+  "weekday": [1.08, 1.04, 1.0, 1.0, 1.06, 0.7, 0.22],
+  "month": {"1": 1.14, "2": 1.1, "3": 1.02, "4": 0.96, "5": 0.95, "6": 0.94, "7": 0.92, "8": 0.85, "9": 0.98, "10": 1.02, "11": 1.06, "12": 1.08},
+  "holidays": "none"
+ },
+ "columns": [
+  {"name": "THERAPEUTIC_AREA", "expr": "weighted({'Cardiovascular': 22, 'Alimentary & Metabolism': 17, 'Nervous System': 16, 'Respiratory': 8 * (1.7 if month in (11, 12, 1, 2) else 1), 'Anti-infectives': 6 * (1.5 if month in (12, 1, 2) else 1), 'Musculo-skeletal': 9, 'Dermatological': 6 * (1.3 if month in (6, 7, 8) else 1), 'Consumer Health (OTC)': 16})"},
+  {"name": "ATC_CLASS", "map_from": "THERAPEUTIC_AREA", "map": {
+   "Cardiovascular": {"C10 Lipid Modifying Agents": 40, "C09 Renin-Angiotensin Agents": 34, "C07 Beta Blockers": 14, "C08 Calcium Channel Blockers": 12},
+   "Alimentary & Metabolism": {"A10 Diabetes": 52, "A02 Acid Related Disorders": 34, "A11 Vitamins": 14},
+   "Nervous System": {"N06 Antidepressants": 36, "N05 Anxiolytics & Hypnotics": 30, "N02 Analgesics": 34},
+   "Respiratory": {"R03 Asthma & COPD": 58, "R06 Antihistamines": 24, "R05 Cough & Cold": 18},
+   "Anti-infectives": {"J01 Antibacterials": 100},
+   "Musculo-skeletal": {"M01 Anti-inflammatories": 100},
+   "Dermatological": {"D07 Dermal Corticosteroids": 55, "D02 Emollients & Protectives": 45},
+   "Consumer Health (OTC)": {"OTC Pain & Fever": 38, "OTC Cough & Cold": 26, "OTC Digestive Health": 20, "OTC Vitamins & Supplements": 16}
+  }},
+  {"name": "PRODUCT_BASE", "map_from": "ATC_CLASS", "map": {
+   "C10 Lipid Modifying Agents": ["Cardiolis"],
+   "C09 Renin-Angiotensin Agents": ["Tensivar", "Losartan Tejo", "Valsartan Norvia"],
+   "C07 Beta Blockers": ["Betacord", "Bisoprolol Solmed"],
+   "C08 Calcium Channel Blockers": ["Amlodipina Tejo", "Calcivas"],
+   "A10 Diabetes": ["Glicora", "Metformina Norvia", "Insulvia Pen"],
+   "A02 Acid Related Disorders": ["Gastrolis", "Omeprazol Solmed", "Pantoprazol Tejo"],
+   "A11 Vitamins": ["Vitalusa D3", "Calcimed"],
+   "N06 Antidepressants": ["Serenil", "Sertralina Norvia", "Escitalopram Tejo"],
+   "N05 Anxiolytics & Hypnotics": ["Calmazol", "Alprazolam Solmed"],
+   "N02 Analgesics": ["Dorflex Atlântica", "Tramadol Norvia", "Paracetamol Tejo"],
+   "R03 Asthma & COPD": ["Respirol Inhaler", "Brontix Ellipta", "Salbutamol Solmed"],
+   "R06 Antihistamines": ["Alergil", "Cetirizina Tejo"],
+   "R05 Cough & Cold": ["Tussilar", "Bromexina Norvia"],
+   "J01 Antibacterials": ["Amoxiclav Atlântica", "Azitromicina Tejo", "Cefuroxima Solmed"],
+   "M01 Anti-inflammatories": ["Flexidor", "Ibuprofeno Norvia", "Diclofenac Tejo"],
+   "D07 Dermal Corticosteroids": ["Dermacort", "Hidrocortisona Solmed"],
+   "D02 Emollients & Protectives": ["Hidraderm", "Atopicalm"],
+   "OTC Pain & Fever": ["Febrinol", "Ben-u-dor", "Paracetamol Tejo OTC"],
+   "OTC Cough & Cold": ["Gripexil", "Tussilar Junior"],
+   "OTC Digestive Health": ["Digestil", "Probiolusa"],
+   "OTC Vitamins & Supplements": ["Vitalusa Multi", "Magnesium Plus"]
+  }},
+  {"name": "PRODUCT", "expr": "weighted({'Cardiolis': 62 * (1 - 0.72 * ramp(240)), 'Rosuvastatina Tejo': 14 * (1 + 2.4 * ramp(240)), 'Rosuvastatina Norvia': 12 * (1 + 2.2 * ramp(240)), 'Rosuvastatina Solmed': 6 * (1 + 3.0 * ramp(240)), 'Atorvastatina Tejo': 6}) if r['PRODUCT_BASE'] == 'Cardiolis' else r['PRODUCT_BASE']"},
+  {"name": "MANUFACTURER", "expr": "'Tejo Generics' if 'Tejo' in r['PRODUCT'] else 'Norvia Labs' if 'Norvia' in r['PRODUCT'] else 'Solmed Genéricos' if 'Solmed' in r['PRODUCT'] else {'Cardiolis':'Atlântica Pharma','Tensivar':'Atlântica Pharma','Betacord':'Bracara Health','Calcivas':'Bracara Health','Glicora':'Medilusa','Insulvia Pen':'Medilusa','Gastrolis':'Atlântica Pharma','Vitalusa D3':'Lusovita','Calcimed':'Lusovita','Serenil':'Bracara Health','Calmazol':'Medilusa','Dorflex Atlântica':'Atlântica Pharma','Respirol Inhaler':'Bracara Health','Brontix Ellipta':'Medilusa','Alergil':'Atlântica Pharma','Tussilar':'Lusovita','Amoxiclav Atlântica':'Atlântica Pharma','Flexidor':'Bracara Health','Dermacort':'Medilusa','Hidraderm':'Dermalusa','Atopicalm':'Dermalusa','Febrinol':'Lusovita','Ben-u-dor':'Lusovita','Gripexil':'Lusovita','Tussilar Junior':'Lusovita','Digestil':'Dermalusa','Probiolusa':'Dermalusa','Vitalusa Multi':'Lusovita','Magnesium Plus':'Lusovita'}.get(r['PRODUCT'], 'Atlântica Pharma')"},
+  {"name": "PRODUCT_TYPE", "expr": "'OTC Brand' if r['THERAPEUTIC_AREA'] == 'Consumer Health (OTC)' else 'Generic' if ('Tejo' in r['PRODUCT'] or 'Norvia' in r['PRODUCT'] or 'Solmed' in r['PRODUCT']) else 'Originator Brand'"},
+  {"name": "MARKET_SEGMENT", "expr": "'Consumer Health' if r['THERAPEUTIC_AREA'] == 'Consumer Health (OTC)' else 'Non-Reimbursed Rx' if r['THERAPEUTIC_AREA'] == 'Dermatological' and chance(0.6) else 'Reimbursed Rx'"},
+  {"name": "REIMBURSEMENT_TIER", "expr": "'Not Reimbursed' if r['MARKET_SEGMENT'] != 'Reimbursed Rx' else ('Tier A (90%)' if r['ATC_CLASS'].startswith(('A10', 'R03')) else 'Tier B (69%)' if r['THERAPEUTIC_AREA'] in ('Cardiovascular', 'Nervous System', 'Anti-infectives') else 'Tier C (37%)')"},
+  {"name": "PRESCRIBER_SPECIALTY", "expr": "'No Prescription (OTC)' if r['MARKET_SEGMENT'] == 'Consumer Health' else weighted({'General Practice': 62, {'Cardiovascular':'Cardiology','Alimentary & Metabolism':'Endocrinology','Nervous System':'Psychiatry','Respiratory':'Pulmonology','Anti-infectives':'Internal Medicine','Musculo-skeletal':'Orthopaedics','Dermatological':'Dermatology'}[r['THERAPEUTIC_AREA']]: 28, 'Internal Medicine': 10})"},
+  {"name": "PATIENT_AGE_BAND", "expr": "weighted({'0-17': 5 if r['THERAPEUTIC_AREA'] in ('Cardiovascular','Alimentary & Metabolism') else 14, '18-39': 16, '40-64': 34, '65-79': 30 if r['THERAPEUTIC_AREA'] == 'Cardiovascular' else 22, '80+': 14})"},
+  {"name": "PATIENT_GENDER", "weights": {"Female": 56, "Male": 44}},
+  {"name": "PACK_PRICE_EUR", "round": 2, "expr": "lognorm({'C10':14.5,'C09':11.0,'C07':7.5,'C08':6.8,'A10':34.0,'A02':9.2,'A11':12.0,'N06':16.0,'N05':6.5,'N02':8.0,'R03':38.0,'R06':7.4,'R05':6.2,'J01':9.8,'M01':6.9,'D07':8.5,'D02':13.5,'OTC':8.9}[r['ATC_CLASS'][:3]], 0.18) * (0.45 if r['PRODUCT_TYPE'] == 'Generic' else 1) * ((1 - 0.18 * ramp(240)) if r['PRODUCT'] == 'Cardiolis' else 1)"},
+  {"name": "UNITS_DEMANDED", "expr": "1 + int(lognorm(1.6, 0.7)) + (1 if r['ATC_CLASS'].startswith(('C', 'A10')) and chance(0.35) else 0)"},
+  {"name": "STOCK_STATUS", "expr": "weighted({'Out of Stock': 0.025 + (0.20 * ramp(130) if r['ATC_CLASS'].startswith('R03') and r['REGION'] == 'Norte' else 0) + (0.03 if r['THERAPEUTIC_AREA'] == 'Respiratory' and month in (12, 1, 2) else 0), 'Low Stock': 0.07 + (0.10 * ramp(130) if r['ATC_CLASS'].startswith('R03') and r['REGION'] == 'Norte' else 0), 'In Stock': 0.9})"},
+  {"name": "UNITS_SOLD", "expr": "0 if r['STOCK_STATUS'] == 'Out of Stock' else (max(1, r['UNITS_DEMANDED'] - rng.randint(0, 1)) if r['STOCK_STATUS'] == 'Low Stock' else r['UNITS_DEMANDED'])"},
+  {"name": "UNFILLED_UNITS", "expr": "r['UNITS_DEMANDED'] - r['UNITS_SOLD']"},
+  {"name": "UNFILLED_RX_FLAG", "expr": "1 if r['UNFILLED_UNITS'] > 0 and r['MARKET_SEGMENT'] != 'Consumer Health' else 0"},
+  {"name": "SALES_VALUE_EUR", "round": 2, "expr": "r['UNITS_SOLD'] * r['PACK_PRICE_EUR']"},
+  {"name": "LOST_SALES_EUR", "round": 2, "expr": "r['UNFILLED_UNITS'] * r['PACK_PRICE_EUR']"},
+  {"name": "SNS_REIMBURSED_EUR", "round": 2, "expr": "r['SALES_VALUE_EUR'] * {'Tier A (90%)': 0.9, 'Tier B (69%)': 0.69, 'Tier C (37%)': 0.37, 'Not Reimbursed': 0}[r['REIMBURSEMENT_TIER']]"},
+  {"name": "PATIENT_COPAY_EUR", "round": 2, "expr": "r['SALES_VALUE_EUR'] - r['SNS_REIMBURSED_EUR']"},
+  {"name": "STOCK_ON_HAND_UNITS", "expr": "0 if r['STOCK_STATUS'] == 'Out of Stock' else rng.randint(1, 3) if r['STOCK_STATUS'] == 'Low Stock' else rng.randint(6, 48)"},
+  {"name": "SUPPLYING_WHOLESALER", "weights": {"Grossista Norte": 26, "Lusodistri": 24, "FarmaLink Ibérica": 20, "Alvesmed Distribuição": 16, "Direct from Manufacturer": 14}}
+ ],
+ "groups": {
+  "id_column": "ALERT_ID",
+  "id_prefix": "SA",
+  "per": "event",
+  "submitted_column": "ALERT_DATE",
+  "lag_days": [0, 0],
+  "month_end_share": 0,
+  "status_column": "ALERT_STATUS",
+  "status_rules": [
+   {"if": "r['STOCK_STATUS'] == 'In Stock'", "status": "No Alert"},
+   {"if": "r['STOCK_STATUS'] == 'Low Stock' and age > 3", "status": "No Alert"},
+   {"if": "age <= 10", "weights": {"Open": 80, "In Review": 20}},
+   {"if": "age <= 30", "weights": {"Open": 18, "In Review": 22, "Resolved": 60}},
+   {"weights": {"Resolved": 93, "Escalated to Supplier": 7}}
+  ]
+ },
+ "post": [
+  {"name": "ALERT_ID", "expr": "r['ALERT_ID'] if r['ALERT_STATUS'] != 'No Alert' else None"},
+  {"name": "ALERT_DATE", "expr": "r['ALERT_DATE'] if r['ALERT_STATUS'] != 'No Alert' else None"},
+  {"name": "DAYS_OPEN", "expr": "age if r['ALERT_STATUS'] in ('Open', 'In Review') else None"},
+  {"name": "STOCKOUT_FLAG", "expr": "1 if r['STOCK_STATUS'] == 'Out of Stock' else 0"},
+  {"name": "GENERIC_FLAG", "expr": "1 if r['PRODUCT_TYPE'] == 'Generic' else 0"},
+  {"name": "LINE_COUNT", "expr": "1"}
+ ],
+ "types": {
+  "SELLOUT_LINE_ID": "VARCHAR(16)", "ALERT_ID": "VARCHAR(20)",
+  "PACK_PRICE_EUR": "NUMBER(10,2)", "SALES_VALUE_EUR": "NUMBER(12,2)", "LOST_SALES_EUR": "NUMBER(12,2)",
+  "SNS_REIMBURSED_EUR": "NUMBER(12,2)", "PATIENT_COPAY_EUR": "NUMBER(12,2)",
+  "UNITS_DEMANDED": "NUMBER(5,0)", "UNITS_SOLD": "NUMBER(5,0)", "UNFILLED_UNITS": "NUMBER(5,0)",
+  "UNFILLED_RX_FLAG": "NUMBER(1,0)", "STOCK_ON_HAND_UNITS": "NUMBER(5,0)", "DAYS_OPEN": "NUMBER(4,0)",
+  "STOCKOUT_FLAG": "NUMBER(1,0)", "GENERIC_FLAG": "NUMBER(1,0)", "LINE_COUNT": "NUMBER(1,0)"
+ }
+}

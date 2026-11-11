@@ -1,0 +1,490 @@
+{
+ "name": "Lineal Matter Intelligence",
+ "description": "Lineal eDiscovery matter analytics (AmplifyAI Command Center style): every document batch processed and reviewed across Lineal client matters, with volumes, culling, review throughput, privilege SLA, QC and cost by matter, client, region, data source, AmplifyAI module and review method. Daily from Oct 2024 to Oct 2026.",
+ "table": "LINEAL_REVIEW_BATCHES",
+ "columns": [
+  {
+   "db": "BATCH_ID",
+   "name": "Batch ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique document batch moving through the Lineal review workflow.",
+   "synonyms": [
+    "batch",
+    "review batch"
+   ]
+  },
+  {
+   "db": "BATCH_DATE",
+   "name": "Batch Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the batch was loaded and processed.",
+   "synonyms": [
+    "date",
+    "processed date",
+    "load date"
+   ]
+  },
+  {
+   "db": "REGION",
+   "name": "Region",
+   "type": "ATTRIBUTE",
+   "desc": "Jurisdiction region of the matter.",
+   "synonyms": [
+    "jurisdiction",
+    "geo"
+   ]
+  },
+  {
+   "db": "COUNTRY",
+   "name": "Country",
+   "type": "ATTRIBUTE",
+   "desc": "Country of the matter.",
+   "synonyms": [
+    "matter country"
+   ]
+  },
+  {
+   "db": "CLIENT_INDUSTRY",
+   "name": "Client Industry",
+   "type": "ATTRIBUTE",
+   "desc": "Industry of the client.",
+   "synonyms": [
+    "industry",
+    "sector"
+   ]
+  },
+  {
+   "db": "CLIENT_ACCOUNT",
+   "name": "Client",
+   "type": "ATTRIBUTE",
+   "desc": "Client account (corporate legal department or law firm).",
+   "synonyms": [
+    "client account",
+    "customer",
+    "account"
+   ]
+  },
+  {
+   "db": "MATTER_TYPE",
+   "name": "Matter Type",
+   "type": "ATTRIBUTE",
+   "desc": "Type of legal matter.",
+   "synonyms": [
+    "case type",
+    "matter category"
+   ]
+  },
+  {
+   "db": "MATTER_NAME",
+   "name": "Matter",
+   "type": "ATTRIBUTE",
+   "desc": "Matter (case) name.",
+   "synonyms": [
+    "case",
+    "project",
+    "matter name"
+   ]
+  },
+  {
+   "db": "MATTER_ID",
+   "name": "Matter ID",
+   "type": "ATTRIBUTE",
+   "desc": "Lineal matter number.",
+   "synonyms": [
+    "matter number",
+    "case id"
+   ]
+  },
+  {
+   "db": "REVIEW_LANGUAGE",
+   "name": "Review Language",
+   "type": "ATTRIBUTE",
+   "desc": "Primary review language of the matter.",
+   "synonyms": [
+    "language"
+   ]
+  },
+  {
+   "db": "REVIEW_TEAM",
+   "name": "Review Team",
+   "type": "ATTRIBUTE",
+   "desc": "Managed review team working the matter.",
+   "synonyms": [
+    "review center",
+    "team"
+   ]
+  },
+  {
+   "db": "PRICING_MODEL",
+   "name": "Pricing Model",
+   "type": "ATTRIBUTE",
+   "desc": "Commercial pricing model on the matter.",
+   "synonyms": [
+    "fee model",
+    "billing model"
+   ]
+  },
+  {
+   "db": "CUSTODIAN_ROLE",
+   "name": "Custodian Role",
+   "type": "ATTRIBUTE",
+   "desc": "Business role of the custodian whose data was collected.",
+   "synonyms": [
+    "custodian department"
+   ]
+  },
+  {
+   "db": "CUSTODIAN_NAME",
+   "name": "Custodian",
+   "type": "ATTRIBUTE",
+   "desc": "Custodian whose data is in the batch.",
+   "synonyms": [
+    "custodian name",
+    "data owner"
+   ]
+  },
+  {
+   "db": "DATA_SOURCE",
+   "name": "Data Source",
+   "type": "ATTRIBUTE",
+   "desc": "System the documents were collected from.",
+   "synonyms": [
+    "source",
+    "source type",
+    "data type"
+   ]
+  },
+  {
+   "db": "SOURCE_GROUP",
+   "name": "Source Group",
+   "type": "ATTRIBUTE",
+   "desc": "Data source family: Email, Chat & Mobile, Files & Structured.",
+   "synonyms": [
+    "source family",
+    "data family"
+   ]
+  },
+  {
+   "db": "AMPLIFY_MODULE",
+   "name": "AmplifyAI Module",
+   "type": "ATTRIBUTE",
+   "desc": "AmplifyAI module applied to the batch before review.",
+   "synonyms": [
+    "amplify module",
+    "module",
+    "ai module"
+   ]
+  },
+  {
+   "db": "REVIEW_METHOD",
+   "name": "Review Method",
+   "type": "ATTRIBUTE",
+   "desc": "Review approach used: aiR assisted, TAR/CAL, hybrid or linear.",
+   "synonyms": [
+    "method",
+    "review approach"
+   ]
+  },
+  {
+   "db": "DOCS_COLLECTED",
+   "name": "Docs Collected",
+   "type": "MEASURE",
+   "desc": "Documents collected and processed in the batch.",
+   "synonyms": [
+    "documents collected",
+    "docs loaded",
+    "volume"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "DATA_GB",
+   "name": "Data Volume (GB)",
+   "type": "MEASURE",
+   "desc": "Gigabytes processed.",
+   "synonyms": [
+    "gb",
+    "data volume",
+    "gigabytes"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "DOCS_PROMOTED",
+   "name": "Docs Promoted to Review",
+   "type": "MEASURE",
+   "desc": "Documents left after culling, dedupe and AmplifyAI suppression.",
+   "synonyms": [
+    "promoted docs",
+    "review set"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "DOCS_REVIEWED",
+   "name": "Docs Reviewed",
+   "type": "MEASURE",
+   "desc": "Documents reviewed by human reviewers.",
+   "synonyms": [
+    "reviewed documents",
+    "human reviewed"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "DOCS_RESPONSIVE",
+   "name": "Responsive Docs",
+   "type": "MEASURE",
+   "desc": "Documents coded responsive.",
+   "synonyms": [
+    "responsive documents",
+    "relevant docs"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PRIV_DOCS",
+   "name": "Privileged Docs",
+   "type": "MEASURE",
+   "desc": "Documents flagged privileged.",
+   "synonyms": [
+    "privileged documents",
+    "priv docs"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "DOCS_PRODUCED",
+   "name": "Docs Produced",
+   "type": "MEASURE",
+   "desc": "Documents produced to the requesting party.",
+   "synonyms": [
+    "produced documents",
+    "production volume"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "REVIEW_HOURS",
+   "name": "Review Hours",
+   "type": "MEASURE",
+   "desc": "Reviewer hours spent on the batch.",
+   "synonyms": [
+    "hours",
+    "reviewer hours"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PRIV_TURNAROUND_HOURS",
+   "name": "Privilege Turnaround Hours",
+   "type": "MEASURE",
+   "desc": "Hours from privilege flag to privilege decision.",
+   "synonyms": [
+    "priv turnaround",
+    "privilege tat"
+   ],
+   "agg": "AVERAGE"
+  },
+  {
+   "db": "PRIV_BATCH_FLAG",
+   "name": "Privilege Batches",
+   "type": "MEASURE",
+   "desc": "Batches that needed privilege review.",
+   "synonyms": [
+    "priv batches"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "SLA_MET_FLAG",
+   "name": "Privilege SLA Met Batches",
+   "type": "MEASURE",
+   "desc": "Privilege batches decided within the 72-hour SLA.",
+   "synonyms": [
+    "sla met"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "QC_SAMPLED_DOCS",
+   "name": "QC Sampled Docs",
+   "type": "MEASURE",
+   "desc": "Reviewed documents sampled for quality control.",
+   "synonyms": [
+    "qc sample"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "QC_OVERTURNS",
+   "name": "QC Overturns",
+   "type": "MEASURE",
+   "desc": "Sampled documents whose coding QC overturned.",
+   "synonyms": [
+    "overturns",
+    "coding errors"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "PROCESSING_COST",
+   "name": "Processing Cost",
+   "type": "MEASURE",
+   "desc": "Processing and hosting cost.",
+   "synonyms": [
+    "processing spend"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "REVIEW_COST",
+   "name": "Review Cost",
+   "type": "MEASURE",
+   "desc": "Managed review labour cost.",
+   "synonyms": [
+    "review spend",
+    "labor cost"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "TECHNOLOGY_COST",
+   "name": "Technology Cost",
+   "type": "MEASURE",
+   "desc": "AmplifyAI and aiR technology cost.",
+   "synonyms": [
+    "ai cost",
+    "tech cost"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "TOTAL_COST",
+   "name": "Total Cost",
+   "type": "MEASURE",
+   "desc": "Total matter cost for the batch.",
+   "synonyms": [
+    "cost",
+    "spend",
+    "total spend"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "BUDGET_AMOUNT",
+   "name": "Budget",
+   "type": "MEASURE",
+   "desc": "Budget allocated to the batch.",
+   "synonyms": [
+    "budget amount",
+    "planned cost"
+   ],
+   "agg": "SUM",
+   "currency": true
+  },
+  {
+   "db": "CHAT_DOCS_COLLECTED",
+   "name": "Chat Docs Collected",
+   "type": "MEASURE",
+   "desc": "Documents collected from Teams, Slack and WhatsApp / mobile.",
+   "synonyms": [
+    "chat documents",
+    "short message docs"
+   ],
+   "agg": "SUM"
+  },
+  {
+   "db": "WORKFLOW_ID",
+   "name": "Workflow ID",
+   "type": "ATTRIBUTE",
+   "desc": "Workflow ticket for the batch.",
+   "synonyms": [
+    "ticket"
+   ]
+  },
+  {
+   "db": "WORKFLOW_STAGE",
+   "name": "Workflow Stage",
+   "type": "ATTRIBUTE",
+   "desc": "Current stage of the batch in the review workflow.",
+   "synonyms": [
+    "stage",
+    "status",
+    "batch status"
+   ]
+  },
+  {
+   "db": "DAYS_IN_STAGE",
+   "name": "Days in Stage",
+   "type": "MEASURE",
+   "desc": "Days the open batch has sat in its current stage.",
+   "synonyms": [
+    "age",
+    "days open",
+    "queue age"
+   ],
+   "agg": "MAX"
+  },
+  {
+   "db": "BATCH_COUNT",
+   "name": "Batches",
+   "type": "MEASURE",
+   "desc": "Number of batches.",
+   "synonyms": [
+    "batch count",
+    "number of batches"
+   ],
+   "agg": "SUM"
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Cull Rate",
+   "desc": "Share of collected documents removed before review (culling, dedupe, AmplifyAI suppression).",
+   "format": "0.0%",
+   "expr": "1 - sum ( [{T}::DOCS_PROMOTED] ) / sum ( [{T}::DOCS_COLLECTED] )"
+  },
+  {
+   "name": "Chat Data Share",
+   "desc": "Share of collected documents that came from Teams, Slack and WhatsApp / mobile.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::CHAT_DOCS_COLLECTED] ) / sum ( [{T}::DOCS_COLLECTED] )"
+  },
+  {
+   "name": "Privilege SLA Hit Rate",
+   "desc": "Share of privilege batches decided within the 72-hour SLA.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::SLA_MET_FLAG] ) / sum ( [{T}::PRIV_BATCH_FLAG] )"
+  },
+  {
+   "name": "QC Overturn Rate",
+   "desc": "Share of QC-sampled documents whose coding was overturned.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::QC_OVERTURNS] ) / sum ( [{T}::QC_SAMPLED_DOCS] )"
+  },
+  {
+   "name": "Cost per Doc Reviewed",
+   "desc": "Total cost per document reviewed.",
+   "format": "0.00",
+   "expr": "sum ( [{T}::TOTAL_COST] ) / sum ( [{T}::DOCS_REVIEWED] )"
+  },
+  {
+   "name": "Docs per Review Hour",
+   "desc": "Reviewer throughput.",
+   "format": "0.0",
+   "expr": "sum ( [{T}::DOCS_REVIEWED] ) / sum ( [{T}::REVIEW_HOURS] )"
+  },
+  {
+   "name": "Budget Variance %",
+   "desc": "Total cost over budget, as a share of budget.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::TOTAL_COST] ) / sum ( [{T}::BUDGET_AMOUNT] ) - 1"
+  }
+ ],
+ "theme_parameter": true
+}

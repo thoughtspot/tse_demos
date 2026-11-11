@@ -1,0 +1,381 @@
+{
+ "name": "Ecosurety Packaging EPR Analytics",
+ "description": "UK packaging EPR compliance for Ecosurety members: packaging placed on market, RAM recyclability, modulated EPR fees, PRN obligations and costs, and data validation. One row per packaging data line, daily from Oct 2024 to Oct 2026.",
+ "table": "ECOSURETY_PACKAGING_LINES",
+ "columns": [
+  {
+   "db": "RECORD_ID",
+   "name": "Record ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique packaging data line (one SKU component placed on the UK market).",
+   "synonyms": [
+    "line",
+    "record",
+    "data line"
+   ]
+  },
+  {
+   "db": "PLACED_ON_MARKET_DATE",
+   "name": "Placed on Market Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the packaging was supplied / placed on the UK market.",
+   "synonyms": [
+    "date",
+    "supply date"
+   ]
+  },
+  {
+   "db": "PRODUCER_NAME",
+   "name": "Producer",
+   "type": "ATTRIBUTE",
+   "desc": "Ecosurety member brand obligated under UK packaging EPR.",
+   "synonyms": [
+    "member",
+    "brand",
+    "obligated producer",
+    "company"
+   ]
+  },
+  {
+   "db": "SECTOR",
+   "name": "Sector",
+   "type": "ATTRIBUTE",
+   "desc": "Producer sector, e.g. Food & Drink, Health & Beauty, Grocery Retail.",
+   "synonyms": [
+    "industry"
+   ]
+  },
+  {
+   "db": "PRODUCER_SIZE",
+   "name": "Producer Size",
+   "type": "ATTRIBUTE",
+   "desc": "Large or small producer under pEPR thresholds.",
+   "synonyms": [
+    "obligation size"
+   ]
+  },
+  {
+   "db": "UK_NATION",
+   "name": "Producer Nation",
+   "type": "ATTRIBUTE",
+   "desc": "UK nation of the producer's registered office.",
+   "synonyms": [
+    "home nation"
+   ]
+  },
+  {
+   "db": "UK_REGION",
+   "name": "Producer Region",
+   "type": "ATTRIBUTE",
+   "desc": "UK region of the producer's registered office.",
+   "synonyms": [
+    "region"
+   ]
+  },
+  {
+   "db": "MATERIAL",
+   "name": "Material",
+   "type": "ATTRIBUTE",
+   "desc": "Packaging material: Plastic, Paper and Card, Glass, Aluminium, Steel, Wood, Fibre-based Composite, Other.",
+   "synonyms": [
+    "packaging material",
+    "material type"
+   ]
+  },
+  {
+   "db": "PACKAGING_FORMAT",
+   "name": "Packaging Format",
+   "type": "ATTRIBUTE",
+   "desc": "Packaging format, e.g. Bottle, Flexible Film, Corrugated Box, Can.",
+   "synonyms": [
+    "format",
+    "pack format",
+    "component"
+   ]
+  },
+  {
+   "db": "PACKAGING_TYPE",
+   "name": "Packaging Type",
+   "type": "ATTRIBUTE",
+   "desc": "pEPR packaging type: Household, Non-household, Public Bin, Household Drinks Container.",
+   "synonyms": [
+    "household or non-household",
+    "waste stream"
+   ]
+  },
+  {
+   "db": "PACKAGING_CLASS",
+   "name": "Packaging Class",
+   "type": "ATTRIBUTE",
+   "desc": "Primary, secondary or shipment packaging.",
+   "synonyms": [
+    "packaging layer",
+    "class"
+   ]
+  },
+  {
+   "db": "NATION_OF_SALE",
+   "name": "Nation of Sale",
+   "type": "ATTRIBUTE",
+   "desc": "UK nation the packaging was sold into (nation of sale requirement).",
+   "synonyms": [
+    "nation",
+    "country of sale"
+   ]
+  },
+  {
+   "db": "SUPPLIER",
+   "name": "Supplier",
+   "type": "ATTRIBUTE",
+   "desc": "Packaging supplier that provided the component data.",
+   "synonyms": [
+    "packaging supplier",
+    "vendor"
+   ]
+  },
+  {
+   "db": "RAM_RATING",
+   "name": "RAM Rating",
+   "type": "ATTRIBUTE",
+   "desc": "Recyclability Assessment Methodology rating: Red, Amber or Green; drives fee modulation.",
+   "synonyms": [
+    "recyclability",
+    "RAG rating",
+    "recyclability rating",
+    "RAM"
+   ]
+  },
+  {
+   "db": "ISSUE_TYPE",
+   "name": "Data Issue",
+   "type": "ATTRIBUTE",
+   "desc": "Validation issue found by Ecosurety's automated checks, or None.",
+   "synonyms": [
+    "issue",
+    "validation issue",
+    "data quality issue"
+   ]
+  },
+  {
+   "db": "SUBMISSION_ID",
+   "name": "Submission ID",
+   "type": "ATTRIBUTE",
+   "desc": "Monthly producer data submission the line belongs to.",
+   "synonyms": [
+    "submission"
+   ]
+  },
+  {
+   "db": "SUBMISSION_DATE",
+   "name": "Submission Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the producer submitted the month's data."
+  },
+  {
+   "db": "SUBMISSION_STATUS",
+   "name": "Submission Status",
+   "type": "ATTRIBUTE",
+   "desc": "Data Collection, In Validation, Validated, Submitted to Regulator, Resubmission Required.",
+   "synonyms": [
+    "status"
+   ]
+  },
+  {
+   "db": "ISSUE_STATUS",
+   "name": "Issue Status",
+   "type": "ATTRIBUTE",
+   "desc": "Open, Resolved or No Issue.",
+   "synonyms": [
+    "data issue status"
+   ]
+  },
+  {
+   "db": "UNITS_PLACED",
+   "name": "Units Placed",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Packaging units placed on the market.",
+   "synonyms": [
+    "units",
+    "volume"
+   ]
+  },
+  {
+   "db": "WEIGHT_TONNES",
+   "name": "Tonnage",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Packaging weight placed on the market, tonnes.",
+   "synonyms": [
+    "tonnes",
+    "weight",
+    "packaging tonnage"
+   ]
+  },
+  {
+   "db": "RED_RATED_TONNES",
+   "name": "Red-rated Tonnage",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Tonnes of packaging rated Red under RAM.",
+   "synonyms": [
+    "red tonnes"
+   ]
+  },
+  {
+   "db": "RECYCLED_CONTENT_PCT",
+   "name": "Recycled Content %",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Average recycled content of the packaging, percent.",
+   "synonyms": [
+    "recycled content",
+    "PCR"
+   ]
+  },
+  {
+   "db": "BASE_FEE_PER_TONNE_GBP",
+   "name": "Base Fee per Tonne",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "pEPR base waste-management fee per tonne for the material (household and public bin packaging).",
+   "synonyms": [
+    "base fee rate"
+   ],
+   "currency": "GBP"
+  },
+  {
+   "db": "EPR_FEE_GBP",
+   "name": "EPR Fee",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Modulated pEPR waste-management fee (Red x1.2, Amber x1.0, Green x0.9).",
+   "synonyms": [
+    "epr cost",
+    "fees",
+    "waste management fee",
+    "epr fees"
+   ],
+   "currency": "GBP"
+  },
+  {
+   "db": "PRN_OBLIGATION_TONNES",
+   "name": "PRN Obligation",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Recycling evidence (PRN/PERN) obligation in tonnes.",
+   "synonyms": [
+    "prn tonnes",
+    "recycling obligation"
+   ]
+  },
+  {
+   "db": "PRN_PRICE_PER_TONNE_GBP",
+   "name": "PRN Price",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Average PRN/PERN price paid per tonne.",
+   "synonyms": [
+    "prn price per tonne",
+    "pern price"
+   ],
+   "currency": "GBP"
+  },
+  {
+   "db": "PRN_COST_GBP",
+   "name": "PRN Cost",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Cost of recycling evidence (PRNs/PERNs) bought to meet the obligation.",
+   "synonyms": [
+    "prn spend",
+    "evidence cost"
+   ],
+   "currency": "GBP"
+  },
+  {
+   "db": "VALIDATION_CHECKS_FAILED",
+   "name": "Checks Failed",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Automated validation checks failed by the line.",
+   "synonyms": [
+    "failed checks"
+   ]
+  },
+  {
+   "db": "DAYS_OPEN",
+   "name": "Days Open",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days an open data issue has been outstanding.",
+   "synonyms": [
+    "issue age",
+    "age"
+   ]
+  },
+  {
+   "db": "ISSUE_FLAG",
+   "name": "Data Issues",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Lines with at least one validation issue.",
+   "synonyms": [
+    "issues"
+   ]
+  },
+  {
+   "db": "OPEN_ISSUE_FLAG",
+   "name": "Open Issues",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Lines with an open validation issue.",
+   "synonyms": [
+    "open data issues"
+   ]
+  },
+  {
+   "db": "LINE_COUNT",
+   "name": "Data Lines",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Packaging data lines.",
+   "synonyms": [
+    "lines",
+    "records"
+   ]
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Red-rated Share",
+   "desc": "Share of tonnage rated Red under RAM.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::RED_RATED_TONNES] ) / sum ( [{T}::WEIGHT_TONNES] )"
+  },
+  {
+   "name": "EPR Fee per Tonne",
+   "desc": "Modulated EPR fee per tonne of packaging.",
+   "format": "\u00a3#,##0",
+   "expr": "sum ( [{T}::EPR_FEE_GBP] ) / sum ( [{T}::WEIGHT_TONNES] )"
+  },
+  {
+   "name": "PRN Cost per Tonne",
+   "desc": "Weighted PRN price per tonne of obligation.",
+   "format": "\u00a3#,##0",
+   "expr": "sum ( [{T}::PRN_COST_GBP] ) / sum ( [{T}::PRN_OBLIGATION_TONNES] )"
+  },
+  {
+   "name": "Data Issue Rate",
+   "desc": "Share of data lines with a validation issue.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::ISSUE_FLAG] ) / sum ( [{T}::LINE_COUNT] )"
+  },
+  {
+   "name": "Total Compliance Cost",
+   "desc": "EPR fees plus PRN costs.",
+   "expr": "sum ( [{T}::EPR_FEE_GBP] ) + sum ( [{T}::PRN_COST_GBP] )"
+  }
+ ],
+ "theme_parameter": true
+}

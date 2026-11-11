@@ -1,0 +1,26 @@
+{
+  "name": "Project Performance & Analytics",
+  "description": "Rocketlane project delivery analytics: project progress, overdue and at-risk tasks, project cost, time to value, task breakdown by project, the onboarding runway and the overdue task queue.",
+  "model": { "guid": "31fac18f-81d1-4cdc-81aa-3b2e91229d51", "name": "Rocketlane Project Analytics" },
+  "palette": { "primary": "#0F62FE", "ramp": ["#E5EEFF", "#8AB0FF", "#0F62FE", "#0A3A99"], "series": ["#FF7832", "#8AB0FF"] },
+  "tabs": [
+    { "name": "Overview", "description": "Key metrics, task analysis, risk and the overdue task queue", "tiles": [
+      { "type": "KPI", "name": "Monthly Project Progress Average", "description": "Average project progress over 12 months.", "search": "[Project Progress] [Task Start Date].monthly [Task Start Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Monthly Overdue Tasks Trend", "description": "Overdue tasks by month, last year.", "search": "[Overdue Tasks] [Task Start Date].monthly [Task Start Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Monthly Project Cost Trend", "description": "Actual cost by month, last year.", "search": "[Project Cost] [Task Start Date].monthly [Task Start Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Monthly Time to Value", "description": "Average days from kickoff to first value.", "search": "[Time to Value (days)] [Task Start Date].monthly [Task Start Date] = 'last 12 months'" },
+      { "type": "TABLE", "name": "Top 15 Projects Task Breakdown", "description": "Task status summary by project name (active projects).", "w": 7, "h": 9, "search": "[Project Name] [Tasks] [Completed Tasks] [In-progress Tasks] [To-do Tasks] [Project Status] = 'active' sort by [Tasks] descending top 15" },
+      { "type": "COLUMN", "name": "Top 10 Projects Risk Overview", "description": "Overdue and at-risk tasks comparison (active projects).", "w": 5, "h": 9, "search": "[Overdue Tasks] [Tasks At Risk] [Project Name] [Project Status] = 'active' sort by [Overdue Tasks] descending top 10" },
+      { "type": "TABLE", "name": "Overdue task queue: open tasks past due", "action": true, "search": "[Task ID] [Task Name] [Project Name] [Assignee] [Project Phase] [Days Overdue] [Task Status] = 'blocked' 'in progress' 'to do' [Days Overdue] > 0 sort by [Days Overdue] descending" },
+      { "type": "HEATMAP", "name": "Overdue rate by segment and phase (last 120 days)", "search": "[Overdue Rate] [Customer Segment] [Project Phase] [Task Start Date] = 'last 120 days'" },
+      { "type": "SANKEY", "name": "Overdue tasks: delivery team to phase to role", "search": "[Overdue Tasks] [Delivery Team] [Project Phase] [Assignee Role]" },
+      { "type": "LINE", "name": "Enterprise overdue rate surges since July", "search": "[Overdue Rate] [Task Start Date].monthly [Customer Segment]" },
+      { "type": "LINE", "name": "Priya Raman's projects reach value faster", "search": "[Time to Value (days)] [Task Start Date].monthly [Project Manager] [Delivery Team] = 'mid-market launch'" },
+      { "type": "LINE", "name": "Project cost vs budget by month", "search": "[Project Cost] [Budget Cost] [Task Start Date].monthly" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Overdue Rate", "search": "[Overdue Rate] [Task Start Date].weekly [Task Start Date] = 'last 12 months'" },
+      { "type": "KPI", "name": "Time to Value (days)", "search": "[Time to Value (days)] [Task Start Date].weekly [Task Start Date] = 'last 12 months'" }
+    ]}
+  ]
+}
