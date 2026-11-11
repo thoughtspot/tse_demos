@@ -1,0 +1,59 @@
+/* ---- Nooks home (modelled on nooks.ai) ---- */
+.nooks-home { padding: 28px 36px 104px; max-width: 1280px; margin: 0 auto; color: var(--sl-ink); font-family: var(--font-sans); }
+.nooks-home-hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; padding: 26px 0 32px; }
+.nooks-home-rating { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--sl-muted); background: var(--sl-white); border: 1px solid var(--sl-border); border-radius: 999px; padding: 6px 14px; margin-bottom: 20px; }
+.nooks-home-rating b { color: var(--sl-ink); }
+.nooks-home-stars { display: inline-flex; gap: 1px; color: var(--sl-green); }
+.nooks-home-h1 { font-size: clamp(38px, 4.4vw, 62px); line-height: 1.04; font-weight: 800; letter-spacing: -0.035em; margin: 0 0 20px; color: var(--sl-evergreen); }
+.nooks-home-grad { background: var(--intime-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.nooks-home-sub { font-size: 18px; line-height: 1.6; color: var(--sl-muted); max-width: 540px; margin: 0 0 30px; }
+.nooks-home-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.nooks-home-btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 13px 26px; font: 600 15px var(--font-sans); cursor: pointer; border: 1.5px solid transparent; transition: transform .15s, box-shadow .15s, background .15s; }
+.nooks-home-btn:hover { transform: translateY(-1px); }
+.nooks-home-btn-primary { background: var(--sl-green); color: #fff; box-shadow: 0 8px 22px rgba(var(--sl-primary-rgb), .32); }
+.nooks-home-btn-primary:hover { background: var(--sl-green-dark); }
+.nooks-home-btn-ghost { background: var(--sl-white); color: var(--sl-ink); border-color: var(--sl-border); }
+.nooks-home-btn-light { background: #fff; color: #0f0f0f; flex: none; }
+.nooks-home-hero-art { position: relative; min-height: 420px; }
+.nooks-home-photo { position: absolute; inset: 0 0 0 40px; border-radius: 28px; overflow: hidden; background: linear-gradient(135deg, #6b3a26, #3d2216); box-shadow: var(--shadow-lift); }
+.nooks-home-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; display: block; }
+.nooks-home-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(200deg, rgba(250, 71, 249, 0) 55%, rgba(137, 88, 218, .35) 100%); }
+.nooks-home-float { position: absolute; z-index: 1; display: flex; align-items: center; gap: 10px; background: var(--sl-white); color: var(--sl-ink); border: 1px solid var(--sl-border); border-radius: 16px; padding: 11px 16px 11px 11px; box-shadow: var(--shadow-card); font-size: 13px; }
+.nooks-home-float b { display: block; font-size: 13.5px; }
+.nooks-home-float span { color: var(--sl-muted); }
+.nooks-home-float-ico { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; flex: none; background: rgba(var(--sl-primary-rgb), .14); color: var(--sl-green) !important; }
+.nooks-home-float-alt { background: rgba(137, 88, 218, .16); color: var(--sl-gold) !important; }
+.nooks-home-float-a { left: 0; top: 28px; }
+.nooks-home-float-b { right: 16px; top: 46%; }
+.nooks-home-float-c { left: 60px; bottom: 24px; }
+.nooks-home-stats { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--sl-white); border: 1px solid var(--sl-border); border-radius: 22px; box-shadow: var(--shadow-card); margin: 8px 0 48px; }
+.nooks-home-stat { display: flex; flex-direction: column; gap: 4px; padding: 22px 24px; border-left: 1px solid var(--sl-border-soft); }
+.nooks-home-stat:first-child { border-left: 0; }
+.nooks-home-stat-v { font-size: 30px; font-weight: 800; color: var(--sl-green); letter-spacing: -0.02em; }
+.nooks-home-stat-l { font-size: 13px; line-height: 1.4; color: var(--sl-muted); }
+.nooks-home-section { margin-bottom: 48px; }
+.nooks-home-kicker { display: block; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--sl-green); margin-bottom: 8px; }
+.nooks-home-h2 { font-size: 30px; font-weight: 800; color: var(--sl-evergreen); margin: 0 0 22px; letter-spacing: -0.025em; }
+.nooks-home-grid5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.nooks-home-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.nooks-home-card { text-align: left; background: var(--sl-white); border: 1px solid var(--sl-border); border-radius: 20px; padding: 22px; box-shadow: var(--shadow-card); color: var(--sl-ink); font: inherit; display: flex; flex-direction: column; gap: 8px; }
+.nooks-home-card h3 { margin: 2px 0 0; font-size: 17px; line-height: 1.3; font-weight: 700; color: var(--sl-evergreen); }
+.nooks-home-card p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--sl-muted); }
+.nooks-home-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(var(--sl-primary-rgb), .12); color: var(--sl-green); margin-bottom: 4px; }
+.nooks-home-tag { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--sl-green); }
+.nooks-home-aud { cursor: pointer; transition: transform .15s, border-color .15s; border-top: 4px solid transparent; background-image: linear-gradient(var(--sl-white), var(--sl-white)), var(--intime-grad); background-origin: border-box; background-clip: padding-box, border-box; }
+.nooks-home-aud:hover { transform: translateY(-2px); border-color: var(--sl-green); border-top-color: transparent; }
+.nooks-home-more { margin-top: auto; padding-top: 6px; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--sl-green); }
+.nooks-home-proof { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding: 34px 36px; border-radius: 26px; background: var(--sl-cream-2); border: 1px solid var(--sl-border); margin-bottom: 48px; }
+.nooks-home-proof .nooks-home-h2 { margin-bottom: 16px; }
+.nooks-home-proof blockquote { margin: 0; font-size: 16px; line-height: 1.6; color: var(--sl-ink); border-left: 3px solid var(--sl-green); padding-left: 16px; }
+.nooks-home-proof cite { display: block; margin-top: 8px; font-size: 13px; font-style: normal; color: var(--sl-muted); }
+.nooks-home-proof-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.nooks-home-proof-item { background: var(--sl-white); border: 1px solid var(--sl-border); border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; gap: 2px; }
+.nooks-home-proof-v { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; background: var(--intime-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.nooks-home-proof-l { font-size: 14px; color: var(--sl-muted); }
+.nooks-home-band { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 34px 40px; border-radius: 26px; background: linear-gradient(110deg, #0f0f0f 0%, #3b1d6e 55%, #e85aff 100%); color: #fff; }
+.nooks-home-band h2 { margin: 0 0 6px; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+.nooks-home-band p { margin: 0; font-size: 15px; opacity: .9; }
+@media (max-width: 1100px) { .nooks-home-grid5 { grid-template-columns: repeat(3, 1fr); } .nooks-home-grid4 { grid-template-columns: repeat(2, 1fr); } .nooks-home-stats { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 1000px) { .nooks-home-hero, .nooks-home-proof { grid-template-columns: 1fr; } .nooks-home-hero-art { min-height: 320px; } .nooks-home-grid5, .nooks-home-stats { grid-template-columns: repeat(2, 1fr); } .nooks-home-band { flex-direction: column; align-items: flex-start; } }

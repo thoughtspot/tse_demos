@@ -1,0 +1,29 @@
+{
+  "_note": "Copy to ~/.claude/bespoke-portal-defaults.json and fill in your own values. The skill only asks for what is missing.",
+  "thoughtspot": {
+    "host": "<your-cluster>.thoughtspot.cloud",
+    "org": "<org name>",
+    "connection_name": "<Snowflake connection name in ThoughtSpot>"
+  },
+  "snowflake": {
+    "profile": "<ts CLI Snowflake profile name>",
+    "database": "<DATABASE>",
+    "schema": "<SCHEMA>"
+  },
+  "workspace": "~/bespoke-portals",
+  "portal": {
+    "auth": "basic",
+    "navLayout": "sidebar",
+    "askMode": "both",
+    "monetize": true,
+    "tiers": true,
+    "pinning": false,
+    "home": true,
+    "themeDefault": "light",
+    "devPort": 5180
+  },
+  "data": {
+    "history_days": 730,
+    "target_rows": 350000
+  }
+}

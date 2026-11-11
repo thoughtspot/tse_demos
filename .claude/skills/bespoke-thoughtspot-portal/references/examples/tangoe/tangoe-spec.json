@@ -1,0 +1,375 @@
+{
+ "client": "Tangoe",
+ "slug": "tangoe",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "714cb7ab-e4ec-44cf-a045-f616fd6e169d",
+  "model": "8801992a-6578-420d-a527-23e56a61d1a5",
+  "inlineLiveboard": "714cb7ab-e4ec-44cf-a045-f616fd6e169d",
+  "actionLiveboard": "714cb7ab-e4ec-44cf-a045-f616fd6e169d",
+  "actionViz": "7323d66e-541b-4a5c-941b-136ef5612f9a"
+ },
+ "action": {
+  "id": "reclaim-line",
+  "name": "Reclaim line or license"
+ },
+ "columns": {
+  "inlineName": [
+   "Business Unit"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Billed spend",
+    "format": "currency",
+    "candidates": [
+     "Total Billed Amount",
+     "Billed Amount"
+    ]
+   },
+   {
+    "label": "Zero-usage rate",
+    "format": "percent",
+    "candidates": [
+     "Zero-Usage Rate"
+    ]
+   },
+   {
+    "label": "Billing error rate",
+    "format": "percent",
+    "candidates": [
+     "Billing Error Rate"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Business Unit"
+  ],
+  "filterSecondary": [
+   "Vendor"
+  ],
+  "date": "Invoice Date",
+  "hierarchy": {
+   "segment": "Region",
+   "rep": "Vendor",
+   "cadence": "Service Category"
+  }
+ },
+ "font": {
+  "family": "Figtree",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap"
+ },
+ "logo": {
+  "svgPath": "tangoe/tangoe-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#6633CA\"/><text x=\"16\" y=\"23\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-weight=\"700\" font-size=\"19\" fill=\"#ffffff\">t</text><circle cx=\"24\" cy=\"9\" r=\"3\" fill=\"#20A65F\"/></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f8f9fc",
+   "--sl-cream-2": "#f0ebfa",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#2c1355",
+   "--sl-evergreen-2": "#3d1f72",
+   "--sl-green": "#6633ca",
+   "--sl-green-dark": "#4b1fa3",
+   "--sl-primary-rgb": "102, 51, 202",
+   "--intime-blue": "#1999d1",
+   "--sl-gold": "#20a65f",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #2c1355 0%, #6633ca 55%, #20a65f 100%)",
+   "--sl-mint": "#f0ebfa",
+   "--sl-mint-2": "#ddd0f5",
+   "--sl-coral": "#f37822",
+   "--sl-warn": "#fff3ea",
+   "--sl-warn-ink": "#7a3608",
+   "--sl-ink": "#1f0f3d",
+   "--sl-muted": "#607382",
+   "--sl-border": "#ddd8ea",
+   "--sl-border-soft": "#efecf6",
+   "--font-serif": "'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "52px",
+   "--shadow-card": "0 1px 2px rgba(44, 19, 85, 0.06), 0 8px 24px rgba(102, 51, 202, 0.07)",
+   "--shadow-lift": "0 6px 14px rgba(44, 19, 85, 0.09), 0 18px 40px rgba(102, 51, 202, 0.13)",
+   "--brand-navy": "#2c1355",
+   "--brand-accent": "#6633ca"
+  },
+  "dark": {
+   "--sl-cream": "#120b24",
+   "--sl-cream-2": "#160e2c",
+   "--sl-white": "#1b1235",
+   "--sl-evergreen": "#ece8f7",
+   "--sl-evergreen-2": "#d4cdea",
+   "--sl-green": "#9b74ec",
+   "--sl-green-dark": "#7f52e0",
+   "--sl-primary-rgb": "155, 116, 236",
+   "--intime-blue": "#4fb8e6",
+   "--sl-gold": "#2fc072",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #4b1fa3 0%, #7f52e0 60%, #2fc072 100%)",
+   "--sl-mint": "#261a47",
+   "--sl-mint-2": "#322259",
+   "--sl-coral": "#ff8f45",
+   "--sl-ink": "#ece8f7",
+   "--sl-muted": "#a79cc4",
+   "--sl-border": "#3a2d5c",
+   "--sl-border-soft": "#2a1f47",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#2c1355",
+   "--brand-accent": "#9b74ec"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#6633ca"
+  ],
+  [
+   "#3F49B8",
+   "#4b1fa3"
+  ],
+  [
+   "#333C99",
+   "#2c1355"
+  ],
+  [
+   "#22B8CF",
+   "#20a65f"
+  ],
+  [
+   "#0b0d10",
+   "#120b24"
+  ],
+  [
+   "#14181f",
+   "#1b1235"
+  ],
+  [
+   "#1a212b",
+   "#261a47"
+  ],
+  [
+   "#232a34",
+   "#3a2d5c"
+  ],
+  [
+   "#0b1f19",
+   "#160e2c"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(102,51,202,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#6633ca"
+  ],
+  [
+   "#0c8554",
+   "#2c1355"
+  ],
+  [
+   "#d9ecea",
+   "#f0ebfa"
+  ],
+  [
+   "#cfe3e2",
+   "#ddd0f5"
+  ],
+  [
+   "#1bb978",
+   "#20a65f"
+  ],
+  [
+   "#15ae6e",
+   "#2c1355"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#160e2c"
+  ],
+  [
+   "#10222a",
+   "#160e2c"
+  ],
+  [
+   "#123047",
+   "#1b1235"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Tangoe",
+  "aiName": "Tangoe Assistant",
+  "website": "https://www.tangoe.com/",
+  "loginTitleHtml": "Control your cloud, mobile &amp; telecom costs<br />with guaranteed savings.",
+  "landing": {
+   "eyebrow": "Tangoe One Expense Intelligence",
+   "headline": [
+    {
+     "text": "Leading IT Asset & "
+    },
+    {
+     "text": "Expense Management",
+     "accent": true
+    },
+    {
+     "text": " Solution"
+    }
+   ],
+   "subline": "The industry\u2019s first comprehensive platform to control your cloud, mobile and telecom costs, now with live analytics on every line, license, invoice and dispute.",
+   "ctaLabel": "Open expense intelligence",
+   "stats": [
+    {
+     "value": "$115.8M",
+     "label": "IT spend under management"
+    },
+    {
+     "value": "14,152",
+     "label": "Lines, seats & circuits"
+    },
+    {
+     "value": "$1.0M",
+     "label": "Credits recovered"
+    }
+   ]
+  },
+  "loginSubtitle": "Technology expense analytics for IT, finance and procurement: telecom, mobile, SaaS and cloud spend, zero-usage lines and licenses, invoice audit errors, disputes and credits recovered, with AI answers on live data.",
+  "loginStats": [
+   {
+    "value": "$115.8M",
+    "label": "Billed IT spend"
+   },
+   {
+    "value": "6.7%",
+    "label": "Zero-usage lines"
+   },
+   {
+    "value": "68.6%",
+    "label": "Dispute recovery rate"
+   }
+  ],
+  "loginCardSubtitle": "Sign in to Tangoe One Expense Intelligence",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Telecom & Mobile",
+   "Cloud & SaaS"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Expense Intelligence",
+   "inline": "Business Unit Insights",
+   "action": "Reclaim Queue",
+   "ask": "Ask Tangoe",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Billed spend, zero-usage lines and licenses, invoice audit errors, disputes and credits recovered",
+  "spotterSubtitle": "Ask questions of your Tangoe expense data in natural language.",
+  "inline": {
+   "subtitleReady": "Billed spend, zero-usage rate and billing error rate by business unit. Select a business unit to view its KPIs",
+   "subtitleIdle": "Billed spend, zero-usage rate and billing error rate across business units",
+   "loading": "Loading business units\u2026",
+   "errorTitle": "Couldn't load business units",
+   "errorMsg": "Unable to load business unit data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Business unit",
+   "secondaryLabel": "Vendor",
+   "dateLabel": "Invoice date"
+  },
+  "sampleQuestions": [
+   "Zero-usage rate by business unit by month for the last 12 months",
+   "Billing error rate by vendor for mobile last 6 months",
+   "Wasted spend by cost center last 90 days",
+   "Top 10 vendors by credits recovered this year"
+  ],
+  "askWelcome": "Ask me anything about Tangoe One: telecom, mobile, SaaS and cloud expense management, invoice audit and disputes, zero-usage lines and license optimization. Or ask about your own expense data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your technology expense data: billed spend, cost per line, zero-usage lines and wasted spend, roaming, billing errors, disputes and credits recovered. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Reclaim line or license",
+   "subtitlePrefix": "Lines and licenses billed with no usage in the last 30 days, idle longest first. Right-click a line and choose",
+   "subtitleSuffix": "to cancel, suspend or reassign it and notify the cost-center owner.",
+   "modalTitle": "Reclaim line or license",
+   "modalLead": "Pre-filled from the selected line. Choose what to do with it so the spend stops on the next invoice.",
+   "submitLabel": "Submit reclaim",
+   "successTitle": "Reclaim request submitted"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm the Tangoe Assistant. Ask me about telecom, mobile, SaaS and cloud expense management, invoice audit and disputes, or ask a question about your expense data.",
+   "overview": "Tangoe pioneered technology expense management over 25 years ago. Tangoe One manages telecom, mobile, cloud and SaaS spend, audits invoices and pursues billing disputes, and runs the mobility lifecycle for enterprises in 206 countries.",
+   "greetingExample": "zero-usage rate by business unit",
+   "examples": [
+    "billing error rate by vendor",
+    "wasted spend by cost center"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Tangoe One Expense Intelligence Premium to unlock drill-down, Ask Tangoe and downloads.",
+  "analyticsKeywords": [
+   "spend",
+   "cost",
+   "billed",
+   "invoice",
+   "invoices",
+   "line",
+   "lines",
+   "license",
+   "licenses",
+   "seat",
+   "zero",
+   "usage",
+   "zombie",
+   "unused",
+   "idle",
+   "wasted",
+   "waste",
+   "error",
+   "errors",
+   "audit",
+   "dispute",
+   "disputes",
+   "credit",
+   "credits",
+   "recovered",
+   "recovery",
+   "roaming",
+   "vendor",
+   "carrier",
+   "mobile",
+   "saas",
+   "cloud",
+   "iaas",
+   "ucaas",
+   "telecom",
+   "business unit",
+   "cost center",
+   "gl",
+   "device",
+   "plan",
+   "rate plan",
+   "region",
+   "country",
+   "minutes",
+   "data",
+   "gb"
+  ]
+ }
+}

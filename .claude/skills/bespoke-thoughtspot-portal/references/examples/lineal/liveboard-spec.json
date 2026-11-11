@@ -1,0 +1,24 @@
+{
+  "name": "Lineal Matter Intelligence",
+  "description": "eDiscovery matter health across Lineal client matters: collection volumes, AmplifyAI culling, review throughput, privilege SLA and cost by matter, region and data source.",
+  "model": { "guid": "44ff8e42-16a1-4ebd-a4f3-5784e3359568", "name": "Lineal Matter Intelligence" },
+  "palette": { "primary": "#D90633", "ramp": ["#FBE3E8", "#EC6A85", "#D90633", "#6E0319"] },
+  "tabs": [
+    { "name": "Overview", "description": "Volumes, culling, cost and privilege health across every Lineal matter", "tiles": [
+      { "type": "KPI", "name": "Docs Collected", "search": "[Docs Collected] [Batch Date].weekly" },
+      { "type": "KPI", "name": "Cull Rate", "search": "[Cull Rate] [Batch Date].weekly" },
+      { "type": "KPI", "name": "Cost per Doc Reviewed", "search": "[Cost per Doc Reviewed] [Batch Date].weekly" },
+      { "type": "KPI", "name": "Privilege SLA Hit Rate", "search": "[Privilege SLA Hit Rate] [Batch Date].weekly" },
+      { "type": "SANKEY", "name": "Document flow: source group to AmplifyAI module to review method", "search": "[Docs Collected] [Source Group] [AmplifyAI Module] [Review Method]" },
+      { "type": "HEATMAP", "name": "Privilege turnaround hours by region and matter type", "search": "[Privilege Turnaround Hours] [Region] [Matter Type]" },
+      { "type": "TABLE", "name": "Batches waiting on privilege review", "action": true,
+        "search": "[Batch ID] [Matter] [Custodian] [Data Source] [Privileged Docs] [Days in Stage] [Workflow Stage] = 'privilege review' sort by [Days in Stage] descending" },
+      { "type": "LINE", "name": "Chat data share by client industry", "search": "[Chat Data Share] [Batch Date].monthly [Client Industry]" },
+      { "type": "LINE", "name": "Privilege turnaround hours by region", "search": "[Privilege Turnaround Hours] [Batch Date].monthly [Region]" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Chat Data Share", "search": "[Chat Data Share] [Batch Date].weekly" },
+      { "type": "KPI", "name": "Cull Rate (KPIs)", "search": "[Cull Rate] [Batch Date].weekly" }
+    ]}
+  ]
+}

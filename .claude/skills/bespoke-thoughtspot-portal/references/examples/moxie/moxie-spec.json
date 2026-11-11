@@ -1,0 +1,352 @@
+{
+ "client": "Moxie",
+ "slug": "moxie",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "79201f92-c76c-48a9-acdd-8dacf3d31b5c",
+  "model": "1a3fd75b-a210-46fe-bad3-f6978829b0f8",
+  "inlineLiveboard": "79201f92-c76c-48a9-acdd-8dacf3d31b5c",
+  "actionLiveboard": "79201f92-c76c-48a9-acdd-8dacf3d31b5c",
+  "actionViz": "c407c471-f3b0-4c32-a0f6-cb7c6672618d"
+ },
+ "action": {
+  "id": "book-recall",
+  "name": "Book Recall"
+ },
+ "columns": {
+  "inlineName": [
+   "Practice"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Net revenue",
+    "format": "currency",
+    "candidates": [
+     "Total Net Revenue",
+     "Net Revenue"
+    ]
+   },
+   {
+    "label": "Completed visits",
+    "format": "number",
+    "candidates": [
+     "Total Completed Visits",
+     "Completed Visits"
+    ]
+   },
+   {
+    "label": "Rebook rate",
+    "format": "percent",
+    "candidates": [
+     "Rebook Rate"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Practice"
+  ],
+  "filterSecondary": [
+   "Service Category"
+  ],
+  "date": "Appointment Date",
+  "hierarchy": {
+   "segment": "State",
+   "rep": "Provider",
+   "cadence": "Service Category"
+  }
+ },
+ "font": {
+  "family": "Instrument Sans",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+ },
+ "logo": {
+  "svgPath": "moxie/moxie-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><defs><linearGradient id=\"g\" x1=\"0\" y1=\"1\" x2=\"1\" y2=\"0\"><stop offset=\"0.2\" stop-color=\"#ECBE71\"/><stop offset=\"1\" stop-color=\"#A5711B\"/></linearGradient></defs><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#204C47\"/><text x=\"16\" y=\"23\" text-anchor=\"middle\" font-family=\"Georgia, serif\" font-weight=\"700\" font-size=\"19\" fill=\"url(#g)\">M</text></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#fbf7f1",
+   "--sl-cream-2": "#f5efe6",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#1a2d2b",
+   "--sl-evergreen-2": "#204c47",
+   "--sl-green": "#6a8e8b",
+   "--sl-green-dark": "#204c47",
+   "--sl-primary-rgb": "106, 142, 139",
+   "--intime-blue": "#b377c5",
+   "--sl-gold": "#ac8343",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(90deg, #6a8e8b 0%, #b377c5 100%)",
+   "--sl-mint": "#e1ebea",
+   "--sl-mint-2": "#cdd9d8",
+   "--sl-coral": "#e47367",
+   "--sl-warn": "#fff7e6",
+   "--sl-warn-ink": "#7a4a00",
+   "--sl-ink": "#1a2d2b",
+   "--sl-muted": "#5f6b69",
+   "--sl-border": "#e1ddd5",
+   "--sl-border-soft": "#f0ece5",
+   "--font-serif": "'Playfair Display', Georgia, serif",
+   "--font-sans": "'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "66px",
+   "--shadow-card": "0 1px 2px rgba(26, 45, 43, 0.05), 0 8px 24px rgba(32, 76, 71, 0.07)",
+   "--shadow-lift": "0 6px 14px rgba(26, 45, 43, 0.08), 0 18px 40px rgba(32, 76, 71, 0.12)",
+   "--brand-navy": "#1a2d2b",
+   "--brand-accent": "#6a8e8b"
+  },
+  "dark": {
+   "--sl-cream": "#0d1514",
+   "--sl-cream-2": "#111b1a",
+   "--sl-white": "#16211f",
+   "--sl-evergreen": "#eef3f2",
+   "--sl-evergreen-2": "#d6e2e0",
+   "--sl-green": "#8fb5b1",
+   "--sl-green-dark": "#7aa39f",
+   "--sl-primary-rgb": "143, 181, 177",
+   "--intime-blue": "#d59ac4",
+   "--sl-gold": "#d4a967",
+   "--sl-gold-ink": "#0d1514",
+   "--intime-grad": "linear-gradient(90deg, #8fb5b1 0%, #d59ac4 100%)",
+   "--sl-mint": "#1a2a28",
+   "--sl-mint-2": "#213432",
+   "--sl-coral": "#f08b80",
+   "--sl-ink": "#e9efee",
+   "--sl-muted": "#9fb0ad",
+   "--sl-border": "#26413e",
+   "--sl-border-soft": "#1c2f2d",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#1a2d2b",
+   "--brand-accent": "#6a8e8b"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#6a8e8b"
+  ],
+  [
+   "#3F49B8",
+   "#4f7471"
+  ],
+  [
+   "#333C99",
+   "#204c47"
+  ],
+  [
+   "#22B8CF",
+   "#b377c5"
+  ],
+  [
+   "#0b0d10",
+   "#0d1514"
+  ],
+  [
+   "#14181f",
+   "#16211f"
+  ],
+  [
+   "#1a212b",
+   "#1a2a28"
+  ],
+  [
+   "#232a34",
+   "#26413e"
+  ],
+  [
+   "#0b1f19",
+   "#111b1a"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(106,142,139,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#6a8e8b"
+  ],
+  [
+   "#0c8554",
+   "#204c47"
+  ],
+  [
+   "#d9ecea",
+   "#e1ebea"
+  ],
+  [
+   "#cfe3e2",
+   "#cdd9d8"
+  ],
+  [
+   "#1bb978",
+   "#b377c5"
+  ],
+  [
+   "#15ae6e",
+   "#1a2d2b"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#111b1a"
+  ],
+  [
+   "#10222a",
+   "#111b1a"
+  ],
+  [
+   "#123047",
+   "#16211f"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Moxie",
+  "aiName": "Maia",
+  "website": "https://www.joinmoxie.com",
+  "loginTitleHtml": "Grow your aesthetic practice<br />with standards, not shortcuts.",
+  "landing": {
+   "eyebrow": "Moxie Practice Insights",
+   "headline": [
+    {
+     "text": "Grow your aesthetic practice with "
+    },
+    {
+     "text": "standards",
+     "accent": true
+    },
+    {
+     "text": ", not shortcuts."
+    }
+   ],
+   "subline": "Revenue, rebooking, memberships and recalls for every practice, provider and treatment, with Maia answering questions on your live data.",
+   "ctaLabel": "Explore practice analytics",
+   "stats": [
+    {
+     "value": "$199.5M",
+     "label": "Net revenue"
+    },
+    {
+     "value": "58.9%",
+     "label": "Rebook rate"
+    },
+    {
+     "value": "$604",
+     "label": "Average ticket"
+    }
+   ]
+  },
+  "loginSubtitle": "Practice performance for medspa owners: revenue, rebooking, memberships, no-shows and neurotoxin recalls, with AI answers on live data.",
+  "loginStats": [
+   {
+    "value": "376K",
+    "label": "Service lines"
+   },
+   {
+    "value": "67.9%",
+    "label": "Gross margin"
+   },
+   {
+    "value": "20",
+    "label": "Practices"
+   }
+  ],
+  "loginCardSubtitle": "Sign in with your credentials",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Calendar",
+   "Patients",
+   "Insights"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Practice Analytics",
+   "inline": "Practice Insights",
+   "action": "Recall Queue",
+   "ask": "Ask Maia",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Your live practice performance dashboard: revenue, rebooking, memberships and recalls",
+  "spotterSubtitle": "Ask questions of your Moxie practice data in natural language.",
+  "inline": {
+   "subtitleReady": "Net revenue, visits and rebook rate by practice. Select a practice to view its KPIs",
+   "subtitleIdle": "Net revenue, visits and rebook rate across practices",
+   "loading": "Loading practices\u2026",
+   "errorTitle": "Couldn't load practices",
+   "errorMsg": "Unable to load practice data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Practice",
+   "secondaryLabel": "Service category",
+   "dateLabel": "Appointment date"
+  },
+  "sampleQuestions": [
+   "Rebook rate by provider this quarter",
+   "Net revenue by service category by month",
+   "Member share by practice",
+   "No-show rate by day of week"
+  ],
+  "askWelcome": "Ask me anything about running your practice on Moxie: memberships, rebooking, inventory and compliance. Or ask about your own practice data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your appointments, providers, treatments, memberships and recalls. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Book Recall",
+   "subtitlePrefix": "Neurotoxin patients who left without rebooking and are now due, longest first. Right-click a patient and choose",
+   "subtitleSuffix": "to text a rebook link, offer a membership, assign a call or close the recall.",
+   "modalTitle": "Book Recall",
+   "modalLead": "Pre-filled from the selected patient. Choose how to bring them back before their results wear off.",
+   "submitLabel": "Submit",
+   "successTitle": "Recall actioned"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm Maia, your Moxie assistant. Ask me about rebooking, memberships and recalls, or ask a question about your practice data.",
+   "overview": "Moxie is the clinical-grade operating system for medspas: EMR and charting, scheduling and payments, AI-powered inventory, memberships and packages, payroll, compliance and financial reporting, plus hands-on business coaching for aesthetic practice owners.",
+   "greetingExample": "rebook rate by provider",
+   "examples": [
+    "net revenue by service category by month",
+    "member share by practice"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Moxie Premium to unlock drill-down, Ask Maia and downloads.",
+  "analyticsKeywords": [
+   "revenue",
+   "visit",
+   "visits",
+   "appointment",
+   "rebook",
+   "rebooking",
+   "member",
+   "membership",
+   "provider",
+   "injector",
+   "practice",
+   "service",
+   "treatment",
+   "neurotoxin",
+   "botox",
+   "filler",
+   "no-show",
+   "recall",
+   "patient",
+   "margin",
+   "ticket"
+  ]
+ }
+}

@@ -1,0 +1,26 @@
+html, body { height: 100%; margin: 0; }
+body { overflow: hidden; -webkit-font-smoothing: antialiased; }
+#chart, #chart * { font-family: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif; }
+#chart { height: 100%; box-sizing: border-box; position: relative; display: flex; flex-direction: column; font-variant-numeric: tabular-nums; }
+.rr-head { flex: 0 0 auto; padding: 10px 12px 2px; }
+.rr-title { font-size: 15px; font-weight: 700; margin: 0; letter-spacing: -.005em; }
+.rr-sub { font-size: 12px; margin: 2px 0 0; color: var(--rr-muted); min-height: 30px; line-height: 1.35; }
+.rr-sub b { color: var(--rr-primary); font-weight: 700; }
+.rr-sub i { font-style: normal; color: var(--rr-accent); font-weight: 700; }
+.rr-ctl { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: nowrap; }
+.rr-play { all: unset; cursor: pointer; flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; background: var(--rr-primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; }
+.rr-play:focus-visible, .rr-pick select:focus-visible, .rr-range:focus-visible { outline: 2px solid var(--rr-primary); outline-offset: 2px; }
+.rr-range { flex: 1 1 auto; min-width: 50px; accent-color: var(--rr-primary); height: 4px; cursor: pointer; }
+.rr-month { flex: 0 0 auto; font-size: 11.5px; font-weight: 700; min-width: 54px; text-align: right; }
+.rr-pick { display: inline-flex; align-items: center; flex: 0 0 auto; }
+.rr-pick select { font: inherit; font-size: 11.5px; font-weight: 700; color: var(--rr-ink); background: transparent; border: 1px solid var(--rr-line); border-radius: 999px; padding: 2px 6px; cursor: pointer; max-width: 128px; }
+.rr-pick option { color: #041E42; }
+.rr-stage { flex: 1 1 0; min-height: 0; position: relative; }
+.rr-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.rr-tip { position: absolute; z-index: 5; pointer-events: none; opacity: 0; transition: opacity .12s; border-radius: 6px; padding: 7px 9px; font-size: 12px; line-height: 1.4; max-width: 230px; box-shadow: 0 2px 10px rgba(0, 0, 0, .25); }
+.rr-tip b { display: block; font-size: 12.5px; margin-bottom: 2px; }
+.rr-empty { margin: auto; font-size: 13px; text-align: center; padding: 20px; color: var(--rr-muted); }
+.rr-hit { cursor: pointer; }
+@keyframes rrPulse { 0% { opacity: .9; } 50% { opacity: .25; } 100% { opacity: .9; } }
+.rr-hot { animation: rrPulse 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .rr-hot { animation: none; } }

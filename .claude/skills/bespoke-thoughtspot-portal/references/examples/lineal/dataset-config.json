@@ -1,0 +1,100 @@
+{
+ "table": "LINEAL_REVIEW_BATCHES",
+ "seed": 20261023,
+ "days": 730,
+ "as_of": null,
+ "id_column": "BATCH_ID",
+ "id_prefix": "BT-",
+ "date_column": "BATCH_DATE",
+ "actors": {
+  "count": 240,
+  "label": "_CODENAME",
+  "names": "companies",
+  "attributes": {
+   "GEO": {
+    "levels": ["REGION", "COUNTRY"],
+    "tree": {
+     "North America": [46, {"United States": 88, "Canada": 12}],
+     "UK & Ireland": [18, {"United Kingdom": 85, "Ireland": 15}],
+     "DACH": [12, {"Germany": 70, "Switzerland": 18, "Austria": 12}],
+     "Brazil": [6, {"Brazil": 100}],
+     "Greater China": [8, {"Hong Kong": 55, "China": 45}],
+     "Singapore & APAC": [6, {"Singapore": 70, "Australia": 30}],
+     "Middle East": [4, {"United Arab Emirates": 100}]
+    }
+   },
+   "CLIENT_INDUSTRY": {"weights": {"Financial Services": 30, "Pharmaceutical": 18, "Law Firm": 20, "Technology": 14, "Construction": 9, "Retail": 9}},
+   "CLIENT_ACCOUNT": {"expr": "pick({'Financial Services': ['Harborline Bank', 'Meridian Capital Group', 'Clearwater Wealth', 'Atlas Securities', 'Keystone Insurance'], 'Pharmaceutical': ['Corvane Therapeutics', 'Helix BioPharma', 'Polaris Life Sciences', 'Juniper Pharma'], 'Law Firm': ['Brennan Moreau LLP', 'Hughes & Okafor LLP', 'Lindqvist Petrov LLP', 'Reid Fischer Partners'], 'Technology': ['Brightline Software', 'Cobalt Cloud Systems', 'Lumen Robotics'], 'Construction': ['Granite Ridge Builders', 'Ironclad Infrastructure'], 'Retail': ['Evergreen Retail Group', 'Summit Outfitters']}[r['CLIENT_INDUSTRY']])"},
+   "MATTER_TYPE": {"expr": "weighted({'Commercial Litigation': 28, 'Regulatory Investigation': 18 + (10 if r['CLIENT_INDUSTRY'] == 'Financial Services' else 0), 'Internal Investigation': 14, 'Competition / Antitrust': 8 + (14 if r['REGION'] == 'DACH' else 0), 'IP Litigation': 6 + (18 if r['CLIENT_INDUSTRY'] == 'Pharmaceutical' else 0), 'Data Breach Response': 8 + (10 if r['CLIENT_INDUSTRY'] == 'Retail' else 0), 'DSAR': 6 + (8 if r['REGION'] in ('UK & Ireland', 'DACH') else 0), 'Construction Dispute': 1 + (40 if r['CLIENT_INDUSTRY'] == 'Construction' else 0)})"},
+   "MATTER_NAME": {"expr": "'Project ' + pick(['Falcon', 'Halcyon', 'Juniper', 'Granite', 'Aurora', 'Beacon', 'Cobalt', 'Delta', 'Ember', 'Fjord', 'Harbor', 'Iris', 'Kestrel', 'Lantern', 'Mosaic', 'Nimbus', 'Onyx', 'Prism', 'Quartz', 'Raven', 'Sable', 'Tundra', 'Umbra', 'Vertex', 'Willow', 'Zephyr']) + ' ' + str(rng.randint(10, 99))"},
+   "MATTER_ID": {"expr": "'LIN-' + str(rng.randint(24000, 26999))"},
+   "REVIEW_LANGUAGE": {"expr": "weighted({'German': 70, 'English': 30}) if r['REGION'] == 'DACH' else weighted({'Portuguese': 80, 'English': 20}) if r['REGION'] == 'Brazil' else weighted({'Mandarin': 45, 'Cantonese': 15, 'English': 40}) if r['REGION'] == 'Greater China' else weighted({'Arabic': 45, 'English': 55}) if r['REGION'] == 'Middle East' else weighted({'English': 94, 'French': 4, 'Spanish': 2})"},
+   "REVIEW_TEAM": {"expr": "'Lineal Managed Review - Frankfurt' if r['REGION'] == 'DACH' else weighted({'Lineal Managed Review - Belfast': 80, 'Client Review Team': 20}) if r['REGION'] == 'UK & Ireland' else weighted({'Lineal Managed Review - Manila': 60, 'Lineal Managed Review - Nashville': 20, 'Client Review Team': 20}) if r['REGION'] in ('Greater China', 'Singapore & APAC') else weighted({'Lineal Managed Review - Nashville': 70, 'Lineal Managed Review - Manila': 15, 'Client Review Team': 15})"},
+   "PRICING_MODEL": {"weights": {"Fixed Fee": 28, "Per-GB": 34, "Per-Document": 20, "Hourly": 18}}
+  },
+  "rate": 2.0,
+  "rate_by": {"MATTER_TYPE": {"Regulatory Investigation": 1.3, "DSAR": 0.4, "Data Breach Response": 0.8}},
+  "rate_spread": 0.5
+ },
+ "calendar": {
+  "growth_yoy": 0.10,
+  "weekday": [1.0, 1.06, 1.06, 1.02, 0.94, 0.3, 0.24],
+  "month": {"1": 1.05, "2": 0.98, "3": 1.08, "4": 0.97, "5": 1.0, "6": 1.06, "7": 0.95, "8": 0.84, "9": 1.06, "10": 1.02, "11": 1.1, "12": 0.88},
+  "holidays": "us",
+  "holiday_factor": 0.4
+ },
+ "columns": [
+  {"name": "CUSTODIAN_ROLE", "weights": {"Executive": 9, "Finance": 18, "Sales": 20, "Engineering": 14, "Legal": 8, "HR": 7, "Procurement": 12, "Operations": 12}},
+  {"name": "CUSTODIAN_NAME", "expr": "pick(['A.', 'B.', 'C.', 'D.', 'E.', 'F.', 'G.', 'H.', 'J.', 'K.', 'L.', 'M.', 'N.', 'P.', 'R.', 'S.', 'T.']) + ' ' + pick(['Smith', 'Garcia', 'Chen', 'Khan', 'Muller', 'Rossi', 'Patel', 'Novak', 'Tanaka', 'Dubois', 'Kim', 'Silva', 'Nguyen', 'Schmidt', 'Hughes', 'Lopez', 'Wright', 'Sato', 'Moreau', 'Singh', 'Fischer', 'Murphy', 'Costa', 'Bauer', 'Jensen', 'Okafor', 'Haddad', 'Ferreira', 'Mehta', 'Yamada'])"},
+  {"name": "DATA_SOURCE", "expr": "weighted({'Email (Microsoft 365)': 44 - 18 * ramp(270), 'Microsoft Teams': 8 + 9 * ramp(270) * (1.5 if r['CLIENT_INDUSTRY'] == 'Financial Services' else 1), 'Slack': 4 + 5 * ramp(270) * (1.5 if r['CLIENT_INDUSTRY'] == 'Financial Services' else 1), 'WhatsApp / Mobile': 5 + 7 * ramp(270) * (1.5 if r['CLIENT_INDUSTRY'] == 'Financial Services' else 1), 'Google Workspace': 8, 'File Shares & OneDrive': 18, 'ERP & Structured Data': 5, 'Scanned Paper': 3})"},
+  {"name": "SOURCE_GROUP", "expr": "'Chat & Mobile' if r['DATA_SOURCE'] in ('Microsoft Teams', 'Slack', 'WhatsApp / Mobile') else 'Email' if r['DATA_SOURCE'] in ('Email (Microsoft 365)', 'Google Workspace') else 'Files & Structured'"},
+  {"name": "AMPLIFY_MODULE", "expr": "weighted({'ChatCraft': 32, 'BotDetector': 10, 'Near-Dup & Threading': 20, 'None': 38}) if r['SOURCE_GROUP'] == 'Chat & Mobile' else weighted({'BotDetector': 34, 'Near-Dup & Threading': 30, 'PrivFinder': 10, 'Snippets': 8, 'None': 18}) if r['SOURCE_GROUP'] == 'Email' else weighted({'Images': 34, 'Near-Dup & Threading': 26, 'Automated Processing': 20, 'None': 20})"},
+  {"name": "REVIEW_METHOD", "expr": "weighted({'Relativity aiR Assisted': 8 + 22 * ramp(400), 'TAR / CAL': 34, 'Hybrid': 22, 'Linear Human': 36 - 22 * ramp(400)})"},
+  {"name": "DOCS_COLLECTED", "expr": "max(200, int(lognorm({'Email': 5200, 'Chat & Mobile': 3800, 'Files & Structured': 2600}[r['SOURCE_GROUP']], 0.85)))"},
+  {"name": "DATA_GB", "round": 2, "expr": "r['DOCS_COLLECTED'] * uniform(0.12, 0.3) * (2.2 if r['DATA_SOURCE'] in ('WhatsApp / Mobile', 'Scanned Paper') else 1) / 1000"},
+  {"name": "DOCS_PROMOTED", "expr": "int(r['DOCS_COLLECTED'] * uniform(0.8, 1.2) * ((0.115 + 0.11 * ramp(270)) if (r['SOURCE_GROUP'] == 'Chat & Mobile' and r['AMPLIFY_MODULE'] != 'ChatCraft') else 0.085 if r['SOURCE_GROUP'] == 'Chat & Mobile' else (0.072 if r['AMPLIFY_MODULE'] in ('BotDetector', 'Near-Dup & Threading', 'Images') else 0.095)))"},
+  {"name": "DOCS_REVIEWED", "expr": "int(r['DOCS_PROMOTED'] * {'Relativity aiR Assisted': 0.32, 'TAR / CAL': 0.55, 'Hybrid': 0.75, 'Linear Human': 1.0}[r['REVIEW_METHOD']])"},
+  {"name": "DOCS_RESPONSIVE", "expr": "int(r['DOCS_PROMOTED'] * uniform(0.18, 0.32))"},
+  {"name": "PRIV_DOCS", "expr": "int(r['DOCS_RESPONSIVE'] * uniform(0.6, 1.4) * (0.04 + 0.05 * ramp(240) if r['REGION'] == 'DACH' else 0.042))"},
+  {"name": "DOCS_PRODUCED", "expr": "max(0, r['DOCS_RESPONSIVE'] - r['PRIV_DOCS'])"},
+  {"name": "REVIEW_HOURS", "round": 2, "expr": "r['DOCS_REVIEWED'] / (lognorm(58, 0.15) * (0.72 if r['SOURCE_GROUP'] == 'Chat & Mobile' else 1) * (0.8 if r['REVIEW_LANGUAGE'] != 'English' else 1)) + r['PRIV_DOCS'] / 18.0"},
+  {"name": "PRIV_TURNAROUND_HOURS", "round": 1, "expr": "None if r['PRIV_DOCS'] == 0 else lognorm(30, 0.3) * (1 + 1.15 * ramp(240) if r['REGION'] == 'DACH' else 1)"},
+  {"name": "PRIV_BATCH_FLAG", "expr": "0 if r['PRIV_DOCS'] == 0 else 1"},
+  {"name": "SLA_MET_FLAG", "expr": "0 if r['PRIV_DOCS'] == 0 else (1 if r['PRIV_TURNAROUND_HOURS'] <= 72 else 0)"},
+  {"name": "QC_SAMPLED_DOCS", "expr": "int(r['DOCS_REVIEWED'] * 0.1)"},
+  {"name": "QC_OVERTURNS", "expr": "int(r['QC_SAMPLED_DOCS'] * (0.03 + 0.025 * ramp(240) if r['REGION'] == 'DACH' else 0.028) * uniform(0.6, 1.4) + uniform(0, 1))"},
+  {"name": "PROCESSING_COST", "round": 2, "expr": "r['DATA_GB'] * uniform(35, 55)"},
+  {"name": "REVIEW_COST", "round": 2, "expr": "r['REVIEW_HOURS'] * (lognorm(95, 0.1) if r['REVIEW_LANGUAGE'] != 'English' else lognorm(58, 0.1))"},
+  {"name": "TECHNOLOGY_COST", "round": 2, "expr": "r['DOCS_PROMOTED'] * (0.12 if r['REVIEW_METHOD'] == 'Relativity aiR Assisted' else 0.03) + (r['DOCS_COLLECTED'] * 0.004 if r['AMPLIFY_MODULE'] != 'None' else 0)"},
+  {"name": "TOTAL_COST", "round": 2, "expr": "r['PROCESSING_COST'] + r['REVIEW_COST'] + r['TECHNOLOGY_COST']"},
+  {"name": "BUDGET_AMOUNT", "round": 2, "expr": "(r['PROCESSING_COST'] + r['DOCS_COLLECTED'] * 0.085 * 0.7 * 62 / 58 + r['TECHNOLOGY_COST']) * uniform(1.0, 1.12)"},
+  {"name": "CHAT_DOCS_COLLECTED", "expr": "r['DOCS_COLLECTED'] if r['SOURCE_GROUP'] == 'Chat & Mobile' else 0"}
+ ],
+ "groups": {
+  "id_column": "WORKFLOW_ID",
+  "id_prefix": "WF",
+  "per": "event",
+  "lag_days": [0, 0],
+  "month_end_share": 0,
+  "status_column": "WORKFLOW_STAGE",
+  "status_rules": [
+   {"if": "age <= 1", "status": "Processing"},
+   {"if": "age <= 20 and r['PRIV_DOCS'] > 0 and r['REGION'] == 'DACH' and chance(0.15 + 0.55 * ramp(240))", "status": "Privilege Review"},
+   {"if": "age <= 6", "weights": {"First-Pass Review": 52, "Privilege Review": 22, "QC": 26}},
+   {"if": "age <= 20", "weights": {"Produced": 80, "QC": 8, "Privilege Review": 7, "On Hold": 5}},
+   {"weights": {"Produced": 97, "Closed - Not Produced": 3}}
+  ]
+ },
+ "post": [
+  {"name": "DAYS_IN_STAGE", "expr": "age if r['WORKFLOW_STAGE'] in ('Processing', 'First-Pass Review', 'Privilege Review', 'QC', 'On Hold') else None"},
+  {"name": "BATCH_COUNT", "expr": "1"}
+ ],
+ "types": {
+  "BATCH_ID": "VARCHAR(16)", "WORKFLOW_ID": "VARCHAR(20)", "DOCS_COLLECTED": "NUMBER(9,0)", "DATA_GB": "NUMBER(10,2)",
+  "DOCS_PROMOTED": "NUMBER(9,0)", "DOCS_REVIEWED": "NUMBER(9,0)", "DOCS_RESPONSIVE": "NUMBER(9,0)", "PRIV_DOCS": "NUMBER(9,0)",
+  "DOCS_PRODUCED": "NUMBER(9,0)", "REVIEW_HOURS": "NUMBER(10,2)", "PRIV_TURNAROUND_HOURS": "NUMBER(6,1)", "PRIV_BATCH_FLAG": "NUMBER(1,0)",
+  "SLA_MET_FLAG": "NUMBER(1,0)", "QC_SAMPLED_DOCS": "NUMBER(7,0)", "QC_OVERTURNS": "NUMBER(6,0)", "PROCESSING_COST": "NUMBER(12,2)",
+  "REVIEW_COST": "NUMBER(12,2)", "TECHNOLOGY_COST": "NUMBER(12,2)", "TOTAL_COST": "NUMBER(12,2)", "BUDGET_AMOUNT": "NUMBER(12,2)",
+  "CHAT_DOCS_COLLECTED": "NUMBER(9,0)", "DAYS_IN_STAGE": "NUMBER(4,0)", "BATCH_COUNT": "NUMBER(1,0)"
+ }
+}

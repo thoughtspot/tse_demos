@@ -1,0 +1,564 @@
+{
+ "table": "NOOKS_CALLS",
+ "seed": 20261027,
+ "days": 730,
+ "as_of": null,
+ "id_column": "CALL_ID",
+ "id_prefix": "CL-",
+ "date_column": "CALL_DATE",
+ "actors": {
+  "count": 36,
+  "label": "REP_NAME",
+  "names": "people",
+  "attributes": {
+   "TEAM": {
+    "weights": {
+     "Enterprise SDR": 26,
+     "Mid-Market SDR": 34,
+     "SMB SDR": 24,
+     "Inbound SDR": 16
+    }
+   },
+   "REP_TENURE": {
+    "weights": {
+     "0-3 months": 18,
+     "3-12 months": 37,
+     "1-2 years": 30,
+     "2+ years": 15
+    }
+   }
+  },
+  "rate": 16.4,
+  "rate_by": {
+   "TEAM": {
+    "Enterprise SDR": 0.8,
+    "SMB SDR": 1.25,
+    "Inbound SDR": 0.7
+   }
+  },
+  "rate_spread": 0.25
+ },
+ "calendar": {
+  "growth_yoy": 0.1,
+  "weekday": [
+   1.12,
+   1.15,
+   1.12,
+   1.08,
+   0.9,
+   0.03,
+   0.02
+  ],
+  "month": {
+   "1": 1.08,
+   "2": 1.05,
+   "3": 1.06,
+   "4": 1.0,
+   "5": 1.0,
+   "6": 0.95,
+   "7": 0.86,
+   "8": 0.85,
+   "9": 1.06,
+   "10": 1.08,
+   "11": 1.0,
+   "12": 0.72
+  },
+  "holidays": "us"
+ },
+ "columns": [
+  {
+   "name": "TEAM_MANAGER",
+   "map_from": "TEAM",
+   "map": {
+    "Enterprise SDR": [
+     "Dana Whitfield"
+    ],
+    "Mid-Market SDR": [
+     "Marcus Lee"
+    ],
+    "SMB SDR": [
+     "Priya Raman"
+    ],
+    "Inbound SDR": [
+     "Jordan Ellis"
+    ]
+   }
+  },
+  {
+   "name": "CALL_HOUR",
+   "expr": "weighted({8:6,9:12,10:15,11:14,12:7,13:9,14:12,15:12,16:9,17:4})"
+  },
+  {
+   "name": "SEQUENCE_NAME",
+   "expr": "weighted({'Signal: Hiring Sales Team': 8*(0.3+1.4*ramp(150)),'Competitor Renewal Play': 6,'Inbound Speed to Lead': 8,'Job Change Play': 5,'Enterprise Outbound Q4': 13,'RevOps Persona Cadence': 8,'Mid-Market Cold Call': 14,'Closed Lost Revival': 7,'SMB Nurture Calls': 12,'Webinar Follow-up': 7})"
+  },
+  {
+   "name": "SEQUENCE_SOURCE",
+   "map_from": "SEQUENCE_NAME",
+   "map": {
+    "Signal: Hiring Sales Team": [
+     "Nooks"
+    ],
+    "Competitor Renewal Play": [
+     "Nooks"
+    ],
+    "Inbound Speed to Lead": [
+     "Nooks"
+    ],
+    "Job Change Play": [
+     "Nooks"
+    ],
+    "Enterprise Outbound Q4": [
+     "Outreach"
+    ],
+    "RevOps Persona Cadence": [
+     "Outreach"
+    ],
+    "Mid-Market Cold Call": [
+     "Salesloft"
+    ],
+    "Closed Lost Revival": [
+     "Salesloft"
+    ],
+    "SMB Nurture Calls": [
+     "HubSpot"
+    ],
+    "Webinar Follow-up": [
+     "HubSpot"
+    ]
+   }
+  },
+  {
+   "name": "ACCOUNT_NAME",
+   "expr": "weighted({\"Brightline Health\": 0.98, \"Corvana Systems\": 2.33, \"Northpeak Logistics\": 0.83, \"Lumen Ledger\": 2.11, \"Halcyon Bio\": 0.79, \"Vantera Cloud\": 1.55, \"Ridgeway Insurance\": 1.03, \"Quillstone Media\": 1.17, \"Atlas Freightworks\": 2.93, \"Cobalt Payroll\": 2.51, \"Meridian Robotics\": 1.26, \"Fernwood Retail\": 2.71, \"Stratus Security\": 1.03, \"Kinetic Labs\": 1.49, \"Bluehaven Hotels\": 2.64, \"Orchard Fintech\": 2.1, \"Pinecrest Energy\": 0.75, \"Tidewater Analytics\": 2.97, \"Granite HR\": 1.03, \"Nimbus Telecom\": 1.15, \"Solace Wellness\": 2.43, \"Ironclad Data\": 1.32, \"Sparrow Commerce\": 1.24, \"Evergreen Credit\": 0.68, \"Helix Diagnostics\": 0.73, \"Summit Learning\": 1.96, \"Vector Mobility\": 1.11, \"Aurora Payments\": 2.0, \"Copperleaf Foods\": 1.43, \"Driftwood Travel\": 1.63, \"Beacon Legal\": 2.9, \"Polaris Manufacturing\": 1.71, \"Zephyr Software\": 1.94, \"Maple & Main Bank\": 2.67, \"Keystone Realty\": 0.96, \"Lattice AI\": 0.89, \"Riverstone Capital\": 2.77, \"Waypoint Fleet\": 2.54, \"Crescent Pharma\": 1.12, \"Tandem Staffing\": 0.97})"
+  },
+  {
+   "name": "ACCOUNT_INDUSTRY",
+   "map_from": "ACCOUNT_NAME",
+   "map": {
+    "Brightline Health": [
+     "Media"
+    ],
+    "Corvana Systems": [
+     "Media"
+    ],
+    "Northpeak Logistics": [
+     "Education"
+    ],
+    "Lumen Ledger": [
+     "Security"
+    ],
+    "Halcyon Bio": [
+     "Education"
+    ],
+    "Vantera Cloud": [
+     "Fintech"
+    ],
+    "Ridgeway Insurance": [
+     "Healthcare"
+    ],
+    "Quillstone Media": [
+     "Software"
+    ],
+    "Atlas Freightworks": [
+     "Retail"
+    ],
+    "Cobalt Payroll": [
+     "Education"
+    ],
+    "Meridian Robotics": [
+     "Education"
+    ],
+    "Fernwood Retail": [
+     "Security"
+    ],
+    "Stratus Security": [
+     "Software"
+    ],
+    "Kinetic Labs": [
+     "Logistics"
+    ],
+    "Bluehaven Hotels": [
+     "Media"
+    ],
+    "Orchard Fintech": [
+     "Education"
+    ],
+    "Pinecrest Energy": [
+     "Security"
+    ],
+    "Tidewater Analytics": [
+     "Manufacturing"
+    ],
+    "Granite HR": [
+     "Fintech"
+    ],
+    "Nimbus Telecom": [
+     "Manufacturing"
+    ],
+    "Solace Wellness": [
+     "Security"
+    ],
+    "Ironclad Data": [
+     "Fintech"
+    ],
+    "Sparrow Commerce": [
+     "Financial Services"
+    ],
+    "Evergreen Credit": [
+     "Security"
+    ],
+    "Helix Diagnostics": [
+     "Fintech"
+    ],
+    "Summit Learning": [
+     "Fintech"
+    ],
+    "Vector Mobility": [
+     "Manufacturing"
+    ],
+    "Aurora Payments": [
+     "Software"
+    ],
+    "Copperleaf Foods": [
+     "Software"
+    ],
+    "Driftwood Travel": [
+     "Software"
+    ],
+    "Beacon Legal": [
+     "Retail"
+    ],
+    "Polaris Manufacturing": [
+     "Education"
+    ],
+    "Zephyr Software": [
+     "Manufacturing"
+    ],
+    "Maple & Main Bank": [
+     "Manufacturing"
+    ],
+    "Keystone Realty": [
+     "Retail"
+    ],
+    "Lattice AI": [
+     "Fintech"
+    ],
+    "Riverstone Capital": [
+     "Fintech"
+    ],
+    "Waypoint Fleet": [
+     "Media"
+    ],
+    "Crescent Pharma": [
+     "Healthcare"
+    ],
+    "Tandem Staffing": [
+     "Logistics"
+    ]
+   }
+  },
+  {
+   "name": "ACCOUNT_TIER",
+   "map_from": "ACCOUNT_NAME",
+   "map": {
+    "Brightline Health": [
+     "Tier 3"
+    ],
+    "Corvana Systems": [
+     "Tier 2"
+    ],
+    "Northpeak Logistics": [
+     "Tier 1"
+    ],
+    "Lumen Ledger": [
+     "Tier 2"
+    ],
+    "Halcyon Bio": [
+     "Tier 3"
+    ],
+    "Vantera Cloud": [
+     "Tier 2"
+    ],
+    "Ridgeway Insurance": [
+     "Tier 1"
+    ],
+    "Quillstone Media": [
+     "Tier 2"
+    ],
+    "Atlas Freightworks": [
+     "Tier 3"
+    ],
+    "Cobalt Payroll": [
+     "Tier 3"
+    ],
+    "Meridian Robotics": [
+     "Tier 1"
+    ],
+    "Fernwood Retail": [
+     "Tier 1"
+    ],
+    "Stratus Security": [
+     "Tier 1"
+    ],
+    "Kinetic Labs": [
+     "Tier 2"
+    ],
+    "Bluehaven Hotels": [
+     "Tier 2"
+    ],
+    "Orchard Fintech": [
+     "Tier 3"
+    ],
+    "Pinecrest Energy": [
+     "Tier 1"
+    ],
+    "Tidewater Analytics": [
+     "Tier 2"
+    ],
+    "Granite HR": [
+     "Tier 2"
+    ],
+    "Nimbus Telecom": [
+     "Tier 2"
+    ],
+    "Solace Wellness": [
+     "Tier 3"
+    ],
+    "Ironclad Data": [
+     "Tier 3"
+    ],
+    "Sparrow Commerce": [
+     "Tier 3"
+    ],
+    "Evergreen Credit": [
+     "Tier 2"
+    ],
+    "Helix Diagnostics": [
+     "Tier 2"
+    ],
+    "Summit Learning": [
+     "Tier 2"
+    ],
+    "Vector Mobility": [
+     "Tier 2"
+    ],
+    "Aurora Payments": [
+     "Tier 3"
+    ],
+    "Copperleaf Foods": [
+     "Tier 1"
+    ],
+    "Driftwood Travel": [
+     "Tier 2"
+    ],
+    "Beacon Legal": [
+     "Tier 2"
+    ],
+    "Polaris Manufacturing": [
+     "Tier 2"
+    ],
+    "Zephyr Software": [
+     "Tier 2"
+    ],
+    "Maple & Main Bank": [
+     "Tier 2"
+    ],
+    "Keystone Realty": [
+     "Tier 3"
+    ],
+    "Lattice AI": [
+     "Tier 1"
+    ],
+    "Riverstone Capital": [
+     "Tier 1"
+    ],
+    "Waypoint Fleet": [
+     "Tier 3"
+    ],
+    "Crescent Pharma": [
+     "Tier 3"
+    ],
+    "Tandem Staffing": [
+     "Tier 2"
+    ]
+   }
+  },
+  {
+   "name": "PROSPECT_PERSONA",
+   "weights": {
+    "Sales Leader": 24,
+    "RevOps Leader": 16,
+    "Marketing Leader": 15,
+    "IT & Security": 12,
+    "Finance Leader": 10,
+    "HR & People": 11,
+    "Founder / CEO": 12
+   }
+  },
+  {
+   "name": "PROSPECT_DEPARTMENT",
+   "map_from": "PROSPECT_PERSONA",
+   "map": {
+    "Sales Leader": [
+     "Sales"
+    ],
+    "RevOps Leader": [
+     "Revenue Operations"
+    ],
+    "Marketing Leader": [
+     "Marketing"
+    ],
+    "IT & Security": [
+     "IT"
+    ],
+    "Finance Leader": [
+     "Finance"
+    ],
+    "HR & People": [
+     "Human Resources"
+    ],
+    "Founder / CEO": [
+     "Executive"
+    ]
+   }
+  },
+  {
+   "name": "PROSPECT_SENIORITY",
+   "expr": "'C-Level' if r['PROSPECT_PERSONA'] == 'Founder / CEO' else weighted({'VP': 22, 'Director': 34, 'Manager': 30, 'Individual Contributor': 14})"
+  },
+  {
+   "name": "PROSPECT_TITLE",
+   "expr": "pick(['CEO','Co-Founder','Founder & CEO']) if r['PROSPECT_SENIORITY'] == 'C-Level' else ({'VP':'VP of ','Director':'Director of ','Manager':'Manager, ','Individual Contributor':'Specialist, '}[r['PROSPECT_SENIORITY']] + r['PROSPECT_DEPARTMENT'])"
+  },
+  {
+   "name": "PROSPECT_NAME",
+   "expr": "pick([\"Ava\", \"Liam\", \"Noah\", \"Mia\", \"Ethan\", \"Zoe\", \"Lucas\", \"Chloe\", \"Mason\", \"Nora\", \"Leo\", \"Ruby\", \"Owen\", \"Ivy\", \"Caleb\", \"Maya\", \"Jude\", \"Lena\", \"Felix\", \"Iris\", \"Theo\", \"Elena\", \"Adrian\", \"Hazel\"]) + ' ' + pick([\"Patel\", \"Nguyen\", \"Brooks\", \"Kim\", \"Alvarez\", \"Okafor\", \"Schmidt\", \"Rossi\", \"Chen\", \"Walsh\", \"Haddad\", \"Lopez\", \"Turner\", \"Sato\", \"Hughes\", \"Novak\", \"Reyes\", \"Bennett\", \"Khan\", \"Moreau\"])"
+  },
+  {
+   "name": "BUYING_SIGNAL",
+   "expr": "weighted({\"No Signal\": 60, \"Hiring Sales Team\": 7, \"Recent Funding\": 5, \"Competitor Renewal\": 5, \"Leadership Hire\": 4, \"Webinar Attendee\": 4, \"Asset Downloaded\": 4, \"Prior Champion\": 3, \"Timing Objection\": 2, \"Announced Expansion\": 3, \"20% Headcount Jump\": 3}) if r['SEQUENCE_SOURCE'] == 'Nooks' or chance(0.25) else 'No Signal'"
+  },
+  {
+   "name": "DIAL_MODE",
+   "expr": "'Signal-Based Dialing' if (r['BUYING_SIGNAL'] != 'No Signal' and chance(0.15 + 0.7 * ramp(150))) else ('Parallel Dialer' if chance(0.72) else 'Single Dial')"
+  },
+  {
+   "name": "P_CONNECT",
+   "expr": "min(0.6, {\"Sales Leader\": 0.125, \"RevOps Leader\": 0.08, \"Marketing Leader\": 0.105, \"IT & Security\": 0.07, \"Finance Leader\": 0.09, \"HR & People\": 0.135, \"Founder / CEO\": 0.065}[r['PROSPECT_PERSONA']] * (1 + 1.5 * ramp(150) if r['PROSPECT_PERSONA'] == 'RevOps Leader' else 1) * (1.35 if r['DIAL_MODE'] == 'Signal-Based Dialing' else 1.0) * (1.15 if r['PROSPECT_SENIORITY'] in ('Manager','Individual Contributor') else 0.9 if r['PROSPECT_SENIORITY'] in ('VP','C-Level') else 1) * (1.1 if 10 <= r['CALL_HOUR'] <= 11 or 15 <= r['CALL_HOUR'] <= 16 else 0.95))"
+  },
+  {
+   "name": "CONNECTED_FLAG",
+   "expr": "1 if chance(r['P_CONNECT']) else 0"
+  },
+  {
+   "name": "CONVERSATION_FLAG",
+   "expr": "1 if r['CONNECTED_FLAG'] and chance(0.58 + (0.06 if r['REP_TENURE'] in ('1-2 years','2+ years') else 0)) else 0"
+  },
+  {
+   "name": "OBJECTION_TYPE",
+   "expr": "weighted({'Not Interested': 28,'Send Me an Email': 22,'Bad Timing': 17,'Using a Competitor': 14*(1+0.6*ramp(240)),'No Budget': 11,'Not the Right Person': 8}) if r['CONVERSATION_FLAG'] and chance(0.72) else 'None'"
+  },
+  {
+   "name": "OBJECTION_HANDLED_FLAG",
+   "expr": "(1 if chance((0.17 - 0.1 * ramp(240)) if (r['REP_NAME'] == 'Lucas Wright' and r['OBJECTION_TYPE'] == 'Using a Competitor') else min(0.95, {\"Not Interested\": 0.42, \"Send Me an Email\": 0.62, \"Bad Timing\": 0.66, \"Using a Competitor\": 0.5, \"No Budget\": 0.45, \"Not the Right Person\": 0.72}[r['OBJECTION_TYPE']] * (1.15 if r['REP_TENURE'] in ('1-2 years','2+ years') else 0.9 if r['REP_TENURE'] == '0-3 months' else 1))) else 0) if r['OBJECTION_TYPE'] != 'None' else None"
+  },
+  {
+   "name": "MEETING_BOOKED_FLAG",
+   "expr": "1 if r['CONVERSATION_FLAG'] and chance(0.30 if r['OBJECTION_TYPE'] == 'None' else 0.24 if r['OBJECTION_HANDLED_FLAG'] else 0.03) else 0"
+  },
+  {
+   "name": "CALLBACK_REQUESTED_FLAG",
+   "expr": "1 if (r['CONNECTED_FLAG'] and not r['MEETING_BOOKED_FLAG'] and chance(0.75 if r['OBJECTION_TYPE'] in ('Bad Timing','Send Me an Email') else 0.2)) else 0"
+  },
+  {
+   "name": "CALLBACK_IN_DAYS",
+   "expr": "int(weighted({1:20,2:18,3:14,5:14,7:14,10:8,14:8,21:4})) if r['CALLBACK_REQUESTED_FLAG'] else None"
+  },
+  {
+   "name": "CALL_OUTCOME",
+   "expr": "'Meeting Booked' if r['MEETING_BOOKED_FLAG'] else 'Conversation' if r['CONVERSATION_FLAG'] else 'Connected' if r['CONNECTED_FLAG'] else weighted({'No Answer': 55, 'Voicemail': 38, 'Bad Number': 7})"
+  },
+  {
+   "name": "TALK_TIME_SEC",
+   "expr": "int(lognorm(430, 0.35)) if r['MEETING_BOOKED_FLAG'] else int(lognorm(190, 0.5)) if r['CONVERSATION_FLAG'] else int(lognorm(35, 0.4)) if r['CONNECTED_FLAG'] else int(lognorm(24, 0.3)) if r['CALL_OUTCOME'] == 'Voicemail' else 0"
+  },
+  {
+   "name": "CALL_SCORE",
+   "expr": "int(min(100, max(20, (55 + (18 if r['MEETING_BOOKED_FLAG'] else 0) + (10 if r['OBJECTION_HANDLED_FLAG'] else -8 if r['OBJECTION_HANDLED_FLAG'] == 0 else 0) + uniform(-12, 14))))) if r['CONVERSATION_FLAG'] else None"
+  }
+ ],
+ "groups": {
+  "id_column": "TASK_ID",
+  "id_prefix": "TK",
+  "per": "event",
+  "submitted_column": "TASK_DATE",
+  "lag_days": [
+   0,
+   0
+  ],
+  "month_end_share": 0,
+  "status_column": "CALLBACK_STATUS",
+  "status_rules": [
+   {
+    "if": "not r['CALLBACK_REQUESTED_FLAG']",
+    "status": "No Callback"
+   },
+   {
+    "if": "r['CALLBACK_IN_DAYS'] - age > 0",
+    "status": "Scheduled"
+   },
+   {
+    "if": "r['CALLBACK_IN_DAYS'] - age == 0",
+    "weights": {
+     "Due Today": 80,
+     "Completed": 20
+    }
+   },
+   {
+    "if": "r['CALLBACK_IN_DAYS'] - age >= -10",
+    "weights": {
+     "Overdue": 35,
+     "Completed": 65
+    }
+   },
+   {
+    "weights": {
+     "Completed": 88,
+     "Missed": 12
+    }
+   }
+  ]
+ },
+ "post": [
+  {
+   "name": "CALLBACK_DUE_DATE",
+   "expr": "(d + timedelta(days=r['CALLBACK_IN_DAYS'])) if r['CALLBACK_REQUESTED_FLAG'] else None"
+  },
+  {
+   "name": "DAYS_OVERDUE",
+   "expr": "(age - r['CALLBACK_IN_DAYS']) if r['CALLBACK_STATUS'] in ('Overdue','Due Today') else None"
+  },
+  {
+   "name": "DIAL_COUNT",
+   "expr": "1"
+  }
+ ],
+ "types": {
+  "CALL_ID": "VARCHAR(16)",
+  "TASK_ID": "VARCHAR(20)",
+  "CALL_HOUR": "NUMBER(2,0)",
+  "P_CONNECT": "NUMBER(5,3)",
+  "CONNECTED_FLAG": "NUMBER(1,0)",
+  "CONVERSATION_FLAG": "NUMBER(1,0)",
+  "OBJECTION_HANDLED_FLAG": "NUMBER(1,0)",
+  "MEETING_BOOKED_FLAG": "NUMBER(1,0)",
+  "CALLBACK_REQUESTED_FLAG": "NUMBER(1,0)",
+  "CALLBACK_IN_DAYS": "NUMBER(3,0)",
+  "TALK_TIME_SEC": "NUMBER(6,0)",
+  "CALL_SCORE": "NUMBER(3,0)",
+  "DAYS_OVERDUE": "NUMBER(4,0)",
+  "DIAL_COUNT": "NUMBER(1,0)",
+  "CALLBACK_DUE_DATE": "DATE"
+ }
+}

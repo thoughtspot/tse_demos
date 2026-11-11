@@ -1,0 +1,27 @@
+{
+  "name": "Nooks Call Performance",
+  "description": "Nooks AI dialer analytics: team funnel, rep and sequence performance, target accounts, connect rates by persona, objection coaching and the callback list.",
+  "model": { "guid": "5cd2cb6c-4794-4271-a86d-aa6f11003b44", "name": "Nooks Call Analytics" },
+  "palette": { "primary": "#FA47F9", "ramp": ["#FFE6FE", "#FCA3FB", "#FA47F9", "#8A0F89"] },
+  "tabs": [
+    { "name": "Overview", "description": "Team productivity, funnel, sequences, accounts, personas, objections and callbacks", "tiles": [
+      { "type": "KPI", "name": "Dials", "search": "[Dials] [Call Date].weekly" },
+      { "type": "KPI", "name": "Connect Rate", "search": "[Connect Rate] [Call Date].weekly" },
+      { "type": "KPI", "name": "Conversations", "search": "[Conversations] [Call Date].weekly" },
+      { "type": "KPI", "name": "Meetings Booked", "search": "[Meetings Booked] [Call Date].weekly" },
+      { "type": "SANKEY", "name": "Call funnel: team to dial mode to outcome", "search": "[Dials] [Team] [Dial Mode] [Call Outcome]" },
+      { "type": "HEATMAP", "name": "Objection handled rate by rep and objection", "search": "[Objection Handled Rate] [Rep] [Objection] [Objection] != 'none'" },
+      { "type": "TABLE", "name": "Callback list: due today and overdue", "action": true,
+        "search": "[Prospect] [Account] [Persona] [Rep] [Callback Due Date] [Days Overdue] [Callback Status] = 'overdue' 'due today' sort by [Days Overdue] descending" },
+      { "type": "LINE", "name": "RevOps leaders now pick up: connect rate by persona", "search": "[Connect Rate] [Call Date].monthly [Persona] [Persona] = 'revops leader' 'sales leader' 'marketing leader' 'founder / ceo'" },
+      { "type": "BAR", "name": "Coaching focus: 'Using a Competitor' handled rate by rep", "search": "[Objection Handled Rate] [Rep] [Objection] = 'using a competitor' sort by [Objection Handled Rate] ascending" },
+      { "type": "BAR", "name": "Meetings booked by sequence", "search": "[Meetings Booked] [Sequence] sort by [Meetings Booked] descending" },
+      { "type": "BAR", "name": "Target accounts: meetings booked", "search": "[Meetings Booked] [Account] sort by [Meetings Booked] descending top 15" },
+      { "type": "BAR", "name": "Connect rate by persona", "search": "[Connect Rate] [Persona] sort by [Connect Rate] descending" }
+    ]},
+    { "name": "KPIs", "description": "Headline KPIs and key findings", "kpi_layout": true, "tiles": [
+      { "type": "KPI", "name": "Connect Rate", "search": "[Connect Rate] [Call Date].weekly" },
+      { "type": "KPI", "name": "Meetings Booked", "search": "[Meetings Booked] [Call Date].weekly" }
+    ]}
+  ]
+}

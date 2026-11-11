@@ -1,0 +1,88 @@
+{
+ "name": "Emburse Expense Analytics",
+ "description": "Expense analytics for Emburse: spend, policy compliance, approval and reimbursement cycle times, audit risk and VAT recovery.",
+ "model": {
+  "guid": "bb0f6c02-cb31-4a2d-ace1-e8ac1023a167",
+  "name": "Emburse Expense Analytics"
+ },
+ "palette": {
+  "primary": "#015CB7",
+  "ramp": [
+   "#E6F0FA",
+   "#4DA3EC",
+   "#015CB7",
+   "#012B6B"
+  ]
+ },
+ "tabs": [
+  {
+   "name": "Overview",
+   "description": "Spend, compliance, approvals and cost control",
+   "tiles": [
+    {
+     "type": "KPI",
+     "name": "Spend",
+     "search": "[Expense Amount] [Transaction Date].weekly"
+    },
+    {
+     "type": "KPI",
+     "name": "Out-of-Policy Spend",
+     "search": "[Out-of-Policy Amount] [Transaction Date].weekly"
+    },
+    {
+     "type": "KPI",
+     "name": "Avg Approval Days",
+     "search": "average [Approval Days] [Transaction Date].weekly"
+    },
+    {
+     "type": "KPI",
+     "name": "Avg Audit Risk Score",
+     "search": "average [Audit Risk Score] [Transaction Date].weekly"
+    },
+    {
+     "type": "SANKEY",
+     "name": "Spend flow: department to category to payment method",
+     "search": "[Expense Amount] [Department] [Expense Category] [Payment Method]"
+    },
+    {
+     "type": "HEATMAP",
+     "name": "Out-of-Policy % by department and category",
+     "search": "[Out-of-Policy %] [Department] [Expense Category]"
+    },
+    {
+     "type": "TABLE",
+     "name": "Pending approval expense reports",
+     "action": true,
+     "search": "[Report ID] [Employee] [Expense Amount] [Policy Flag] [Audit Risk Score] [Days Pending] [Report Status] = 'pending approval' sort by [Days Pending] descending"
+    },
+    {
+     "type": "BAR",
+     "name": "Hotel rate vs negotiated by city",
+     "search": "[Hotel Rate vs Negotiated %] [City] [Expense Category] = 'lodging' sort by [Hotel Rate vs Negotiated %] descending"
+    },
+    {
+     "type": "LINE",
+     "name": "Violation rate by department",
+     "search": "[Violation Rate] [Transaction Date].monthly [Department]"
+    }
+   ]
+  },
+  {
+   "name": "KPIs",
+   "description": "Headline KPIs and key findings",
+   "tiles": [
+    {
+     "type": "KPI",
+     "name": "Spend",
+     "search": "[Expense Amount] [Transaction Date].weekly"
+    },
+    {
+     "type": "KPI",
+     "name": "Avg Reimbursement Days",
+     "search": "average [Reimbursement Days] [Transaction Date].weekly"
+    }
+   ],
+   "kpi_layout": true
+  }
+ ]
+}

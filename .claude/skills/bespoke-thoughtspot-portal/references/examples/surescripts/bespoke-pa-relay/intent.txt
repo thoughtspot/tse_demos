@@ -1,0 +1,12 @@
+Surescripts prior-auth relay (health-information network, electronic prior authorization).
+Metaphor: the PA request as a relay race. One lane per submission channel (Fax / Phone, Electronic (ePA), Touchless ePA);
+stations Prescriber/EHR -> Surescripts network -> PBM review -> Decision. Lane length = avg hours to decision (sqrt scale,
+max over the year), lane thickness = channel share of requests, hop heat on the Surescripts teal ramp
+(#BFE3F1 -> #009DD1 -> #005677 -> #002A3B); hops over 8h turn Surescripts orange #F26027 and pulse ("stall").
+Hop split is a fixed estimate per channel (fax 22/12/66%, ePA 7/3/90%, touchless 10/10/80%). PA-request particles run the
+lanes and crawl through slow hops. A 24h clock dial shows the state's blended time to decision (orange when 15% worse
+than network); a sparkline below compares state vs network over the months; Play walks the months.
+Dropdowns: State (default Texas; Network = all), metric (Turnaround / ePA share). Partial months (<40% median volume) dropped.
+Story: Texas avg time to decision 21.7h (Nov 2025) -> 5.4h (Oct 2026) as ePA share goes 24% -> 93%; network 11.5h.
+Search: [PA Turnaround Hours] [PA Requests] [Transaction Date].monthly [State] [PA Channel] [PA Channel] != 'not a pa' [Transaction Date] = 'last 12 months' [Theme Mode]  (827 rows)
+Font: Figtree (portal font, nearest Google match to Proxima Nova), embedded via make_font_patch. Tile: KPIs tab x0 y0 w5 h6.

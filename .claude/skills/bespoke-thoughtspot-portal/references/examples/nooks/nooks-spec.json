@@ -1,0 +1,350 @@
+{
+ "client": "Nooks",
+ "slug": "nooks",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "6be0e3c3-fd85-432a-808e-ace385a886d1",
+  "model": "5cd2cb6c-4794-4271-a86d-aa6f11003b44",
+  "inlineLiveboard": "6be0e3c3-fd85-432a-808e-ace385a886d1",
+  "actionLiveboard": "6be0e3c3-fd85-432a-808e-ace385a886d1",
+  "actionViz": "7f4add24-b672-4f1d-aece-c92b9420926c"
+ },
+ "action": {
+  "id": "schedule-callback",
+  "name": "Schedule Callback"
+ },
+ "columns": {
+  "inlineName": [
+   "Rep"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Dials",
+    "format": "number",
+    "candidates": [
+     "Total Dials",
+     "Dials"
+    ]
+   },
+   {
+    "label": "Connect rate",
+    "format": "percent",
+    "candidates": [
+     "Connect Rate"
+    ]
+   },
+   {
+    "label": "Meetings booked",
+    "format": "number",
+    "candidates": [
+     "Total Meetings Booked",
+     "Meetings Booked"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Team"
+  ],
+  "filterSecondary": [
+   "Sequence Source"
+  ],
+  "date": "Call Date",
+  "hierarchy": {
+   "segment": "Team",
+   "rep": "Rep",
+   "cadence": "Sequence"
+  }
+ },
+ "font": {
+  "family": "Manrope",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+ },
+ "logo": {
+  "svgPath": "nooks/nooks-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"8\" fill=\"#FA47F9\"/><text x=\"16\" y=\"23\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-weight=\"700\" font-size=\"19\" fill=\"#ffffff\">n</text></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#faf8f2",
+   "--sl-cream-2": "#f6ecff",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#0f0f0f",
+   "--sl-evergreen-2": "#242933",
+   "--sl-green": "#fa47f9",
+   "--sl-green-dark": "#c81fc7",
+   "--sl-primary-rgb": "250, 71, 249",
+   "--intime-blue": "#8958da",
+   "--sl-gold": "#8958da",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #5b40ff 0%, #e85aff 72%)",
+   "--sl-mint": "#fff0ff",
+   "--sl-mint-2": "#f6e0fa",
+   "--sl-coral": "#e74c3c",
+   "--sl-warn": "#fff7e6",
+   "--sl-warn-ink": "#7a4a00",
+   "--sl-ink": "#0f0f0f",
+   "--sl-muted": "#5c6b7f",
+   "--sl-border": "#ece4ef",
+   "--sl-border-soft": "#f4eff6",
+   "--font-serif": "'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "66px",
+   "--shadow-card": "0 1px 2px rgba(15, 15, 15, 0.05), 0 8px 24px rgba(137, 88, 218, 0.08)",
+   "--shadow-lift": "0 6px 14px rgba(15, 15, 15, 0.08), 0 18px 40px rgba(137, 88, 218, 0.14)",
+   "--brand-navy": "#0f0f0f",
+   "--brand-accent": "#fa47f9"
+  },
+  "dark": {
+   "--sl-cream": "#0f0d12",
+   "--sl-cream-2": "#141118",
+   "--sl-white": "#18151d",
+   "--sl-evergreen": "#f3eef6",
+   "--sl-evergreen-2": "#ddd4e3",
+   "--sl-green": "#fb64fa",
+   "--sl-green-dark": "#fa47f9",
+   "--sl-primary-rgb": "251, 100, 250",
+   "--intime-blue": "#a983e8",
+   "--sl-gold": "#a983e8",
+   "--sl-gold-ink": "#0f0d12",
+   "--intime-grad": "linear-gradient(40deg, #7b63ff 0%, #f07bff 72%)",
+   "--sl-mint": "#2a1730",
+   "--sl-mint-2": "#33203a",
+   "--sl-coral": "#ff6b5e",
+   "--sl-ink": "#f3eef6",
+   "--sl-muted": "#a49cb0",
+   "--sl-border": "#2a2433",
+   "--sl-border-soft": "#201c26",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#0f0f0f",
+   "--brand-accent": "#fa47f9"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#fa47f9"
+  ],
+  [
+   "#3F49B8",
+   "#e03ade"
+  ],
+  [
+   "#333C99",
+   "#c81fc7"
+  ],
+  [
+   "#22B8CF",
+   "#8958da"
+  ],
+  [
+   "#0b0d10",
+   "#0f0d12"
+  ],
+  [
+   "#14181f",
+   "#18151d"
+  ],
+  [
+   "#1a212b",
+   "#2a1730"
+  ],
+  [
+   "#232a34",
+   "#2a2433"
+  ],
+  [
+   "#0b1f19",
+   "#141118"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(250,71,249,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#fa47f9"
+  ],
+  [
+   "#0c8554",
+   "#c81fc7"
+  ],
+  [
+   "#d9ecea",
+   "#fff0ff"
+  ],
+  [
+   "#cfe3e2",
+   "#f6e0fa"
+  ],
+  [
+   "#1bb978",
+   "#8958da"
+  ],
+  [
+   "#15ae6e",
+   "#0f0f0f"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#141118"
+  ],
+  [
+   "#10222a",
+   "#141118"
+  ],
+  [
+   "#123047",
+   "#18151d"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Nooks",
+  "aiName": "Nooks AI Assistant",
+  "website": "https://www.nooks.ai",
+  "loginTitleHtml": "Every lead worked.<br />Every account covered.",
+  "landing": {
+   "eyebrow": "Nooks Call Analytics",
+   "headline": [
+    {
+     "text": "Revenue infrastructure for "
+    },
+    {
+     "text": "reps and agents",
+     "accent": true
+    },
+    {
+     "text": "."
+    }
+   ],
+   "subline": "One execution layer across every motion. Every lead worked, every deal moved, every account covered.",
+   "ctaLabel": "Explore call analytics",
+   "stats": [
+    {
+     "value": "344K",
+     "label": "Dials"
+    },
+    {
+     "value": "10.8%",
+     "label": "Connect rate"
+    },
+    {
+     "value": "4.1K",
+     "label": "Meetings booked"
+    }
+   ]
+  },
+  "loginSubtitle": "Call analytics for your sales floor: dials, connects, conversations and meetings by rep, sequence, account and persona, with AI answers on live data.",
+  "loginStats": [
+   {
+    "value": "344K",
+    "label": "Dials analysed"
+   },
+   {
+    "value": "10.8%",
+    "label": "Connect rate"
+   },
+   {
+    "value": "4.1K",
+    "label": "Meetings booked"
+   }
+  ],
+  "loginCardSubtitle": "Sign in with your credentials",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Dialer",
+   "Signals",
+   "Coaching"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Call Analytics",
+   "inline": "Rep Insights",
+   "action": "Callback List",
+   "ask": "Ask Nooks AI",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Team funnel, sequences, accounts, personas, objections and callbacks from your Nooks dialer",
+  "spotterSubtitle": "Ask questions of your Nooks call data in natural language.",
+  "inline": {
+   "subtitleReady": "Dials, connect rate and meetings booked by rep. Select a rep to view their KPIs",
+   "subtitleIdle": "Dials, connect rate and meetings booked across reps",
+   "loading": "Loading reps…",
+   "errorTitle": "Couldn't load reps",
+   "errorMsg": "Unable to load rep data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Team",
+   "secondaryLabel": "Sequence source",
+   "dateLabel": "Call date"
+  },
+  "sampleQuestions": [
+   "Connect rate by persona by month",
+   "Meetings booked by sequence and sequence source",
+   "Objection handled rate by rep for Using a Competitor",
+   "Dials per day by rep this quarter"
+  ],
+  "askWelcome": "Ask me anything about Nooks: the AI Dialer, parallel dialing, Signals, AI coaching and sequences. Or ask about your own call data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your dials, connects, conversations, meetings, objections and callbacks. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Schedule Callback",
+   "subtitlePrefix": "Callbacks due today or overdue, most overdue first. Right-click a prospect and choose",
+   "subtitleSuffix": "to book the callback, reassign it to another rep or add it to a Nooks sequence.",
+   "modalTitle": "Schedule Callback",
+   "modalLead": "Pre-filled from the selected callback. Pick a time and the next step so this prospect is called back.",
+   "submitLabel": "Schedule",
+   "successTitle": "Callback scheduled"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm the Nooks AI Assistant. Ask me about dials, connects, sequences, objections and callbacks, or ask a question about your data.",
+   "overview": "Nooks is an AI-powered sales platform for reps and agents. Its AI Dialer runs parallel and signal-based dialing, Signals and Intelligence surfaces buying signals on target accounts, AI Coaching scores calls and handles objections, and it syncs sequences with Outreach, Salesloft and HubSpot.",
+   "greetingExample": "connect rate by persona",
+   "examples": [
+    "meetings booked by sequence by month",
+    "objection handled rate by rep"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Nooks Premium to unlock drill-down, Ask AI and downloads.",
+  "analyticsKeywords": [
+   "dial",
+   "dials",
+   "call",
+   "calls",
+   "connect",
+   "connects",
+   "connect rate",
+   "conversation",
+   "meeting",
+   "meetings",
+   "rep",
+   "team",
+   "sequence",
+   "account",
+   "persona",
+   "objection",
+   "callback",
+   "signal",
+   "talk time"
+  ]
+ }
+}

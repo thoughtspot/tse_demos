@@ -1,0 +1,399 @@
+{
+ "name": "Unite Us Social Care Analytics",
+ "description": "Closed-loop social care referrals across Unite Us networks: referral volume, acceptance, resolution, outcomes, partner capacity and Medicaid invoicing. One row per referral, daily from Oct 2024 to Oct 2026.",
+ "table": "UNITEUS_REFERRALS",
+ "columns": [
+  {
+   "db": "REFERRAL_ID",
+   "name": "Referral ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique referral identifier.",
+   "synonyms": [
+    "referral number",
+    "referral"
+   ]
+  },
+  {
+   "db": "REFERRAL_DATE",
+   "name": "Referral Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date the referral was sent.",
+   "synonyms": [
+    "date",
+    "sent date"
+   ]
+  },
+  {
+   "db": "SENDING_ORGANIZATION",
+   "name": "Sending Organization",
+   "type": "ATTRIBUTE",
+   "desc": "Organization that sent the referral.",
+   "synonyms": [
+    "referring organization",
+    "referrer"
+   ]
+  },
+  {
+   "db": "SENDING_ORG_TYPE",
+   "name": "Sending Org Type",
+   "type": "ATTRIBUTE",
+   "desc": "Type of sending organization: health system, health plan, CBO, government agency, FQHC, behavioral health.",
+   "synonyms": [
+    "referrer type"
+   ]
+  },
+  {
+   "db": "STATE",
+   "name": "State",
+   "type": "ATTRIBUTE",
+   "desc": "State of the network."
+  },
+  {
+   "db": "COUNTY",
+   "name": "County",
+   "type": "ATTRIBUTE",
+   "desc": "County the client lives in.",
+   "synonyms": [
+    "region",
+    "hub"
+   ]
+  },
+  {
+   "db": "NETWORK",
+   "name": "Network",
+   "type": "ATTRIBUTE",
+   "desc": "Unite Us social care network.",
+   "synonyms": [
+    "community network"
+   ]
+  },
+  {
+   "db": "SERVICE_TYPE",
+   "name": "Service Type",
+   "type": "ATTRIBUTE",
+   "desc": "Social need the referral addresses, e.g. Food Assistance, Housing & Shelter, Utilities.",
+   "synonyms": [
+    "need",
+    "need type",
+    "domain",
+    "service"
+   ]
+  },
+  {
+   "db": "RECEIVING_ORGANIZATION",
+   "name": "Receiving Organization",
+   "type": "ATTRIBUTE",
+   "desc": "Community partner that received the referral.",
+   "synonyms": [
+    "provider",
+    "partner",
+    "CBO"
+   ]
+  },
+  {
+   "db": "PROGRAM_NAME",
+   "name": "Program",
+   "type": "ATTRIBUTE",
+   "desc": "Program the referral was sent to.",
+   "synonyms": [
+    "program name"
+   ]
+  },
+  {
+   "db": "FUNDING_SOURCE",
+   "name": "Funding Source",
+   "type": "ATTRIBUTE",
+   "desc": "How the service is funded: 1115 Medicaid Waiver, grant or unfunded.",
+   "synonyms": [
+    "funding"
+   ]
+  },
+  {
+   "db": "REFERRAL_SOURCE",
+   "name": "Referral Source",
+   "type": "ATTRIBUTE",
+   "desc": "How the need was identified: screening, care manager, self-referral, 211, discharge.",
+   "synonyms": [
+    "source",
+    "channel"
+   ]
+  },
+  {
+   "db": "URGENCY",
+   "name": "Urgency",
+   "type": "ATTRIBUTE",
+   "desc": "Routine, Urgent or Emergency.",
+   "synonyms": [
+    "priority"
+   ]
+  },
+  {
+   "db": "PAYER",
+   "name": "Payer",
+   "type": "ATTRIBUTE",
+   "desc": "Client coverage type.",
+   "synonyms": [
+    "insurance",
+    "coverage"
+   ]
+  },
+  {
+   "db": "HEALTH_PLAN",
+   "name": "Health Plan",
+   "type": "ATTRIBUTE",
+   "desc": "Health plan for covered clients.",
+   "synonyms": [
+    "plan",
+    "MCO"
+   ]
+  },
+  {
+   "db": "CLIENT_AGE_BAND",
+   "name": "Client Age Band",
+   "type": "ATTRIBUTE",
+   "desc": "Client age group.",
+   "synonyms": [
+    "age"
+   ]
+  },
+  {
+   "db": "CLIENT_GENDER",
+   "name": "Client Gender",
+   "type": "ATTRIBUTE",
+   "desc": "Client gender.",
+   "synonyms": [
+    "gender"
+   ]
+  },
+  {
+   "db": "CLIENT_RACE_ETHNICITY",
+   "name": "Client Race / Ethnicity",
+   "type": "ATTRIBUTE",
+   "desc": "Client race or ethnicity.",
+   "synonyms": [
+    "race",
+    "ethnicity"
+   ]
+  },
+  {
+   "db": "PRIMARY_LANGUAGE",
+   "name": "Primary Language",
+   "type": "ATTRIBUTE",
+   "desc": "Client primary language.",
+   "synonyms": [
+    "language"
+   ]
+  },
+  {
+   "db": "REFERRAL_STATUS",
+   "name": "Referral Status",
+   "type": "ATTRIBUTE",
+   "desc": "Pending, Accepted, In Progress, Declined, Recalled, Auto-Recalled, Closed - Resolved, Closed - Unresolved.",
+   "synonyms": [
+    "status",
+    "case status"
+   ]
+  },
+  {
+   "db": "OUTCOME_REASON",
+   "name": "Outcome Reason",
+   "type": "ATTRIBUTE",
+   "desc": "Why the referral closed the way it did, e.g. Client Received Services, Unable to Contact Client, Program at Capacity.",
+   "synonyms": [
+    "reason",
+    "close reason"
+   ]
+  },
+  {
+   "db": "INVOICE_STATUS",
+   "name": "Invoice Status",
+   "type": "ATTRIBUTE",
+   "desc": "Status of the Medicaid invoice for the service.",
+   "synonyms": [
+    "claim status",
+    "payment status"
+   ]
+  },
+  {
+   "db": "HOUSEHOLD_SIZE",
+   "name": "Household Size",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "People in the client household.",
+   "synonyms": [
+    "household"
+   ]
+  },
+  {
+   "db": "DAYS_TO_ACCEPT",
+   "name": "Days to Accept",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days from sending to acceptance by the partner.",
+   "synonyms": [
+    "time to accept",
+    "acceptance time"
+   ]
+  },
+  {
+   "db": "DAYS_TO_RESOLVE",
+   "name": "Days to Resolve",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days from sending to case closure.",
+   "synonyms": [
+    "time to resolution",
+    "resolution time"
+   ]
+  },
+  {
+   "db": "DAYS_PENDING",
+   "name": "Days Pending",
+   "type": "MEASURE",
+   "agg": "AVERAGE",
+   "desc": "Days a referral has waited for acceptance (pending referrals only).",
+   "synonyms": [
+    "aging",
+    "days waiting"
+   ]
+  },
+  {
+   "db": "SERVICE_COST_USD",
+   "name": "Service Cost",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "currency": true,
+   "desc": "Cost of the services delivered.",
+   "synonyms": [
+    "cost",
+    "spend",
+    "service spend"
+   ]
+  },
+  {
+   "db": "INVOICE_AMOUNT_USD",
+   "name": "Invoiced Amount",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "currency": true,
+   "desc": "Amount invoiced to Medicaid for delivered services.",
+   "synonyms": [
+    "invoiced",
+    "billed"
+   ]
+  },
+  {
+   "db": "AMOUNT_PAID_USD",
+   "name": "Amount Paid",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "currency": true,
+   "desc": "Amount paid to community partners.",
+   "synonyms": [
+    "paid",
+    "reimbursed"
+   ]
+  },
+  {
+   "db": "REFERRAL_COUNT",
+   "name": "Referrals",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Number of referrals.",
+   "synonyms": [
+    "referral volume",
+    "volume",
+    "count"
+   ]
+  },
+  {
+   "db": "ACCEPTED_FLAG",
+   "name": "Accepted Referrals",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Referrals accepted by a partner.",
+   "synonyms": [
+    "accepted"
+   ]
+  },
+  {
+   "db": "RESOLVED_FLAG",
+   "name": "Resolved Referrals",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Referrals closed as resolved.",
+   "synonyms": [
+    "resolved"
+   ]
+  },
+  {
+   "db": "CLOSED_FLAG",
+   "name": "Closed Referrals",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Referrals that are closed.",
+   "synonyms": [
+    "closed"
+   ]
+  },
+  {
+   "db": "OUTCOME_SUCCESS_FLAG",
+   "name": "Successful Outcomes",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Closed referrals where the client received services.",
+   "synonyms": [
+    "successes",
+    "needs met"
+   ]
+  },
+  {
+   "db": "SLA_BREACH_FLAG",
+   "name": "SLA Breaches",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Referrals not accepted within 2 days.",
+   "synonyms": [
+    "sla breach",
+    "late acceptances"
+   ]
+  },
+  {
+   "db": "FOLLOW_UP_COUNT",
+   "name": "Follow-ups",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Follow-up attempts with the client.",
+   "synonyms": [
+    "follow ups",
+    "outreach attempts"
+   ]
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Acceptance Rate",
+   "desc": "Share of referrals accepted by a partner.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::ACCEPTED_FLAG] ) / sum ( [{T}::REFERRAL_COUNT] )"
+  },
+  {
+   "name": "Resolution Rate",
+   "desc": "Share of closed referrals resolved with the client receiving services.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::OUTCOME_SUCCESS_FLAG] ) / sum ( [{T}::CLOSED_FLAG] )"
+  },
+  {
+   "name": "SLA Breach Rate",
+   "desc": "Share of referrals not accepted within 2 days.",
+   "format": "0.0%",
+   "expr": "sum ( [{T}::SLA_BREACH_FLAG] ) / sum ( [{T}::REFERRAL_COUNT] )"
+  },
+  {
+   "name": "Clients Served",
+   "desc": "Distinct referrals that reached a partner (proxy for clients served).",
+   "expr": "sum ( [{T}::ACCEPTED_FLAG] )"
+  }
+ ],
+ "theme_parameter": true
+}

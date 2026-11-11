@@ -1,0 +1,21 @@
+html, body { height: 100%; margin: 0; }
+body { overflow: hidden; -webkit-font-smoothing: antialiased; }
+#chart { height: 100%; box-sizing: border-box; position: relative; display: flex; flex-direction: column; font-family: Montserrat, system-ui, -apple-system, "Segoe UI", sans-serif; font-variant-numeric: tabular-nums; }
+.cl-head { flex: 0 0 auto; padding: 10px 12px 4px; }
+.cl-title { font-size: 14px; font-weight: 700; margin: 0; }
+.cl-sub { font-size: 11.5px; margin: 2px 0 0; opacity: .85; }
+.cl-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.cl-chip { all: unset; cursor: pointer; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--cl-line); color: var(--cl-muted); }
+.cl-chip:hover { border-color: var(--cl-primary); color: var(--cl-ink); }
+.cl-chip.on { background: var(--cl-primary); border-color: var(--cl-primary); color: #fff; }
+.cl-chip:focus-visible { outline: 2px solid var(--cl-primary); outline-offset: 1px; }
+.cl-sep { width: 1px; background: var(--cl-line); margin: 0 3px; }
+.cl-stage { flex: 1 1 0; min-height: 0; position: relative; }
+.cl-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.cl-tip { position: absolute; z-index: 5; pointer-events: none; opacity: 0; transition: opacity .12s; border-radius: 6px; padding: 7px 9px; font-size: 11.5px; line-height: 1.4; max-width: 220px; box-shadow: 0 2px 10px rgba(0, 0, 0, .25); }
+.cl-tip b { display: block; font-size: 12px; margin-bottom: 2px; }
+.cl-empty { margin: auto; font-size: 13px; opacity: .8; text-align: center; padding: 20px; }
+.cl-pick { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--cl-muted); }
+.cl-pick select { font: inherit; font-weight: 600; color: var(--cl-ink); background: transparent; border: 1px solid var(--cl-line); border-radius: 999px; padding: 3px 8px; cursor: pointer; }
+.cl-pick select:focus-visible { outline: 2px solid var(--cl-primary); outline-offset: 1px; }
+.cl-chips { gap: 10px; }

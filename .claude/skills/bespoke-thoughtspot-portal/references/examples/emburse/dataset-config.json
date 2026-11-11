@@ -1,0 +1,415 @@
+{
+ "table": "EMBURSE_EXPENSE_LINES",
+ "seed": 20261017,
+ "days": 730,
+ "as_of": "2026-10-16",
+ "id_column": "EXPENSE_LINE_ID",
+ "id_prefix": "EL-",
+ "date_column": "TRANSACTION_DATE",
+ "actors": {
+  "count": 1170,
+  "label": "EMPLOYEE_NAME",
+  "names": "people",
+  "attributes": {
+   "DEPARTMENT": {
+    "weights": {
+     "Sales": 280,
+     "Customer Success": 120,
+     "Professional Services": 160,
+     "Engineering": 300,
+     "Marketing": 110,
+     "Finance & Operations": 80,
+     "People & HR": 55,
+     "Legal": 40,
+     "Executive": 25
+    }
+   },
+   "GEO": {
+    "levels": [
+     "REGION",
+     "COUNTRY",
+     "CITY"
+    ],
+    "tree": {
+     "North America": [
+      55,
+      {
+       "United States": [
+        88,
+        {
+         "New York": 10,
+         "San Francisco": 8,
+         "Chicago": 6,
+         "Boston": 4,
+         "Austin": 3,
+         "Seattle": 3,
+         "Atlanta": 3,
+         "Denver": 2,
+         "Dallas": 3
+        }
+       ],
+       "Canada": [
+        12,
+        {
+         "Toronto": 3,
+         "Vancouver": 2
+        }
+       ]
+      }
+     ],
+     "EMEA": [
+      30,
+      {
+       "United Kingdom": [
+        40,
+        {
+         "London": 8,
+         "Manchester": 2
+        }
+       ],
+       "Germany": [
+        25,
+        {
+         "Berlin": 3,
+         "Munich": 2,
+         "Frankfurt": 2
+        }
+       ],
+       "France": [
+        20,
+        {
+         "Paris": 4,
+         "Lyon": 1
+        }
+       ],
+       "Netherlands": [
+        15,
+        {
+         "Amsterdam": 3
+        }
+       ]
+      }
+     ],
+     "APAC": [
+      15,
+      {
+       "Australia": [
+        35,
+        {
+         "Sydney": 3,
+         "Melbourne": 2
+        }
+       ],
+       "Singapore": [
+        30,
+        {
+         "Singapore": 5
+        }
+       ],
+       "Japan": [
+        35,
+        {
+         "Tokyo": 4,
+         "Osaka": 1
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "COST_CENTER": {
+    "expr": "'CC-' + str(1000 + 100 * ['Sales','Customer Success','Professional Services','Engineering','Marketing','Finance & Operations','People & HR','Legal','Executive'].index(r['DEPARTMENT']) + 10 * ['North America','EMEA','APAC'].index(r['REGION'])) + ' ' + r['DEPARTMENT'] + ' - ' + r['REGION']"
+   },
+   "APPROVER_NAME": {
+    "expr": "pick(['Victoria Hale','Marcus Reid','Priya Mehta','Daniel Okafor','Sofia Rossi','Kenji Sato','Hannah Clarke','Omar Haddad','Elena Novak','Liam Walker','Grace Taylor','Arjun Singh'])"
+   }
+  },
+  "rate": 0.34,
+  "rate_by": {
+   "DEPARTMENT": {
+    "Sales": 2.2,
+    "Executive": 2.4,
+    "Professional Services": 1.7,
+    "Customer Success": 1.2,
+    "Marketing": 1.1,
+    "Engineering": 0.45,
+    "Finance & Operations": 0.55,
+    "People & HR": 0.55,
+    "Legal": 0.6
+   }
+  },
+  "rate_spread": 0.45
+ },
+ "calendar": {
+  "growth_yoy": 0.1,
+  "weekday": [
+   1.1,
+   1.15,
+   1.1,
+   1.0,
+   0.9,
+   0.3,
+   0.22
+  ],
+  "month": {
+   "1": 1.2,
+   "2": 1.15,
+   "3": 1.18,
+   "4": 1.15,
+   "5": 1.02,
+   "6": 1.0,
+   "7": 0.82,
+   "8": 0.78,
+   "9": 1.15,
+   "10": 1.18,
+   "11": 1.0,
+   "12": 0.62
+  },
+  "holidays": "us"
+ },
+ "columns": [
+  {
+   "name": "CURRENCY",
+   "expr": "{'United States':'USD','Canada':'CAD','United Kingdom':'GBP','Germany':'EUR','France':'EUR','Netherlands':'EUR','Australia':'AUD','Singapore':'SGD','Japan':'JPY'}[r['COUNTRY']]"
+  },
+  {
+   "name": "EXPENSE_CATEGORY",
+   "weights": {
+    "Airfare": 12,
+    "Lodging": 14,
+    "Meals & Entertainment": 34,
+    "Ground Transport": 16,
+    "Mileage": 6,
+    "Per Diem": 3,
+    "Conferences & Training": 3,
+    "Software & Subscriptions": 5,
+    "Office Supplies": 5,
+    "Client Gifts": 2
+   },
+   "by": "DEPARTMENT",
+   "by_weights": {
+    "Engineering": {
+     "Airfare": 6,
+     "Lodging": 7,
+     "Meals & Entertainment": 25,
+     "Ground Transport": 12,
+     "Mileage": 4,
+     "Conferences & Training": 6,
+     "Software & Subscriptions": 25,
+     "Office Supplies": 15
+    }
+   }
+  },
+  {
+   "name": "MERCHANT",
+   "map_from": "EXPENSE_CATEGORY",
+   "map": {
+    "Airfare": [
+     "Delta Air Lines",
+     "United Airlines",
+     "American Airlines",
+     "British Airways",
+     "Lufthansa",
+     "Air France",
+     "Qantas",
+     "Singapore Airlines",
+     "Japan Airlines",
+     "Air Canada"
+    ],
+    "Lodging": [
+     "Marriott",
+     "Hilton",
+     "Hyatt",
+     "IHG Hotels",
+     "Accor",
+     "Westin",
+     "Courtyard by Marriott",
+     "Hampton Inn"
+    ],
+    "Meals & Entertainment": [
+     "Starbucks",
+     "Pret A Manger",
+     "Chipotle",
+     "Sweetgreen",
+     "The Capital Grille",
+     "Ruth's Chris Steak House",
+     "Nobu",
+     "Local Restaurant",
+     "Uber Eats",
+     "DoorDash"
+    ],
+    "Ground Transport": [
+     "Uber",
+     "Lyft",
+     "Hertz",
+     "Enterprise Rent-A-Car",
+     "Avis",
+     "Bolt",
+     "Amtrak"
+    ],
+    "Mileage": [
+     "Personal Vehicle"
+    ],
+    "Per Diem": [
+     "Per Diem Allowance"
+    ],
+    "Conferences & Training": [
+     "Dreamforce",
+     "AWS re:Invent",
+     "SaaStr Annual",
+     "Gartner Symposium",
+     "Web Summit"
+    ],
+    "Software & Subscriptions": [
+     "Zoom",
+     "Slack",
+     "LinkedIn Sales Navigator",
+     "Adobe Creative Cloud",
+     "Notion",
+     "AWS"
+    ],
+    "Office Supplies": [
+     "Amazon Business",
+     "Staples",
+     "Office Depot",
+     "Best Buy"
+    ],
+    "Client Gifts": [
+     "Harry & David",
+     "1-800-Flowers",
+     "Edible Arrangements"
+    ]
+   }
+  },
+  {
+   "name": "MCC_GROUP",
+   "expr": "{'Airfare':'Airlines','Lodging':'Hotels & Lodging','Meals & Entertainment':'Restaurants & Bars','Ground Transport':'Transportation','Mileage':'Personal Vehicle','Per Diem':'Per Diem Allowance','Conferences & Training':'Events & Education','Software & Subscriptions':'Digital Services','Office Supplies':'Retail','Client Gifts':'Retail'}[r['EXPENSE_CATEGORY']]"
+  },
+  {
+   "name": "PAYMENT_METHOD",
+   "expr": "weighted({'Travel Agency (TMC)':62,'Corporate Card':33,'Out-of-Pocket':5}) if r['EXPENSE_CATEGORY']=='Airfare' else 'Out-of-Pocket' if r['EXPENSE_CATEGORY'] in ('Mileage','Per Diem') else weighted({'P-Card':65,'Corporate Card':35}) if r['EXPENSE_CATEGORY'] in ('Software & Subscriptions','Office Supplies') else weighted({'Corporate Card':62,'Out-of-Pocket':38})"
+  },
+  {
+   "name": "PROJECT_CLIENT",
+   "expr": "pick(['Northwind Logistics','Bluepeak Health','Harborline Bank','Cobalt Retail Group','Vantage Insurance','Summit Ridge University','Ironclad Manufacturing','Lumen Media','Meridian Airlines','Clearwater Pharma','Atlas Freight','Keystone Capital']) if r['DEPARTMENT'] in ('Sales','Customer Success','Professional Services','Executive') and chance(0.6) else 'Internal'"
+  },
+  {
+   "name": "NEGOTIATED_RATE_USD",
+   "expr": "{'New York':289,'San Francisco':269,'London':245,'Boston':255,'Paris':229,'Singapore':235,'Seattle':229,'Tokyo':219,'Amsterdam':215}.get(r['CITY'], 189) if r['EXPENSE_CATEGORY']=='Lodging' else None"
+  },
+  {
+   "name": "EXPENSE_AMOUNT_USD",
+   "round": 2,
+   "expr": "r['NEGOTIATED_RATE_USD'] * lognorm(1.02 + (0.24 * ramp(270) if r['CITY'] in ('New York','London') else 0), 0.10) if r['EXPENSE_CATEGORY']=='Lodging' else lognorm({'Airfare':450,'Meals & Entertainment':38,'Ground Transport':32,'Mileage':34,'Per Diem':80,'Conferences & Training':950,'Software & Subscriptions':40,'Office Supplies':65,'Client Gifts':110}[r['EXPENSE_CATEGORY']], 0.55)"
+  },
+  {
+   "name": "MILES",
+   "round": 1,
+   "expr": "round(r['EXPENSE_AMOUNT_USD'] / 0.7, 1) if r['EXPENSE_CATEGORY']=='Mileage' else None"
+  },
+  {
+   "name": "POLICY_FLAG",
+   "expr": "('Over Hotel Cap' if r['EXPENSE_CATEGORY']=='Lodging' and r['EXPENSE_AMOUNT_USD'] > r['NEGOTIATED_RATE_USD']*1.1 else 'Alcohol on Receipt' if r['EXPENSE_CATEGORY']=='Meals & Entertainment' and chance(0.05 * (1 + 1.3*ramp(180) if r['DEPARTMENT']=='Sales' else 1)) else 'Over Meal Limit' if r['EXPENSE_CATEGORY']=='Meals & Entertainment' and r['EXPENSE_AMOUNT_USD'] > 75 and chance(0.6 * (1 + 1.3*ramp(180) if r['DEPARTMENT']=='Sales' else 1)) else 'Missing Receipt' if r['EXPENSE_AMOUNT_USD'] > 75 and chance(0.04) else 'Duplicate Suspected' if chance(0.006) else 'Weekend Expense' if dow >= 5 and chance(0.4) else 'None')"
+  },
+  {
+   "name": "POLICY_STATUS",
+   "expr": "{'None':'In Policy','Missing Receipt':'Missing Receipt','Alcohol on Receipt':'Hard Violation','Duplicate Suspected':'Hard Violation'}.get(r['POLICY_FLAG'], 'Soft Violation')"
+  },
+  {
+   "name": "OUT_OF_POLICY_AMOUNT_USD",
+   "round": 2,
+   "expr": "0.0 if r['POLICY_FLAG']=='None' else r['EXPENSE_AMOUNT_USD'] - r['NEGOTIATED_RATE_USD']*1.1 if r['POLICY_FLAG']=='Over Hotel Cap' else r['EXPENSE_AMOUNT_USD'] - 75 if r['POLICY_FLAG']=='Over Meal Limit' else r['EXPENSE_AMOUNT_USD'] * uniform(0.2, 0.45) if r['POLICY_FLAG']=='Alcohol on Receipt' else r['EXPENSE_AMOUNT_USD']"
+  },
+  {
+   "name": "VIOLATION_COUNT",
+   "expr": "0 if r['POLICY_FLAG']=='None' else 1"
+  },
+  {
+   "name": "RECEIPT_MISSING_FLAG",
+   "expr": "1 if r['POLICY_FLAG']=='Missing Receipt' else 0"
+  },
+  {
+   "name": "AUDIT_RISK_SCORE",
+   "expr": "int(max(1, min(99, round(rng.betavariate(1.8, 12)*100 + {'In Policy':0,'Soft Violation':18,'Hard Violation':38,'Missing Receipt':26}[r['POLICY_STATUS']] + (7 if r['EXPENSE_AMOUNT_USD'] > 1000 else 0)))))"
+  },
+  {
+   "name": "VAT_RECLAIMABLE_USD",
+   "round": 2,
+   "expr": "r['EXPENSE_AMOUNT_USD'] * {'United Kingdom':0.2,'Germany':0.19,'France':0.2,'Netherlands':0.21,'Australia':0.1,'Singapore':0.09,'Japan':0.1,'Canada':0.05}.get(r['COUNTRY'],0) / 1.2 * uniform(0.7, 1.0) if r['EXPENSE_CATEGORY'] in ('Lodging','Meals & Entertainment','Ground Transport','Conferences & Training','Office Supplies') else 0.0"
+  }
+ ],
+ "groups": {
+  "id_column": "REPORT_ID",
+  "id_prefix": "ER",
+  "per": "actor_month",
+  "submitted_column": "SUBMITTED_DATE",
+  "lag_days": [
+   1,
+   10
+  ],
+  "month_end_share": 0.6,
+  "status_column": "REPORT_STATUS",
+  "status_rules": [
+   {
+    "if": "age < 0",
+    "status": "Draft"
+   },
+   {
+    "if": "age <= 4",
+    "weights": {
+     "Pending Approval": 75,
+     "Returned": 8,
+     "Approved": 17
+    }
+   },
+   {
+    "if": "age <= 45 and chance(0.03)",
+    "status": "Pending Approval"
+   },
+   {
+    "if": "age <= 12",
+    "weights": {
+     "Approved": 30,
+     "Exported": 40,
+     "Reimbursed": 30
+    }
+   },
+   {
+    "weights": {
+     "Reimbursed": 92,
+     "Exported": 8
+    }
+   }
+  ]
+ },
+ "post": [
+  {
+   "name": "APPROVAL_DAYS",
+   "round": 1,
+   "expr": "None if r['REPORT_STATUS'] in ('Draft','Pending Approval','Returned') else round(lognorm(2.1, 0.65) * (1.6 if r['SUBMITTED_DATE'] and r['SUBMITTED_DATE'].month in (3,6,9,12) and r['SUBMITTED_DATE'].day >= 20 else 1), 1)"
+  },
+  {
+   "name": "REIMBURSEMENT_DAYS",
+   "expr": "rng.randint(2, 14) if r['REPORT_STATUS']=='Reimbursed' and r['PAYMENT_METHOD']=='Out-of-Pocket' else None"
+  },
+  {
+   "name": "DAYS_PENDING",
+   "expr": "age if r['REPORT_STATUS']=='Pending Approval' else None"
+  }
+ ],
+ "types": {
+  "EXPENSE_LINE_ID": "VARCHAR(16)",
+  "REPORT_ID": "VARCHAR(20)",
+  "EXPENSE_AMOUNT_USD": "NUMBER(12,2)",
+  "OUT_OF_POLICY_AMOUNT_USD": "NUMBER(12,2)",
+  "VAT_RECLAIMABLE_USD": "NUMBER(12,2)",
+  "NEGOTIATED_RATE_USD": "NUMBER(10,2)",
+  "MILES": "NUMBER(8,1)",
+  "APPROVAL_DAYS": "NUMBER(6,1)",
+  "VIOLATION_COUNT": "NUMBER(4,0)",
+  "RECEIPT_MISSING_FLAG": "NUMBER(1,0)",
+  "AUDIT_RISK_SCORE": "NUMBER(3,0)",
+  "REIMBURSEMENT_DAYS": "NUMBER(4,0)",
+  "DAYS_PENDING": "NUMBER(4,0)"
+ }
+}

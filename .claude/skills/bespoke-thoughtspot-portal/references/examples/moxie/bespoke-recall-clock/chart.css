@@ -1,0 +1,21 @@
+html, body { height: 100%; margin: 0; }
+body { overflow: hidden; -webkit-font-smoothing: antialiased; }
+#chart { height: 100%; box-sizing: border-box; position: relative; display: flex; flex-direction: column; font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif; font-variant-numeric: tabular-nums; }
+#chart svg text { font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+.rc-head { flex: 0 0 auto; padding: 10px 12px 2px; }
+.rc-title { font-size: 14px; font-weight: 700; margin: 0; }
+.rc-sub { font-size: 11.5px; margin: 2px 0 0; color: var(--rc-muted); min-height: 15px; line-height: 1.35; }
+.rc-sub b { color: var(--rc-alert); font-weight: 700; }
+.rc-ctl { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: nowrap; }
+.rc-play { all: unset; cursor: pointer; flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; background: var(--rc-primary); color: var(--rc-on-primary); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; }
+.rc-play:focus-visible, .rc-pick select:focus-visible { outline: 2px solid var(--rc-primary); outline-offset: 2px; }
+.rc-pick { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--rc-muted); flex: 0 1 auto; min-width: 0; }
+.rc-pick select { font: inherit; font-weight: 600; color: var(--rc-ink); background: transparent; border: 1px solid var(--rc-line); border-radius: 999px; padding: 2px 6px; cursor: pointer; max-width: 150px; min-width: 0; }
+.rc-pick option { color: #1A2D2B; background: #FFFFFF; }
+.rc-month { flex: 0 0 auto; margin-left: auto; font-size: 11px; font-weight: 700; }
+.rc-stage { flex: 1 1 0; min-height: 0; position: relative; }
+.rc-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.rc-tip { position: absolute; z-index: 5; pointer-events: none; opacity: 0; transition: opacity .12s; border-radius: 6px; padding: 7px 9px; font-size: 11.5px; line-height: 1.4; max-width: 230px; box-shadow: 0 2px 10px rgba(0, 0, 0, .25); }
+.rc-tip b { display: block; font-size: 12px; margin-bottom: 2px; }
+.rc-empty { margin: auto; font-size: 13px; text-align: center; padding: 20px; color: var(--rc-muted); }
+.rc-cell, .rc-row { cursor: pointer; }

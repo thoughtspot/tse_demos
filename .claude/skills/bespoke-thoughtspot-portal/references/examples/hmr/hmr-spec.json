@@ -1,0 +1,352 @@
+{
+ "client": "Hmr",
+ "slug": "hmr",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "5d6ff188-8e2f-4a33-affe-a004c476a558",
+  "model": "00eced95-4a8b-46f3-88bd-2a628181816d",
+  "inlineLiveboard": "5d6ff188-8e2f-4a33-affe-a004c476a558",
+  "actionLiveboard": "5d6ff188-8e2f-4a33-affe-a004c476a558",
+  "actionViz": "76502766-70ad-43de-916e-4fe190f0a795"
+ },
+ "action": {
+  "id": "resolve-stock-alert",
+  "name": "Resolve Stock Alert"
+ },
+ "columns": {
+  "inlineName": [
+   "District"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Sell-out",
+    "format": "currency",
+    "candidates": [
+     "Total Sales Value",
+     "Sales Value"
+    ]
+   },
+   {
+    "label": "Units Sold",
+    "format": "number",
+    "candidates": [
+     "Total Units Sold",
+     "Units Sold"
+    ]
+   },
+   {
+    "label": "Stock-outs",
+    "format": "number",
+    "candidates": [
+     "Total Stock-outs",
+     "Stock-outs"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Region"
+  ],
+  "filterSecondary": [
+   "Therapeutic Area"
+  ],
+  "date": "Sale Date",
+  "hierarchy": {
+   "segment": "Region",
+   "rep": "District",
+   "cadence": "Pharmacy"
+  }
+ },
+ "font": {
+  "family": "Outfit",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
+ },
+ "logo": {
+  "svgPath": "hmr/hmr-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#47CEB8\"/><text x=\"16\" y=\"21.5\" text-anchor=\"middle\" font-family=\"Outfit, Arial, sans-serif\" font-weight=\"700\" font-size=\"12\" fill=\"#0a0000\">HMR</text></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f6f9f8",
+   "--sl-cream-2": "#eef6f4",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#202020",
+   "--sl-evergreen-2": "#0a0000",
+   "--sl-green": "#1e9e89",
+   "--sl-green-dark": "#167a6a",
+   "--sl-primary-rgb": "30, 158, 137",
+   "--intime-blue": "#47ceb8",
+   "--sl-gold": "#47ceb8",
+   "--sl-gold-ink": "#0a0000",
+   "--intime-grad": "linear-gradient(90deg, #1e9e89 0%, #47ceb8 100%)",
+   "--sl-mint": "#e3f7f3",
+   "--sl-mint-2": "#d2f1eb",
+   "--sl-coral": "#b3261e",
+   "--sl-warn": "#fff7e6",
+   "--sl-warn-ink": "#7a4a00",
+   "--sl-ink": "#202020",
+   "--sl-muted": "#5e6b69",
+   "--sl-border": "#dfe9e7",
+   "--sl-border-soft": "#eef3f2",
+   "--font-serif": "'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "66px",
+   "--shadow-card": "0 1px 2px rgba(10, 0, 0, 0.05), 0 8px 24px rgba(10, 0, 0, 0.06)",
+   "--shadow-lift": "0 6px 14px rgba(10, 0, 0, 0.08), 0 18px 40px rgba(10, 0, 0, 0.12)",
+   "--brand-navy": "#0a0000",
+   "--brand-accent": "#47ceb8"
+  },
+  "dark": {
+   "--sl-cream": "#0f1716",
+   "--sl-cream-2": "#131d1b",
+   "--sl-white": "#17211f",
+   "--sl-evergreen": "#eef6f4",
+   "--sl-evergreen-2": "#d6e6e2",
+   "--sl-green": "#47ceb8",
+   "--sl-green-dark": "#34b5a0",
+   "--sl-primary-rgb": "71, 206, 184",
+   "--intime-blue": "#8fe3d5",
+   "--sl-gold": "#8fe3d5",
+   "--sl-gold-ink": "#0f1716",
+   "--intime-grad": "linear-gradient(90deg, #47ceb8 0%, #8fe3d5 100%)",
+   "--sl-mint": "#16302b",
+   "--sl-mint-2": "#1b3a34",
+   "--sl-coral": "#f0616a",
+   "--sl-ink": "#e6f2ef",
+   "--sl-muted": "#93aba6",
+   "--sl-border": "#24332f",
+   "--sl-border-soft": "#1b2724",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#0a0000",
+   "--brand-accent": "#47ceb8"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#1e9e89"
+  ],
+  [
+   "#3F49B8",
+   "#1a8a78"
+  ],
+  [
+   "#333C99",
+   "#167a6a"
+  ],
+  [
+   "#22B8CF",
+   "#47ceb8"
+  ],
+  [
+   "#0b0d10",
+   "#0f1716"
+  ],
+  [
+   "#14181f",
+   "#17211f"
+  ],
+  [
+   "#1a212b",
+   "#16302b"
+  ],
+  [
+   "#232a34",
+   "#24332f"
+  ],
+  [
+   "#0b1f19",
+   "#131d1b"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(71,206,184,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#1e9e89"
+  ],
+  [
+   "#0c8554",
+   "#167a6a"
+  ],
+  [
+   "#d9ecea",
+   "#e3f7f3"
+  ],
+  [
+   "#cfe3e2",
+   "#d2f1eb"
+  ],
+  [
+   "#1bb978",
+   "#47ceb8"
+  ],
+  [
+   "#15ae6e",
+   "#0a0000"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#131d1b"
+  ],
+  [
+   "#10222a",
+   "#131d1b"
+  ],
+  [
+   "#123047",
+   "#17211f"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "HMR",
+  "aiName": "HMR AI",
+  "website": "https://hmr.co.com",
+  "loginTitleHtml": "Intelligence<br />for life.",
+  "landing": {
+   "eyebrow": "HMR Pharmacy Market Watch",
+   "headline": [
+    {
+     "text": "Turning data into "
+    },
+    {
+     "text": "strategic decisions",
+     "accent": true
+    },
+    {
+     "text": " across the Portuguese healthcare market."
+    }
+   ],
+   "subline": "Daily pharmacy sell-out by region, ATC class, product and manufacturer, with generic penetration, stock-outs and unfilled prescriptions, plus AI answers on your live data.",
+   "ctaLabel": "Explore market analytics",
+   "stats": [
+    {
+     "value": "900",
+     "label": "Panel pharmacies"
+    },
+    {
+     "value": "373K",
+     "label": "Sell-out lines"
+    },
+    {
+     "value": "96%",
+     "label": "Fill rate"
+    }
+   ]
+  },
+  "loginSubtitle": "Pharmacy market intelligence for Portugal: sell-out, generics, reimbursement and supply health, with AI-powered answers on live data.",
+  "loginStats": [
+   {
+    "value": "6",
+    "label": "NUTS regions"
+   },
+   {
+    "value": "21",
+    "label": "ATC classes"
+   },
+   {
+    "value": "Daily",
+    "label": "Sell-out insights"
+   }
+  ],
+  "loginCardSubtitle": "Sign in with your credentials",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Data",
+   "PMR",
+   "Consulting"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Market Analytics",
+   "inline": "District Insights",
+   "action": "Stock Alerts",
+   "ask": "Ask HMR AI",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Your live pharmacy sell-out, generics and supply dashboard",
+  "spotterSubtitle": "Ask questions of the HMR pharmacy panel in natural language.",
+  "inline": {
+   "subtitleReady": "Sell-out and stock health by district. Select a district to view its KPIs",
+   "subtitleIdle": "Sell-out and stock health across Portuguese districts",
+   "loading": "Loading districts…",
+   "errorTitle": "Couldn't load districts",
+   "errorMsg": "Unable to load district data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Region",
+   "secondaryLabel": "Therapeutic area",
+   "dateLabel": "Sale date"
+  },
+  "sampleQuestions": [
+   "Generic share by ATC class this quarter",
+   "Stock-out rate by region and month",
+   "Top manufacturers by sell-out value",
+   "Unfilled prescriptions by wholesaler"
+  ],
+  "askWelcome": "Ask me anything about HMR: pharmacy sell-out, generics, reimbursement and stock-outs. Or ask about your own data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about pharmacy sell-out, generic penetration, SNS reimbursement and stock health. Answers come straight from the HMR panel with an interactive chart you can drill into.",
+  "action": {
+   "label": "Resolve Stock Alert",
+   "subtitlePrefix": "Open stock alerts across the panel, oldest first. Right-click an alert and choose",
+   "subtitleSuffix": "to expedite supply, redistribute stock or flag a shortage.",
+   "modalTitle": "Resolve Stock Alert",
+   "modalLead": "Pre-filled from the selected alert. Choose a supply action so patients get their medicine.",
+   "submitLabel": "Submit",
+   "successTitle": "Action recorded"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm HMR AI. Ask me about pharmacy sell-out, generics and stock-outs, or ask a question about your data.",
+   "overview": "HMR (Health Market Research) is a healthcare intelligence company in Portugal. It runs the largest pharmacy panel in the market (about 91% of Portuguese pharmacies) plus mass-market and hospital panels, and combines data, market research (PMR), consulting and the HAIA AI analytics platform to help pharma companies make strategic decisions.",
+   "greetingExample": "generic share by ATC class by month",
+   "examples": [
+    "sell-out value by manufacturer",
+    "stock-out rate by region"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to HMR Market Watch Premium to unlock drill-down, Ask AI and downloads.",
+  "analyticsKeywords": [
+   "sell-out",
+   "sales",
+   "units",
+   "generic",
+   "generics",
+   "brand",
+   "atc",
+   "class",
+   "stock",
+   "stock-out",
+   "unfilled",
+   "prescription",
+   "pharmacy",
+   "region",
+   "district",
+   "manufacturer",
+   "reimbursement",
+   "sns",
+   "price",
+   "wholesaler"
+  ]
+ }
+}

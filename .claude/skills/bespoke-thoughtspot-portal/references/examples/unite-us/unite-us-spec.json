@@ -1,0 +1,348 @@
+{
+ "client": "UniteUs",
+ "slug": "unite-us",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "2b9dbbbc-0449-4871-afe2-124bc630029d",
+  "model": "8944f9d4-7763-4cee-b07d-7de7d10f9bba",
+  "inlineLiveboard": "2b9dbbbc-0449-4871-afe2-124bc630029d",
+  "actionLiveboard": "2b9dbbbc-0449-4871-afe2-124bc630029d",
+  "actionViz": "0b7b3f13-72ec-4bf7-9e30-5ab4bb77d09e"
+ },
+ "action": {
+  "id": "manage-referral",
+  "name": "Manage Referral"
+ },
+ "columns": {
+  "inlineName": [
+   "County"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Referrals",
+    "format": "number",
+    "candidates": [
+     "Total Referrals",
+     "Referrals"
+    ]
+   },
+   {
+    "label": "Avg Days to Accept",
+    "format": "number",
+    "candidates": [
+     "Average Days to Accept",
+     "Days to Accept"
+    ]
+   },
+   {
+    "label": "Successful Outcomes",
+    "format": "number",
+    "candidates": [
+     "Total Successful Outcomes",
+     "Successful Outcomes"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "County"
+  ],
+  "filterSecondary": [
+   "Service Type"
+  ],
+  "date": "Referral Date",
+  "hierarchy": {
+   "segment": "State",
+   "rep": "County",
+   "cadence": "Receiving Organization"
+  }
+ },
+ "font": {
+  "family": "Montserrat",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+ },
+ "logo": {
+  "svgPath": "unite-us/uniteus-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#216CFF\"/><text x=\"16\" y=\"22\" text-anchor=\"middle\" font-family=\"Montserrat, Arial, sans-serif\" font-weight=\"700\" font-size=\"14\" fill=\"#ffffff\">uu</text></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f5f8fc",
+   "--sl-cream-2": "#eef5fc",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#2c405a",
+   "--sl-evergreen-2": "#182a44",
+   "--sl-green": "#216cff",
+   "--sl-green-dark": "#1652c8",
+   "--sl-primary-rgb": "33, 108, 255",
+   "--intime-blue": "#9643ff",
+   "--sl-gold": "#9643ff",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(90deg, #216cff 0%, #9643ff 100%)",
+   "--sl-mint": "#eef5fc",
+   "--sl-mint-2": "#e3ebf3",
+   "--sl-coral": "#b3261e",
+   "--sl-warn": "#fff7e6",
+   "--sl-warn-ink": "#7a4a00",
+   "--sl-ink": "#2c405a",
+   "--sl-muted": "#5b6b80",
+   "--sl-border": "#dde5ef",
+   "--sl-border-soft": "#eef2f7",
+   "--font-serif": "'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "66px",
+   "--shadow-card": "0 1px 2px rgba(24, 42, 68, 0.05), 0 8px 24px rgba(24, 42, 68, 0.07)",
+   "--shadow-lift": "0 6px 14px rgba(24, 42, 68, 0.08), 0 18px 40px rgba(24, 42, 68, 0.12)",
+   "--brand-navy": "#182a44",
+   "--brand-accent": "#216cff"
+  },
+  "dark": {
+   "--sl-cream": "#0d1726",
+   "--sl-cream-2": "#111e31",
+   "--sl-white": "#16263d",
+   "--sl-evergreen": "#eef4fb",
+   "--sl-evergreen-2": "#d8e3f0",
+   "--sl-green": "#5b9bff",
+   "--sl-green-dark": "#3d84ff",
+   "--sl-primary-rgb": "91, 155, 255",
+   "--intime-blue": "#b583ff",
+   "--sl-gold": "#b583ff",
+   "--sl-gold-ink": "#0d1726",
+   "--intime-grad": "linear-gradient(90deg, #5b9bff 0%, #b583ff 100%)",
+   "--sl-mint": "#14243b",
+   "--sl-mint-2": "#1a2e4a",
+   "--sl-coral": "#f0616a",
+   "--sl-ink": "#e8eef6",
+   "--sl-muted": "#9fb0c6",
+   "--sl-border": "#25395a",
+   "--sl-border-soft": "#1a2c47",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#182a44",
+   "--brand-accent": "#216cff"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#216cff"
+  ],
+  [
+   "#3F49B8",
+   "#1a5ce0"
+  ],
+  [
+   "#333C99",
+   "#1652c8"
+  ],
+  [
+   "#22B8CF",
+   "#9643ff"
+  ],
+  [
+   "#0b0d10",
+   "#0d1726"
+  ],
+  [
+   "#14181f",
+   "#16263d"
+  ],
+  [
+   "#1a212b",
+   "#14243b"
+  ],
+  [
+   "#232a34",
+   "#25395a"
+  ],
+  [
+   "#0b1f19",
+   "#111e31"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(33,108,255,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#216cff"
+  ],
+  [
+   "#0c8554",
+   "#1652c8"
+  ],
+  [
+   "#d9ecea",
+   "#eef5fc"
+  ],
+  [
+   "#cfe3e2",
+   "#e3ebf3"
+  ],
+  [
+   "#1bb978",
+   "#9643ff"
+  ],
+  [
+   "#15ae6e",
+   "#182a44"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#111e31"
+  ],
+  [
+   "#10222a",
+   "#111e31"
+  ],
+  [
+   "#123047",
+   "#16263d"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Unite Us",
+  "aiName": "Unite Us AI",
+  "website": "https://uniteus.com",
+  "loginTitleHtml": "Connecting communities,<br />data &amp; care.",
+  "landing": {
+   "eyebrow": "Unite Us Insights",
+   "headline": [
+    {
+     "text": "See every referral "
+    },
+    {
+     "text": "close the loop",
+     "accent": true
+    },
+    {
+     "text": " across your social care network."
+    }
+   ],
+   "subline": "Referral volume, partner acceptance, outcomes, capacity and Medicaid invoicing across every county and community partner, with AI answers on your live data.",
+   "ctaLabel": "Explore network analytics",
+   "stats": [
+    {
+     "value": "350K",
+     "label": "Referrals tracked"
+    },
+    {
+     "value": "87%",
+     "label": "Acceptance rate"
+    },
+    {
+     "value": "1.7 days",
+     "label": "Avg time to accept"
+    }
+   ]
+  },
+  "loginSubtitle": "Analytics for social care networks: referrals, partner capacity, outcomes and payments, with AI-powered answers on live data.",
+  "loginStats": [
+   {
+    "value": "5",
+    "label": "State networks"
+   },
+   {
+    "value": "87%",
+    "label": "Referrals accepted"
+   },
+   {
+    "value": "Real-time",
+    "label": "Outcome intel"
+   }
+  ],
+  "loginCardSubtitle": "Sign in with your credentials",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Referrals",
+   "Payments",
+   "Insights"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Network Analytics",
+   "inline": "County Insights",
+   "action": "Referral Queue",
+   "ask": "Ask Unite Us AI",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Your live referral, outcome and capacity dashboard",
+  "spotterSubtitle": "Ask questions of your Unite Us referral data in natural language.",
+  "inline": {
+   "subtitleReady": "Referral volume and partner response by county. Select a county to view its KPIs",
+   "subtitleIdle": "Referral volume and partner response across your counties",
+   "loading": "Loading counties\u2026",
+   "errorTitle": "Couldn't load counties",
+   "errorMsg": "Unable to load county data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "County",
+   "secondaryLabel": "Service type",
+   "dateLabel": "Referral date"
+  },
+  "sampleQuestions": [
+   "Referrals by service type this quarter",
+   "Average days to accept by county",
+   "Resolution rate by receiving organization",
+   "Top outcome reasons for unresolved referrals"
+  ],
+  "askWelcome": "Ask me anything about Unite Us: closed-loop referrals, partner capacity, social care payments. Or ask about your own data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your referrals, partner acceptance, outcomes and invoicing. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Manage Referral",
+   "subtitlePrefix": "Referrals waiting on a partner, oldest first. Right-click a referral and choose",
+   "subtitleSuffix": "to reassign it, escalate it or follow up with the client.",
+   "modalTitle": "Manage Referral",
+   "modalLead": "Pre-filled from the selected referral. Choose an action to get this client connected to care.",
+   "submitLabel": "Submit",
+   "successTitle": "Action recorded"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm Unite Us AI. Ask me about referrals, partner capacity and outcomes, or ask a question about your data.",
+   "overview": "Unite Us is a social care technology company that connects health care, government and community-based organizations through closed-loop referral networks, social care payments and analytics, so people get help with needs like food, housing and transportation.",
+   "greetingExample": "average days to accept by county",
+   "examples": [
+    "referrals by service type by month",
+    "resolution rate by receiving organization"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Unite Us Insights Premium to unlock drill-down, Ask AI and downloads.",
+  "analyticsKeywords": [
+   "referral",
+   "referrals",
+   "accept",
+   "acceptance",
+   "resolution",
+   "resolved",
+   "outcome",
+   "county",
+   "service",
+   "partner",
+   "organization",
+   "housing",
+   "food",
+   "invoice",
+   "capacity",
+   "sla"
+  ]
+ }
+}

@@ -1,0 +1,451 @@
+{
+ "name": "Tangoe Technology Expense Analytics",
+ "description": "Tangoe One technology expense management analytics: one row per billed service line (mobile line, SaaS seat, UCaaS seat, circuit or cloud account) per vendor invoice, with recurring, usage, roaming and tax charges, data and voice usage, zero-usage (zombie) lines and wasted spend, invoice audit billing errors, disputes and credits recovered, by business unit, cost center, GL code, vendor, country and device. Synthetic. Monthly invoices, Nov 2024 to Nov 2026.",
+ "table": "TANGOE_TELECOM_CHARGES",
+ "columns": [
+  {
+   "db": "CHARGE_ID",
+   "name": "Charge ID",
+   "type": "ATTRIBUTE",
+   "desc": "Unique invoice charge line (one service line on one carrier or vendor invoice).",
+   "synonyms": [
+    "charge line",
+    "invoice line"
+   ]
+  },
+  {
+   "db": "INVOICE_DATE",
+   "name": "Invoice Date",
+   "type": "ATTRIBUTE",
+   "desc": "Date of the carrier, SaaS or cloud invoice the charge appears on.",
+   "synonyms": [
+    "date",
+    "billing date",
+    "bill date",
+    "month"
+   ]
+  },
+  {
+   "db": "ASSIGNED_USER",
+   "name": "Assigned User",
+   "type": "ATTRIBUTE",
+   "desc": "Employee the line, device or license is assigned to.",
+   "synonyms": [
+    "employee",
+    "user",
+    "owner",
+    "end user"
+   ]
+  },
+  {
+   "db": "REGION",
+   "name": "Region",
+   "type": "ATTRIBUTE",
+   "desc": "Global region of the service.",
+   "synonyms": [
+    "geo",
+    "area"
+   ]
+  },
+  {
+   "db": "COUNTRY",
+   "name": "Country",
+   "type": "ATTRIBUTE",
+   "desc": "Country where the service is billed.",
+   "synonyms": [
+    "nation",
+    "location"
+   ]
+  },
+  {
+   "db": "BUSINESS_UNIT",
+   "name": "Business Unit",
+   "type": "ATTRIBUTE",
+   "desc": "Business unit that owns the line or license.",
+   "synonyms": [
+    "bu",
+    "line of business",
+    "department",
+    "division"
+   ]
+  },
+  {
+   "db": "SERVICE_CATEGORY",
+   "name": "Service Category",
+   "type": "ATTRIBUTE",
+   "desc": "Mobile, SaaS, UCaaS, Wireline Voice, Data Network, Internet or IaaS.",
+   "synonyms": [
+    "service type",
+    "category",
+    "technology"
+   ]
+  },
+  {
+   "db": "VENDOR",
+   "name": "Vendor",
+   "type": "ATTRIBUTE",
+   "desc": "Carrier, SaaS publisher or cloud provider that billed the charge.",
+   "synonyms": [
+    "carrier",
+    "provider",
+    "supplier",
+    "publisher"
+   ]
+  },
+  {
+   "db": "DEVICE_MODEL",
+   "name": "Device Model",
+   "type": "ATTRIBUTE",
+   "desc": "Device on the mobile line (Not a device for non-mobile services).",
+   "synonyms": [
+    "device",
+    "handset",
+    "phone model"
+   ]
+  },
+  {
+   "db": "RATE_PLAN",
+   "name": "Rate Plan",
+   "type": "ATTRIBUTE",
+   "desc": "Rate plan, license SKU or circuit product billed.",
+   "synonyms": [
+    "plan",
+    "sku",
+    "license type",
+    "product"
+   ]
+  },
+  {
+   "db": "COST_CENTER",
+   "name": "Cost Center",
+   "type": "ATTRIBUTE",
+   "desc": "Cost center the charge is allocated to.",
+   "synonyms": [
+    "cc",
+    "allocation"
+   ]
+  },
+  {
+   "db": "GL_CODE",
+   "name": "GL Code",
+   "type": "ATTRIBUTE",
+   "desc": "General-ledger account the charge posts to.",
+   "synonyms": [
+    "gl account",
+    "ledger code"
+   ]
+  },
+  {
+   "db": "SERVICE_ID",
+   "name": "Service ID",
+   "type": "ATTRIBUTE",
+   "desc": "Line, license seat, circuit or cloud account identifier.",
+   "synonyms": [
+    "line id",
+    "line",
+    "service number",
+    "license id",
+    "circuit id"
+   ]
+  },
+  {
+   "db": "INVOICE_NUMBER",
+   "name": "Invoice Number",
+   "type": "ATTRIBUTE",
+   "desc": "Vendor invoice the charge appears on.",
+   "synonyms": [
+    "invoice",
+    "bill"
+   ]
+  },
+  {
+   "db": "ERROR_TYPE",
+   "name": "Error Type",
+   "type": "ATTRIBUTE",
+   "desc": "Billing error found by invoice audit (No Error when the charge is clean).",
+   "synonyms": [
+    "dispute reason",
+    "audit finding",
+    "error reason"
+   ]
+  },
+  {
+   "db": "AUDIT_STATUS",
+   "name": "Audit Status",
+   "type": "ATTRIBUTE",
+   "desc": "Clean, Dispute Open, Credited or Rejected.",
+   "synonyms": [
+    "dispute status",
+    "audit result"
+   ]
+  },
+  {
+   "db": "LINE_STATUS",
+   "name": "Line Status",
+   "type": "ATTRIBUTE",
+   "desc": "Active or Suspended.",
+   "synonyms": [
+    "status",
+    "service status"
+   ]
+  },
+  {
+   "db": "RECOMMENDED_ACTION",
+   "name": "Recommended Action",
+   "type": "ATTRIBUTE",
+   "desc": "Optimization action Tangoe recommends for the line or license.",
+   "synonyms": [
+    "action",
+    "next step",
+    "recommendation"
+   ]
+  },
+  {
+   "db": "ZERO_USAGE_LINES",
+   "name": "Zero-Usage Lines",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Lines or licenses billed with no data, voice or login for 30+ days.",
+   "synonyms": [
+    "zombie lines",
+    "unused lines",
+    "unused licenses",
+    "idle lines"
+   ]
+  },
+  {
+   "db": "BILLED_LINES",
+   "name": "Billed Lines",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Count of billed service lines, seats, circuits and accounts.",
+   "synonyms": [
+    "lines",
+    "services",
+    "inventory count"
+   ]
+  },
+  {
+   "db": "USAGE_GB",
+   "name": "Data Usage GB",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Data used in the billing period, GB.",
+   "synonyms": [
+    "data usage",
+    "gigabytes",
+    "gb"
+   ]
+  },
+  {
+   "db": "VOICE_MINUTES",
+   "name": "Voice Minutes",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Voice minutes used in the billing period.",
+   "synonyms": [
+    "minutes",
+    "call minutes"
+   ]
+  },
+  {
+   "db": "RECURRING_CHARGES",
+   "name": "Recurring Charges",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Monthly recurring charges (plan, seat or circuit fee).",
+   "synonyms": [
+    "mrc",
+    "monthly recurring"
+   ],
+   "currency": true
+  },
+  {
+   "db": "USAGE_CHARGES",
+   "name": "Usage Charges",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Overage and usage-based charges.",
+   "synonyms": [
+    "overage",
+    "consumption charges"
+   ],
+   "currency": true
+  },
+  {
+   "db": "ROAMING_CHARGES",
+   "name": "Roaming Charges",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "International roaming charges.",
+   "synonyms": [
+    "roaming",
+    "international charges"
+   ],
+   "currency": true
+  },
+  {
+   "db": "TAXES_FEES",
+   "name": "Taxes and Fees",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Taxes, surcharges and regulatory fees.",
+   "synonyms": [
+    "taxes",
+    "surcharges"
+   ],
+   "currency": true
+  },
+  {
+   "db": "BILLED_AMOUNT",
+   "name": "Billed Amount",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Total invoiced amount for the charge line.",
+   "synonyms": [
+    "spend",
+    "cost",
+    "telecom spend",
+    "it spend",
+    "billed"
+   ],
+   "currency": true
+  },
+  {
+   "db": "WASTED_SPEND",
+   "name": "Wasted Spend",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Amount billed for zero-usage lines and unused licenses.",
+   "synonyms": [
+    "waste",
+    "zombie spend",
+    "idle spend"
+   ],
+   "currency": true
+  },
+  {
+   "db": "DAYS_SINCE_LAST_USE",
+   "name": "Days Since Last Use",
+   "type": "MEASURE",
+   "agg": "MAX",
+   "desc": "Days since the line or license last had usage.",
+   "synonyms": [
+    "idle days",
+    "days unused"
+   ]
+  },
+  {
+   "db": "BILLING_ERRORS",
+   "name": "Billing Errors",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Charge lines with a billing error found by invoice audit.",
+   "synonyms": [
+    "errors",
+    "audit findings",
+    "billing mistakes"
+   ]
+  },
+  {
+   "db": "DISPUTED_AMOUNT",
+   "name": "Disputed Amount",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Amount disputed with the vendor after audit.",
+   "synonyms": [
+    "disputes",
+    "disputed"
+   ],
+   "currency": true
+  },
+  {
+   "db": "CREDITS_RECOVERED",
+   "name": "Credits Recovered",
+   "type": "MEASURE",
+   "agg": "SUM",
+   "desc": "Credits and refunds recovered from vendors.",
+   "synonyms": [
+    "recovery",
+    "refunds",
+    "credits",
+    "audit savings"
+   ],
+   "currency": true
+  },
+  {
+   "db": "DISPUTE_AGE_DAYS",
+   "name": "Dispute Age Days",
+   "type": "MEASURE",
+   "agg": "MAX",
+   "desc": "Days an open dispute has been waiting for the vendor.",
+   "synonyms": [
+    "dispute age",
+    "days open"
+   ]
+  }
+ ],
+ "formulas": [
+  {
+   "name": "Zero-Usage Rate",
+   "expr": "sum ( [{T}::ZERO_USAGE_LINES] ) / sum ( [{T}::BILLED_LINES] )",
+   "desc": "Share of billed lines and licenses with zero usage.",
+   "format": "0.0%",
+   "synonyms": [
+    "zombie rate",
+    "unused rate",
+    "idle rate"
+   ]
+  },
+  {
+   "name": "Billing Error Rate",
+   "expr": "sum ( [{T}::BILLING_ERRORS] ) / sum ( [{T}::BILLED_LINES] )",
+   "desc": "Share of charge lines with a billing error.",
+   "format": "0.0%",
+   "synonyms": [
+    "error rate",
+    "audit error rate"
+   ]
+  },
+  {
+   "name": "Recovery Rate",
+   "expr": "sum ( [{T}::CREDITS_RECOVERED] ) / sum ( [{T}::DISPUTED_AMOUNT] )",
+   "desc": "Credits recovered as a share of disputed amount.",
+   "format": "0.0%",
+   "synonyms": [
+    "credit recovery rate",
+    "win rate"
+   ]
+  },
+  {
+   "name": "Wasted Spend Share",
+   "expr": "sum ( [{T}::WASTED_SPEND] ) / sum ( [{T}::BILLED_AMOUNT] )",
+   "desc": "Wasted spend as a share of billed spend.",
+   "format": "0.0%",
+   "synonyms": [
+    "waste share"
+   ]
+  },
+  {
+   "name": "Cost per Line",
+   "expr": "sum ( [{T}::BILLED_AMOUNT] ) / sum ( [{T}::BILLED_LINES] )",
+   "desc": "Average billed amount per line per invoice.",
+   "currency": "USD",
+   "synonyms": [
+    "cost per device",
+    "average cost per line"
+   ]
+  },
+  {
+   "name": "Active Services",
+   "expr": "unique count ( [{T}::SERVICE_ID] )",
+   "desc": "Distinct lines, seats, circuits and accounts billed.",
+   "format": "#,##0",
+   "synonyms": [
+    "inventory",
+    "service count"
+   ]
+  }
+ ],
+ "theme_parameter": true
+}

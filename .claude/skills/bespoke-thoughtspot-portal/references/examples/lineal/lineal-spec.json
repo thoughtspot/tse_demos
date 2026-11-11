@@ -1,0 +1,358 @@
+{
+ "client": "Lineal",
+ "slug": "lineal",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "acd65e47-b6bd-4cf7-ba5b-d7fb2b529997",
+  "model": "44ff8e42-16a1-4ebd-a4f3-5784e3359568",
+  "inlineLiveboard": "acd65e47-b6bd-4cf7-ba5b-d7fb2b529997",
+  "actionLiveboard": "acd65e47-b6bd-4cf7-ba5b-d7fb2b529997",
+  "actionViz": "a0ee6ce9-a72b-4ed4-ab39-cedeafdaf6a8"
+ },
+ "action": {
+  "id": "resolve-privilege",
+  "name": "Resolve Privilege Review"
+ },
+ "columns": {
+  "inlineName": [
+   "Client"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "Docs collected",
+    "format": "number",
+    "candidates": [
+     "Total Docs Collected",
+     "Docs Collected"
+    ]
+   },
+   {
+    "label": "Cull rate",
+    "format": "percent",
+    "candidates": [
+     "Cull Rate"
+    ]
+   },
+   {
+    "label": "Cost per doc reviewed",
+    "format": "currency",
+    "candidates": [
+     "Cost per Doc Reviewed"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "Client"
+  ],
+  "filterSecondary": [
+   "Data Source"
+  ],
+  "date": "Batch Date",
+  "hierarchy": {
+   "segment": "Region",
+   "rep": "Matter",
+   "cadence": "Data Source"
+  }
+ },
+ "font": {
+  "family": "Inter Tight",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap"
+ },
+ "logo": {
+  "svgPath": "lineal/lineal-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#100808\"/><path d=\"M8 13.5 L24 9.5 L24 13 L8 17 Z\" fill=\"#D90633\"/><path d=\"M8 20.5 L24 16.5 L24 20 L8 24 Z\" fill=\"#D90633\"/></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f7f3f2",
+   "--sl-cream-2": "#f4eeed",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#100808",
+   "--sl-evergreen-2": "#262625",
+   "--sl-green": "#d90633",
+   "--sl-green-dark": "#a40526",
+   "--sl-primary-rgb": "217, 6, 51",
+   "--intime-blue": "#93757a",
+   "--sl-gold": "#a40526",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(90deg, #a40526 0%, #d90633 100%)",
+   "--sl-mint": "#fbe3e8",
+   "--sl-mint-2": "#f4c9d2",
+   "--sl-coral": "#c2410c",
+   "--sl-warn": "#fff7e6",
+   "--sl-warn-ink": "#7a4a00",
+   "--sl-ink": "#100808",
+   "--sl-muted": "#6b5a5c",
+   "--sl-border": "#e6dcdb",
+   "--sl-border-soft": "#f4eeed",
+   "--font-serif": "'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "66px",
+   "--shadow-card": "0 1px 2px rgba(16, 8, 8, 0.05), 0 8px 24px rgba(16, 8, 8, 0.07)",
+   "--shadow-lift": "0 6px 14px rgba(16, 8, 8, 0.08), 0 18px 40px rgba(164, 5, 38, 0.12)",
+   "--brand-navy": "#100808",
+   "--brand-accent": "#d90633"
+  },
+  "dark": {
+   "--sl-cream": "#0e0909",
+   "--sl-cream-2": "#140d0d",
+   "--sl-white": "#1c1314",
+   "--sl-evergreen": "#f6eeee",
+   "--sl-evergreen-2": "#e6d9da",
+   "--sl-green": "#ff4d6d",
+   "--sl-green-dark": "#e0294a",
+   "--sl-primary-rgb": "255, 77, 109",
+   "--intime-blue": "#c9a7ac",
+   "--sl-gold": "#ff4d6d",
+   "--sl-gold-ink": "#0e0909",
+   "--intime-grad": "linear-gradient(90deg, #e0294a 0%, #ff4d6d 100%)",
+   "--sl-mint": "#2a1a1c",
+   "--sl-mint-2": "#3a2326",
+   "--sl-coral": "#fb923c",
+   "--sl-ink": "#f3ecec",
+   "--sl-muted": "#b39ea1",
+   "--sl-border": "#3a2628",
+   "--sl-border-soft": "#261819",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#100808",
+   "--brand-accent": "#d90633"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#d90633"
+  ],
+  [
+   "#3F49B8",
+   "#a40526"
+  ],
+  [
+   "#333C99",
+   "#6e0319"
+  ],
+  [
+   "#22B8CF",
+   "#93757a"
+  ],
+  [
+   "#0b0d10",
+   "#0e0909"
+  ],
+  [
+   "#14181f",
+   "#1c1314"
+  ],
+  [
+   "#1a212b",
+   "#2a1a1c"
+  ],
+  [
+   "#232a34",
+   "#3a2628"
+  ],
+  [
+   "#0b1f19",
+   "#140d0d"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(217,6,51,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#d90633"
+  ],
+  [
+   "#0c8554",
+   "#a40526"
+  ],
+  [
+   "#d9ecea",
+   "#fbe3e8"
+  ],
+  [
+   "#cfe3e2",
+   "#f4c9d2"
+  ],
+  [
+   "#1bb978",
+   "#93757a"
+  ],
+  [
+   "#15ae6e",
+   "#100808"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#140d0d"
+  ],
+  [
+   "#10222a",
+   "#140d0d"
+  ],
+  [
+   "#123047",
+   "#1c1314"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Lineal",
+  "aiName": "Pepper",
+  "website": "https://lineal.com",
+  "loginTitleHtml": "Empowering legal teams to<br />achieve their outcomes.",
+  "landing": {
+   "eyebrow": "Lineal Matter Intelligence",
+   "headline": [
+    {
+     "text": "Empowering legal teams to achieve their "
+    },
+    {
+     "text": "outcomes",
+     "accent": true
+    },
+    {
+     "text": "."
+    }
+   ],
+   "subline": "Volumes, AmplifyAI culling, review throughput, privilege SLAs and cost for every matter, with Pepper answering questions on your live data.",
+   "ctaLabel": "Explore matter analytics",
+   "stats": [
+    {
+     "value": "2.1B",
+     "label": "Documents collected"
+    },
+    {
+     "value": "91.0%",
+     "label": "Culled before review"
+    },
+    {
+     "value": "$1.71",
+     "label": "Cost per doc reviewed"
+    }
+   ]
+  },
+  "loginSubtitle": "Matter intelligence for legal teams: collection volumes, culling, review throughput, privilege SLAs and cost, with AI answers on live data.",
+  "loginStats": [
+   {
+    "value": "350K",
+    "label": "Review batches"
+   },
+   {
+    "value": "484 TB",
+    "label": "Data processed"
+   },
+   {
+    "value": "232",
+    "label": "Matters"
+   }
+  ],
+  "loginCardSubtitle": "Sign in with your credentials",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "Matters",
+   "Review",
+   "Command Center"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Matter Analytics",
+   "inline": "Client Insights",
+   "action": "Privilege Queue",
+   "ask": "Ask Pepper",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Your live AmplifyAI Command Center: volumes, culling, privilege and cost across every matter",
+  "spotterSubtitle": "Ask questions of your Lineal matter data in natural language.",
+  "inline": {
+   "subtitleReady": "Docs collected, cull rate and cost per doc by client. Select a client to view its KPIs",
+   "subtitleIdle": "Docs collected, cull rate and cost per doc across clients",
+   "loading": "Loading clients\u2026",
+   "errorTitle": "Couldn't load clients",
+   "errorMsg": "Unable to load client data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "Client",
+   "secondaryLabel": "Data source",
+   "dateLabel": "Batch date"
+  },
+  "sampleQuestions": [
+   "Cull rate by data source this quarter",
+   "Chat data share by client industry by month",
+   "Privilege turnaround hours by region",
+   "Cost per doc reviewed by review method"
+  ],
+  "askWelcome": "Ask me anything about eDiscovery with Lineal: AmplifyAI, managed review, privilege and Relativity. Or ask about your own matter data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your matters, custodians, data sources, review batches and costs. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Resolve Privilege Review",
+   "subtitlePrefix": "Batches waiting on a privilege call, longest first. Right-click a batch and choose",
+   "subtitleSuffix": "to release it to production, re-run PrivFinder, add overflow reviewers or escalate to counsel.",
+   "modalTitle": "Resolve Privilege Review",
+   "modalLead": "Pre-filled from the selected batch. Choose how to clear it before the production deadline.",
+   "submitLabel": "Submit",
+   "successTitle": "Privilege review actioned"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm Pepper, your Lineal assistant. Ask me about AmplifyAI, review workflows and privilege, or ask a question about your matter data.",
+   "overview": "Lineal is a data-native legal technology and eDiscovery partner: collection and forensics, investigations, managed review, Relativity migrations, risk and compliance support, the AmplifyAI suite (ChatCraft, PrivFinder, BotDetector, Images, Command Center) and Pepper, the AI investigation platform.",
+   "greetingExample": "cull rate by data source",
+   "examples": [
+    "chat data share by client industry by month",
+    "privilege turnaround hours by region"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Lineal Premium to unlock drill-down, Ask Pepper and downloads.",
+  "analyticsKeywords": [
+   "document",
+   "documents",
+   "docs",
+   "matter",
+   "matters",
+   "custodian",
+   "cull",
+   "culling",
+   "review",
+   "privilege",
+   "priv",
+   "sla",
+   "cost",
+   "budget",
+   "chat",
+   "teams",
+   "slack",
+   "whatsapp",
+   "email",
+   "amplify",
+   "chatcraft",
+   "batch",
+   "region",
+   "client",
+   "overturn",
+   "qc",
+   "produced",
+   "production"
+  ]
+ }
+}

@@ -1,0 +1,372 @@
+{
+ "client": "Surescripts",
+ "slug": "surescripts",
+ "host": "sebe.thoughtspotstaging.cloud",
+ "auth": "basic",
+ "ids": {
+  "analyticsLiveboard": "132eef94-24a8-4c80-b33d-2df1902eaf14",
+  "model": "85ed75fd-25d9-41f9-afa6-7eccae453e74",
+  "inlineLiveboard": "132eef94-24a8-4c80-b33d-2df1902eaf14",
+  "actionLiveboard": "132eef94-24a8-4c80-b33d-2df1902eaf14",
+  "actionViz": "58430214-02e6-4b20-8b5a-feab36cc8b05"
+ },
+ "action": {
+  "id": "escalate-prior-auth",
+  "name": "Escalate prior auth"
+ },
+ "columns": {
+  "inlineName": [
+   "PBM"
+  ],
+  "inlineMetrics": [
+   {
+    "label": "New prescriptions",
+    "format": "number",
+    "candidates": [
+     "Total New Prescriptions",
+     "New Prescriptions"
+    ]
+   },
+   {
+    "label": "RTPB adoption",
+    "format": "percent",
+    "candidates": [
+     "RTPB Adoption"
+    ]
+   },
+   {
+    "label": "Abandonment rate",
+    "format": "percent",
+    "candidates": [
+     "Abandonment Rate"
+    ]
+   }
+  ],
+  "filterPrimary": [
+   "State"
+  ],
+  "filterSecondary": [
+   "EHR Vendor"
+  ],
+  "date": "Transaction Date",
+  "hierarchy": {
+   "segment": "Region",
+   "rep": "Prescriber Organization",
+   "cadence": "Transaction Type"
+  }
+ },
+ "font": {
+  "family": "Figtree",
+  "googleUrl": "https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap"
+ },
+ "logo": {
+  "svgPath": "surescripts/surescripts-logo.svg"
+ },
+ "favicon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\"><rect width=\"32\" height=\"32\" rx=\"6\" fill=\"#005677\"/><path d=\"M6 13 Q16 3 26 13\" stroke=\"#ffffff\" stroke-width=\"2.4\" fill=\"none\" stroke-linecap=\"round\"/><text x=\"16\" y=\"26\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-weight=\"700\" font-size=\"15\" fill=\"#ffffff\">s</text></svg>",
+ "theme": {
+  "default": "light",
+  "light": {
+   "--sl-cream": "#f4f7f9",
+   "--sl-cream-2": "#e9f2f6",
+   "--sl-white": "#ffffff",
+   "--sl-evergreen": "#002a3b",
+   "--sl-evergreen-2": "#0b3f55",
+   "--sl-green": "#005677",
+   "--sl-green-dark": "#002a3b",
+   "--sl-primary-rgb": "0, 86, 119",
+   "--intime-blue": "#009dd1",
+   "--sl-gold": "#f26027",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #002a3b 0%, #005677 55%, #009dd1 100%)",
+   "--sl-mint": "#e3f1f6",
+   "--sl-mint-2": "#b9dcea",
+   "--sl-coral": "#f26027",
+   "--sl-warn": "#fff4ef",
+   "--sl-warn-ink": "#7a2a0a",
+   "--sl-ink": "#0f1d24",
+   "--sl-muted": "#415363",
+   "--sl-border": "#d3dde3",
+   "--sl-border-soft": "#edf1f4",
+   "--font-serif": "'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--font-sans": "'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "--topbar-h": "52px",
+   "--shadow-card": "0 1px 2px rgba(0, 42, 59, 0.06), 0 8px 24px rgba(0, 86, 119, 0.07)",
+   "--shadow-lift": "0 6px 14px rgba(0, 42, 59, 0.09), 0 18px 40px rgba(0, 86, 119, 0.13)",
+   "--brand-navy": "#002a3b",
+   "--brand-accent": "#005677"
+  },
+  "dark": {
+   "--sl-cream": "#081a23",
+   "--sl-cream-2": "#0b2029",
+   "--sl-white": "#0f2733",
+   "--sl-evergreen": "#e6eef2",
+   "--sl-evergreen-2": "#c9d6dd",
+   "--sl-green": "#2fb3e0",
+   "--sl-green-dark": "#009dd1",
+   "--sl-primary-rgb": "47, 179, 224",
+   "--intime-blue": "#67cbec",
+   "--sl-gold": "#ff7a45",
+   "--sl-gold-ink": "#ffffff",
+   "--intime-grad": "linear-gradient(40deg, #005677 0%, #009dd1 60%, #67cbec 100%)",
+   "--sl-mint": "#12303d",
+   "--sl-mint-2": "#18404f",
+   "--sl-coral": "#ff7a45",
+   "--sl-ink": "#e6eef2",
+   "--sl-muted": "#9fb3bf",
+   "--sl-border": "#1f3d4c",
+   "--sl-border-soft": "#16303c",
+   "--shadow-card": "0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.55)",
+   "--shadow-lift": "0 6px 14px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.65)",
+   "--brand-navy": "#002a3b",
+   "--brand-accent": "#2fb3e0"
+  }
+ },
+ "embedSwaps": [
+  [
+   "#4F5BD5",
+   "#005677"
+  ],
+  [
+   "#3F49B8",
+   "#0b3f55"
+  ],
+  [
+   "#333C99",
+   "#002a3b"
+  ],
+  [
+   "#22B8CF",
+   "#f26027"
+  ],
+  [
+   "#0b0d10",
+   "#081a23"
+  ],
+  [
+   "#14181f",
+   "#0f2733"
+  ],
+  [
+   "#1a212b",
+   "#12303d"
+  ],
+  [
+   "#232a34",
+   "#1f3d4c"
+  ],
+  [
+   "#0b1f19",
+   "#0b2029"
+  ],
+  [
+   "rgba(45,164,191,0.14)",
+   "rgba(0,86,119,0.14)"
+  ]
+ ],
+ "greenSwaps": [
+  [
+   "#0f9a63",
+   "#005677"
+  ],
+  [
+   "#0c8554",
+   "#002a3b"
+  ],
+  [
+   "#d9ecea",
+   "#e3f1f6"
+  ],
+  [
+   "#cfe3e2",
+   "#b9dcea"
+  ],
+  [
+   "#1bb978",
+   "#009dd1"
+  ],
+  [
+   "#15ae6e",
+   "#002a3b"
+  ]
+ ],
+ "cssSwaps": [
+  [
+   "#0e1116",
+   "#0b2029"
+  ],
+  [
+   "#10222a",
+   "#0b2029"
+  ],
+  [
+   "#123047",
+   "#0f2733"
+  ]
+ ],
+ "features": {
+  "askMode": "both",
+  "inline": true,
+  "action": true,
+  "monetize": true,
+  "tiers": true,
+  "pinning": false,
+  "home": true,
+  "navLayout": "sidebar"
+ },
+ "content": {
+  "company": "Surescripts",
+  "aiName": "Surescripts Assistant",
+  "website": "https://surescripts.com/",
+  "loginTitleHtml": "Let\u2019s inform &amp; accelerate decisions<br />to keep patient care on track.",
+  "landing": {
+   "eyebrow": "Surescripts Network Intelligence",
+   "headline": [
+    {
+     "text": "Let\u2019s inform & accelerate decisions to keep "
+    },
+    {
+     "text": "patient care on track",
+     "accent": true
+    },
+    {
+     "text": "."
+    }
+   ],
+   "subline": "Trusted health intelligence for every participant on the Surescripts network: e-prescribing, Real-Time Prescription Benefit, electronic prior authorization and medication history analytics in one place.",
+   "ctaLabel": "Open network intelligence",
+   "stats": [
+    {
+     "value": "351K",
+     "label": "Network transactions"
+    },
+    {
+     "value": "34.7%",
+     "label": "RTPB adoption"
+    },
+    {
+     "value": "74.8%",
+     "label": "PA approval rate"
+    }
+   ]
+  },
+  "loginSubtitle": "Network analytics for health systems, pharmacies and PBMs: transaction volume, response time and rejects, RTPB adoption and patient savings, prescription abandonment, EPCS and prior authorization turnaround, with AI answers on live data.",
+  "loginStats": [
+   {
+    "value": "351K",
+    "label": "Network transactions"
+   },
+   {
+    "value": "1,070",
+    "label": "Prescriber organizations"
+   },
+   {
+    "value": "61.6%",
+    "label": "ePA share of prior auths"
+   }
+  ],
+  "loginCardSubtitle": "Sign in to Surescripts Network Intelligence",
+  "loginDemoNoteHtml": "<strong>Sign in</strong> with your username &amp; password to continue.",
+  "platformNav": [
+   "E-Prescribing",
+   "Prior Authorization",
+   "Price Transparency"
+  ],
+  "tabs": {
+   "home": "Home",
+   "myReports": "My Reports",
+   "analytics": "Network Intelligence",
+   "inline": "PBM Insights",
+   "action": "Prior Auth Queue",
+   "ask": "Ask Surescripts",
+   "spotter": "Spotter"
+  },
+  "analyticsSubtitle": "Transaction volume, response time, rejects, RTPB, abandonment, EPCS and prior authorization turnaround",
+  "spotterSubtitle": "Ask questions of your Surescripts network data in natural language.",
+  "inline": {
+   "subtitleReady": "New prescriptions, RTPB adoption and abandonment by PBM. Select a PBM to view its KPIs",
+   "subtitleIdle": "New prescriptions, RTPB adoption and abandonment across PBMs",
+   "loading": "Loading PBMs\u2026",
+   "errorTitle": "Couldn't load PBMs",
+   "errorMsg": "Unable to load PBM data.",
+   "moreLabel": "View insights",
+   "hideLabel": "Hide insights"
+  },
+  "filters": {
+   "primaryLabel": "State",
+   "secondaryLabel": "EHR vendor",
+   "dateLabel": "Transaction date"
+  },
+  "sampleQuestions": [
+   "PA turnaround hours by state by month for the last 12 months",
+   "Abandonment rate by PBM by month",
+   "RTPB adoption by EHR vendor this year",
+   "Top 10 prescriber organizations by reject rate last 90 days"
+  ],
+  "askWelcome": "Ask me anything about the Surescripts network: e-prescribing, Real-Time Prescription Benefit, electronic prior authorization, medication history, EPCS and Clinical Direct Messaging. Or ask about your own network data and I will chart it live.",
+  "askEmptySub": "Ask any analytical question about your network data: transactions, response time, rejects, RTPB checks and patient savings, abandonment, EPCS and prior authorization turnaround. Answers come straight from your live data with an interactive chart you can drill into.",
+  "action": {
+   "label": "Escalate prior auth",
+   "subtitlePrefix": "Prior authorizations still waiting for a determination, oldest first. Right-click a request and choose",
+   "subtitleSuffix": "to escalate it to the PBM, attach clinicals and notify the prescriber.",
+   "modalTitle": "Escalate prior auth",
+   "modalLead": "Pre-filled from the selected prior authorization. Choose the escalation path and urgency so the patient gets a determination faster.",
+   "submitLabel": "Escalate",
+   "successTitle": "Prior auth escalated"
+  },
+  "chatbot": {
+   "welcome": "Hi! I'm the Surescripts Assistant. Ask me about e-prescribing, RTPB, prior authorization and network performance, or ask a question about your network data.",
+   "overview": "Surescripts runs the nation's leading health information network, connecting EHRs, pharmacies, PBMs, payers and life sciences for e-prescribing, Real-Time Prescription Benefit, electronic prior authorization, medication history and clinical messaging.",
+   "greetingExample": "PA turnaround by state",
+   "examples": [
+    "abandonment rate by PBM",
+    "RTPB adoption by EHR vendor"
+   ]
+  },
+  "trialQuestionTrigger": 3,
+  "upgradeReason": "Upgrade to Surescripts Network Intelligence Premium to unlock drill-down, Ask Surescripts and downloads.",
+  "analyticsKeywords": [
+   "transaction",
+   "transactions",
+   "volume",
+   "newrx",
+   "renewal",
+   "cancelrx",
+   "rxchange",
+   "prescription",
+   "prescriptions",
+   "rx",
+   "eprescribing",
+   "e-prescribing",
+   "epcs",
+   "controlled",
+   "rtpb",
+   "benefit",
+   "savings",
+   "price",
+   "abandon",
+   "abandonment",
+   "prior",
+   "authorization",
+   "pa",
+   "epa",
+   "turnaround",
+   "approval",
+   "pbm",
+   "pharmacy",
+   "ehr",
+   "vendor",
+   "state",
+   "region",
+   "latency",
+   "response",
+   "reject",
+   "rejects",
+   "error",
+   "errors",
+   "medication history",
+   "therapeutic",
+   "class",
+   "specialty"
+  ]
+ }
+}
